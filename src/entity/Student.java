@@ -18,6 +18,9 @@ public class Student extends User {
     //private UserGroup userGroup
     private CampCommitteeMember campCommitteeMember = null;
 
+    public CampCommitteeMember getCampCommitteeMember() { return campCommitteeMember; }
+    public void setCampCommitteeMember(CampCommitteeMember campCommitteeMember) { this.campCommitteeMember = campCommitteeMember; }
+
     public void viewAvailableCamps() {}
     public void registerAsAttendee() {}
     public void registerAsCommittee() {}

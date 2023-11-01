@@ -5,6 +5,15 @@ import util.Input;
 import util.Log;
 import entity.User;
 
+/**
+ * <p>
+ * Class defining the start menu functions
+ * </p>
+ * 
+ * @author Sim Yi Wan Terence
+ * @version 1.0
+ * @since 1-11-2023
+ */
 public class StartMenu extends Menu {
 
     public StartMenu(ConsoleUI ui) {

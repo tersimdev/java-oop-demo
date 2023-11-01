@@ -3,6 +3,17 @@ package boundary;
 import util.Input;
 import util.Log;
 
+/**
+ * <p>
+ * Abstract class to define a menu class
+ * A menu class is responsible for showing the ui for a specific menu
+ * It also has a helper function to help with menu input
+ * </p>
+ * 
+ * @author Sim Yi Wan Terence
+ * @version 1.0
+ * @since 1-11-2023
+ */
 public abstract class Menu {
     protected ConsoleUI ui;
 

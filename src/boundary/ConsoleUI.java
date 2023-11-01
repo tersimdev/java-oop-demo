@@ -8,7 +8,6 @@ import control.FeedbackSystem;
 import control.LoginSystem;
 import control.ReportSystem;
 import entity.User;
-import entity.Faculty;
 import entity.Staff;
 import entity.Student;
 import util.Input;
@@ -47,9 +46,9 @@ public class ConsoleUI {
         Input.getInstance();
         DataStoreSystem.getInstance();
         LoginSystem.getInstance();
-        // CampSystem.getInstance();
-        // FeedbackSystem.getInstance();
-        // ReportSystem.getInstance();
+        CampSystem.getInstance();
+        FeedbackSystem.getInstance();
+        ReportSystem.getInstance();
 
         // init menus
         menuMap = new HashMap<>();
