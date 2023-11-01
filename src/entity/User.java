@@ -13,7 +13,7 @@ import util.DataStore.DataStoreItem;
  * @version 1.0
  * @since 1-11-2023
  */
-public abstract class User<T> implements DataStoreItem<T> {
+public abstract class User implements DataStoreItem {
     private String displayName; // not mentioned in docs but makes sense to have
     private String userID;
     private String password;

@@ -77,8 +77,18 @@ public class LoginSystem {
     }
 
     private void loadUsers() {
-        DeviceStorageImpl.getInstance().read(studentsPath, studentList, new Student());
-        DeviceStorageImpl.getInstance().read(staffPath, staffList, new Staff());
+        ArrayList<String> studentRes = DeviceStorageImpl.getInstance().read(studentsPath);
+        for (String s : studentRes) {
+            Student student = new Student();
+            student.fromCSVLine(s);
+            studentList.add(student);
+        }
+        ArrayList<String> staffRes = DeviceStorageImpl.getInstance().read(staffPath);
+        for (String s : staffRes) {
+            Staff staff = new Staff();
+            staff.fromCSVLine(s);
+            staffList.add(staff);
+        }
     }
 
     private boolean checkValidPassword(String password) {

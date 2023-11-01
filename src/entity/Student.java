@@ -9,7 +9,7 @@ package entity;
  * @version 1.0
  * @since 1-11-2023
  */
-public class Student extends User<Student> {
+public class Student extends User {
     public Student() {super();}
     public Student(String displayName, String userID, Faculty faculty) {
         super(displayName, userID, faculty);
@@ -27,8 +27,4 @@ public class Student extends User<Student> {
     public void deleteEnquiry() {}
     public void viewRegisteredCamps() {}
     public void withdrawFromCamp(int campID) {}
-    @Override
-    public Student makeCopy() {
-        return new Student();
-    }
 }

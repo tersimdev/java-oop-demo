@@ -26,18 +26,19 @@ public class DeviceStorageImpl implements DataStoreInterface {
     }
 
     @Override
-    public <T extends DataStoreItem<T>> void read(String path, ArrayList<T> result, T example) {
-        result = new ArrayList<>();
+    public ArrayList<String> read(String path) {
+        ArrayList<String> result = new ArrayList<>();
         // OPEN csv in path
         // for each line
-        String line = "some csv line here,second item";
-        T obj = example.makeCopy(); //make instance by cloning an example
-        obj.fromCSVLine(line); //read data from csv line
-        result.add(obj); //add to result array
+        {
+            String line = "some csv line here,second item";
+            result.add(line); // add to result array
+        }
+        return result;
     }
 
     @Override
-    public <T extends DataStoreItem<T>> void write(String path, ArrayList<T> data) {
+    public <T extends DataStoreItem> void write(String path, ArrayList<T> data) {
         // open csv in path
         String fileData = "";
         for (T item : data) {

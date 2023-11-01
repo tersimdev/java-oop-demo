@@ -5,7 +5,8 @@ import java.util.ArrayList;
 /**
  * <p>
  * An interface to handle storage
- * Uses generics to handle conversion from list of super types to list of sub
+ * Uses generics to handle writing function overloading
+ * Read returns the csv strings
  * types
  * </p>
  * 
@@ -14,7 +15,7 @@ import java.util.ArrayList;
  * @since 1-11-2023
  */
 public interface DataStoreInterface {
-    public <T extends DataStoreItem<T>> void read(String path, ArrayList<T> result, T example);
-    public <T extends DataStoreItem<T>> void write(String path, ArrayList<T> data);
+    public ArrayList<String> read(String path);
+    public <T extends DataStoreItem> void write(String path, ArrayList<T> data);
 
 }
