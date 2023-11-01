@@ -17,5 +17,6 @@ import java.util.ArrayList;
 public interface DataStoreInterface {
     public ArrayList<String> read(String path);
     public <T extends DataStoreItem> void write(String path, ArrayList<T> data);
+    public boolean dataExists(String path);
 
 }

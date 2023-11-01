@@ -2,11 +2,12 @@ package control;
 
 import util.Log;
 import util.DataStore.DeviceStorageImpl;
-import util.DataStore.DataStoreItem;
+import util.DataStore.DataStoreInterface;
 
 import java.util.ArrayList;
 
 import entity.User;
+import entity.Faculty;
 import entity.Staff;
 import entity.Student;
 
@@ -23,6 +24,7 @@ public class LoginSystem {
     private static LoginSystem instance = null;
 
     private LoginSystem() {
+        dataStore = DeviceStorageImpl.getInstance(); // can bring this line to a factory if there were more implementations
         init();
     }
 
@@ -32,6 +34,7 @@ public class LoginSystem {
         return instance;
     }
 
+    private DataStoreInterface dataStore = null;
     private ArrayList<Student> studentList = null;
     private ArrayList<Staff> staffList = null;
 
@@ -51,40 +54,104 @@ public class LoginSystem {
         }
     }
 
+    /**
+     * Initializes data store
+     * Loads data from initial sample csv if needed
+     */
     public void init() {
         // if data/users/ have no files,
         // call initialize student list and initialize staff list
-        // else do nothing
-        loadUsers();
+        // else load from data/users/
+
+        if (!dataStore.dataExists(studentsPath))
+            initializeStudentList();
+        else
+            loadStudents();
+        if (!dataStore.dataExists(staffPath))
+            initializeStaffList();
+        else
+            loadStaff();
     }
 
-    /**
-     * Heaaders: Name,UserID,Faculty,Password
-     */
     private void initializeStudentList() {
+        // heaaders: Name,Email,Faculty
         // load initialStudentsFile into data/users/student.csv
         // create Student object from initial file
         // then call toCSV and add to data/users/student.csv
+
+        ArrayList<String> initialData = dataStore.read(initialStudentsFile);
+        studentList = new ArrayList<>();
+
+        // convert initial data format to student objects, skip 1st line (header)
+        for (int i = 1; i < initialData.size(); ++i) {
+            String[] split = initialData.get(i).split(",");
+            if (split.length != 3) {
+                Log.error("Error intialising student list");
+                continue;
+            }
+            try {
+                String displayName = split[0].trim();
+                String userID = split[1].trim().split("@")[0].toUpperCase();
+                Faculty faculty = Faculty.valueOf(split[2].trim());
+                Student student = new Student(displayName, userID, faculty);
+                studentList.add(student);
+            } catch (IllegalArgumentException e) {
+                Log.error("Error parsing faculty from initial data: " + split[2]);
+                continue;
+            }
+        }
+
+        // then write to proper data store
+        dataStore.write(studentsPath, studentList);
     }
 
-    /**
-     * Heaaders: Name,UserID,Faculty,Password
-     */
     private void initializeStaffList() {
+
+        // heaaders: Name,Email,Faculty
         // load intialStaffFile into data/users/staff.csv
         // create Staff object from initial file
         // then call toCSV and add to data/users/staff.csv
+
+        ArrayList<String> initialData = dataStore.read(initialStaffFile);
+        staffList = new ArrayList<>();
+
+        // convert initial data format to student objects
+        for (int i = 1; i < initialData.size(); ++i) {
+            String[] split = initialData.get(i).split(",");
+            if (split.length != 3) {
+                Log.error("Error intialising staff list");
+                continue;
+            }
+            try {
+                String displayName = split[0].trim();
+                String userID = split[1].trim().split("@")[0].toUpperCase();
+                Faculty faculty = Faculty.valueOf(split[2].trim());
+                Staff staff = new Staff(displayName, userID, faculty);
+                staffList.add(staff);
+            } catch (IllegalArgumentException e) {
+                Log.error("Error parsing faculty from initial data: " + split[2]);
+                continue;
+            }
+        }
+
+        // then write to proper data store
+        dataStore.write(staffPath, staffList);
     }
 
-    private void loadUsers() {
-        ArrayList<String> studentRes = DeviceStorageImpl.getInstance().read(studentsPath);
-        for (String s : studentRes) {
+    private void loadStudents() {
+        ArrayList<String> res = dataStore.read(studentsPath);
+        studentList = new ArrayList<>();
+        for (String s : res) {
             Student student = new Student();
             student.fromCSVLine(s);
             studentList.add(student);
         }
-        ArrayList<String> staffRes = DeviceStorageImpl.getInstance().read(staffPath);
-        for (String s : staffRes) {
+    }
+
+    private void loadStaff() {
+        ArrayList<String> res = dataStore.read(staffPath);
+        staffList = new ArrayList<>();
+        for (String s : res) {
             Staff staff = new Staff();
             staff.fromCSVLine(s);
             staffList.add(staff);
@@ -98,8 +165,8 @@ public class LoginSystem {
 
     public void cleanup() {
         if (staffList != null)
-            DeviceStorageImpl.getInstance().write(staffPath, staffList);
+            dataStore.write(staffPath, staffList);
         if (studentList != null)
-            DeviceStorageImpl.getInstance().write(studentsPath, studentList);
+            dataStore.write(studentsPath, studentList);
     }
 }

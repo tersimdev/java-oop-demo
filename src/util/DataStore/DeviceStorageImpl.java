@@ -52,13 +52,23 @@ public class DeviceStorageImpl implements DataStoreInterface {
             fileData += item.toCSVLine() + "\n";
         }
         Log.info("Writing to " + path);
+        if (fileData.isEmpty()) {
+            Log.info("Data is empty, skipping write");
+            return;
+        }
         Log.info("Data:\n" + fileData);
         // write to csv file
         File csvOutputFile = new File(path);
-            try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
-                pw.write(fileData);
-            } catch (IOException e) {
-                Log.error("Error writing to file " + path);
-            }
+        try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
+            pw.write(fileData);
+        } catch (IOException e) {
+            Log.error("Error writing to file " + path);
+        }
+    }
+
+    @Override
+    public boolean dataExists(String path) {
+        File f = new File(path);
+        return f.exists() && !f.isDirectory();
     }
 }
