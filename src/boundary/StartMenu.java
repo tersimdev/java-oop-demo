@@ -14,10 +14,19 @@ public class StartMenu extends Menu {
     @Override
     public boolean show() {
         Log.println("===Welcome, " + ui.getUser().getDisplayName() + "===");
-        Log.println("(1) Change Password");
-        Log.println("(2) View App Commands");
-        Log.println("(3) Logout");
+        // check if new user, force to change password!
+        boolean newUser = ui.getUser().getPassword().equals(User.defaultPassword);
+
+        if (!newUser) {
+            Log.println("(1) Change Password");
+            Log.println("(2) View App Commands");
+            Log.println("(3) Logout");
+        }
         int choice = -1;
+        if (newUser) {
+            Log.println("New user detected, please change your password.");
+            choice = 1; //make menu choice
+        }
         while (choice < 0) {
             choice = getChoice(1, 2, 3);
             if (choice == 0) {

@@ -18,18 +18,20 @@ public abstract class User implements DataStoreItem {
     private String password;
     private Faculty faculty;
 
+    public final static String defaultPassword = "password";
+
     public User() {
         this.displayName = "User";
         this.userID = "USER";
         this.faculty = Faculty.NULL;
-        this.password = "password";
+        this.password = defaultPassword;
     }
 
     public User(String displayName, String userID, Faculty faculty) {
         this.displayName = displayName;
         this.userID = userID;
         this.faculty = faculty;
-        this.password = "password";
+        this.password = defaultPassword;
     }
 
     public String getDisplayName() {
