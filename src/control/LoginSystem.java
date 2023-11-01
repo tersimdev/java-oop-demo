@@ -26,26 +26,33 @@ public class LoginSystem {
 
     private final static int MIN_PASSWORD_LEN = 8;
 
-    public boolean login(String userID, String password) {
+    public User login(String userID, String password) {
         // find user with username, then check for correct password
         User user = DataStoreSystem.getInstance().queryUsers(userID);
-        if (user != null)
-            return (user.getPassword().equals(password));
-        return false;
+        if (user != null) {
+            if (user.getPassword().equals(password))
+                return user;
+        }
+        return null;
     }
 
-    public void changeUserPassword(User user, String newPassword) {
+    public boolean changeUserPassword(User user, String newPassword) {
         String oldPassword = user.getPassword();
-        if (oldPassword == newPassword) {
+        if (oldPassword.equals(newPassword)) {
             Log.println("Error! New password same as old password!");
+            return false;
         }
-        if (LoginSystem.getInstance().checkValidPassword(newPassword)) {
-            user.setPassword(newPassword);
-            Log.println("Password changed.");
+        if (!LoginSystem.getInstance().checkValidPassword(newPassword)) {
+            Log.println("Password does not meet required length!");
+            return false;
         }
+        user.setPassword(newPassword);
+        DataStoreSystem.getInstance().updateUser(user.getUserID(), newPassword);
+        Log.println("Password changed.");
+        return true;
     }
 
     private boolean checkValidPassword(String password) {
-        return password.length() < MIN_PASSWORD_LEN;
+        return password.length() >= MIN_PASSWORD_LEN;
     }
 }

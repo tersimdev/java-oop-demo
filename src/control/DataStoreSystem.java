@@ -62,7 +62,7 @@ public class DataStoreSystem {
     }
 
     public void cleanup() {
-
+        // todo write to file camps, enquiries, and suggestions
     }
 
     // query for students with username
@@ -73,6 +73,15 @@ public class DataStoreSystem {
             }
         }
         return null;
+    }
+
+    public void updateUser(String userID, String newPassword) {
+        for (int i = 0 ; i < userList.size(); ++i) {
+            if (userList.get(i).getUserID().equals(userID)) {
+                userList.get(i).setPassword(newPassword);
+            }
+        }
+        //todo update data store
     }
 
     private void initializeStudentList() {

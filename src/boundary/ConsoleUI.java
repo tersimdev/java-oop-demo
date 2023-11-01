@@ -99,21 +99,12 @@ public class ConsoleUI {
 
         String usernameStr = Input.getInstance().getLine("Enter User ID: ").trim().toUpperCase();
         String passwordStr = Input.getInstance().getLine("Enter Password: ").trim();
-        boolean success = LoginSystem.getInstance().login(usernameStr, passwordStr);
-        if (!success) {
+        this.user = LoginSystem.getInstance().login(usernameStr, passwordStr);
+        if (user == null) {
             Log.println("Invalid user ID or password.");
-            return false; //kick user back to menu selection
+            return false; // kick user back to menu selection
         }
-
-        switch (choice) {
-            case 1:
-                this.user = new Student(usernameStr, "TEST", Faculty.SCSE); // TEMP
-                break;
-            case 2:
-                this.user = new Staff(usernameStr, "TEST STAFF", Faculty.SSS); // TEMP
-                break;
-        }
-        if (user != null)
+        else if (user != null)
             stateDirty = true;
         return false;
     }
@@ -135,7 +126,17 @@ public class ConsoleUI {
 
         switch (choice) {
             case 1:
-                // todo change password
+                String oldPasswordStr = Input.getInstance().getLine("Enter Old Password: ").trim();
+                String newPasswordStr = Input.getInstance().getLine("Enter New Password: ").trim();
+                if (!oldPasswordStr.equals(user.getPassword())) {
+                    Log.println("Password is wrong, please try again.");
+                    return false;
+                }
+                boolean success = LoginSystem.getInstance().changeUserPassword(user, newPasswordStr);
+                if (!success) {
+                    Log.println("Password change failed.");
+                    return false;
+                }
                 break;
             case 2:
                 stateDirty = true;
