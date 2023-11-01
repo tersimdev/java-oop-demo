@@ -15,7 +15,7 @@ public class Student extends User {
     }
 
     //private UserGroup userGroup
-    //private CampCommitteeMember campCommitteeMember
+    private CampCommitteeMember campCommitteeMember;
 
     public void viewAvailableCamps() {}
     public void registerAsAttendee() {}

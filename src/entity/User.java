@@ -2,6 +2,7 @@ package entity;
 
 import control.LoginSystem;
 import util.Log;
+import util.DataStore.DataStoreItem;
 
 /**
  * <p>
@@ -12,24 +13,35 @@ import util.Log;
  * @version 1.0
  * @since 1-11-2023
  */
-public class User {
-    private String name; //not mentioned in docs but makes sense to have
+public class User implements DataStoreItem{
+    private String displayName; //not mentioned in docs but makes sense to have
     private String userID;
     private String password;
     private Faculty faculty;
 
-    public User(String name, String email, String faculty) {
-        this.name = name;
+    public User(String displayName, String userID, Faculty faculty) {
+        this.displayName = displayName;
+        this.userID = userID;
+        this.faculty = faculty;
         this.password = "password";
-        //todo handle errors?
-        this.userID = email.split("@")[0];
-        this.faculty = Faculty.valueOf(faculty);
     }
 
-    public String getName() { return name; }
+    public String getDisplayName() { return displayName; }
     public String getUserID() { return userID; }
     public String getPassword() { return password; }
     public Faculty geFaculty() { return faculty; }
 
     public void setPassword(String password) {this.password = password;}
+
+    @Override
+    public String toCSVLine() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toCSVLine'");
+    }
+
+    @Override
+    public void fromCSVLine(String CSVLine) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'fromCSVLine'");
+    }
 }
