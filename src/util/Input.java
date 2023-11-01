@@ -29,39 +29,42 @@ public class Input {
     }
 
     /*
-    * returns the scanner object
-    * @return scanner
-    */
+     * returns the scanner object
+     * 
+     * @return scanner
+     */
     public Scanner getScanner() {
         return scanner;
     }
 
     public void close() {
-        if (scanner != null)
-        {
+        if (scanner != null) {
             scanner.close();
             scanner = null;
-            //set instance to null, so that next getInstance creates the scanner
-            instance = null; 
+            // set instance to null, so that next getInstance creates the scanner
+            instance = null;
         }
         Log.info("Closing scanner");
     }
 
-    //TODO below 
+    // TODO below
     public int getInt(String msg) {
+        // todo handle if int is not inputted
         Log.print(msg);
-        return scanner.nextInt(); 
+        int ret = scanner.nextInt();
+        scanner.nextLine(); // consume \n
+        return ret;
     }
 
     public double getDouble(String msg) {
         Log.print(msg);
-        return scanner.nextDouble();
+        double ret = scanner.nextDouble();
+        scanner.nextLine(); // consume \n
+        return ret;
     }
 
-    public String getLine(String msg, boolean clearNewLine) {
+    public String getLine(String msg) {
         Log.print(msg);
-        if (clearNewLine)
-            scanner.next(); //clear \n
         return scanner.nextLine();
     }
 };

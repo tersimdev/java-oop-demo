@@ -85,7 +85,7 @@ public class ConsoleUI {
             }
         }
 
-        String usernameStr = Input.getInstance().getLine("Enter username: ", true);
+        String usernameStr = Input.getInstance().getLine("Enter username: ");
         // todo login things
         // this.user = LoginSystem.getInstance().login(usernameStr, passwordStr);
 
