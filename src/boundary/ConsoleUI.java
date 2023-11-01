@@ -1,6 +1,9 @@
 package boundary;
 
+import control.CampSystem;
+import control.FeedbackSystem;
 import control.LoginSystem;
+import control.ReportSystem;
 import entity.User;
 import entity.Faculty;
 import entity.Staff;
@@ -33,11 +36,17 @@ public class ConsoleUI {
     private boolean stateDirty = false; // tracks if state needs to be refreshed
 
     public void init() {
-        Log.enableLogging(true);
-        Input.getInstance(); // init input
-        Log.println("=========================================================");
+        Log.enableLogging(true); //enable this for dev work
+        //init singletons
+        Input.getInstance();
+        LoginSystem.getInstance(); 
+        // CampSystem.getInstance();
+        // FeedbackSystem.getInstance();
+        // ReportSystem.getInstance();
+        Log.printLogo("data/logo.txt");
+        Log.println("======================================================================");
         Log.println("Welcome to Camp Application and Management System (CAMS).");
-        Log.println(">Made by Team 2: Terence, Ryan, Jon, Zhi Wei");
+        Log.println("> Made by Team 2: Terence, Ryan, Jon, Zhi Wei\n");
     }
 
     // returns if should exit app

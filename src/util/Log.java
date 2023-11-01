@@ -1,5 +1,9 @@
 package util;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  * <p>
  * This class has static methods to output to console
@@ -36,6 +40,16 @@ public class Log {
 
     public static void print(String msg) {
         System.out.print(msg);
+    }
+
+    public static void printLogo(String filepath) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
+            for (String line; (line = reader.readLine()) != null;) {
+                Log.println(line);
+            }
+        } catch (IOException e) {
+            
+        }
     }
 
     public static void info(String msg) {

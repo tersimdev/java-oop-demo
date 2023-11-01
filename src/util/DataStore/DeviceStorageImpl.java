@@ -19,6 +19,7 @@ public class DeviceStorageImpl implements DataStoreInterface {
             instance = new DeviceStorageImpl();
         return instance;
     }
+
     @Override
     public ArrayList<DataStoreItem> read(String path) {
         // TODO Auto-generated method stub

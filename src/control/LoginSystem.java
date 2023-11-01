@@ -21,7 +21,7 @@ import entity.Student;
  */
 public class LoginSystem {
     public static LoginSystem instance = null;
-    private LoginSystem() {}
+    private LoginSystem() { init(); }
     public static LoginSystem getInstance() {
         if (instance == null)
             instance = new LoginSystem();
@@ -30,6 +30,9 @@ public class LoginSystem {
 
     private ArrayList<Student> studentList;
     private ArrayList<Staff> staffList;
+    
+    private static final String initialStudentsFile = "data/sample/student_list.csv"; 
+    private static final String initialStaffFile = "data/sample/staff_list.csv"; 
 
     public void changeUserPassword(User user, String newPassword) {
         String oldPassword = user.getPassword();   
@@ -42,19 +45,28 @@ public class LoginSystem {
         }
     }
 
-    // public void initializeStudenList(String filename) {
-    //     ArrayList<DataStoreItem> data = DeviceStorageImpl.getInstance().read(filename);
-    //     studentList = new ArrayList<>();
-    //     for (DataStoreItem item : data)
-    //         studentList.add(new Student(item.getName(), item.getEmail(), item.getFaculty()));
-    // }
+    public void init() {
+        //if data/users/ have no files,
+        //call initialize student list and initialize staff list
+        //else do nothing
+    } 
+    /**
+     * Heaaders: Name,UserID,Faculty,Password
+     */
+    private void initializeStudentList() {
+        //load initialStudentsFile into data/users/student.csv
+        //create Student object from initial file
+        //then call toCSV and add to data/users/student.csv
+    }
     
-    // public void initializeStaffList(String filename) {
-    //     ArrayList<DataStoreItem> data = DeviceStorageImpl.getInstance().read(filename);
-    //     staffList = new ArrayList<>();
-    //     for (DataStoreItem item : data)
-    //         staffList.add(new Staff(item.getName(), item.getEmail(), item.getFaculty()));
-    // }
+    /**
+     * Heaaders: Name,UserID,Faculty,Password
+     */
+    private void initializeStaffList() {
+        //load intialStaffFile into data/users/staff.csv
+        //create Staff object from initial file
+        //then call toCSV and add to data/users/staff.csv
+    }
 
     private boolean checkValidPassword(String password) {
         //todo
