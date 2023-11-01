@@ -1,6 +1,7 @@
 package util;
 
 import java.util.Scanner;
+import java.util.NoSuchElementException;
 
 /**
  * <p>
@@ -16,6 +17,8 @@ public class Input {
     private Scanner scanner;
 
     public static Input instance = null;
+
+    private final static String INVALID_INPUT_MSG = " Invalid input, try again: ";
 
     private Input() {
         scanner = new Scanner(System.in);
@@ -47,19 +50,37 @@ public class Input {
         Log.info("Closing scanner");
     }
 
-    // TODO below
     public int getInt(String msg) {
-        // todo handle if int is not inputted
         Log.print(msg);
-        int ret = scanner.nextInt();
-        scanner.nextLine(); // consume \n
+        Integer ret = null; // use wrapper class to set to null
+        while (ret == null) {
+            try {
+                ret = scanner.nextInt();
+                scanner.nextLine(); //consume \n
+            } catch (NoSuchElementException e) {
+                Log.debug("invalid input to getInt");
+                Log.print(INVALID_INPUT_MSG);
+                scanner.nextLine(); //consume failed input
+                //e.printStackTrace();
+            }
+        }
         return ret;
     }
 
     public double getDouble(String msg) {
         Log.print(msg);
-        double ret = scanner.nextDouble();
-        scanner.nextLine(); // consume \n
+        Double ret = null; // use wrapper class to set to null
+        while (ret == null) {
+            try {
+                ret = scanner.nextDouble();
+                scanner.nextLine(); //consume \n
+            } catch (NoSuchElementException e) {
+                Log.debug("invalid input to getDouble");
+                Log.print(INVALID_INPUT_MSG);
+                scanner.nextLine(); //consume failed input
+                //e.printStackTrace();
+            }
+        }
         return ret;
     }
 
