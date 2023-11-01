@@ -1,6 +1,5 @@
 package entity;
 
-import control.LoginSystem;
 import util.Log;
 import util.DataStore.DataStoreItem;
 

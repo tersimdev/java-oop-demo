@@ -1,5 +1,10 @@
 package util.DataStore;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import util.Log;
@@ -28,24 +33,32 @@ public class DeviceStorageImpl implements DataStoreInterface {
     @Override
     public ArrayList<String> read(String path) {
         ArrayList<String> result = new ArrayList<>();
-        // OPEN csv in path
-        // for each line
-        {
-            String line = "some csv line here,second item";
-            result.add(line); // add to result array
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line != null && !line.isEmpty())
+                    result.add(line);
+            }
+        } catch (IOException e) {
+            Log.error("Error parsing file " + path);
         }
         return result;
     }
 
     @Override
     public <T extends DataStoreItem> void write(String path, ArrayList<T> data) {
-        // open csv in path
         String fileData = "";
         for (T item : data) {
-            fileData += item.toCSVLine();
+            fileData += item.toCSVLine() + "\n";
         }
         Log.info("Writing to " + path);
         Log.info("Data:\n" + fileData);
         // write to csv file
+        File csvOutputFile = new File(path);
+            try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
+                pw.write(fileData);
+            } catch (IOException e) {
+                Log.error("Error writing to file " + path);
+            }
     }
 }
