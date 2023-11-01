@@ -1,7 +1,7 @@
 package entity;
 
 import util.Log;
-import util.DataStore.DataStoreItem;
+import util.DataStore.SerializeToCSV;
 
 /**
  * <p>
@@ -12,7 +12,7 @@ import util.DataStore.DataStoreItem;
  * @version 1.0
  * @since 1-11-2023
  */
-public abstract class User implements DataStoreItem {
+public abstract class User implements SerializeToCSV {
     private String displayName; // not mentioned in docs but makes sense to have
     private String userID;
     private String password;

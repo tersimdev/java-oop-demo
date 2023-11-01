@@ -12,7 +12,7 @@ import util.Log;
  * @version 1.0
  * @since 1-11-2023
  */
-public class CampCommitteeMember implements Student{
+public class CampCommitteeMember {
     private int campId;
     private int points;
 
@@ -40,7 +40,7 @@ public class CampCommitteeMember implements Student{
 
     }
 
-    public void generateCampReport (ReportOptions reportOptions, ReportFilter reportFilter) {
+    // public void generateCampReport (ReportOptions reportOptions, ReportFilter reportFilter) {
         
-    }
+    // }
 }

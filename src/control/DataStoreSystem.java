@@ -1,14 +1,10 @@
 package control;
 
-import java.util.ArrayList;
-
-import entity.Faculty;
 import entity.Staff;
 import entity.Student;
 import entity.User;
 import util.DataStore.DataStoreInterface;
-import util.DataStore.DeviceStorageImpl;
-import util.Log;
+import util.DataStore.DataStoreCSVImpl;
 
 /**
  * <p>
@@ -23,8 +19,7 @@ public class DataStoreSystem {
     private static DataStoreSystem instance = null;
 
     private DataStoreSystem() {
-        dataStore = DeviceStorageImpl.getInstance(); // can bring this line to a factory if there were more //
-                                                     // implementations
+        dataStore = new DataStoreCSVImpl();
         init();
     }
 
@@ -35,133 +30,53 @@ public class DataStoreSystem {
     }
 
     private DataStoreInterface dataStore = null;
-    private ArrayList<User> userList = null;
-
-    private static final String initialStudentsFile = "data/sample/student_list.csv";
-    private static final String initialStaffFile = "data/sample/staff_list.csv";
-    private static final String staffPath = "data/users/staff.csv";
-    private static final String studentsPath = "data/users/student.csv";
 
     /**
      * Initializes data store
      * Loads data from initial sample csv if needed
      */
     public void init() {
-        // if data/users/ have no files,
-        // call initialize student list and initialize staff list
-        // else load from data/users/
-
-        userList = new ArrayList<>();
-
-        if (!dataStore.dataExists(studentsPath))
-            initializeStudentList();
-        if (!dataStore.dataExists(staffPath))
-            initializeStaffList();
-
-        loadUsers();
+        dataStore.init();
     }
 
     public void cleanup() {
-        // todo write to file camps, enquiries, and suggestions
+        dataStore.cleanup();
     }
 
-    // query for students with username
+    // query for users with username
     public User queryUsers(String userID) {
-        for (User u : userList) {
-            if (u.getUserID().equals(userID)) {
-                return u;
-            }
+        String row = dataStore.queryRow("students", 1, userID);
+        if (row != null) {
+            Student ret = new Student();
+            ret.fromCSVLine(row);
+            return ret;
+        }
+        row = dataStore.queryRow("staff", 1, userID);
+        if (row != null) {
+            Staff ret = new Staff();
+            ret.fromCSVLine(row);
+            return ret;
         }
         return null;
     }
 
     public void updateUser(String userID, String newPassword) {
-        for (int i = 0 ; i < userList.size(); ++i) {
-            if (userList.get(i).getUserID().equals(userID)) {
-                userList.get(i).setPassword(newPassword);
-            }
+        String row = dataStore.queryRow("students", 1, userID);
+        if (row != null) {
+            Student s = new Student();
+            s.fromCSVLine(row);
+            s.setPassword(newPassword);
+            dataStore.updateRow("students", row, s.toCSVLine());
         }
-        //todo update data store
-    }
-
-    private void initializeStudentList() {
-        // heaaders: Name,Email,Faculty
-        // load initialStudentsFile into data/users/student.csv
-        // create Student object from initial file
-        // then call toCSV and add to data/users/student.csv
-
-        ArrayList<String> initialData = dataStore.read(initialStudentsFile);
-        ArrayList<Student> studentList = new ArrayList<>();
-
-        // convert initial data format to student objects, skip 1st line (header)
-        for (int i = 1; i < initialData.size(); ++i) {
-            String[] split = initialData.get(i).split(",");
-            if (split.length != 3) {
-                Log.error("Error intialising student list");
-                continue;
-            }
-            try {
-                String displayName = split[0].trim();
-                String userID = split[1].trim().split("@")[0].toUpperCase();
-                Faculty faculty = Faculty.valueOf(split[2].trim());
-                Student student = new Student(displayName, userID, faculty);
-                studentList.add(student);
-            } catch (IllegalArgumentException e) {
-                Log.error("Error parsing faculty from initial data: " + split[2]);
-                continue;
-            }
-        }
-
-        // then write to proper data store
-        dataStore.write(studentsPath, studentList);
-    }
-
-    private void initializeStaffList() {
-
-        // heaaders: Name,Email,Faculty
-        // load intialStaffFile into data/users/staff.csv
-        // create Staff object from initial file
-        // then call toCSV and add to data/users/staff.csv
-
-        ArrayList<String> initialData = dataStore.read(initialStaffFile);
-        ArrayList<Staff> staffList = new ArrayList<>();
-
-        // convert initial data format to student objects
-        for (int i = 1; i < initialData.size(); ++i) {
-            String[] split = initialData.get(i).split(",");
-            if (split.length != 3) {
-                Log.error("Error intialising staff list");
-                continue;
-            }
-            try {
-                String displayName = split[0].trim();
-                String userID = split[1].trim().split("@")[0].toUpperCase();
-                Faculty faculty = Faculty.valueOf(split[2].trim());
-                Staff staff = new Staff(displayName, userID, faculty);
-                staffList.add(staff);
-            } catch (IllegalArgumentException e) {
-                Log.error("Error parsing faculty from initial data: " + split[2]);
-                continue;
-            }
-        }
-
-        // then write to proper data store
-        dataStore.write(staffPath, staffList);
-    }
-
-    private void loadUsers() {
-        ArrayList<String> resStudent = dataStore.read(studentsPath);
-        for (String s : resStudent) {
-            Student student = new Student();
-            student.fromCSVLine(s);
-            userList.add(student);
-        }
-        ArrayList<String> resStaff = dataStore.read(staffPath);
-        for (String s : resStaff) {
-            Staff staff = new Staff();
-            staff.fromCSVLine(s);
-            userList.add(staff);
+        row = dataStore.queryRow("staff", 1, userID);
+        if (row != null) {
+            Staff s = new Staff();
+            s.fromCSVLine(row);
+            s.setPassword(newPassword);
+            dataStore.updateRow("staff", row, s.toCSVLine());
         }
     }
 
+
+    //todo add functions to update camps, enquiries, feedback
 }
