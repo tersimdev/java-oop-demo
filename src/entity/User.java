@@ -13,8 +13,8 @@ import util.DataStore.DataStoreItem;
  * @version 1.0
  * @since 1-11-2023
  */
-public class User implements DataStoreItem{
-    private String displayName; //not mentioned in docs but makes sense to have
+public class User implements DataStoreItem {
+    private String displayName; // not mentioned in docs but makes sense to have
     private String userID;
     private String password;
     private Faculty faculty;
@@ -26,23 +26,51 @@ public class User implements DataStoreItem{
         this.password = "password";
     }
 
-    public String getDisplayName() { return displayName; }
-    public String getUserID() { return userID; }
-    public String getPassword() { return password; }
-    public Faculty geFaculty() { return faculty; }
+    public String getDisplayName() {
+        return displayName;
+    }
 
-    public void setPassword(String password) {this.password = password;}
+    public String getUserID() {
+        return userID;
+    }
 
-    @Override
-    public String toCSVLine() {
-        
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toCSVLine'");
+    public String getPassword() {
+        return password;
+    }
+
+    public Faculty geFaculty() {
+        return faculty;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
-    public void fromCSVLine(String CSVLine) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'fromCSVLine'");
+    public String toCSVLine() {
+        String ret = "";
+        ret += displayName + ","
+                + userID + ","
+                + faculty.toString() + ","
+                + password;
+        return ret;
+    }
+
+    @Override
+    public void fromCSVLine(String csvLine) {
+        String[] split = csvLine.split(",");
+        if (split.length != 4) {
+            Log.error("csvLine is invalid");
+        } else {
+            displayName = split[0].trim();
+            userID = split[1].trim().toUpperCase();
+            password = split[3].trim();
+            try {
+                faculty = Faculty.valueOf(split[2]);
+            } catch (IllegalArgumentException e) {
+                Log.error("invalid faculty, doesnt correspond to enum: " + split[2]);
+                faculty = Faculty.NULL; // give it null value
+            }
+        }
     }
 }
