@@ -26,6 +26,7 @@ public class User {
         this.faculty = Faculty.valueOf(faculty);
     }
 
+    public String getName() { return name; }
     public String getUserID() { return userID; }
     public String getPassword() { return password; }
     public Faculty geFaculty() { return faculty; }

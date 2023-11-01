@@ -7,6 +7,8 @@ import util.DataStore.DataStoreItem;
 import java.util.ArrayList;
 
 import entity.User;
+import entity.Staff;
+import entity.Student;
 
 /**
  * <p>
@@ -26,8 +28,8 @@ public class LoginSystem {
         return instance;
     }
 
-
-    
+    private ArrayList<Student> studentList;
+    private ArrayList<Staff> staffList;
 
     public void changeUserPassword(User user, String newPassword) {
         String oldPassword = user.getPassword();   
@@ -42,10 +44,16 @@ public class LoginSystem {
 
     public void initializeStudenList(String filename) {
         ArrayList<DataStoreItem> data = DeviceStorageImpl.getInstance().read(filename);
+        studentList = new ArrayList<>();
+        for (DataStoreItem item : data)
+            studentList.add(new Student(item.getName(), item.getEmail(), item.getFaculty()));
     }
     
     public void initializeStaffList(String filename) {
         ArrayList<DataStoreItem> data = DeviceStorageImpl.getInstance().read(filename);
+        staffList = new ArrayList<>();
+        for (DataStoreItem item : data)
+            staffList.add(new Staff(item.getName(), item.getEmail(), item.getFaculty()));
     }
 
     private boolean checkValidPassword(String password) {
