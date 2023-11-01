@@ -1,6 +1,7 @@
 package boundary;
 
 import control.CampSystem;
+import control.DataStoreSystem;
 import control.FeedbackSystem;
 import control.LoginSystem;
 import control.ReportSystem;
@@ -36,10 +37,11 @@ public class ConsoleUI {
     private boolean stateDirty = false; // tracks if state needs to be refreshed
 
     public void init() {
-        Log.enableLogging(true); //enable this for dev work
-        //init singletons
+        Log.enableLogging(true); // enable this for dev work
+        // init singletons
         Input.getInstance();
-        LoginSystem.getInstance(); 
+        DataStoreSystem.getInstance();
+        LoginSystem.getInstance();
         // CampSystem.getInstance();
         // FeedbackSystem.getInstance();
         // ReportSystem.getInstance();
@@ -78,7 +80,7 @@ public class ConsoleUI {
 
     public void cleanup() {
         Input.getInstance().close();
-        LoginSystem.getInstance().cleanup();
+        DataStoreSystem.getInstance().cleanup();
     }
 
     private boolean showLoginMenu() {
@@ -95,9 +97,13 @@ public class ConsoleUI {
             }
         }
 
-        String usernameStr = Input.getInstance().getLine("Enter username: ");
-        // todo login things
-        // this.user = LoginSystem.getInstance().login(usernameStr, passwordStr);
+        String usernameStr = Input.getInstance().getLine("Enter User ID: ").trim().toUpperCase();
+        String passwordStr = Input.getInstance().getLine("Enter Password: ").trim();
+        boolean success = LoginSystem.getInstance().login(usernameStr, passwordStr);
+        if (!success) {
+            Log.println("Invalid user ID or password.");
+            return false; //kick user back to menu selection
+        }
 
         switch (choice) {
             case 1:
@@ -139,7 +145,7 @@ public class ConsoleUI {
     }
 
     private boolean showStudentMenu() {
-        //assume safe, check handled by state machine
+        // assume safe, check handled by state machine
         Student student = (Student) user;
         Log.println("===Student Menu===");
         Log.println("(1) Do things");
@@ -156,7 +162,7 @@ public class ConsoleUI {
     }
 
     private boolean showStaffMenu() {
-        //assume safe, check handled by state machine
+        // assume safe, check handled by state machine
         Staff staff = (Staff) user;
         Log.println("===Staff Menu===");
         Log.println("(1) Do things");
