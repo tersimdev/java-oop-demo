@@ -42,19 +42,19 @@ public class LoginSystem {
         }
     }
 
-    public void initializeStudenList(String filename) {
-        ArrayList<DataStoreItem> data = DeviceStorageImpl.getInstance().read(filename);
-        studentList = new ArrayList<>();
-        for (DataStoreItem item : data)
-            studentList.add(new Student(item.getName(), item.getEmail(), item.getFaculty()));
-    }
+    // public void initializeStudenList(String filename) {
+    //     ArrayList<DataStoreItem> data = DeviceStorageImpl.getInstance().read(filename);
+    //     studentList = new ArrayList<>();
+    //     for (DataStoreItem item : data)
+    //         studentList.add(new Student(item.getName(), item.getEmail(), item.getFaculty()));
+    // }
     
-    public void initializeStaffList(String filename) {
-        ArrayList<DataStoreItem> data = DeviceStorageImpl.getInstance().read(filename);
-        staffList = new ArrayList<>();
-        for (DataStoreItem item : data)
-            staffList.add(new Staff(item.getName(), item.getEmail(), item.getFaculty()));
-    }
+    // public void initializeStaffList(String filename) {
+    //     ArrayList<DataStoreItem> data = DeviceStorageImpl.getInstance().read(filename);
+    //     staffList = new ArrayList<>();
+    //     for (DataStoreItem item : data)
+    //         staffList.add(new Staff(item.getName(), item.getEmail(), item.getFaculty()));
+    // }
 
     private boolean checkValidPassword(String password) {
         //todo

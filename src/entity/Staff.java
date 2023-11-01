@@ -10,7 +10,7 @@ package entity;
  * @since 1-11-2023
  */
 public class Staff extends User {
-    public Staff(String name, String email, String faculty) {
+    public Staff(String name, String email, Faculty faculty) {
         super(name, email, faculty);
     }
 

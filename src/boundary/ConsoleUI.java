@@ -47,15 +47,20 @@ public class ConsoleUI {
         switch (state) {
             case LOGIN:
                 shouldExit = showLoginMenu();
+                break;
             case START_MENU:
-                shouldExit = showStartMenu(user);
+                shouldExit = showStartMenu();
+                break;
             case STAFF_MENU:
-                shouldExit = showStaffMenu((Staff) user);
+                shouldExit = showStaffMenu();
+                break;
             case STUDENT_MENU:
-                shouldExit = showStudentMenu((Student) user);
+                shouldExit = showStudentMenu();
+                break;
             default:
                 Log.error("unknown state, exiting...");
                 shouldExit = true;
+                break;
         }
         if (stateDirty)
             switchState();
@@ -83,13 +88,21 @@ public class ConsoleUI {
         String usernameStr = Input.getInstance().getLine("Enter username: ", true);
         // todo login things
         // this.user = LoginSystem.getInstance().login(usernameStr, passwordStr);
-        this.user = new User(usernameStr, "TEST", Faculty.SCSE); // TEMP
+
+        switch (choice) {
+            case 1:
+                this.user = new Student(usernameStr, "TEST", Faculty.SCSE); // TEMP
+                break;
+            case 2:
+                this.user = new Staff(usernameStr, "TEST STAFF", Faculty.SSS); // TEMP
+                break;
+        }
         if (user != null)
             stateDirty = true;
         return false;
     }
 
-    private boolean showStartMenu(User user) {
+    private boolean showStartMenu() {
         Log.println("===Welcome, " + user.getDisplayName() + "===");
         Log.println("(1) Change Password");
         Log.println("(2) View App Commands");
@@ -98,7 +111,7 @@ public class ConsoleUI {
         while (choice < 0) {
             choice = getChoice(1, 2, 3);
             if (choice == 0) {
-                user = null; // destruct user
+                this.user = null; // destruct user
                 stateDirty = true;
                 return false; // dont exit
             }
@@ -110,15 +123,42 @@ public class ConsoleUI {
                 break;
             case 2:
                 stateDirty = true;
+                break;
         }
         return false;
     }
 
-    private boolean showStudentMenu(Student student) {
+    private boolean showStudentMenu() {
+        //assume safe, check handled by state machine
+        Student student = (Student) user;
+        Log.println("===Student Menu===");
+        Log.println("(1) Do things");
+        Log.println("(2) Do other things");
+        Log.println("(10) Back to Start");
+        int choice = -1;
+        while (choice < 0) {
+            choice = getChoice(1, 2, 10);
+            if (choice == 0) {
+                stateDirty = true;
+            }
+        }
         return false;
     }
 
-    private boolean showStaffMenu(Staff staff) {
+    private boolean showStaffMenu() {
+        //assume safe, check handled by state machine
+        Staff staff = (Staff) user;
+        Log.println("===Staff Menu===");
+        Log.println("(1) Do things");
+        Log.println("(2) Do other things");
+        Log.println("(10) Back to Start");
+        int choice = -1;
+        while (choice < 0) {
+            choice = getChoice(1, 2, 10);
+            if (choice == 0) {
+                stateDirty = true;
+            }
+        }
         return false;
     }
 
@@ -141,7 +181,9 @@ public class ConsoleUI {
                     state = STATE.START_MENU;
                 break;
             case START_MENU:
-                if (user instanceof Staff)
+                if (user == null)
+                    state = STATE.LOGIN;
+                else if (user instanceof Staff)
                     state = STATE.STAFF_MENU;
                 else if (user instanceof Student)
                     state = STATE.STUDENT_MENU;
@@ -153,7 +195,7 @@ public class ConsoleUI {
                 state = STATE.START_MENU;
                 break;
             default:
-                //UNKNOWN STATE!
+                // UNKNOWN STATE!
                 break;
         }
         stateDirty = false;
