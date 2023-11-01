@@ -136,6 +136,11 @@ public class ConsoleUI {
                 if (!success) {
                     Log.println("Password change failed.");
                     return false;
+                } else {
+                    //log out user
+                    this.user = null;
+                    stateDirty = true;
+                    //return false; 
                 }
                 break;
             case 2:
