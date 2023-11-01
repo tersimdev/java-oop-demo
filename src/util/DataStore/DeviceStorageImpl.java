@@ -2,6 +2,8 @@ package util.DataStore;
 
 import java.util.ArrayList;
 
+import util.Log;
+
 /**
  * <p>
  * This is a singleton class to handle reading and writing to file
@@ -12,8 +14,11 @@ import java.util.ArrayList;
  * @since 1-11-2023
  */
 public class DeviceStorageImpl implements DataStoreInterface {
-    public static DeviceStorageImpl instance = null;
-    private DeviceStorageImpl() {}
+    private static DeviceStorageImpl instance = null;
+
+    private DeviceStorageImpl() {
+    }
+
     public static DeviceStorageImpl getInstance() {
         if (instance == null)
             instance = new DeviceStorageImpl();
@@ -21,15 +26,25 @@ public class DeviceStorageImpl implements DataStoreInterface {
     }
 
     @Override
-    public ArrayList<DataStoreItem> read(String path) {
-        // TODO Auto-generated method stub
-        // TODO read each csv line into a datastore item
-        throw new UnsupportedOperationException("Unimplemented method 'read'");
+    public <T extends DataStoreItem<T>> void read(String path, ArrayList<T> result, T example) {
+        result = new ArrayList<>();
+        // OPEN csv in path
+        // for each line
+        String line = "some csv line here,second item";
+        T obj = example.makeCopy(); //make instance by cloning an example
+        obj.fromCSVLine(line); //read data from csv line
+        result.add(obj); //add to result array
     }
+
     @Override
-    public void write(String path, ArrayList<DataStoreItem> data) {
-        // TODO Auto-generated method stub
-        // TODO
-        throw new UnsupportedOperationException("Unimplemented method 'write'");
+    public <T extends DataStoreItem<T>> void write(String path, ArrayList<T> data) {
+        // open csv in path
+        String fileData = "";
+        for (T item : data) {
+            fileData += item.toCSVLine();
+        }
+        Log.info("Writing to " + path);
+        Log.info("Data:\n" + fileData);
+        // write to csv file
     }
 }

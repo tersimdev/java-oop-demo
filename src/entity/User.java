@@ -13,11 +13,18 @@ import util.DataStore.DataStoreItem;
  * @version 1.0
  * @since 1-11-2023
  */
-public class User implements DataStoreItem {
+public abstract class User<T> implements DataStoreItem<T> {
     private String displayName; // not mentioned in docs but makes sense to have
     private String userID;
     private String password;
     private Faculty faculty;
+
+    public User() {
+        this.displayName = "User";
+        this.userID = "USER";
+        this.faculty = Faculty.NULL;
+        this.password = "password";
+    }
 
     public User(String displayName, String userID, Faculty faculty) {
         this.displayName = displayName;

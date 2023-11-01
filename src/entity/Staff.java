@@ -9,9 +9,10 @@ package entity;
  * @version 1.0
  * @since 1-11-2023
  */
-public class Staff extends User {
-    public Staff(String name, String email, Faculty faculty) {
-        super(name, email, faculty);
+public class Staff extends User<Staff> {
+    public Staff() {super();}
+    public Staff(String displayName, String userID, Faculty faculty) {
+        super(displayName, userID, faculty);
     }
 
     //empty functions for now, return type not confirmed
@@ -26,4 +27,9 @@ public class Staff extends User {
     public void approveSuggestions() {}
     public void generateCampReport() {}
     public void generatePerformanceReport() {}
+    
+    @Override
+    public Staff makeCopy() {
+        return new Staff();
+    }
 }

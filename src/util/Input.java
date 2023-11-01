@@ -16,7 +16,7 @@ public class Input {
 
     private Scanner scanner;
 
-    public static Input instance = null;
+    private static Input instance = null;
 
     private final static String INVALID_INPUT_MSG = " Invalid input, try again: ";
 

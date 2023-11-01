@@ -5,6 +5,8 @@ import java.util.ArrayList;
 /**
  * <p>
  * An interface to handle storage
+ * Uses generics to handle conversion from list of super types to list of sub
+ * types
  * </p>
  * 
  * @author Sim Yi Wan Terence
@@ -12,6 +14,7 @@ import java.util.ArrayList;
  * @since 1-11-2023
  */
 public interface DataStoreInterface {
-    public ArrayList<DataStoreItem> read(String path);
-    public void write(String path, ArrayList<DataStoreItem> data);
+    public <T extends DataStoreItem<T>> void read(String path, ArrayList<T> result, T example);
+    public <T extends DataStoreItem<T>> void write(String path, ArrayList<T> data);
+
 }

@@ -78,6 +78,7 @@ public class ConsoleUI {
 
     public void cleanup() {
         Input.getInstance().close();
+        LoginSystem.getInstance().cleanup();
     }
 
     private boolean showLoginMenu() {
