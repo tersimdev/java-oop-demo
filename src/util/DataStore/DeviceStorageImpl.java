@@ -22,11 +22,13 @@ public class DeviceStorageImpl implements DataStoreInterface {
     @Override
     public ArrayList<DataStoreItem> read(String path) {
         // TODO Auto-generated method stub
+        // TODO read each csv line into a datastore item
         throw new UnsupportedOperationException("Unimplemented method 'read'");
     }
     @Override
     public void write(String path, ArrayList<DataStoreItem> data) {
         // TODO Auto-generated method stub
+        // TODO
         throw new UnsupportedOperationException("Unimplemented method 'write'");
     }
 }

@@ -23,6 +23,10 @@ public class Log {
     public static void println(String msg) {
         System.out.println(msg);
     }
+    public static void print(String msg) {
+        System.out.print(msg);
+    }
+    
     public static void info(String msg) {
         if (loggingEnabled) System.out.println("[INFO]: " + msg);
     }

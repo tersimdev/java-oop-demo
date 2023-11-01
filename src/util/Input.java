@@ -48,17 +48,20 @@ public class Input {
     }
 
     //TODO below 
-    public int getInt() {
+    public int getInt(String msg) {
+        Log.print(msg);
         return scanner.nextInt(); 
     }
 
-    public double getDouble() {
+    public double getDouble(String msg) {
+        Log.print(msg);
         return scanner.nextDouble();
     }
 
-    public String getLine() {
-        scanner.next(); //clear \n
-        String ret = scanner.nextLine();
-        return ret;
+    public String getLine(String msg, boolean clearNewLine) {
+        Log.print(msg);
+        if (clearNewLine)
+            scanner.next(); //clear \n
+        return scanner.nextLine();
     }
 };
