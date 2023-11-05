@@ -15,6 +15,14 @@ import util.Log;
 public class CampCommitteeMember {
     private int campId;
     private int points;
+    private Student student;
+
+    //inject dependency
+    public CampCommitteeMember(Student student) {
+        this.student = student;
+    } 
+
+    public String getStudentId() { return student.getUserID(); }
 
     public void viewCampDetails (int campId) {
 
