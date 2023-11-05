@@ -14,6 +14,7 @@ import util.DataStore.SerializeToCSV;
  */
 public abstract class CampSuggestion implements SerializeToCSV {
 
+    private int suggestionId;
     private CampCommitteeMember owner; //owner of this suggestion
     private Staff approver;
     private String suggestion; //the suggestion in plaintext

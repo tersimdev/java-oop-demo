@@ -16,6 +16,7 @@ import util.DataStore.SerializeToCSV;
  */
 public abstract class Camp implements SerializeToCSV {
 
+    private int campId;
     private CampInformation campInfo;
     private ArrayList<Student> studentList;
     private boolean visibility; //staff can set this to false to hide, if no one registered and stuff yet
