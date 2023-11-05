@@ -1,7 +1,7 @@
 package entity;
 
 import java.util.ArrayList;
-
+import java.time.LocalDateTime;
 import util.Log;
 import util.DataStore.SerializeToCSV;
 
@@ -14,10 +14,21 @@ import util.DataStore.SerializeToCSV;
  * @version 1.0
  * @since 5-11-2023
  */
-public abstract class Camp implements SerializeToCSV {
+public abstract class CampInformation implements SerializeToCSV {
 
-    private CampInformation campInfo;
-    private ArrayList<Student> studentList;
+    private int campId;
+    private String campName;
+    private String descrription;
+    private String location;
+    private int totalSlots; //for attendees
+    private int committeeSlots;
+
+    private ArrayList<LocalDateTime> dates;
+    private LocalDateTime registrationClosingDate;
+    
+    private Staff staffInCharge;
+    private UserGroup userGroup;
+    private Faculty organisingFaculty; //null if usergroup is wholeNTU;
 
     @Override
     public String toCSVLine() {
