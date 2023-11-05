@@ -28,7 +28,7 @@ public class LoginSystem {
 
     public User login(String userID, String password) {
         // find user with username, then check for correct password
-        User user = DataStoreSystem.getInstance().queryUsers(userID);
+        User user = DataStoreSystem.getInstance().queryUser(userID);
         if (user != null) {
             if (user.getPassword().equals(password))
                 return user;
