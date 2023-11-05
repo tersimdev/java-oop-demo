@@ -1,10 +1,6 @@
 package util.DataStore;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,13 +8,15 @@ import java.util.Map;
 import entity.Faculty;
 import entity.Staff;
 import entity.Student;
+import entity.User;
 import util.Log;
 
 /**
  * <p>
  * This is a singleton class to handle reading and writing to csv file
  * Database is loaded into memory on init, and saved on cleanup
- * It stores the following tables: students, staff, camps, enquiries, suggestions
+ * It stores the following tables: students, staff, camps, enquiries,
+ * suggestions
  * </p>
  * 
  * @author Sim Yi Wan Terence
@@ -27,32 +25,40 @@ import util.Log;
  */
 public class DataStoreCSVImpl implements DataStoreInterface {
 
-    private Map<String, ArrayList<String>> tables;
+    private Map<String, CSVTable> tables;
 
-    private static final String initialStudentsFile = "data/sample/student_list.csv";
-    private static final String initialStaffFile = "data/sample/staff_list.csv";
-    private static final String studentsPath = "data/users/students.csv";
-    private static final String staffPath = "data/users/staff.csv";
+    // file paths
+    private static final String initStudents = "data/sample/student_list.csv";
+    private static final String initStaff = "data/sample/staff_list.csv";
+    private static final String pathStudents = "data/users/students.csv";
+    private static final String pathStaff = "data/users/staff.csv";
+
+    // table names
+    private static final String tableStudents = "students";
+    private static final String tableStaff = "staff";
 
     @Override
     public void init() {
-        tables = new HashMap<>();
-
-        // create database from initial data
-        if (!dataExists(studentsPath))
+        // load in initial data
+        if (!dataExists(pathStudents))
             initializeStudentList();
-        if (!dataExists(staffPath))
+        if (!dataExists(pathStaff))
             initializeStaffList();
 
+        // create mapping
+        tables = new HashMap<>();
+        tables.put(tableStudents, new CSVTable(tableStudents, pathStudents));
+        tables.put(tableStaff, new CSVTable(tableStaff, pathStaff));
+
         // load csvs into memory
-        tables.put("students", readCSV(studentsPath));
-        tables.put("staff", readCSV(staffPath));
+        for (CSVTable t : tables.values())
+            t.readFromFile();
     }
 
     @Override
     public void cleanup() {
-        writeLoadedCSV(studentsPath, tables.get("students"));
-        writeLoadedCSV(staffPath, tables.get("staff"));
+        for (CSVTable t : tables.values())
+            t.writeToFile();
     }
 
     @Override
@@ -62,65 +68,38 @@ public class DataStoreCSVImpl implements DataStoreInterface {
     }
 
     @Override
-    public String queryRow(String table, int keyIndex, String keyValue) {
-        ArrayList<String> rows = tables.get(table);
-        for (int i = 0; i < rows.size(); ++i) {
-            try {
-            String[] split = rows.get(i).split(",");
-            if (split[keyIndex].equals(keyValue))
-                return rows.get(i);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                Log.error("Error querying for key");
-            }
+    public User queryUser(String userID) {
+        String row = tables.get(tableStudents).queryRow(1, userID);
+        if (row != null) {
+            Student ret = new Student();
+            ret.fromCSVLine(row);
+            return ret;
+        }
+        row = tables.get(tableStaff).queryRow(1, userID);
+        if (row != null) {
+            Staff ret = new Staff();
+            ret.fromCSVLine(row);
+            return ret;
         }
         return null;
     }
 
     @Override
-    public void updateRow(String table, String oldRow, String newRow) {
-        ArrayList<String> rows = tables.get(table);
-        for (int i = 0; i < rows.size(); ++i) {
-            if (rows.get(i).equals(oldRow))
-                rows.set(i, newRow);
-        }
-    }
+    public void updateUser(String userID, String newPassword) {
+        String row = tables.get(tableStudents).queryRow(1, userID);
+        if (row != null) {
+            Student s = new Student();
+            s.fromCSVLine(row);
+            s.setPassword(newPassword);
+            tables.get(tableStudents).updateRow(row, s.toCSVLine());
 
-    private ArrayList<String> readCSV(String path) {
-        Log.info("Reading data from " + path);
-        ArrayList<String> ret = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                if (line != null && !line.isEmpty()) {
-                    ret.add(line);
-                }
-            }
-        } catch (IOException e) {
-            Log.error("Error parsing file " + path);
         }
-        return ret;
-    }
-
-    // use generic for easy writing
-    private <T extends SerializeToCSV> void writeCSV(String path, ArrayList<T> data) {
-        Log.info("Writing data to " + path);
-        // write to csv file
-        try (FileWriter fw = new FileWriter(path)) {
-            for (T obj : data)
-                fw.write(obj.toCSVLine() + "\n");
-        } catch (IOException e) {
-            Log.error("Error adding rows to " + path);
-        }
-    }
-
-    private void writeLoadedCSV(String path, ArrayList<String> data) {
-        Log.info("Writing data to " + path);
-        // write to csv file
-        try (FileWriter fw = new FileWriter(path)) {
-            for (String s : data)
-                fw.write(s + "\n");
-        } catch (IOException e) {
-            Log.error("Error adding rows to " + path);
+        row = tables.get(tableStaff).queryRow(1, userID);
+        if (row != null) {
+            Staff s = new Staff();
+            s.fromCSVLine(row);
+            s.setPassword(newPassword);
+            tables.get(tableStaff).updateRow(row, s.toCSVLine());
         }
     }
 
@@ -130,7 +109,8 @@ public class DataStoreCSVImpl implements DataStoreInterface {
         // create Student object from initial file
         // then call toCSV and add to data/users/student.csv
 
-        ArrayList<String> initialData = readCSV(initialStudentsFile);
+        CSVTable initTable = new CSVTable("temp", initStudents);
+        ArrayList<String> initialData = initTable.readFromFile();
         ArrayList<Student> studentList = new ArrayList<>();
 
         // convert initial data format to student objects, skip 1st line (header)
@@ -153,7 +133,7 @@ public class DataStoreCSVImpl implements DataStoreInterface {
         }
 
         // then write to proper data store
-        writeCSV(studentsPath, studentList);
+        tables.get(tableStudents).writeToFile(studentList);
     }
 
     private void initializeStaffList() {
@@ -163,7 +143,8 @@ public class DataStoreCSVImpl implements DataStoreInterface {
         // create Staff object from initial file
         // then call toCSV and add to data/users/staff.csv
 
-        ArrayList<String> initialData = readCSV(initialStaffFile);
+        CSVTable initTable = new CSVTable("temp", initStaff);
+        ArrayList<String> initialData = initTable.readFromFile();
         ArrayList<Staff> staffList = new ArrayList<>();
 
         // convert initial data format to student objects
@@ -186,6 +167,7 @@ public class DataStoreCSVImpl implements DataStoreInterface {
         }
 
         // then write to proper data store
-        writeCSV(staffPath, staffList);
+        tables.get(tableStaff).writeToFile(staffList);
+
     }
 }

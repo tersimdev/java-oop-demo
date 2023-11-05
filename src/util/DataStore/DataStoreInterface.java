@@ -1,11 +1,11 @@
 package util.DataStore;
 
+import entity.User;
+
 /**
  * <p>
- * An interface to handle storage
- * Has functions to read, update, query data in storage
- * Implementation of actual storage is left to concrete subclasses
- * Assumes relational SQL-like database
+ * An interface to handle storage queries needed by the app
+ * Uses strategy design pattern
  * </p>
  * 
  * @author Sim Yi Wan Terence
@@ -16,6 +16,9 @@ public interface DataStoreInterface {
     public void init();
     public void cleanup();
     public boolean dataExists(String table);
-    public String queryRow(String table, int keyIndex, String keyValue);
-    public void updateRow(String table, String oldRow, String newRow);
+
+    public User queryUser(String userID);
+    public void updateUser(String userID, String newPassword);
+
+    //todo, similar functiosn for camps etc
 }

@@ -1,7 +1,5 @@
 package control;
 
-import entity.Staff;
-import entity.Student;
 import entity.User;
 import util.DataStore.DataStoreInterface;
 import util.DataStore.DataStoreCSVImpl;
@@ -44,37 +42,12 @@ public class DataStoreSystem {
     }
 
     // query for users with username
-    public User queryUsers(String userID) {
-        String row = dataStore.queryRow("students", 1, userID);
-        if (row != null) {
-            Student ret = new Student();
-            ret.fromCSVLine(row);
-            return ret;
-        }
-        row = dataStore.queryRow("staff", 1, userID);
-        if (row != null) {
-            Staff ret = new Staff();
-            ret.fromCSVLine(row);
-            return ret;
-        }
-        return null;
+    public User queryUser(String userID) {
+        return dataStore.queryUser(userID);
     }
 
     public void updateUser(String userID, String newPassword) {
-        String row = dataStore.queryRow("students", 1, userID);
-        if (row != null) {
-            Student s = new Student();
-            s.fromCSVLine(row);
-            s.setPassword(newPassword);
-            dataStore.updateRow("students", row, s.toCSVLine());
-        }
-        row = dataStore.queryRow("staff", 1, userID);
-        if (row != null) {
-            Staff s = new Staff();
-            s.fromCSVLine(row);
-            s.setPassword(newPassword);
-            dataStore.updateRow("staff", row, s.toCSVLine());
-        }
+        dataStore.updateUser(userID, newPassword);
     }
 
 
