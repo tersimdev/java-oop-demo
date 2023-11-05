@@ -18,7 +18,7 @@ public abstract class Camp implements SerializeToCSV {
 
     private int campId;
     private CampInformation campInfo;
-    private ArrayList<Student> studentList;
+    private ArrayList<String> studentList; //store student ids
     private boolean visibility; //staff can set this to false to hide, if no one registered and stuff yet
 
     @Override

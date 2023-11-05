@@ -10,7 +10,7 @@ package entity;
  * @since 5-11-2023
  */
 public class CampReportOptions {
-    //private Camp camp;
+    private int campId;
     private String fileType = ".txt";
     private String fileName = "output";
     

@@ -26,7 +26,7 @@ public abstract class CampInformation implements SerializeToCSV {
     private ArrayList<LocalDateTime> dates;
     private LocalDateTime registrationClosingDate;
     
-    private Staff staffInCharge;
+    private String staffInChargeId;
     private UserGroup userGroup;
     private Faculty organisingFaculty; //null if usergroup is wholeNTU;
 

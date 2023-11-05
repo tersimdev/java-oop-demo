@@ -15,31 +15,31 @@ import util.DataStore.SerializeToCSV;
 public abstract class CampSuggestion implements SerializeToCSV {
 
     private int suggestionId;
-    private CampCommitteeMember owner; //owner of this suggestion
-    private Staff approver;
+    private String ownerId; //owner of this suggestion
+    private String approverId;
     private String suggestion; //the suggestion in plaintext
     private int approvalStatus; //0 for not viewd, 1 for approved, 2 for rejected
 
     public CampSuggestion() {
-        owner = null;
-        approver = null;
+        ownerId = null;
+        approverId = null;
         suggestion = "";
         approvalStatus = 0;
     }
 
     public CampSuggestion(CampCommitteeMember owner, String suggestion) {
-        this.owner = owner;
+        this.ownerId = owner.getStudentId();
         this.suggestion = suggestion;
         approvalStatus = 0;
     }
     
-    public CampCommitteeMember getOwner() { return owner; }
+    public String getOwner() { return ownerId; }
     public String getSuggestion() {return suggestion; }
     public boolean hasApproved() { return approvalStatus == 1; } 
     public boolean hasRejected() { return approvalStatus == 2; } 
 
     public void setApproval(Staff staff, boolean approve) {
-        approver = staff;
+        approverId = staff.getUserID();
         approvalStatus = approve ? 1 : 2;
     }
 

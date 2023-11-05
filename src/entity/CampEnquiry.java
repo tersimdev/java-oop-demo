@@ -15,32 +15,32 @@ import util.DataStore.SerializeToCSV;
 public abstract class CampEnquiry implements SerializeToCSV {
 
     int enquiryId;
-    Student owner;
-    CampCommitteeMember replier;
+    String ownerId;
+    String replierId;
     private String enquiry;
     private String reply;
 
     public CampEnquiry() {
-        owner = null;
+        ownerId = null;
         enquiry = "";
-        replier = null;
+        replierId = null;
         reply = null;
     }
 
     public CampEnquiry(Student student, String enquiry) {
-        this.owner = student;
+        this.ownerId = student.getUserID();
         this.enquiry = enquiry;
-        replier = null;
+        replierId = null;
         reply = null;
     }
 
-    public Student getOwner() { return owner; }
+    public String getOwner() { return ownerId; }
     public String getEnquiry() { return enquiry; }
     public String getReply() { return reply; }
 
     public void reply(CampCommitteeMember campCommitteeMember, String reply) {
         this.reply = reply;
-        replier = campCommitteeMember;
+        replierId = campCommitteeMember.getStudentId();
     }
 
     @Override
