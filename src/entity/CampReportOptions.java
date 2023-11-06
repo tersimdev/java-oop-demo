@@ -34,7 +34,8 @@ public class CampReportOptions {
         return fileName;
     }
 
-    public void setFilename(String fileName){
+    public void setFileName(String fileName){
         this.fileName = fileName;
     }
+    
 }
