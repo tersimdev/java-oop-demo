@@ -6,13 +6,14 @@ package entity;
  * </p>
  * 
  * @author Lim Jun Rong Ryan
- * @version 1.0
- * @since 6-11-2023
+ * @version 1.1
+ * @since 7-11-2023
  */
 public class CampReportOptions {
     private int campId;
     private String fileType = ".txt";
     private String fileName = "output";
+    private CampReportFilter filter;
 
     public int getCampId(){
         return campId;
@@ -37,5 +38,13 @@ public class CampReportOptions {
     public void setFileName(String fileName){
         this.fileName = fileName;
     }
-    
+
+    public CampReportFilter getFilter(){
+        return filter;
+    }
+
+    public void setFilter(CampReportFilter filter){
+        this.filter = filter;
+    }
+
 }
