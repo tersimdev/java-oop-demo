@@ -1,5 +1,6 @@
 package control;
 
+import entity.CampReportFilter;
 import entity.CampReportOptions;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.io.IOException;
  * </p>
  * 
  * @author Lim Jun Rong Ryan
- * @version 1.0
+ * @version 1.1
  * @since 7-11-2023
  */
 public class ReportSystem {
@@ -29,7 +30,8 @@ public class ReportSystem {
         String fileName = reportOptions.getFileName() + reportOptions.getFileType();
         try{
             FileWriter fileWriter = new FileWriter(fileName);
-            fileWriter.write(reportContent);
+            String filteredReportContent = applyFilter(reportContent, reportOptions.getFilter());
+            fileWriter.write(filteredReportContent);
             fileWriter.close();
             System.out.println("Report Generated: " + fileName);
         } catch(IOException exception){
@@ -37,4 +39,28 @@ public class ReportSystem {
             System.err.println("Error generating the report. Please try again");
         }
     }
+
+    private String applyFilter(String reportContent, CampReportFilter filter){
+        StringBuilder filteredContent = new StringBuilder();
+        String[] lines = reportContent.split("\n");
+
+        for(String line : lines){
+            switch(filter){
+                case ATTENDEE:
+                if(line.contains("ATTENDEE")){
+                    filteredContent.append(line).append("\n");
+                }
+            break;
+                case CAMP_COMMITTEE:
+                if(line.contains("CAMP_COMMITTEE")){
+                    filteredContent.append(line).append("\n");
+                }
+            break;
+        default:
+                filteredContent.append(line).append("\n");
+            }
+        }
+        return filteredContent.toString();
+    }
+
 }
