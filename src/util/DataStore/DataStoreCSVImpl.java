@@ -39,16 +39,16 @@ public class DataStoreCSVImpl implements DataStoreInterface {
 
     @Override
     public void init() {
+        // create mapping
+        tables = new HashMap<>();
+        tables.put(tableStudents, new CSVTable(tableStudents, pathStudents));
+        tables.put(tableStaff, new CSVTable(tableStaff, pathStaff));
+
         // load in initial data
         if (!dataExists(pathStudents))
             initializeStudentList();
         if (!dataExists(pathStaff))
             initializeStaffList();
-
-        // create mapping
-        tables = new HashMap<>();
-        tables.put(tableStudents, new CSVTable(tableStudents, pathStudents));
-        tables.put(tableStaff, new CSVTable(tableStaff, pathStaff));
 
         // load csvs into memory
         for (CSVTable t : tables.values())
