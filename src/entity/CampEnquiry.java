@@ -12,7 +12,7 @@ import util.DataStore.SerializeToCSV;
  * @version 1.0
  * @since 5-11-2023
  */
-public abstract class CampEnquiry implements SerializeToCSV {
+public class CampEnquiry implements SerializeToCSV {
 
     int enquiryId;
     String ownerId;

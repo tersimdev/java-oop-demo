@@ -53,7 +53,7 @@ public class UserGroup implements SerializeToCSV {
     @Override
     public void fromCSVLine(String csvLine) {
         String[] split = csvLine.split(",");
-        if (split.length != 2) {
+        if (split.length != getCSVLineLength()) {
             Log.error("csvLine is invalid");
         } else {
             wholeNTU = split[0].trim().equals("NTU");
@@ -64,5 +64,10 @@ public class UserGroup implements SerializeToCSV {
                 faculty = Faculty.NULL; // give it null value
             }
         }
+    }
+
+    @Override
+    public int getCSVLineLength() {
+        return 2;
     }
 }

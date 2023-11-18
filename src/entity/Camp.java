@@ -3,6 +3,7 @@ package entity;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import util.Log;
 import util.DataStore.SerializeToCSV;
@@ -14,7 +15,7 @@ import util.DataStore.SerializeToCSV;
  * 
  * @author 
  * @version 1.0
- * @since 5-11-2023
+ * @since 19-11-2023
  */
 public class Camp implements SerializeToCSV {
 
@@ -24,7 +25,11 @@ public class Camp implements SerializeToCSV {
     private boolean visibility; //staff can set this to false to hide, if no one registered and stuff yet
     private static int totalNumberOfCamps = 1; //use this value to set campId when creating new camps !!!DOES THIS WORK AHAHAHA
 
-    public Camp(int campId, CampInformation campInfo, ArrayList<Student> studentList) {
+    public Camp() {
+        //todo default vals
+    }
+
+    public Camp(int campId, CampInformation campInfo, ArrayList<String> studentList) {
         this.campId = campId;
         this.campInfo = campInfo;
         this.studentList = null;
@@ -40,7 +45,7 @@ public class Camp implements SerializeToCSV {
         return studentList;
     }
 
-    public CampInformation getCampInformation() {
+    public CampInformation getCampInfo() {
         return campInfo;
     }
 
@@ -68,20 +73,42 @@ public class Camp implements SerializeToCSV {
         return totalNumberOfCamps;
     }
 
+    public boolean isVisibility() {
+        return visibility;
+    }
+
     @Override
     public String toCSVLine() {
         String ret = "";
-        //TOOD
+        ret += campId + ","
+            + (visibility ? "VISIBLE" : "HIDDEN") + ",";
+        //add student list as one csv cell, separated by semicolon
+        for (String s : studentList) {
+            ret += s + ";";
+        }
+        ret += "," + campInfo.toCSVLine();
         return ret;
     }
 
     @Override
     public void fromCSVLine(String csvLine) {
         String[] split = csvLine.split(",");
-        // //TODO
-        // if (split.length != 4) {
-        //     Log.error("csvLine is invalid");
-        // } else {
-        // }
+        if (split.length != getCSVLineLength()) {
+            Log.error("csvLine is invalid");
+        } else {
+            this.campId = Integer.parseInt(split[0]);
+            this.visibility = (split[1] == "VISIBLE" ? true : false);
+            String[] students = split[2].split(";");
+            this.studentList = new ArrayList<>(Arrays.asList(students));
+            String campInfoCSV = "";
+            for (int i = 3; i < split.length; ++i)
+                campInfoCSV += split[i] + ",";
+            this.campInfo.fromCSVLine(campInfoCSV);
+        }
+    }
+    
+    @Override
+    public int getCSVLineLength() {
+        return 3 + campInfo.getCSVLineLength();
     }
 }

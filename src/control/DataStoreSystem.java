@@ -1,13 +1,11 @@
 package control;
 
-import entity.User;
-import entity.UserGroup;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import entity.Camp;
-import entity.Faculty;
+import entity.CampEnquiry;
+import entity.CampSuggestion;
+import entity.User;
 import util.DataStore.DataStoreInterface;
 import util.DataStore.DataStoreCSVImpl;
 
@@ -18,7 +16,7 @@ import util.DataStore.DataStoreCSVImpl;
  * 
  * @author Sim Yi Wan Terence
  * @version 1.0
- * @since 1-11-2023
+ * @since 19-11-2023
  */
 public class DataStoreSystem {
     private static DataStoreSystem instance = null;
@@ -53,27 +51,42 @@ public class DataStoreSystem {
         return dataStore.queryUser(userID);
     }
 
-    public void updateUser(String userID, String newPassword) {
-        dataStore.updateUser(userID, newPassword);
+    public void updateUserPassword(String userID, String newPassword) {
+        dataStore.updateUserPassword(userID, newPassword);
     }
 
-
-    //todo add functions to update camps, enquiries, feedback
-
-    public void createCamp(int campId, String campName, String description, String location, int totalSlots, int committeeSlots, 
-        ArrayList<LocalDateTime> dates, LocalDateTime registrationClosingDate, String staffInChargeId, UserGroup userGroup, Faculty organisingFaculty) {
-            dataStore.createCamp(campId, campName, description, location, totalSlots, committeeSlots, dates, registrationClosingDate, staffInChargeId, userGroup, organisingFaculty);
-        }
-
-    public void editCamp(int campId) {
-        dataStore.editCamp(campId);
+    public void addCamp(Camp camp) {
+        dataStore.addCamp(camp);
     }
-
     public void deleteCamp(int campId) {
-        
+        dataStore.deleteCamp(campId);
+    }
+    public void updateCampDetails(Camp camp) {
+        //might split this up into multiple update
+        //e.g. updateVisibility, updateDates, etc
+        dataStore.updateCampDetails(camp);
+    }
+    public ArrayList<Camp> getAllCamps() {
+        return dataStore.getAllCamps();
     }
 
-    public Camp queryCamp(int campId) {
-        return dataStore.queryCamp(campId);
+    public void addSuggestion(CampSuggestion suggestion) {
+        dataStore.addSuggestion(suggestion);
     }
+    // public void updateSuggestion(int suggestionId) {
+    //     dataStore.updateSuggestion(suggestionId);
+    // }
+    public ArrayList<CampSuggestion> getAllSuggestions() {
+        return dataStore.getAllSuggestions();
+    }
+    public void addEnquiry(CampEnquiry enquiry) {
+        dataStore.addEnquiry(enquiry);
+    }
+    // public void updateEnquiry(int enquiryId) {
+    //     dataStore.updateEnquiry(enquiryId);
+    // }
+    public ArrayList<CampEnquiry> getAllEnquiries() {
+        return dataStore.getAllEnquiries();
+    }
+
 }

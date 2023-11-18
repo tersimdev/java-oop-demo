@@ -12,7 +12,7 @@ import util.DataStore.SerializeToCSV;
  * @version 1.0
  * @since 5-11-2023
  */
-public abstract class CampSuggestion implements SerializeToCSV {
+public class CampSuggestion implements SerializeToCSV {
 
     private int suggestionId;
     private String ownerId; //owner of this suggestion
@@ -62,5 +62,11 @@ public abstract class CampSuggestion implements SerializeToCSV {
             suggestion = split[1].trim();
             approvalStatus = Integer.parseInt(split[2]);
         }
+    }
+
+    @Override
+    public int getCSVLineLength() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getCSVLineLength'");
     }
 }
