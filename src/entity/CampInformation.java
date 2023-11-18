@@ -14,7 +14,7 @@ import util.DataStore.SerializeToCSV;
  * @version 1.0
  * @since 5-11-2023
  */
-public abstract class CampInformation implements SerializeToCSV {
+public class CampInformation implements SerializeToCSV {
 
     private int campId;
     private String campName;

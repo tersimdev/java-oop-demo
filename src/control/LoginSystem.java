@@ -47,7 +47,7 @@ public class LoginSystem {
             return false;
         }
         user.setPassword(newPassword);
-        DataStoreSystem.getInstance().updateUser(user.getUserID(), newPassword);
+        DataStoreSystem.getInstance().updateUserPassword(user.getUserID(), newPassword);
         Log.println("Password changed.");
         return true;
     }

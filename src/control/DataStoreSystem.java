@@ -51,8 +51,8 @@ public class DataStoreSystem {
         return dataStore.queryUser(userID);
     }
 
-    public void updateUser(String userID, String newPassword) {
-        dataStore.updateUser(userID, newPassword);
+    public void updateUserPassword(String userID, String newPassword) {
+        dataStore.updateUserPassword(userID, newPassword);
     }
 
     public void addCamp(Camp camp) {
@@ -61,8 +61,10 @@ public class DataStoreSystem {
     public void deleteCamp(int campId) {
         dataStore.deleteCamp(campId);
     }
-    public void updateCamp(int campId) {
-        dataStore.updateCamp(campId);
+    public void updateCampDetails(Camp camp) {
+        //might split this up into multiple update
+        //e.g. updateVisibility, updateDates, etc
+        dataStore.updateCampDetails(camp);
     }
     public ArrayList<Camp> getAllCamps() {
         return dataStore.getAllCamps();
@@ -71,18 +73,18 @@ public class DataStoreSystem {
     public void addSuggestion(CampSuggestion suggestion) {
         dataStore.addSuggestion(suggestion);
     }
-    public void updateSuggestion(int suggestionId) {
-        dataStore.updateSuggestion(suggestionId);
-    }
+    // public void updateSuggestion(int suggestionId) {
+    //     dataStore.updateSuggestion(suggestionId);
+    // }
     public ArrayList<CampSuggestion> getAllSuggestions() {
         return dataStore.getAllSuggestions();
     }
     public void addEnquiry(CampEnquiry enquiry) {
         dataStore.addEnquiry(enquiry);
     }
-    public void updateEnquiry(int enquiryId) {
-        dataStore.updateEnquiry(enquiryId);
-    }
+    // public void updateEnquiry(int enquiryId) {
+    //     dataStore.updateEnquiry(enquiryId);
+    // }
     public ArrayList<CampEnquiry> getAllEnquiries() {
         return dataStore.getAllEnquiries();
     }

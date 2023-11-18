@@ -15,19 +15,38 @@ import util.DataStore.SerializeToCSV;
  * @version 1.0
  * @since 5-11-2023
  */
-public abstract class Camp implements SerializeToCSV {
+public class Camp implements SerializeToCSV {
 
     private int campId;
     private CampInformation campInfo;
     private ArrayList<String> studentList; //store student ids
     private boolean visibility; //staff can set this to false to hide, if no one registered and stuff yet
 
+    public Camp() {
+        //todo default vals
+    }
 
     public Camp(int campId, CampInformation campInfo, ArrayList<String> studentList) {
         this.campId = campId;
         this.campInfo = campInfo;
         this.studentList = null;
         this.visibility = true;
+    }
+
+    public int getCampId() {
+        return campId;
+    }
+
+    public CampInformation getCampInfo() {
+        return campInfo;
+    }
+
+    public ArrayList<String> getStudentList() {
+        return studentList;
+    }
+
+    public boolean isVisibility() {
+        return visibility;
     }
 
     @Override

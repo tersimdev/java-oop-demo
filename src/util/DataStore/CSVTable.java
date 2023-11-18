@@ -22,7 +22,12 @@ public class CSVTable {
     public String getTableName() {
         return tableName;
     }
-
+    public String getPath() {
+        return path;
+    }
+    public ArrayList<String> getRowData() {
+        return rowData;
+    }
     public boolean isLoaded() {
         return rowData != null;
     }
@@ -84,9 +89,33 @@ public class CSVTable {
     public void updateRow(String oldRow, String newRow) {
         if (!isLoaded())
             return;
+        Log.info("updating row: " + newRow);
         for (int i = 0; i < rowData.size(); ++i) {
             if (rowData.get(i).equals(oldRow))
                 rowData.set(i, newRow);
+        }
+    }
+
+    public void addRow(String row) {
+        if (!isLoaded())
+            return;
+        Log.info("adding row: " + row);
+        rowData.add(row);
+    }
+
+    public void deleteRow(int keyIndex, String keyValue) {
+        if (!isLoaded())
+            return;
+        Log.info("deleting row of key: " + keyValue);
+        for (int i = 0; i < rowData.size(); ++i) {
+            try {
+                String[] split = rowData.get(i).split(",");
+                if (split[keyIndex].equals(keyValue)) {
+                    //delete this row
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                Log.error("Error querying for key");
+            }
         }
     }
 }

@@ -52,10 +52,10 @@ public class DataStoreCSVImpl implements DataStoreInterface {
         tables = new HashMap<>();
         tables.put(tableStudents, new CSVTable(tableStudents, pathStudents));
         tables.put(tableStaff, new CSVTable(tableStaff, pathStaff));
-        // tables.put(tableCamps, new CSVTable(tableCamps, pathCamps));
-        // tables.put(tableSuggestions, new CSVTable(tableSuggestions,
-        // pathSuggestions));
-        // tables.put(tableEnquiries, new CSVTable(tableEnquiries, pathEnquiries));
+        tables.put(tableCamps, new CSVTable(tableCamps, pathCamps));
+        tables.put(tableSuggestions, new CSVTable(tableSuggestions,
+                pathSuggestions));
+        tables.put(tableEnquiries, new CSVTable(tableEnquiries, pathEnquiries));
 
         // load in initial data
         if (!dataExists(pathStudents))
@@ -64,8 +64,13 @@ public class DataStoreCSVImpl implements DataStoreInterface {
             initializeStaffList();
 
         // load csvs into memory
-        for (CSVTable t : tables.values())
-            t.readFromFile();
+        for (CSVTable t : tables.values()) {
+            if (dataExists(t.getPath()))
+                t.readFromFile();
+            else
+                // create the file by writing empty list
+                t.writeToFile(new ArrayList<>());
+        }
     }
 
     @Override
@@ -98,7 +103,7 @@ public class DataStoreCSVImpl implements DataStoreInterface {
     }
 
     @Override
-    public void updateUser(String userID, String newPassword) {
+    public void updateUserPassword(String userID, String newPassword) {
         String row = tables.get(tableStudents).queryRow(1, userID);
         if (row != null) {
             Student s = new Student();
@@ -118,55 +123,65 @@ public class DataStoreCSVImpl implements DataStoreInterface {
 
     @Override
     public void addCamp(Camp camp) {
+        tables.get(tableCamps).addRow(camp.toCSVLine());
     }
 
     @Override
     public void deleteCamp(int campId) {
+        tables.get(tableCamps).deleteRow(0, Integer.toString(campId));
     }
 
     @Override
-    public void updateCamp(int campId) {
+    public void updateCampDetails(Camp camp) {
+        String row = tables.get(tableCamps).queryRow(0, Integer.toString(camp.getCampId()));
+        tables.get(tableCamps).updateRow(row, camp.toCSVLine());
     }
 
     @Override
     public ArrayList<Camp> getAllCamps() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllCamps'");
+        ArrayList<Camp> ret = new ArrayList<>();
+        ArrayList<String> data = tables.get(tableCamps).getRowData();
+        for (String s : data) {
+            Camp tmp = new Camp();
+            tmp.fromCSVLine(s);
+            ret.add(tmp);
+        }
+        return ret;
     }
 
     @Override
     public void addSuggestion(CampSuggestion suggestion) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addSuggestion'");
+        tables.get(tableSuggestions).addRow(suggestion.toCSVLine());
     }
-    
-    @Override
-    public void updateSuggestion(int suggestionId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateSuggestion'");
-    } 
+
     @Override
     public ArrayList<CampSuggestion> getAllSuggestions() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllSuggestions'");
+        ArrayList<CampSuggestion> ret = new ArrayList<>();
+        ArrayList<String> data = tables.get(tableSuggestions).getRowData();
+        for (String s : data) {
+            CampSuggestion tmp = new CampSuggestion();
+            tmp.fromCSVLine(s);
+            ret.add(tmp);
+        }
+        return ret;
     }
 
     @Override
     public void addEnquiry(CampEnquiry enquiry) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addEnquiry'");
+        tables.get(tableEnquiries).addRow(enquiry.toCSVLine());
     }
 
-    @Override
-    public void updateEnquiry(int enquiryId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateEnquiry'");
-    }
     @Override
     public ArrayList<CampEnquiry> getAllEnquiries() {
-        throw new UnsupportedOperationException("Unimplemented method 'getAllEnquiries'");
+        ArrayList<CampEnquiry> ret = new ArrayList<>();
+        ArrayList<String> data = tables.get(tableEnquiries).getRowData();
+        for (String s : data) {
+            CampEnquiry tmp = new CampEnquiry();
+            tmp.fromCSVLine(s);
+            ret.add(tmp);
+        }
+        return ret;
     }
-
 
     private void initializeStudentList() {
         // heaaders: Name,Email,Faculty
