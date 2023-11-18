@@ -8,6 +8,16 @@ import java.util.ArrayList;
 
 import util.Log;
 
+/**
+ * <p>
+ * This is a class to represent a csv file as
+ * an array of strings, rowData
+ * </p>
+ * 
+ * @author Sim Yi Wan Terence
+ * @version 1.0
+ * @since 19-11-2023
+ */
 public class CSVTable {
     private ArrayList<String> rowData;
     private String path;

@@ -18,8 +18,8 @@ import entity.Faculty;
  * </p>
  * 
  * @author Sim Yi Wan Terence
- * @version 2.0
- * @since 18-11-2023
+ * @version 1.0
+ * @since 19-11-2023
  */
 public interface DataStoreInterface {
     public void init();
