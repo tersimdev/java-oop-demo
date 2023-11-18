@@ -1,6 +1,10 @@
 package util;
 
 import java.util.Scanner;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.NoSuchElementException;
 
 /**
@@ -88,4 +92,17 @@ public class Input {
         Log.print(msg);
         return scanner.nextLine();
     }
+
+    public LocalDateTime getDate(String msg) {
+        Log.print(msg);
+        String dateStr = scanner.next();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("DD/MM/YYYY");  
+        try {
+            LocalDateTime date = LocalDateTime.parse(dateStr, formatter);
+            return date;
+        } catch (DateTimeParseException e) {
+            Log.debug("Invalid date format. Please enter the date in the format DD/MM/YYYY.");
+            return null; 
+    }
+}
 };

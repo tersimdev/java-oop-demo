@@ -46,7 +46,7 @@ public abstract class User implements SerializeToCSV {
         return password;
     }
 
-    public Faculty geFaculty() {
+    public Faculty getFaculty() {
         return faculty;
     }
 

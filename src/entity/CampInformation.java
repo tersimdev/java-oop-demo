@@ -14,7 +14,7 @@ import util.DataStore.SerializeToCSV;
  * @version 1.0
  * @since 5-11-2023
  */
-public abstract class CampInformation implements SerializeToCSV {
+public class CampInformation implements SerializeToCSV {
 
     private int campId;
     private String campName;
@@ -30,13 +30,12 @@ public abstract class CampInformation implements SerializeToCSV {
     private UserGroup userGroup;
     private Faculty organisingFaculty; //null if usergroup is wholeNTU;
 
-    public CampInformation (int campId, String campName, String description, String location, int totalSlots, int committeeSlots, 
+    public CampInformation (String campName, String description, String location, int totalSlots, int committeeSlots, 
         ArrayList<LocalDateTime> dates, LocalDateTime registrationClosingDate, String staffInChargeId, UserGroup userGroup, Faculty organisingFaculty) {
-            this.campId = campId;
             this.campName = campName;
             this.description = description;
             this.location = location;
-            this. totalSlots = totalSlots;
+            this.totalSlots = totalSlots;
             this.committeeSlots = committeeSlots;
             this.dates = dates;
             this.registrationClosingDate = registrationClosingDate;
