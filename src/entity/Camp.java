@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import util.Log;
 import util.DataStore.SerializeToCSV;
@@ -33,12 +34,12 @@ public abstract class Camp implements SerializeToCSV {
     public String toCSVLine() {
         String ret = "";
         ret += campId + ","
-            + campInfo.toCSVLine() + ","
             + (visibility ? "VISIBLE" : "HIDDEN") + ",";
         //add student list as one csv cell, separated by semicolon
         for (String s : studentList) {
             ret += s + ";";
         }
+        ret += "," + campInfo.toCSVLine();
         return ret;
     }
 
@@ -48,6 +49,14 @@ public abstract class Camp implements SerializeToCSV {
         if (split.length != getCSVLineLength()) {
             Log.error("csvLine is invalid");
         } else {
+            this.campId = Integer.parseInt(split[0]);
+            this.visibility = (split[1] == "VISIBLE" ? true : false);
+            String[] students = split[2].split(";");
+            this.studentList = new ArrayList<>(Arrays.asList(students));
+            String campInfoCSV = "";
+            for (int i = 3; i < split.length; ++i)
+                campInfoCSV += split[i] + ",";
+            this.campInfo.fromCSVLine(campInfoCSV);
         }
     }
     
