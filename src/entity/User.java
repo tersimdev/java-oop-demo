@@ -67,7 +67,7 @@ public abstract class User implements SerializeToCSV {
     @Override
     public void fromCSVLine(String csvLine) {
         String[] split = csvLine.split(",");
-        if (split.length != 4) {
+        if (split.length != getCSVLineLength()) {
             Log.error("csvLine is invalid");
         } else {
             displayName = split[0].trim();
@@ -80,5 +80,10 @@ public abstract class User implements SerializeToCSV {
                 faculty = Faculty.NULL; // give it null value
             }
         }
+    }
+
+    @Override
+    public int getCSVLineLength() {
+        return 4;
     }
 }

@@ -45,10 +45,14 @@ public abstract class Camp implements SerializeToCSV {
     @Override
     public void fromCSVLine(String csvLine) {
         String[] split = csvLine.split(",");
-        // //TODO
-        if (split.length != 4) {
+        if (split.length != getCSVLineLength()) {
             Log.error("csvLine is invalid");
         } else {
         }
+    }
+    
+    @Override
+    public int getCSVLineLength() {
+        return 3 + campInfo.getCSVLineLength();
     }
 }

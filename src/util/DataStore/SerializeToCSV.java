@@ -12,4 +12,5 @@ package util.DataStore;
 public interface SerializeToCSV {
     public String toCSVLine();
     public void fromCSVLine(String CSVLine);
+    public int getCSVLineLength();
 }

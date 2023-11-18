@@ -97,4 +97,9 @@ public abstract class CampInformation implements SerializeToCSV {
         // } else {
         // }
     }
+
+    @Override
+    public int getCSVLineLength() {
+        return 1; //todo
+    }
 }
