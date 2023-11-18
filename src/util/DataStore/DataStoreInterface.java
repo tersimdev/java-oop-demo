@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import entity.Camp;
+import entity.CampEnquiry;
+import entity.CampSuggestion;
 import entity.Faculty;
 
 /**
@@ -31,10 +33,18 @@ public interface DataStoreInterface {
     //TODO, similar functions for camps etc
 
     // camp data functions
-    public void createCamp(int campId, String campName, String description, String location, int totalSlots, int committeeSlots, 
-        ArrayList<LocalDateTime> dates, LocalDateTime registrationClosingDate, String staffInChargeId, UserGroup userGroup, Faculty organisingFaculty);
-    public void editCamp(int campId);
+    public void addCamp(Camp camp);
     public void deleteCamp(int campId);
-    public Camp queryCamp(int campId);
+    public void updateCamp(int campId);
+    public ArrayList<Camp> getAllCamps();
+
+    // feedback data functions
+    public void addSuggestion(CampSuggestion suggestion);
+    public void updateSuggestion(int suggestionId);
+    public ArrayList<CampSuggestion> getAllSuggestions();
+    public void addEnquiry(CampEnquiry enquiry);
+    public void updateEnquiry(int enquiryId);
+    public ArrayList<CampEnquiry> getAllEnquiries();
+
 
 }

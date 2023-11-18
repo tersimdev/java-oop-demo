@@ -1,17 +1,17 @@
 package util.DataStore;
 
 import java.io.File;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import entity.Camp;
+import entity.CampEnquiry;
+import entity.CampSuggestion;
 import entity.Faculty;
 import entity.Staff;
 import entity.Student;
 import entity.User;
-import entity.UserGroup;
 import util.Log;
 
 /**
@@ -36,10 +36,15 @@ public class DataStoreCSVImpl implements DataStoreInterface {
     private static final String pathStudents = "data/users/students.csv";
     private static final String pathStaff = "data/users/staff.csv";
     private static final String pathCamps = "data/camps/camps.csv";
+    private static final String pathSuggestions = "data/camps/enquiries.csv";
+    private static final String pathEnquiries = "data/camps/suggestions.csv";
 
     // table names
     private static final String tableStudents = "students";
     private static final String tableStaff = "staff";
+    private static final String tableCamps = "camps";
+    private static final String tableSuggestions = "suggestions";
+    private static final String tableEnquiries = "enquiries";
 
     @Override
     public void init() {
@@ -47,6 +52,10 @@ public class DataStoreCSVImpl implements DataStoreInterface {
         tables = new HashMap<>();
         tables.put(tableStudents, new CSVTable(tableStudents, pathStudents));
         tables.put(tableStaff, new CSVTable(tableStaff, pathStaff));
+        // tables.put(tableCamps, new CSVTable(tableCamps, pathCamps));
+        // tables.put(tableSuggestions, new CSVTable(tableSuggestions,
+        // pathSuggestions));
+        // tables.put(tableEnquiries, new CSVTable(tableEnquiries, pathEnquiries));
 
         // load in initial data
         if (!dataExists(pathStudents))
@@ -106,6 +115,58 @@ public class DataStoreCSVImpl implements DataStoreInterface {
             tables.get(tableStaff).updateRow(row, s.toCSVLine());
         }
     }
+
+    @Override
+    public void addCamp(Camp camp) {
+    }
+
+    @Override
+    public void deleteCamp(int campId) {
+    }
+
+    @Override
+    public void updateCamp(int campId) {
+    }
+
+    @Override
+    public ArrayList<Camp> getAllCamps() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAllCamps'");
+    }
+
+    @Override
+    public void addSuggestion(CampSuggestion suggestion) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addSuggestion'");
+    }
+    
+    @Override
+    public void updateSuggestion(int suggestionId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateSuggestion'");
+    } 
+    @Override
+    public ArrayList<CampSuggestion> getAllSuggestions() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAllSuggestions'");
+    }
+
+    @Override
+    public void addEnquiry(CampEnquiry enquiry) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addEnquiry'");
+    }
+
+    @Override
+    public void updateEnquiry(int enquiryId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateEnquiry'");
+    }
+    @Override
+    public ArrayList<CampEnquiry> getAllEnquiries() {
+        throw new UnsupportedOperationException("Unimplemented method 'getAllEnquiries'");
+    }
+
 
     private void initializeStudentList() {
         // heaaders: Name,Email,Faculty
@@ -175,22 +236,4 @@ public class DataStoreCSVImpl implements DataStoreInterface {
 
     }
 
-    // Camp data
-
-    public void createCamp(int campId, String campName, String description, String location, int totalSlots, int committeeSlots, 
-        ArrayList<LocalDateTime> dates, LocalDateTime registrationClosingDate, String staffInChargeId, UserGroup userGroup, Faculty organisingFaculty) {
-
-    }
-
-    public void editCamp(int campId) {
-
-    }
-
-    public void deleteCamp(int campId) {
-
-    }
-
-    public Camp queryCamp(int campId) {
-        
-    }
 }
