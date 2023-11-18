@@ -32,7 +32,13 @@ public abstract class Camp implements SerializeToCSV {
     @Override
     public String toCSVLine() {
         String ret = "";
-        //TOOD
+        ret += campId + ","
+            + campInfo.toCSVLine() + ","
+            + (visibility ? "VISIBLE" : "HIDDEN") + ",";
+        //add student list as one csv cell, separated by semicolon
+        for (String s : studentList) {
+            ret += s + ";";
+        }
         return ret;
     }
 
@@ -40,9 +46,9 @@ public abstract class Camp implements SerializeToCSV {
     public void fromCSVLine(String csvLine) {
         String[] split = csvLine.split(",");
         // //TODO
-        // if (split.length != 4) {
-        //     Log.error("csvLine is invalid");
-        // } else {
-        // }
+        if (split.length != 4) {
+            Log.error("csvLine is invalid");
+        } else {
+        }
     }
 }
