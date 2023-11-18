@@ -18,7 +18,7 @@ public abstract class CampInformation implements SerializeToCSV {
 
     private int campId;
     private String campName;
-    private String descrription;
+    private String description;
     private String location;
     private int totalSlots; //for attendees
     private int committeeSlots;
@@ -29,6 +29,57 @@ public abstract class CampInformation implements SerializeToCSV {
     private String staffInChargeId;
     private UserGroup userGroup;
     private Faculty organisingFaculty; //null if usergroup is wholeNTU;
+
+    public CampInformation (int campId, String campName, String description, String location, int totalSlots, int committeeSlots, 
+        ArrayList<LocalDateTime> dates, LocalDateTime registrationClosingDate, String staffInChargeId, UserGroup userGroup, Faculty organisingFaculty) {
+            this.campId = campId;
+            this.campName = campName;
+            this.description = description;
+            this.location = location;
+            this. totalSlots = totalSlots;
+            this.committeeSlots = committeeSlots;
+            this.dates = dates;
+            this.registrationClosingDate = registrationClosingDate;
+            this.staffInChargeId = staffInChargeId;
+            this.userGroup = userGroup;
+            this.organisingFaculty = organisingFaculty;
+        }
+
+    public String getCampName() {
+        return campName;
+    }
+
+    public ArrayList<LocalDateTime> getDates() {
+        return dates;
+    }
+
+    public LocalDateTime getRegistrationClosingDate() {
+        return registrationClosingDate;
+    }
+
+    public UserGroup getUserGroup() {
+        return userGroup;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public int getTotalSlots() {
+        return totalSlots;
+    }
+
+    public int getCommitteeSlots() {
+        return committeeSlots;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getStaffInChargeId() {
+        return staffInChargeId;
+    }
 
     @Override
     public String toCSVLine() {

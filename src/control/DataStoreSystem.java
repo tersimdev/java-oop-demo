@@ -1,6 +1,13 @@
 package control;
 
 import entity.User;
+import entity.UserGroup;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+import entity.Camp;
+import entity.Faculty;
 import util.DataStore.DataStoreInterface;
 import util.DataStore.DataStoreCSVImpl;
 
@@ -52,4 +59,21 @@ public class DataStoreSystem {
 
 
     //todo add functions to update camps, enquiries, feedback
+
+    public void createCamp(int campId, String campName, String description, String location, int totalSlots, int committeeSlots, 
+        ArrayList<LocalDateTime> dates, LocalDateTime registrationClosingDate, String staffInChargeId, UserGroup userGroup, Faculty organisingFaculty) {
+            dataStore.createCamp(campId, campName, description, location, totalSlots, committeeSlots, dates, registrationClosingDate, staffInChargeId, userGroup, organisingFaculty);
+        }
+
+    public void editCamp(int campId) {
+        dataStore.editCamp(campId);
+    }
+
+    public void deleteCamp(int campId) {
+        
+    }
+
+    public Camp queryCamp(int campId) {
+        return dataStore.queryCamp(campId);
+    }
 }

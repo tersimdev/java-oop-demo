@@ -1,14 +1,17 @@
 package util.DataStore;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import entity.Camp;
 import entity.Faculty;
 import entity.Staff;
 import entity.Student;
 import entity.User;
+import entity.UserGroup;
 import util.Log;
 
 /**
@@ -20,8 +23,8 @@ import util.Log;
  * </p>
  * 
  * @author Sim Yi Wan Terence
- * @version 1.0
- * @since 1-11-2023
+ * @version 2.0
+ * @since 18-11-2023
  */
 public class DataStoreCSVImpl implements DataStoreInterface {
 
@@ -32,6 +35,7 @@ public class DataStoreCSVImpl implements DataStoreInterface {
     private static final String initStaff = "data/sample/staff_list.csv";
     private static final String pathStudents = "data/users/students.csv";
     private static final String pathStaff = "data/users/staff.csv";
+    private static final String pathCamps = "data/camps/camps.csv";
 
     // table names
     private static final String tableStudents = "students";
@@ -169,5 +173,24 @@ public class DataStoreCSVImpl implements DataStoreInterface {
         // then write to proper data store
         tables.get(tableStaff).writeToFile(staffList);
 
+    }
+
+    // Camp data
+
+    public void createCamp(int campId, String campName, String description, String location, int totalSlots, int committeeSlots, 
+        ArrayList<LocalDateTime> dates, LocalDateTime registrationClosingDate, String staffInChargeId, UserGroup userGroup, Faculty organisingFaculty) {
+
+    }
+
+    public void editCamp(int campId) {
+
+    }
+
+    public void deleteCamp(int campId) {
+
+    }
+
+    public Camp queryCamp(int campId) {
+        
     }
 }
