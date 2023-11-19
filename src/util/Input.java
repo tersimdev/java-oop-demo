@@ -103,6 +103,6 @@ public class Input {
         } catch (DateTimeParseException e) {
             Log.debug("Invalid date format. Please enter the date in the format DD/MM/YYYY.");
             return null; 
+        }
     }
-}
 };

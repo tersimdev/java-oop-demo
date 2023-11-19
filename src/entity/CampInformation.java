@@ -44,16 +44,33 @@ public class CampInformation implements SerializeToCSV {
             this.organisingFaculty = organisingFaculty;
         }
 
+    // getters and setters
+
     public String getCampName() {
         return campName;
+    }
+
+    public void setCampName(String campName) {
+        this.campName = campName;
+        return;
     }
 
     public ArrayList<LocalDateTime> getDates() {
         return dates;
     }
 
+    public void setDates(ArrayList<LocalDateTime> dates) {
+        this.dates = dates;
+        return;
+    }
+
     public LocalDateTime getRegistrationClosingDate() {
         return registrationClosingDate;
+    }
+
+    public void setRegistrationClosingDate(LocalDateTime registrationClosingDate) {
+        this.registrationClosingDate = registrationClosingDate;
+        return;
     }
 
     public UserGroup getUserGroup() {
@@ -64,21 +81,43 @@ public class CampInformation implements SerializeToCSV {
         return location;
     }
 
+    public void setLocation(String location) {
+        this.location = location;
+        return;
+    }
+
     public int getTotalSlots() {
         return totalSlots;
+    }
+
+    public void setTotalSlots(int totalSlots) {
+        this.totalSlots = totalSlots;
+        return;
     }
 
     public int getCommitteeSlots() {
         return committeeSlots;
     }
 
+    public void setCommitteeSlots(int committeeSlots) {
+        this.committeeSlots = committeeSlots;
+        return;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+        return;
     }
 
     public String getStaffInChargeId() {
         return staffInChargeId;
     }
+
+    // data store functionality
 
     @Override
     public String toCSVLine() {

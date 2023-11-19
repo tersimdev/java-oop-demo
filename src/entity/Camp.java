@@ -72,6 +72,11 @@ public class Camp implements SerializeToCSV {
         return visibility;
     }
 
+    public boolean toggleVisibility() {
+        visibility = !visibility;
+        return visibility;
+    }
+
     @Override
     public String toCSVLine() {
         String ret = "";

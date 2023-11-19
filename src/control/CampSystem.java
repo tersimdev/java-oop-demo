@@ -2,6 +2,7 @@ package control;
 
 import entity.User;
 import entity.UserGroup;
+import util.Input;
 import util.Log;
 import entity.Student;
 
@@ -42,12 +43,64 @@ public class CampSystem {
         camps.add(new Camp(campId, campInfo, studentList));
     }
 
-    public void editCamp(String campName) {
-        
-    }
-
     public void deleteCamp(String campName) {
 
+    }
+
+    public void editCamp (String campName, int updateChoice) {
+        Camp camp = getCampByName(campName);
+        Input input = Input.getInstance();
+        
+        switch (updateChoice) {
+            case 1:
+                String newCampName = input.getLine("Please enter the new camp name: ");
+                camp.getCampInformation().setCampName(newCampName);
+                break;
+            case 2:
+                String description = input.getLine("Please enter the new description: ");
+                camp.getCampInformation().setDescription(description);
+                break;
+
+            case 3:
+                String location = input.getLine("Please enter the new location: ");
+                camp.getCampInformation().setLocation(location);
+                break;
+
+            case 4:
+                int totalSlots = input.getInt("Please enter the new total number of slots: ");
+                camp.getCampInformation().setTotalSlots(totalSlots);
+                break;
+
+            case 5:
+                int committeeSlots = input.getInt("Please enter the new number of committee slots: ");
+                camp.getCampInformation().setCommitteeSlots(committeeSlots);
+                break;
+
+            case 6:
+                int duration = input.getInt("Please enter the number of days the camp will be held: ");
+                LocalDateTime firstDate = input.getDate("Please enter the date of the first day of the camp: ");
+                ArrayList<LocalDateTime> dates = new ArrayList<LocalDateTime>();
+                for (int i = 0; i < duration; i++) {
+                    dates.add(firstDate);
+                    firstDate = firstDate.plusDays(1);
+                }
+                camp.getCampInformation().setDates(dates);
+                break;
+
+            case 7:
+                LocalDateTime registrationClosingDate = input.getDate("Please enter the new closing date for registration: ");
+                camp.getCampInformation().setRegistrationClosingDate(registrationClosingDate);
+                break;
+
+            case 8:
+                boolean visibility = camp.toggleVisibility();
+                if (visibility == true) Log.println("The camp is now visible.");
+                else Log.println("The camp is now not visibile.");
+                break;
+
+            default:
+                break;
+        }
     }
 
     public void viewAllCamps() {
@@ -80,6 +133,8 @@ public class CampSystem {
         }
     }
 
+
+    // utility functions
     public Camp getCampByName(String campName) {
         for (Camp camp : camps) {
             if (camp.getCampInformation().getCampName().equalsIgnoreCase(campName)) {
@@ -87,5 +142,9 @@ public class CampSystem {
             }
         }
         return null;
+    }
+
+    public int getTotalNumberOfCamps() {
+        return camps.size();
     }
 }
