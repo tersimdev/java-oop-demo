@@ -67,7 +67,7 @@ public class CampCommitteeMember implements SerializeToCSV {
                     + points + ","
                     + studentId;
         } else {
-            ret += "NA,,,";
+            ret += "NA,-1,0,-1"; // give some defaults
         }
         return ret;
     }
@@ -76,7 +76,8 @@ public class CampCommitteeMember implements SerializeToCSV {
     public void fromCSVLine(String csvLine) {
         String[] split = csvLine.split(",");
         if (split.length != getCSVLineLength()) {
-            Log.error("csvLine is invalid");
+            Log.error("camp committee csvLine is invalid, expected " + getCSVLineLength() + " but got " + split.length);
+            Log.error(csvLine);
         } else {
             isMember = split[0] == "MEMBER";
             if (isMember) {

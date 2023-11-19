@@ -61,6 +61,7 @@ public class StartMenu extends Menu {
                     return false;
                 } else {
                     // log out user
+                    Log.println("Please login with new password.");
                     loginSystem.logout();
                     ui.setStateDirty(true);
                     // return false;

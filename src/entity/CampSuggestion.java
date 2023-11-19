@@ -84,12 +84,13 @@ public class CampSuggestion implements SerializeToCSV {
             ret += ",0";
         return ret;
     }
-    
+
     @Override
     public void fromCSVLine(String csvLine) {
         String[] split = csvLine.split(",");
         if (split.length != getCSVLineLength()) {
-            Log.error("csvLine is invalid");
+            Log.error("suggestion csvLine is invalid, expected " + getCSVLineLength() + " but got " + split.length);
+            Log.error(csvLine);
         } else {
             suggestionId = Integer.parseInt(split[0]);
             ownerId = split[1];

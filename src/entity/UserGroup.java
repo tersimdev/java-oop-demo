@@ -54,7 +54,8 @@ public class UserGroup implements SerializeToCSV {
     public void fromCSVLine(String csvLine) {
         String[] split = csvLine.split(",");
         if (split.length != getCSVLineLength()) {
-            Log.error("csvLine is invalid");
+            Log.error("usergroup csvLine is invalid, expected " + getCSVLineLength()  + " but got " + split.length);
+            Log.error(csvLine);
         } else {
             wholeNTU = split[0].trim().equals("NTU");
             try {

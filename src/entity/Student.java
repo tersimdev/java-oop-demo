@@ -18,6 +18,7 @@ public class Student extends User {
 
     public Student() {
         super();
+        campCommitteeMember = new CampCommitteeMember(this);
     }
 
     public Student(String displayName, String userID, Faculty faculty) {
@@ -36,7 +37,7 @@ public class Student extends User {
     @Override
     public String toCSVLine() {
         String ret = "";
-        ret = super.toCSVLine() + campCommitteeMember.toCSVLine();
+        ret = super.toCSVLine() + "," + campCommitteeMember.toCSVLine();
         return ret;
     }
 
@@ -44,11 +45,11 @@ public class Student extends User {
     public void fromCSVLine(String csvLine) {
         String[] split = csvLine.split(",");
         if (split.length != getCSVLineLength()) {
-            Log.error("csvLine is invalid");
+            Log.error("student csvLine is invalid, expected " + getCSVLineLength()  + " but got " + split.length);
+            Log.error(csvLine);
         } else {
-            int userCSVLen = super.getCSVLineLength();
-            String userCSV = String.join(",", Arrays.copyOfRange(split, 0, userCSVLen - 1));
-            String commCSV = String.join(",", Arrays.copyOfRange(split, userCSVLen, split.length - 1));
+            String userCSV = String.join(",", split); // pass in whole array because this is student, expects student len 
+            String commCSV = String.join(",", Arrays.copyOfRange(split, super.getCSVLineLength(), split.length));
             super.fromCSVLine(userCSV);
             campCommitteeMember = new CampCommitteeMember(this);
             campCommitteeMember.fromCSVLine(commCSV);

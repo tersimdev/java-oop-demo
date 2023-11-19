@@ -81,7 +81,8 @@ public class CampEnquiry implements SerializeToCSV {
     public void fromCSVLine(String csvLine) {
         String[] split = csvLine.split(",");
         if (split.length != getCSVLineLength()) {
-            Log.error("csvLine is invalid");
+            Log.error("enquiry csvLine is invalid, expected " + getCSVLineLength() + " but got " + split.length);
+            Log.error(csvLine);
         } else {
             enquiryId = Integer.parseInt(split[0]);
             ownerId = split[1];
