@@ -96,14 +96,20 @@ public class Input {
 
     public LocalDate getDate(String msg) {
         Log.print(msg);
-        String dateStr = scanner.next();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");  
-        try {
-            LocalDate date = LocalDate.parse(dateStr, formatter);
-            return date;
-        } catch (DateTimeParseException e) {
-            Log.debug("Invalid date format. Please enter the date in the format DD/MM/YYYY.");
-            return null; 
+        DateStringHelper helper = DateStringHelper.getInstance();
+        LocalDate ret = null;
+         while (ret == null) {
+            try {
+                String dateStr = scanner.next();
+                ret = helper.StrToDateConverter(dateStr);
+                scanner.nextLine(); //consume \n
+            } catch (DateTimeParseException e) {
+                Log.debug("Invalid date format. Please enter the date in the format DD/MM/YYYY.");
+                Log.print(INVALID_INPUT_MSG);
+                scanner.nextLine(); //consume failed input
+                //e.printStackTrace();
+            }
         }
+        return ret;
     }
 };

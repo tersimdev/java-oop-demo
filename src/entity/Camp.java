@@ -24,17 +24,21 @@ public class Camp implements SerializeToCSV {
     private int campId;
     private CampInformation campInformation;
     private ArrayList<String> studentList; //store student ids
+    private ArrayList<Student> attendees; //store student objects
+    private ArrayList<CampCommitteeMember> committeeList; //store committee member objects
     private boolean visibility; //staff can set this to false to hide, if no one registered and stuff yet
 
     public Camp() {
-        //todo default vals
+        //default vals
+        this.attendees = new ArrayList<Student>();
+        this.committeeList = new ArrayList<CampCommitteeMember>();
+        this.studentList = new ArrayList<String>();
+        this.visibility = true;
     }
 
-    public Camp(int campId, CampInformation campInformation, ArrayList<String> studentList) {
+    public Camp(int campId, CampInformation campInformation) {
         this.campId = campId;
         this.campInformation = campInformation;
-        this.studentList = new ArrayList<>();
-        this.visibility = true;
     }
 
     public int getCampId() {
@@ -46,6 +50,18 @@ public class Camp implements SerializeToCSV {
         return;
     }
 
+    public String getCampName(){
+        return campInformation.getCampName();
+    }
+
+    public ArrayList<Student> getAttendees(){
+        return attendees;
+    }
+
+    public ArrayList<CampCommitteeMember> getCampCommitteeMembers() {
+        return committeeList;
+    }
+
     public ArrayList<String> getStudentList() {
         return studentList;
     }
@@ -54,22 +70,51 @@ public class Camp implements SerializeToCSV {
         return campInformation;
     }
 
-    public void registerStudent(String student) {
-        studentList.add(student);
+    public void registerStudent(Student student) {
+        if (!checkCampFull() && !checkRegistrationClosed()) {
+            studentList.add(student.getUserID());
+            attendees.add(student);
+            return;
+        }
+        else if (checkCampFull()) {
+            Log.println("The camp is full");
+            return;
+        }
+        else if (checkRegistrationClosed()) {
+            Log.println("Registration for this camp has closed");
+            return;
+        }
+    }
+
+    public void withdrawStudent(Student student) {
+        studentList.remove(student.getUserID());
+        attendees.remove(student);
+    }
+
+    public void registerCampCommitteeMember(CampCommitteeMember campCommitteeMember) {
+        if (committeeList.size() < campInformation.getCommitteeSlots() && !checkRegistrationClosed()) {
+            committeeList.add(campCommitteeMember);
+        }
+        else if (committeeList.size() < campInformation.getCommitteeSlots()) {
+            Log.println("There are no more camp committee slots for this camp");
+        }
+        else if (checkRegistrationClosed()) {
+            Log.println("Registration for this camp has closed");
+        }
     }
 
     // private void checkForDateClash(Student student) {
     //     ArrayList<LocalDateTime> dates = campInfo.getDates();
     // }
 
-    private boolean checkRegistrationClosed() {
+    public boolean checkRegistrationClosed() {
         LocalDate today = LocalDate.now();
         LocalDate deadline = campInformation.getRegistrationClosingDate();
         if (today.compareTo(deadline) >= 0) return true; // registration is closed
         return false;
     }
 
-    private boolean checkCampFull() {
+    public boolean checkCampFull() {
         if (studentList.size() >= campInformation.getTotalSlots()) return true; //camp is full
         return false;
     }
@@ -118,11 +163,5 @@ public class Camp implements SerializeToCSV {
         return 3 + campInformation.getCSVLineLength();
     }
 
-    public String getCampName(){
-        return campInformation.getCampName();
-    }
-
-    public List<String> getAttendees(){
-        return studentList;
-    }
+    
 }

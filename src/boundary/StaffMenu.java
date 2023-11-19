@@ -42,6 +42,7 @@ public class StaffMenu extends Menu {
 
     @Override
     public boolean show() {
+        int selCampId;
         String selCampName;
 
         // assume safe, check handled by state machine
@@ -88,7 +89,6 @@ public class StaffMenu extends Menu {
                         firstDate = firstDate.plusDays(1);
                     }
                     
-                    ArrayList<String> studentList = new ArrayList<>();
                     String staffInChargeId = staff.getUserID();
                     Faculty organisingFaculty = staff.getFaculty();
                     UserGroup userGroup = new UserGroup().setFaculty(organisingFaculty);
@@ -97,14 +97,14 @@ public class StaffMenu extends Menu {
                     int campId = campSystem.generateNewCampId();
                     CampInformation campInformation = new CampInformation(campName, description, location, totalSlots, committeeSlots, dates, registrationClosingDate, staffInChargeId, userGroup, organisingFaculty);
 
-                    campSystem.createCamp(campId, campInformation, studentList);
+                    campSystem.createCamp(campId, campInformation);
 
                     break;
 
                 case 2:
                     // Edit Camp
-                    selCampName = Input.getInstance()
-                            .getLine("Please enter the name of the camp you would like to edit: ");
+                    selCampId = Input.getInstance()
+                            .getInt("Please enter the ID of the camp you would like to edit: ");
 
                     Log.println("===What would you like to edit?===");
                     Log.println("(1) Camp name");
@@ -124,15 +124,15 @@ public class StaffMenu extends Menu {
                             choice = -1;
                             break;
                         }
-                        campSystem.editCamp(selCampName, EditChoice);
+                        campSystem.editCamp(selCampId, EditChoice);
                     }
                     break;
 
                 case 3:
                     // Delete Camp
-                    selCampName = Input.getInstance()
-                            .getLine("Please enter the name of the camp you would like to delete: ");
-                    campSystem.deleteCamp(selCampName);
+                    selCampId = Input.getInstance()
+                            .getInt("Please enter the ID of the camp you would like to delete: ");
+                    campSystem.deleteCamp(selCampId);
                     break;
 
                 case 4:
@@ -142,16 +142,16 @@ public class StaffMenu extends Menu {
 
                 case 5:
                     // View Camp Student List
-                    selCampName = Input.getInstance()
-                            .getLine("Please enter the name of the camp you would like to inspect: ");
-                    campSystem.viewCampStudentList(selCampName);
+                    selCampId = Input.getInstance()
+                            .getInt("Please enter the ID of the camp you would like to inspect: ");
+                    campSystem.viewCampStudentList(selCampId);
                     break;
 
                 case 6:
                     // View Camp Committee List
-                    selCampName = Input.getInstance()
-                            .getLine("Please enter the name of the camp you would like to inspect: ");
-                    campSystem.viewCampCommitteeList(selCampName);
+                    selCampId = Input.getInstance()
+                            .getInt("Please enter the ID of the camp you would like to inspect: ");
+                    campSystem.viewCampCommitteeList(selCampId);
                     break;
 
                 case 7:

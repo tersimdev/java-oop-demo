@@ -40,6 +40,7 @@ public class StudentMenu extends Menu {
     @Override
     public boolean show() {
         String selCampName;
+        Input input = Input.getInstance();
 
         // assume safe, check handled by state machine
         Student student = (Student) ui.getUser();
@@ -76,6 +77,23 @@ public class StudentMenu extends Menu {
                 ui.setStateDirty(true);
             }
             switch (choice) {
+                case 1:
+                    campSystem.viewAvailableCamps(student);
+                    break;
+
+                case 2:
+                    int campId = input.getInt("Please enter the ID of the camp you want to register for: ");
+                    campSystem.registerAsAttendee(student, campId);
+                    break;
+
+                case 3:
+
+                    break;
+
+                case 4:
+                    campSystem.viewRegisteredCamps(student);
+                    break;
+
                 case 5:
                     //Submit Enquiry
                     selCampName = Input.getInstance().getLine("Please enter the camp name to submit enquiry: ");

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.Camp;
+import entity.CampCommitteeMember;
 import entity.CampInformation;
 import entity.Faculty;
 
@@ -34,19 +35,19 @@ public class CampSystem {
     }
 
     // Staff functions
-    public void createCamp(int campId, CampInformation campInfo, ArrayList<String> studentList) {
-        camps.add(0, new Camp(campId, campInfo, studentList));
+    public void createCamp(int campId, CampInformation campInfo) {
+        camps.add(0, new Camp(campId, campInfo));
     }
 
-    public void deleteCamp(String campName) {
-        Camp camp = getCampByName(campName);
-        deletedIdList.add(0, camp.getCampId());
+    public void deleteCamp(int campId) {
+        Camp camp = getCampById(campId);
+        deletedIdList.add(0, campId);
         camps.remove(camp);
         return;
     }
 
-    public void editCamp (String campName, int updateChoice) {
-        Camp camp = getCampByName(campName);
+    public void editCamp (int campId, int updateChoice) {
+        Camp camp = getCampById(campId);
         Input input = Input.getInstance();
         
         switch (updateChoice) {
@@ -102,37 +103,80 @@ public class CampSystem {
     }
 
     public void viewAllCamps() {
-        Log.println("===List of all the camps===");
+        Log.println("===List of all camps===");
         for (Camp camp : camps) {
             String campName = camp.getCampInformation().getCampName();
-            Log.println(campName);
+            int campId = camp.getCampId();
+            Log.println("ID, Camp Name, Camp Location");
+            Log.println(campId + ", " + campName + ", " + camp.getCampInformation().getLocation());
+            Log.println("=======================");
+            Log.println(camp.getCampInformation().getDescription());
+            Log.println("Camp dates: " + camp.getCampInformation().getDates());
         }
     }
 
-    public void viewCampStudentList(String campName) {
+    public void viewCampStudentList(int campId) {
         Log.println("===List of all the students attending this camp===");
-        Camp camp = getCampByName(campName);
-        for (int i = 0; i < camp.getStudentList().size(); i++) {
-            Log.println(camp.getStudentList().get(i));
+        Camp camp = getCampById(campId);
+        for (Student student : camp.getAttendees()) {
+            Log.println(student.getDisplayName());
         }
     }
 
-    public void viewCampCommitteeList(String campName) {
+    public void viewCampCommitteeList(int campId) {
         Log.println("===List of all the committee members attending this camp===");
+        Camp camp = getCampById(campId);
+        for (CampCommitteeMember campCommitteeMember : camp.getCampCommitteeMembers()) {
+            Log.println(campCommitteeMember.getStudentId());
+        }
         
-        Camp camp = getCampByName(campName);
-        for (int i = 0; i < camp.getStudentList().size(); i++) {
-            // query students, if student is a committee member then print
-            String studentId = camp.getStudentList().get(i);
-            Student student = (Student) DataStoreSystem.getInstance().queryUser(studentId);
-            if (student.getCampCommitteeMember() != null) {
-                Log.println(studentId);
+        
+    }
+
+    // Student functions
+    public void viewAvailableCamps(Student student) {
+        Log.println("===List of all available camps===");
+        Log.println("ID, Camp Name");
+        for (Camp camp : camps) {
+            if (!camp.checkCampFull() && !camp.checkRegistrationClosed()) {
+                Log.println(camp.getCampId() + ", " + camp.getCampName());
             }
         }
     }
 
-    // Student functions
+    public void registerAsAttendee(Student student, int campId) {
+        Camp camp = getCampById(campId);
+        camp.registerStudent(student);
+        if (student.getCampCommitteeMember() == null) { // student is not a committee member
+            Log.println(student.getUserID() + " has been registered for camp " + campId);
+        }
+        else {
+            Log.println(student.getUserID() + " has been registered for camp " + campId + " as a camp committee member");
 
+        }
+    }
+
+    public void registerAsCommittee(CampCommitteeMember campCommitteeMember, int campId) {
+        Camp camp = getCampById(campId);
+        camp.registerCampCommitteeMember(campCommitteeMember);
+    }
+
+    public void viewRegisteredCamps(Student student) {
+        Log.println("===List of all the camps you are registered for===");
+        for (Camp camp : camps) {
+            for (Student studentPointer : camp.getAttendees()) {
+                if (student == studentPointer) {
+                    Log.println(camp.getCampId() + ", " + camp.getCampName());
+                }
+            }
+        }
+    }
+
+    public void withdrawFromCamp(Student student, int campId) {
+        Camp camp = getCampById(campId);
+        camp.withdrawStudent(student);
+        Log.println(student.getUserID() + " has been withdrawn from camp " + campId);
+    } 
 
     // utility functions
     public Camp getCampByName(String campName) {
@@ -141,6 +185,15 @@ public class CampSystem {
                 return camp;
             }
         }
+        Log.error("Camp not found");
+        return null;
+    }
+
+    public Camp getCampById(int campId) {
+        for (Camp camp : camps) {
+            if (camp.getCampId() == campId) return camp;
+        }
+        Log.error("Camp not found");
         return null;
     }
 
