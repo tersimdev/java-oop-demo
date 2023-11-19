@@ -47,28 +47,29 @@ public class StudentMenu extends Menu {
         Log.println("(3) Register as Committee");
         Log.println("(4) View Registered Camps");
         Log.println("(5) Submit Enquiries");
-        Log.println("(6) View Enquiry Replies");
-        Log.println("(7) Withdraw from Camp");
+        Log.println("(6) View/Edit/Delete Enquiries");
+        Log.println("(7) View Enquiry Replies");
+        Log.println("(8) Withdraw from Camp");
         if (!isCommittee)
-            Log.println("(8) Back to Start");
+            Log.println("(9) Back to Start");
         else {
             Log.println("==Committee Member Menu==");
-            Log.println("(9) Submit Suggestions");
-            Log.println("(10) View Enquiries");
-            Log.println("(11) Reply Enquiries");
-            Log.println("(12) View Suggestions");
-            Log.println("(13) Edit Suggestions");
-            Log.println("(14) Delete Suggestions");
-            Log.println("(15) Generate Camp Report");
-            Log.println("(16) Generate Enquiry Report");
-            Log.println("(17) Back to Start");
+            Log.println("(10) Submit Suggestions");
+            Log.println("(11) View Enquiries");
+            Log.println("(12) Reply Enquiries");
+            Log.println("(13) View Suggestions");
+            Log.println("(14) Edit Suggestions");
+            Log.println("(15) Delete Suggestions");
+            Log.println("(16) Generate Camp Report");
+            Log.println("(17) Generate Enquiry Report");
+            Log.println("(18) Back to Start");
         }
         int choice = -1;
         while (choice < 0) {
             if (isCommittee)
-                choice = getChoice(1, 16, 17);
+                choice = getChoice(1, 17, 18);
             else
-                choice = getChoice(1, 7, 8);
+                choice = getChoice(1, 8, 9);
             if (choice == 0) {
                 ui.setStateDirty(true);
             }
@@ -76,18 +77,18 @@ public class StudentMenu extends Menu {
                 case 5:
                     selCampName = Input.getInstance().getLine("Please enter the camp name to submit enquiry: ");
                     String enquiryStr = Input.getInstance().getLine("Please enter enquiry: ");
-                    CampEnquiry enquiry = new CampEnquiry(student,enquiryStr);
+                    CampEnquiry enquiry = new CampEnquiry(student.getUserID(),enquiryStr);
                     feedbackSystem.addCampEnquiry(selCampName, enquiry);
-                    Log.println("Suggestion submitted.");
+                    Log.println("Enquiry submitted.");
                     break;
-                case 9:
+                case 10:
                     selCampName = Input.getInstance().getLine("Please enter the camp name to submit suggestion: ");
                     String suggestionStr = Input.getInstance().getLine("Please enter suggestion: ");
-                    CampSuggestion suggestion = new CampSuggestion(student.getCampCommitteeMember(),suggestionStr);
+                    CampSuggestion suggestion = new CampSuggestion(student.getUserID(),suggestionStr);
                     feedbackSystem.addCampSuggestion(selCampName, suggestion);
                     Log.println("Suggestion submitted.");
                     break;
-                case 15:
+                case 16:
                     selCampName = Input.getInstance().getLine("Please enter the camp name for report generation: ");
                 
                     Camp camp = campSystem.getCampByName(selCampName);
