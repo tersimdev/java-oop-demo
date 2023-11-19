@@ -45,10 +45,8 @@ public class CampSystem {
         return;
     }
 
-    public void editCamp (String campName, int updateChoice) {
+    public void editCamp (String campName, int updateChoice, Input input) {
         Camp camp = getCampByName(campName);
-        Input input = Input.getInstance();
-        
         switch (updateChoice) {
             case 1:
                 String newCampName = input.getLine("Please enter the new camp name: ");

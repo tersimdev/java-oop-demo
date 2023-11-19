@@ -70,17 +70,17 @@ public class StaffMenu extends Menu {
                 case 1:
                     // Create Camp
                     // get camp info from user
-                    String campName = Input.getInstance().getLine("Please enter the camp name: ");
-                    String description = Input.getInstance().getLine("Please enter the camp's description: ");
-                    String location = Input.getInstance().getLine("Please enter the camp's location: ");
-                    int totalSlots = Input.getInstance().getInt("Please enter the camp's total number of slots: ");
-                    int committeeSlots = Input.getInstance()
+                    String campName = ui.getInput().getLine("Please enter the camp name: ");
+                    String description = ui.getInput().getLine("Please enter the camp's description: ");
+                    String location = ui.getInput().getLine("Please enter the camp's location: ");
+                    int totalSlots = ui.getInput().getInt("Please enter the camp's total number of slots: ");
+                    int committeeSlots = ui.getInput()
                             .getInt("Please enter the camp's number of committee slots: ");
-                    int duration = Input.getInstance()
+                    int duration = ui.getInput()
                             .getInt("Please enter the number of days the camp will be held: ");
-                    LocalDate firstDate = Input.getInstance()
+                    LocalDate firstDate = ui.getInput()
                             .getDate("Please enter the date of day number 1 (DD/MM/YYYY): ");
-                    LocalDate registrationClosingDate = Input.getInstance()
+                    LocalDate registrationClosingDate = ui.getInput()
                             .getDate("Please enter the closing date for registration (DD/MM/YYYY): ");
                     ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
                     for (int i = 0; i < duration; i++) {
@@ -103,7 +103,7 @@ public class StaffMenu extends Menu {
 
                 case 2:
                     // Edit Camp
-                    selCampName = Input.getInstance()
+                    selCampName = ui.getInput()
                             .getLine("Please enter the name of the camp you would like to edit: ");
 
                     Log.println("===What would you like to edit?===");
@@ -117,20 +117,20 @@ public class StaffMenu extends Menu {
                     Log.println("(8) Toggle camp visibility");
                     Log.println("(9) Back to Staff Menu");
                     
-                    int EditChoice = -1;
-                    while (EditChoice < 0) {
-                        EditChoice = getChoice(1, 8, 9);
-                        if (EditChoice == 0) {
+                    int editChoice = -1;
+                    while (editChoice < 0) {
+                        editChoice = getChoice(1, 8, 9);
+                        if (editChoice == 0) {
                             choice = -1;
                             break;
                         }
-                        campSystem.editCamp(selCampName, EditChoice);
+                        campSystem.editCamp(selCampName, editChoice, ui.getInput());
                     }
                     break;
 
                 case 3:
                     // Delete Camp
-                    selCampName = Input.getInstance()
+                    selCampName = ui.getInput()
                             .getLine("Please enter the name of the camp you would like to delete: ");
                     campSystem.deleteCamp(selCampName);
                     break;
@@ -142,21 +142,21 @@ public class StaffMenu extends Menu {
 
                 case 5:
                     // View Camp Student List
-                    selCampName = Input.getInstance()
+                    selCampName = ui.getInput()
                             .getLine("Please enter the name of the camp you would like to inspect: ");
                     campSystem.viewCampStudentList(selCampName);
                     break;
 
                 case 6:
                     // View Camp Committee List
-                    selCampName = Input.getInstance()
+                    selCampName = ui.getInput()
                             .getLine("Please enter the name of the camp you would like to inspect: ");
                     campSystem.viewCampCommitteeList(selCampName);
                     break;
 
                 case 7:
                     // View Camp Suggestions
-                    selCampName = Input.getInstance()
+                    selCampName = ui.getInput()
                             .getLine("Please enter the name of the camp you would like to view suggestions: ");
                     ArrayList<CampSuggestion> suggestionList = new ArrayList<>();
                     suggestionList = feedbackSystem.getCampSuggestions(selCampName);
@@ -180,28 +180,28 @@ public class StaffMenu extends Menu {
 
                 case 8:
                     // Accept/Reject Suggestion
-                    selCampName = Input.getInstance()
+                    selCampName = ui.getInput()
                             .getLine("Please enter the name of the camp you would like to inspect: ");
 
                     break;
 
                 case 9:
                     // Generate Camp Report
-                    selCampName = Input.getInstance()
+                    selCampName = ui.getInput()
                             .getLine("Please enter the name of the camp you would like to inspect: ");
 
                     break;
 
                 case 10:
                     // Generate Performance Report
-                    selCampName = Input.getInstance()
+                    selCampName = ui.getInput()
                             .getLine("Please enter the name of the camp you would like to inspect: ");
 
                     break;
 
                 case 11:
                     // Generate Enquiry Report
-                    selCampName = Input.getInstance()
+                    selCampName = ui.getInput()
                             .getLine("Please enter the name of the camp you would like to inspect: ");
 
                     break;

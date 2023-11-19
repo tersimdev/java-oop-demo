@@ -38,6 +38,9 @@ public class ConsoleUI {
     private STATE state;
     private boolean stateDirty;// tracks if state needs to be refreshed
 
+    //input class to handle input using Scanner
+    private Input input;
+
     // ui depends on loginsystemm to know state
     private LoginSystem loginSystem;
 
@@ -48,6 +51,7 @@ public class ConsoleUI {
         menuMap = null;
         state = STATE.LOGIN_MENU;
         stateDirty = false;
+        input = null;
     }
 
     public void setStateDirty(boolean dirty) {
@@ -58,6 +62,10 @@ public class ConsoleUI {
         return loginSystem.getCurrentUser();
     }
 
+    public Input getInput() {
+        return input;
+    }
+
     /**
      * Initializes all menus, creates state map.
      * Uses dependency injection to pass systems to menus
@@ -65,6 +73,8 @@ public class ConsoleUI {
     public void init(LoginSystem loginSystem, CampSystem campSystem, FeedbackSystem feedbackSystem,
             ReportSystem reportSystem) {
         this.loginSystem = loginSystem;
+        
+        input = new Input();
         
         // init menus with dependency injection
         menuMap = new HashMap<>();
@@ -95,7 +105,7 @@ public class ConsoleUI {
     }
 
     public void cleanup() {
-        Input.getInstance().close();
+        input.close();
         DataStoreSystem.getInstance().cleanup();
     }
 

@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
 import boundary.ConsoleUI;
 import control.CampSystem;
 import control.DataStoreSystem;
@@ -29,7 +26,6 @@ public class CAMSApp {
 
     public void init() {
         //init singletons
-        Input.getInstance();
         DataStoreSystem.getInstance(); 
         
         //create systems
