@@ -27,8 +27,8 @@ public class CampSuggestion implements SerializeToCSV {
         approvalStatus = 0;
     }
 
-    public CampSuggestion(CampCommitteeMember owner, String suggestion) {
-        this.ownerId = owner.getStudentId();
+    public CampSuggestion(String commMemberID, String suggestion) {
+        this.ownerId = commMemberID;
         this.suggestion = suggestion;
         approvalStatus = 0;
     }
