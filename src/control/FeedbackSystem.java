@@ -44,12 +44,23 @@ public class FeedbackSystem {
         suggestions.add(suggestion);
     }
 
-    public boolean removeCampEnquiryByID(String campName, int enquiryId) {
+    public boolean removeCampEnquiryById(String campName, int enquiryId) {
         ArrayList<CampEnquiry> enquiries = enquiriesMap.get(campName);
         if (enquiries != null && enquiryId >= 0 && enquiryId < enquiries.size()) {
             enquiries.remove(enquiryId);
             // Update enquiry IDs after removal to maintain continuous sequence
             updateEnquiryIds(enquiries);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeCampSuggestionById(String campName, int suggestionId) {
+        ArrayList<CampSuggestion> suggestions = suggestionsMap.get(campName);
+        if (suggestions != null && suggestionId >= 0 && suggestionId < suggestions.size()) {
+            suggestions.remove(suggestionId);
+            // Update enquiry IDs after removal to maintain continuous sequence
+            updateSuggestionIds(suggestions);
             return true;
         }
         return false;
@@ -66,6 +77,12 @@ public class FeedbackSystem {
     private void updateEnquiryIds(ArrayList<CampEnquiry> enquiries) {
         for (int i = 0; i < enquiries.size(); i++) {
             enquiries.get(i).setEnquiryId(i);
+        }
+    }
+
+    private void updateSuggestionIds(ArrayList<CampSuggestion> suggestions) {
+        for (int i = 0; i < suggestions.size(); i++) {
+            suggestions.get(i).setSuggestionId(i);
         }
     }
 

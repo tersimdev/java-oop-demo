@@ -102,29 +102,30 @@ public class StudentMenu extends Menu {
                             Log.println("");
                         }
                     }
-                    Log.println("===Please enter your choice=== ");
+                    Log.println("===Please select the following options=== ");
                     Log.println("(1) Edit Enquiry");
                     Log.println("(2) Delete Enquiry");
                     Log.println("(3) Back to Student Menu");
                     int sChoice = -1;
                     while (sChoice < 0) {
-                        sChoice = getChoice(1, 2, 3);
-                        if (sChoice == 0) {
-                            choice = -1;
+                        sChoice = Input.getInstance().getInt("Enter choice: ");
+                        if (sChoice==1){
+                            Log.println("Lol havent do");
                             break;
                         }
-                        switch (sChoice) {
-                            case 1:
-                                Log.println("Lol havent do");
+                        else if (sChoice==2){
+                            int enquiryId = Input.getInstance().getInt("Please enter the enquiryId of the enquiry to delete: ");
+                            Boolean result = feedbackSystem.removeCampEnquiryById(selCampName, enquiryId);
+                            if(result) 
+                                Log.println("Deletion successful.");
+                            else 
+                                Log.println("Deletion failed.");
                             break;
-                            case 2:
-                                int enquiryId = Input.getInstance().getInt("Please enter the enquiryId of the enquiry you would like to delete: ");
-                                Boolean result = feedbackSystem.removeCampEnquiryByID(selCampName, enquiryId);
-                                if(result) 
-                                    Log.println("Deletion successful.");
-                                else 
-                                    Log.println("Deletion failed.");
-                            break;
+                        }
+                        else if (sChoice ==3) break;
+                        else{
+                            Log.println("Invalid choice! Try again.");
+                            sChoice = -1;
                         }
                     }
                     break;
