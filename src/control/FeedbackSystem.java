@@ -18,14 +18,14 @@ import java.util.HashMap;
  * @since 1-11-2023
  */
 public class FeedbackSystem {
-    private Map<Integer, List<CampEnquiry>> enquiriesMap;
-    private Map<Integer, List<CampSuggestion>> suggestionsMap;
+    private Map<String, ArrayList<CampEnquiry>> enquiriesMap;
+    private Map<String, ArrayList<CampSuggestion>> suggestionsMap;
     /*private ArrayList<CampEnquiry> campEnquiries;
     private ArrayList<CampSuggestion> campSuggestions;*/
 
     private static FeedbackSystem instance = null;
 
-    public FeedbackSystem() {
+    private FeedbackSystem() {
         this.enquiriesMap = new HashMap<>();
         this.suggestionsMap= new HashMap<>();
     }
@@ -36,20 +36,20 @@ public class FeedbackSystem {
         return instance;
     }
 
-    public void addCampEnquiry(int campId, CampEnquiry enquiry) {
-        enquiriesMap.computeIfAbsent(campId, k -> new ArrayList<>()).add(enquiry);
+    public void addCampEnquiry(String campName, CampEnquiry enquiry) {
+        enquiriesMap.computeIfAbsent(campName, k -> new ArrayList<>()).add(enquiry);
     }
 
-    public void addCampSuggestion(int campId, CampSuggestion suggestion) {
-        suggestionsMap.computeIfAbsent(campId, k -> new ArrayList<>()).add(suggestion);
+    public void addCampSuggestion(String campName, CampSuggestion suggestion) {
+        suggestionsMap.computeIfAbsent(campName, k -> new ArrayList<>()).add(suggestion);
     }
 
-    public List<CampEnquiry> getCampEnquiries(int campId){
-        return enquiriesMap.getOrDefault(campId, new ArrayList<>());
+    public ArrayList<CampEnquiry> getCampEnquiries(String campName){
+        return enquiriesMap.getOrDefault(campName, new ArrayList<>());
     }
 
-    public List<CampSuggestion> getCampSuggestions(int campId){
-        return suggestionsMap.getOrDefault(campId, new ArrayList<>());
+    public ArrayList<CampSuggestion> getCampSuggestions(String campName){
+        return suggestionsMap.getOrDefault(campName, new ArrayList<>());
     }
 
 }
