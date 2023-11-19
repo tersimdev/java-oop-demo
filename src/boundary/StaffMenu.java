@@ -35,7 +35,7 @@ public class StaffMenu extends Menu {
         String selCampName;
 
         // assume safe, check handled by state machine
-        Staff staff = (Staff) ui.getLoginSystem().getCurrentUser();
+        Staff staff = (Staff) ui.getUser();
         Log.println("===Staff Menu===");
         Log.println("(1) Create Camp");
         Log.println("(2) Edit Camp");

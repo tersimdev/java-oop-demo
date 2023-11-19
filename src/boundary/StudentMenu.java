@@ -1,6 +1,11 @@
 package boundary;
 
 import control.FeedbackSystem;
+import control.ReportSystem;
+import control.CampSystem;
+import entity.Camp;
+import entity.CampReportFilter;
+import entity.CampReportOptions;
 import entity.CampSuggestion;
 import entity.Student;
 import util.Input;
@@ -26,7 +31,7 @@ public class StudentMenu extends Menu {
         String selCampName;
 
         // assume safe, check handled by state machine
-        Student student = (Student) ui.getLoginSystem().getCurrentUser();
+        Student student = (Student) ui.getUser();
         boolean isCommittee = student.getCampCommitteeMember() != null;
         Log.println("===Student Menu===");
         Log.println("(1) View Available Camps");
@@ -66,6 +71,39 @@ public class StudentMenu extends Menu {
                     CampSuggestion suggestion = new CampSuggestion(student.getCampCommitteeMember(),suggestionStr);
                     ui.getFeedbackSystem().addCampSuggestion(selCampName, suggestion);
                     Log.println("Suggestion submitted.");
+                    break;
+                case 15:
+                    selCampName = Input.getInstance().getLine("Please enter the camp name for report generation: ");
+                
+                    Camp camp = ui.getCampSystem().getCampByName(selCampName);
+                
+                    if (camp != null) {
+                        String fileName = Input.getInstance().getLine("Please enter the file name: ");
+                
+                        int filterChoice = Input.getInstance().getInt("Please enter the filter (1 for ATTENDEE, 2 for CAMP_COMMITTEE, 3 for no filter): ");
+                        CampReportFilter filter = null;
+                        switch (filterChoice) {
+                            case 1:
+                                filter = CampReportFilter.ATTENDEE;
+                                break;
+                            case 2:
+                                filter = CampReportFilter.CAMP_COMMITTEE;
+                                break;
+                            default:
+                                break;
+                        }
+
+                        CampReportOptions reportOptions = new CampReportOptions();
+                        reportOptions.setCampId(camp.getCampId());
+                        reportOptions.setFileName(fileName);
+                        reportOptions.setFilter(filter);
+            
+                        ui.getReportSystem().generateReport(reportOptions, student, camp);
+                    } else {
+                        Log.println("Camp not found with the given name: " + selCampName);
+                    }
+                    break;
+
             }
         }
         return false;

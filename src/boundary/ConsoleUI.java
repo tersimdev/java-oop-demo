@@ -57,6 +57,10 @@ public class ConsoleUI {
         this.stateDirty = dirty;
     }
 
+    public User getUser() {
+        return loginSystem.getCurrentUser();
+    }
+
     public LoginSystem getLoginSystem() {
         return loginSystem;
     }

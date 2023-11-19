@@ -8,6 +8,7 @@ import entity.Student;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import entity.Camp;
 import entity.CampInformation;
@@ -87,4 +88,12 @@ public class CampSystem {
         return -1;
     }
 
+    public Camp getCampByName(String campName) {
+        for (Camp camp : camps) {
+            if (camp.getCampInfo().getCampName().equalsIgnoreCase(campName)) {
+                return camp;
+            }
+        }
+        return null;
+    }
 }

@@ -22,7 +22,7 @@ public class StartMenu extends Menu {
 
     @Override
     public boolean show() {
-        User user = ui.getLoginSystem().getCurrentUser();
+        User user = ui.getUser();
         Log.println("===Welcome, " + user.getDisplayName() + "===");
         // check if new user, force to change password!
         boolean newUser = user.getPassword().equals(User.defaultPassword);
