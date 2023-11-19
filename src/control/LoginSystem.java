@@ -46,9 +46,8 @@ public class LoginSystem {
         currentUser = null;
     }
 
-    //TODO this  might not work, change current user password instead
-    public boolean changeUserPassword(User user, String newPassword) {
-        String oldPassword = user.getPassword();
+    public boolean changeUserPassword(String newPassword) {
+        String oldPassword = currentUser.getPassword();
         if (oldPassword.equals(newPassword)) {
             Log.println("Error! New password same as old password!");
             return false;
@@ -57,8 +56,8 @@ public class LoginSystem {
             Log.println("Password does not meet required length!");
             return false;
         }
-        user.setPassword(newPassword);
-        dataStoreSystem.updateUserPassword(user.getUserID(), newPassword);
+        currentUser.setPassword(newPassword);
+        dataStoreSystem.updateUserPassword(currentUser.getUserID(), newPassword);
         Log.println("Password changed.");
         return true;
     }
