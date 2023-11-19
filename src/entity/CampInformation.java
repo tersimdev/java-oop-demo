@@ -3,6 +3,7 @@ package entity;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import util.DateStringHelper;
 import util.Log;
 import util.DataStore.SerializeToCSV;
 
@@ -17,37 +18,136 @@ import util.DataStore.SerializeToCSV;
  */
 public class CampInformation implements SerializeToCSV {
 
-    private int campId;
-    private String campName;
-    private String description;
-    private String location;
-    private int totalSlots; //for attendees
-    private int committeeSlots;
-
+    private int campId; // used internally
+    
+    // required parameters
+    private String campName; 
     private ArrayList<LocalDate> dates;
     private LocalDate registrationClosingDate;
-    
+    private int totalSlots; //for attendees
+    private int committeeSlots;
     private String staffInChargeId;
     private UserGroup userGroup;
     private Faculty organisingFaculty; //null if usergroup is wholeNTU;
 
-    public CampInformation() {
-        //TODO set some defaults
+    // optional parameters
+    private String description;
+    private String location;
+
+    // public CampInformation() {
+    //     //TODO set some defaults
+    // }
+
+    // public CampInformation (String campName, String description, String location, int totalSlots, int committeeSlots, 
+    //     ArrayList<LocalDate> dates, LocalDate registrationClosingDate, String staffInChargeId, UserGroup userGroup, Faculty organisingFaculty) {
+    //         this.campName = campName;
+    //         this.description = description;
+    //         this.location = location;
+    //         this.totalSlots = totalSlots;
+    //         this.committeeSlots = committeeSlots;
+    //         this.dates = dates;
+    //         this.registrationClosingDate = registrationClosingDate;
+    //         this.staffInChargeId = staffInChargeId;
+    //         this.userGroup = userGroup;
+    //         this.organisingFaculty = organisingFaculty;
+    //     }
+
+    private CampInformation(CampInformationBuilder builder) {
+        this.campName = builder.campName;
+        this.dates = builder.dates;
+        this.registrationClosingDate = builder.registrationClosingDate;
+        this.totalSlots = builder.totalSlots;
+        this.committeeSlots = builder.committeeSlots;
+        this.staffInChargeId = builder.staffInChargeId;
+        this.userGroup = builder.userGroup;
+        this.organisingFaculty = builder.organisingFaculty;
+        this.description = builder.description;
+        this.location = builder.location;
     }
 
-    public CampInformation (String campName, String description, String location, int totalSlots, int committeeSlots, 
-        ArrayList<LocalDate> dates, LocalDate registrationClosingDate, String staffInChargeId, UserGroup userGroup, Faculty organisingFaculty) {
-            this.campName = campName;
-            this.description = description;
-            this.location = location;
-            this.totalSlots = totalSlots;
-            this.committeeSlots = committeeSlots;
-            this.dates = dates;
-            this.registrationClosingDate = registrationClosingDate;
-            this.staffInChargeId = staffInChargeId;
-            this.userGroup = userGroup;
-            this.organisingFaculty = organisingFaculty;
+    // builder class
+    public static class CampInformationBuilder {
+
+        // required parameters
+        private String campName; 
+        private ArrayList<LocalDate> dates;
+        private LocalDate registrationClosingDate;
+        private int totalSlots; //for attendees
+        private int committeeSlots;
+        private String staffInChargeId;
+        private UserGroup userGroup;
+        private Faculty organisingFaculty; //null if usergroup is wholeNTU;
+
+        // optional parameters
+        private String description;
+        private String location;
+
+        public CampInformationBuilder() { // required public constructor
         }
+
+        public CampInformationBuilder setCampName(String campName) {
+            this.campName = campName;
+            return this;
+        }
+
+        public CampInformationBuilder setDates(ArrayList<LocalDate> dates) {
+            this.dates = dates;
+            return this;
+        }
+
+        public CampInformationBuilder setDates(String startDate, int duration) {
+            LocalDate firstDate = DateStringHelper.getInstance().StrToDateConverter(startDate);
+            for (int i = 0; i < duration; i++) {
+                dates.add(i, firstDate);
+                firstDate = firstDate.plusDays(1);
+            }
+            return this;
+        }
+
+        public CampInformationBuilder setRegistrationClosingDate(LocalDate registrationClosingDate) {
+            this.registrationClosingDate = registrationClosingDate;
+            return this;
+        }
+
+        public CampInformationBuilder setTotalSlots(int totalSlots) {
+            this.totalSlots = totalSlots;
+            return this;
+        }
+
+        public CampInformationBuilder setCommitteeSlots(int committeeSlots) {
+            this.committeeSlots = committeeSlots;
+            return this;
+        }
+
+        public CampInformationBuilder setStaffInChargeId(String staffInChargeId) {
+            this.staffInChargeId = staffInChargeId;
+            return this;
+        }
+
+        public CampInformationBuilder setUserGroup(UserGroup userGroup) {
+            this.userGroup = userGroup;
+            return this;
+        }
+
+        public CampInformationBuilder setOrganisingFaculty(Faculty organisingFaculty) {
+            this.organisingFaculty = organisingFaculty;
+            return this;
+        }
+
+        public CampInformationBuilder setLocation(String location) {
+            this.location = location;
+            return this;
+        }
+
+        public CampInformationBuilder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public CampInformation build() {
+            return new CampInformation(this);
+        }
+    }
 
     // getters and setters
 
@@ -64,6 +164,15 @@ public class CampInformation implements SerializeToCSV {
         return dates;
     }
 
+    public void setDates(String startDate, int duration) {
+        LocalDate firstDate = DateStringHelper.getInstance().StrToDateConverter(startDate);
+        for (int i = 0; i < duration; i++) {
+            dates.add(i, firstDate);
+            firstDate = firstDate.plusDays(1);
+        }
+        return;
+    }
+
     public void setDates(ArrayList<LocalDate> dates) {
         this.dates = dates;
         return;
@@ -75,19 +184,6 @@ public class CampInformation implements SerializeToCSV {
 
     public void setRegistrationClosingDate(LocalDate registrationClosingDate) {
         this.registrationClosingDate = registrationClosingDate;
-        return;
-    }
-
-    public UserGroup getUserGroup() {
-        return userGroup;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
         return;
     }
 
@@ -109,6 +205,23 @@ public class CampInformation implements SerializeToCSV {
         return;
     }
 
+    public String getStaffInChargeId() {
+        return staffInChargeId;
+    }
+
+    public UserGroup getUserGroup() {
+        return userGroup;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+        return;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -118,9 +231,7 @@ public class CampInformation implements SerializeToCSV {
         return;
     }
 
-    public String getStaffInChargeId() {
-        return staffInChargeId;
-    }
+    
 
     // data store functionality
     @Override

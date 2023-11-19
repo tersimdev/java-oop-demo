@@ -68,30 +68,29 @@ public class Camp implements SerializeToCSV {
         return campInformation;
     }
 
-    public void registerStudent(Student student) {
+    public boolean registerStudent(Student student) { // returns true if registration successful
         if (!checkCampFull() && !checkRegistrationClosed()) {
             studentList.add(student.getUserID());
             attendees.add(student);
-            return;
+            return true;
         }
         else if (checkCampFull()) {
             Log.println("The camp is full");
-            return;
         }
         else if (checkRegistrationClosed()) {
             Log.println("Registration for this camp has closed");
-            return;
         }
+        return false;
     }
 
-    public void withdrawStudent(Student student) {
-        studentList.remove(student.getUserID());
-        attendees.remove(student);
-    }
+    public boolean registerCampCommitteeMember(Student student) { // returns true if registration successful
+        CampCommitteeMember campCommitteeMember = student.getCampCommitteeMember();
 
-    public void registerCampCommitteeMember(CampCommitteeMember campCommitteeMember) {
         if (committeeList.size() < campInformation.getCommitteeSlots() && !checkRegistrationClosed()) {
+            campCommitteeMember.setCampId(campId);
+            campCommitteeMember.setMember(true);
             committeeList.add(campCommitteeMember);
+            return true;
         }
         else if (committeeList.size() < campInformation.getCommitteeSlots()) {
             Log.println("There are no more camp committee slots for this camp");
@@ -99,6 +98,12 @@ public class Camp implements SerializeToCSV {
         else if (checkRegistrationClosed()) {
             Log.println("Registration for this camp has closed");
         }
+        return false;
+    }
+
+    public void withdrawStudent(Student student) {
+        studentList.remove(student.getUserID());
+        attendees.remove(student);
     }
 
     // private void checkForDateClash(Student student) {

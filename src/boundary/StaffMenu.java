@@ -93,7 +93,10 @@ public class StaffMenu extends Menu {
 
                     // create the camp
                     int campId = campSystem.generateNewCampId();
-                    CampInformation campInformation = new CampInformation(campName, description, location, totalSlots, committeeSlots, dates, registrationClosingDate, staffInChargeId, userGroup, organisingFaculty);
+                    CampInformation campInformation = new CampInformation.CampInformationBuilder().setCampName(campName).setDates(dates)
+                        .setRegistrationClosingDate(registrationClosingDate).setTotalSlots(totalSlots).setCommitteeSlots(committeeSlots)
+                        .setLocation(location).setDescription(description).setStaffInChargeId(staffInChargeId).setUserGroup(userGroup)
+                        .setOrganisingFaculty(organisingFaculty).build();
 
                     campSystem.createCamp(campId, campInformation);
 

@@ -127,8 +127,6 @@ public class CampSystem {
         for (CampCommitteeMember campCommitteeMember : camp.getCampCommitteeMembers()) {
             Log.println(campCommitteeMember.getStudentId());
         }
-        
-        
     }
 
     // Student functions
@@ -154,19 +152,23 @@ public class CampSystem {
 
     public void registerAsAttendee(Student student, int campId) {
         Camp camp = getCampById(campId);
-        camp.registerStudent(student);
-        if (student.getCampCommitteeMember() == null) { // student is not a committee member
+        if (camp.registerStudent(student)) {
             Log.println(student.getUserID() + " has been registered for camp " + campId);
         }
         else {
-            Log.println(student.getUserID() + " has been registered for camp " + campId + " as a camp committee member");
-
+            Log.println(student.getUserID() + " was not registered for camp " + campId);
         }
+        
     }
 
-    public void registerAsCommittee(CampCommitteeMember campCommitteeMember, int campId) {
+    public void registerAsCommittee(Student student, int campId) {
         Camp camp = getCampById(campId);
-        camp.registerCampCommitteeMember(campCommitteeMember);
+        if (camp.registerCampCommitteeMember(student)) {
+            Log.println(student.getUserID() + " has been registered for camp " + campId + " as a camp committee member");
+        }
+        else {
+            Log.println(student.getUserID() + " was not registered for camp " + campId);
+        }
     }
 
     public void viewRegisteredCamps(Student student) {
