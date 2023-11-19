@@ -38,9 +38,9 @@ public class CampEnquiry implements SerializeToCSV {
     public String getEnquiry() { return enquiry; }
     public String getReply() { return reply; }
 
-    public void reply(CampCommitteeMember campCommitteeMember, String reply) {
+    public void reply(String commMemberID, String reply) {
         this.reply = reply;
-        replierId = campCommitteeMember.getStudentId();
+        replierId = commMemberID;
     }
 
     @Override
