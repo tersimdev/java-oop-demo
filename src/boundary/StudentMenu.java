@@ -85,10 +85,25 @@ public class StudentMenu extends Menu {
                     Log.println("Enquiry submitted.");
                     break;
                 case 6:
-                    selCampName = Input.getInstance().getLine("Please enter the camp name to view/edit/delete enquiry: ");
-                
-                    
-                    Log.println("Enquiry submitted.");
+                    selCampName = Input.getInstance().getLine("Please enter the camp name to view/edit/delete your enquiry: ");
+                    ArrayList<CampEnquiry> studentEnquiryList = new ArrayList<>();
+                    studentEnquiryList = feedbackSystem.getCampEnquiries(selCampName);
+                    int size = studentEnquiryList.size();
+                    int j = 0;
+                    for (int i = 0; i < size; i++) {
+                        CampEnquiry temp = studentEnquiryList.get(i);
+                        if (temp.getOwner()!=student.getUserID()) continue;
+                        else {
+                            Log.println("EnquiryID: " + j);
+                            Log.println("StudentID: " + temp.getOwner());
+                            if (temp.getReply()==null)
+                                Log.println("Reply: Null");
+                            else
+                                Log.println("Reply: " +temp.getReply());
+                            Log.println("");
+                        }
+                        j++;
+                    }
                     break;
 
                 case 10:
@@ -104,8 +119,8 @@ public class StudentMenu extends Menu {
                             .getLine("Please enter the name of the camp you would like to view enquiries: ");
                     ArrayList<CampEnquiry> enquiryList = new ArrayList<>();
                     enquiryList = feedbackSystem.getCampEnquiries(selCampName);
-                    int size = enquiryList.size();
-                    for (int i = 0; i < size; i++) {
+                    int size2 = enquiryList.size();
+                    for (int i = 0; i < size2; i++) {
                         CampEnquiry temp = enquiryList.get(i);
                         Log.println("StudentID: " + temp.getOwner());
                         if (temp.getReply()==null)
