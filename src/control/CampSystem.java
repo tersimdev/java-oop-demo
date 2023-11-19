@@ -8,6 +8,7 @@ import entity.Student;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import entity.Camp;
 import entity.CampInformation;
@@ -59,8 +60,7 @@ public class CampSystem {
 
     public void viewCampStudentList(String campName) {
         Log.println("===List of all the students attending this camp===");
-        int index = campNameToIndex(campName);
-        Camp camp = camps.get(index);
+        Camp camp = getCampByName(campName);
         for (int i = 0; i < camp.getStudentList().size(); i++) {
             Log.println(camp.getStudentList().get(i));
         }
@@ -68,8 +68,8 @@ public class CampSystem {
 
     public void viewCampCommitteeList(String campName) {
         Log.println("===List of all the committee members attending this camp===");
-        int index = campNameToIndex(campName);
-        Camp camp = camps.get(index);
+        
+        Camp camp = getCampByName(campName);
         for (int i = 0; i < camp.getStudentList().size(); i++) {
             // query students, if student is a committee member then print
             String studentId = camp.getStudentList().get(i);
@@ -80,16 +80,12 @@ public class CampSystem {
         }
     }
 
-    private int campNameToIndex(String campName) {
+    public Camp getCampByName(String campName) {
         for (Camp camp : camps) {
-            if (camp.getCampInformation().getCampName() == campName) return camp.getCampId();
+            if (camp.getCampInformation().getCampName().equalsIgnoreCase(campName)) {
+                return camp;
+            }
         }
-        Log.debug("camp name not found");
-        return -1;
+        return null;
     }
-
-    public int getTotalNumberOfCamps() {
-        return camps.size();
-    }
-
 }
