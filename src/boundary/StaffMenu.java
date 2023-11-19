@@ -172,6 +172,7 @@ public class StaffMenu extends Menu {
                             Log.println("Approval status: Pending");
 
                         Log.println("Suggestion: " + temp.getSuggestion());
+                        Log.println("");
                     }
 
                     break;

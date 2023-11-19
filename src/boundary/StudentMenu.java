@@ -108,11 +108,11 @@ public class StudentMenu extends Menu {
                     for (int i = 0; i < size; i++) {
                         CampEnquiry temp = enquiryList.get(i);
                         Log.println("StudentID: " + temp.getOwner());
-
                         if (temp.getReply()==null)
                             Log.println("Reply: Null");
                         else
                             Log.println("Reply: " +temp.getReply());
+                        Log.println("");
                     }
 
                 case 16:
