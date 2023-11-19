@@ -41,9 +41,9 @@ public class CampEnquiry implements SerializeToCSV {
     public void setEnquiryId(int enquiryId) { this.enquiryId = enquiryId; }
     public void setEnquiry(String newEnquiry) { this.enquiry = newEnquiry; }
 
-    public void reply(String commMemberID, String reply) {
+    public void reply(String commMemberId, String reply) {
         this.reply = reply;
-        replierId = commMemberID;
+        replierId = commMemberId;
     }
 
     @Override
