@@ -1,11 +1,11 @@
 package util.ReportWriter;
 
-import java.io.IOException;
 
 import entity.Camp;
-import entity.CampReportFilter;
 import entity.CampReportOptions;
 import entity.User;
+import control.ReportSystem.ReportWriteException;
+import java.io.IOException;
 
 /**
  * <p>
@@ -18,5 +18,6 @@ import entity.User;
  * @since 19-11-2023
  */
 public interface ReportWriterInterface {
-    void writeReport(CampReportOptions reportOptions, User user, Camp camp) throws IOException;
+    void writeCampReport(CampReportOptions reportOptions, User user, Camp camp) throws ReportWriteException, IOException;
+    void writeEnquiryReport(/*TODO */) throws ReportWriteException, IOException;
 }

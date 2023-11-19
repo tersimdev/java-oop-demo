@@ -18,7 +18,7 @@ public class CampReportOptions {
 
     public CampReportOptions() {
         campId = 0;
-        fileType = "txt"; //extension like txt, csv without the dot
+        fileType = ".txt"; //extension like txt, csv with the dot
         fileName = "output";
         filter = CampReportFilter.NONE;
         filePath = "./"; // Set to current directory

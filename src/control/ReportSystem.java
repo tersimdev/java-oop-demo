@@ -1,7 +1,6 @@
 package control;
 
 import entity.Camp;
-import entity.CampReportFilter;
 import entity.CampReportOptions;
 import entity.User;
 import util.Log;
@@ -25,13 +24,27 @@ public class ReportSystem {
     //map of file extensions to writing implementation
     private Map<String, ReportWriterInterface> reportWriters;
 
-    public ReportSystem() {
-        this.reportWriters = new HashMap<>();
-        reportWriters.put("txt", new TXTWriterImpl());
-        reportWriters.put("csv", new CSVWriterImpl());
+    //an exception class to catch and handle
+    public static class ReportWriteException extends Exception {
+        public ReportWriteException() {
+            super();
+            Log.error("Error! ReportWriteException.");
+            Log.error("ReportWriter encountered an unspecified issue.");
+        }
+        public ReportWriteException(String message) {
+            super();
+            Log.error("ReportWriter encountered an issue:");
+            Log.error(message);
+        }
     }
 
-    public void generateReport(CampReportOptions reportOptions, User user, Camp camp) {
+    public ReportSystem() {
+        this.reportWriters = new HashMap<>();
+        reportWriters.put(".txt", new TXTWriterImpl());
+        reportWriters.put(".csv", new CSVWriterImpl());
+    }
+
+    public void generateCampReport(CampReportOptions reportOptions, User user, Camp camp) {
         String filetype = reportOptions.getFileType();
         ReportWriterInterface writer = reportWriters.get(filetype);
         if (writer == null) {
@@ -40,10 +53,18 @@ public class ReportSystem {
         }
 
         try {
-            writer.writeReport(reportOptions, user, camp);
-        } catch (IOException exception) {
+            writer.writeCampReport(reportOptions, user, camp);
+        } catch (ReportWriteException exception) {
             Log.println("Error! Failed to Generate Report.");
+            //error msg for devs
+            Log.error("ReportWriteException while writing report using " + filetype); 
+            Log.error(exception.getMessage());
+        } catch (IOException exception) {
+            Log.println("Error! Failed to write reoprt to file.");
             Log.error("IOException while writing report using " + filetype); //error msg for devs
         }
+    }
+    public void generateEnquiryReport() {
+        //TODO
     }
 }
