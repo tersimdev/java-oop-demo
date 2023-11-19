@@ -1,7 +1,6 @@
 package boundary;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import control.CampSystem;
@@ -12,10 +11,7 @@ import entity.CampInformation;
 import entity.CampSuggestion;
 import entity.Faculty;
 import entity.Staff;
-import entity.Student;
 import entity.UserGroup;
-import entity.User;
-import util.Input;
 import util.Log;
 
 /**
@@ -54,15 +50,17 @@ public class StaffMenu extends Menu {
         Log.println("(4) View All Camps");
         Log.println("(5) View Camp Student List");
         Log.println("(6) View Camp Committee List");
-        Log.println("(7) View Camp Suggestions");
-        Log.println("(8) Accept/Reject Suggestion");
-        Log.println("(9) Generate Camp Report");
-        Log.println("(10) Generate Performance Report");
-        Log.println("(11) Generate Enquiry Report");
-        Log.println("(12) Back to Start");
+        Log.println("(7) View Enquiries");
+        Log.println("(8) Reply Unprocessed Enquiries");
+        Log.println("(9) View Suggestions");
+        Log.println("(10) Accept/Reject Unprocessed Suggestions");
+        Log.println("(11) Generate Camp Report");
+        Log.println("(12) Generate Performance Report");
+        Log.println("(13) Generate Enquiry Report");
+        Log.println("(14) Back to Start");
         int choice = -1;
         while (choice < 0) {
-            choice = getChoice(1, 11, 12);
+            choice = getChoice(1, 13, 14);
             if (choice == 0) {
                 ui.setStateDirty(true);
             }
@@ -71,17 +69,17 @@ public class StaffMenu extends Menu {
                 case 1:
                     // Create Camp
                     // get camp info from user
-                    String campName = Input.getInstance().getLine("Please enter the camp name: ");
-                    String description = Input.getInstance().getLine("Please enter the camp's description: ");
-                    String location = Input.getInstance().getLine("Please enter the camp's location: ");
-                    int totalSlots = Input.getInstance().getInt("Please enter the camp's total number of slots: ");
-                    int committeeSlots = Input.getInstance()
+                    String campName = ui.getInput().getLine("Please enter the camp name: ");
+                    String description = ui.getInput().getLine("Please enter the camp's description: ");
+                    String location = ui.getInput().getLine("Please enter the camp's location: ");
+                    int totalSlots = ui.getInput().getInt("Please enter the camp's total number of slots: ");
+                    int committeeSlots = ui.getInput()
                             .getInt("Please enter the camp's number of committee slots: ");
-                    int duration = Input.getInstance()
+                    int duration = ui.getInput()
                             .getInt("Please enter the number of days the camp will be held: ");
-                    LocalDate firstDate = Input.getInstance()
+                    LocalDate firstDate = ui.getInput()
                             .getDate("Please enter the date of day number 1 (DD/MM/YYYY): ");
-                    LocalDate registrationClosingDate = Input.getInstance()
+                    LocalDate registrationClosingDate = ui.getInput()
                             .getDate("Please enter the closing date for registration (DD/MM/YYYY): ");
                     ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
                     for (int i = 0; i < duration; i++) {
@@ -103,7 +101,7 @@ public class StaffMenu extends Menu {
 
                 case 2:
                     // Edit Camp
-                    selCampId = Input.getInstance()
+                    selCampId = ui.getInput()
                             .getInt("Please enter the ID of the camp you would like to edit: ");
 
                     Log.println("===What would you like to edit?===");
@@ -117,20 +115,20 @@ public class StaffMenu extends Menu {
                     Log.println("(8) Toggle camp visibility");
                     Log.println("(9) Back to Staff Menu");
                     
-                    int EditChoice = -1;
-                    while (EditChoice < 0) {
-                        EditChoice = getChoice(1, 8, 9);
-                        if (EditChoice == 0) {
+                    int editChoice = -1;
+                    while (editChoice < 0) {
+                        editChoice = getChoice(1, 8, 9);
+                        if (editChoice == 0) {
                             choice = -1;
                             break;
                         }
-                        campSystem.editCamp(selCampId, EditChoice);
+                        campSystem.editCamp(selCampId, editChoice, ui.getInput());
                     }
                     break;
 
                 case 3:
                     // Delete Camp
-                    selCampId = Input.getInstance()
+                    selCampId = ui.getInput()
                             .getInt("Please enter the ID of the camp you would like to delete: ");
                     campSystem.deleteCamp(selCampId);
                     break;
@@ -142,27 +140,83 @@ public class StaffMenu extends Menu {
 
                 case 5:
                     // View Camp Student List
-                    selCampId = Input.getInstance()
+                    selCampId = ui.getInput()
                             .getInt("Please enter the ID of the camp you would like to inspect: ");
                     campSystem.viewCampStudentList(selCampId);
                     break;
 
                 case 6:
                     // View Camp Committee List
-                    selCampId = Input.getInstance()
+                    selCampId = ui.getInput()
                             .getInt("Please enter the ID of the camp you would like to inspect: ");
                     campSystem.viewCampCommitteeList(selCampId);
                     break;
 
                 case 7:
-                    // View Camp Suggestions
-                    selCampName = Input.getInstance()
+                    // View Camp Enquiries
+                    selCampName = ui.getInput()
+                            .getLine("Please enter the name of the camp you would like to view enquiries: ");
+                    ArrayList<CampEnquiry> enquiryList = new ArrayList<>();
+                    enquiryList = feedbackSystem.getCampEnquiries(selCampName);
+                    int size2 = enquiryList.size();
+                    Log.println("===All Enquiries===");
+                    for (int i = 0; i < size2; i++) {
+                        CampEnquiry temp = enquiryList.get(i);
+                        Log.println("EnquiryID: " + temp.getEnquiryId());
+                        Log.println("StudentID: " + temp.getOwner());
+                        if (temp.getReply()==null){
+                            Log.println("Enquiry Status: Pending");
+                            Log.println("Enquiry: " + temp.getEnquiry());
+                            Log.println("Reply: Null");
+                        }
+                        else{
+                            Log.println("Enquiry Status: Processed");
+                            Log.println("Enquiry: " + temp.getEnquiry());
+                            Log.println("Reply: " +temp.getReply());
+                        }
+                        Log.println("");
+                    }
+
+                    break;
+                case 8:
+                    // Reply Unprocessed Enquiries
+                    selCampName = ui.getInput()
+                            .getLine("Please enter the name of the camp you would like to reply unprocessed enquiries: ");
+                    ArrayList<CampEnquiry> pendingEnquiryList = new ArrayList<>();
+                    pendingEnquiryList = feedbackSystem.getCampEnquiries(selCampName);
+                    int size4 = pendingEnquiryList.size();
+                    Log.println("===Unprocessed Enquiries===");
+                    for (int i = 0; i < size4; i++) {
+                        CampEnquiry temp = pendingEnquiryList.get(i);
+                        if (temp.getReply()!=null) continue;
+                        else{
+                            Log.println("EnquiryID: " + temp.getEnquiryId());
+                            Log.println("StudentID: " + temp.getOwner());
+                            Log.println("Enquiry Status: Pending");
+                            Log.println("Enquiry: " + temp.getEnquiry());
+                            Log.println("Reply: Null");
+                            Log.println("");
+                        }
+                    }
+                    int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to reply: ");
+                    String reply = ui.getInput().getLine("Please enter reply: ");
+                    Boolean result = feedbackSystem.replyCampEnquiry(staff.getUserID(),selCampName, enquiryId, reply);
+                    if(result) 
+                            Log.println("Enquiry successfully processed.");
+                        else 
+                            Log.println("Enquiry processing failed.");
+                    break;
+                case 9:
+                    // View Suggestions
+                    selCampName = ui.getInput()
                             .getLine("Please enter the name of the camp you would like to view suggestions: ");
                     ArrayList<CampSuggestion> suggestionList = new ArrayList<>();
                     suggestionList = feedbackSystem.getCampSuggestions(selCampName);
                     int size = suggestionList.size();
+                    Log.println("===All Suggestions===");
                     for (int i = 0; i < size; i++) {
                         CampSuggestion temp = suggestionList.get(i);
+                        Log.println("SuggestionID: " + temp.getSuggestionId());
                         Log.println("CampCommitteeMemberID: " + temp.getOwner());
 
                         if (temp.hasApproved())
@@ -175,33 +229,67 @@ public class StaffMenu extends Menu {
                         Log.println("Suggestion: " + temp.getSuggestion());
                         Log.println("");
                     }
-
-                    break;
-
-                case 8:
-                    // Accept/Reject Suggestion
-                    selCampName = Input.getInstance()
-                            .getLine("Please enter the name of the camp you would like to inspect: ");
-
-                    break;
-
-                case 9:
-                    // Generate Camp Report
-                    selCampName = Input.getInstance()
-                            .getLine("Please enter the name of the camp you would like to inspect: ");
-
                     break;
 
                 case 10:
-                    // Generate Performance Report
-                    selCampName = Input.getInstance()
+                    // Accept/Reject Unprocessed Suggestions
+                    selCampName = ui.getInput()
+                            .getLine("Please enter the name of the camp you would like to approve/reject unprocessed suggestions: ");
+                    ArrayList<CampSuggestion> pendingSuggestionList = new ArrayList<>();
+                    pendingSuggestionList = feedbackSystem.getCampSuggestions(selCampName);
+                    int size1 = pendingSuggestionList.size();
+                    Log.println("===Unprocessed Suggestions===");
+                    for (int i = 0; i < size1; i++) {
+                        CampSuggestion temp = pendingSuggestionList.get(i);
+                        if(!temp.isPending()) continue;
+                        else {
+                            Log.println("SuggestionID: " + temp.getSuggestionId());
+                            Log.println("CampCommitteeMemberID: " + temp.getOwner());
+                            Log.println("Approval status: Pending");
+                            Log.println("Suggestion: " + temp.getSuggestion());
+                            Log.println("");
+                        }
+                    }
+                    int suggestionId = ui.getInput().getInt("Please enter the suggestionId of the suggestion to approve/reject: ");
+                    Log.println("===Please select the following options===");
+                    Log.println("(1) Accept suggestion");
+                    Log.println("(2) Reject suggestion");
+                    int decision = -1;
+                    Boolean result1 = false;
+                    while(decision < 0) {
+                        decision = ui.getInput().getInt("Enter choice: ");
+                        if(decision==1)
+                            result1 = feedbackSystem.processCampSuggestion(staff.getUserID(),selCampName, suggestionId, true);
+                        else if(decision==2)
+                            result1 = feedbackSystem.processCampSuggestion(staff.getUserID(),selCampName, suggestionId, false);
+                        else {
+                            Log.println("Invalid choice! Try again.");
+                            decision = -1;
+                        }
+                    }
+                    if(result1)
+                        Log.println("Suggestion successfully processed.");
+                    else 
+                        Log.println("Suggestion processing failed.");
+                    break;
+
+                case 11:
+                    // Generate Camp Report
+                    selCampName = ui.getInput()
                             .getLine("Please enter the name of the camp you would like to inspect: ");
 
                     break;
 
-                case 11:
+                case 12:
+                    // Generate Performance Report
+                    selCampName = ui.getInput()
+                            .getLine("Please enter the name of the camp you would like to inspect: ");
+
+                    break;
+
+                case 13:
                     // Generate Enquiry Report
-                    selCampName = Input.getInstance()
+                    selCampName = ui.getInput()
                             .getLine("Please enter the name of the camp you would like to inspect: ");
 
                     break;

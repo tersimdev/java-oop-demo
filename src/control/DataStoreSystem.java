@@ -20,19 +20,11 @@ import util.DataStore.DataStoreCSVImpl;
  * @since 19-11-2023
  */
 public class DataStoreSystem {
-    private static DataStoreSystem instance = null;
-
-    private DataStoreSystem() {
+    public DataStoreSystem() {
         dataStore = new DataStoreCSVImpl();
         init();
     }
-
-    public static DataStoreSystem getInstance() {
-        if (instance == null)
-            instance = new DataStoreSystem();
-        return instance;
-    }
-
+    
     private DataStoreInterface dataStore = null;
 
     /**

@@ -1,21 +1,14 @@
-import java.util.ArrayList;
-import java.util.List;
-
 import boundary.ConsoleUI;
 import control.CampSystem;
 import control.DataStoreSystem;
 import control.FeedbackSystem;
 import control.LoginSystem;
 import control.ReportSystem;
-import util.Input;
-import util.ReportWriter.CSVWriterImpl;
-import util.ReportWriter.ReportWriterInterface;
-import util.ReportWriter.TXTWriterImpl;
 
 /**
  * <p>
  * Entry point for our application.
- * Creates UI and System objects, 
+ * Creates UI and System objects,
  * with exception of DataStoreSystem which is a singleton
  * </p>
  * 
@@ -25,38 +18,48 @@ import util.ReportWriter.TXTWriterImpl;
  */
 public class CAMSApp {
     private ConsoleUI consoleUI;
+    private DataStoreSystem dataStoreSystem;
     private LoginSystem loginSystem;
     private CampSystem campSystem;
     private FeedbackSystem feedbackSystem;
     private ReportSystem reportSystem;
 
-    public void init() {
-        //init singletons
-        Input.getInstance();
-        DataStoreSystem.getInstance(); 
-        
-        //create systems
-        loginSystem = new LoginSystem();
-        campSystem = new CampSystem();
-        feedbackSystem = new FeedbackSystem();
-        List<ReportWriterInterface> reportWriters = new ArrayList<>();
-        reportWriters.add(new TXTWriterImpl());
-        reportWriters.add(new CSVWriterImpl());
-        reportSystem = new ReportSystem(reportWriters);
+    private boolean running = false;
 
-        //create ui
+    public void init() {
+        // create systems
+        dataStoreSystem = new DataStoreSystem();
+        loginSystem = new LoginSystem(dataStoreSystem);
+        campSystem = new CampSystem(dataStoreSystem);
+        feedbackSystem = new FeedbackSystem(dataStoreSystem);
+        reportSystem = new ReportSystem();
+
+        // create ui
         consoleUI = new ConsoleUI();
         consoleUI.init(loginSystem, campSystem, feedbackSystem, reportSystem);
+
+        running = true;
     }
+
     /**
      * run app main update loop
+     * 
      * @return if app should exit
      */
     public boolean run() {
         return consoleUI.run();
     }
+
     public void cleanup() {
+        if (!running)
+            return; // alr cleaned
+        // cleanup stuff here
         consoleUI.cleanup();
-        //cleanup systems here
+        dataStoreSystem.cleanup(); // crucial, as it saves data
+        running = false;
+    }
+
+    public boolean isRunning() {
+        return false;
     }
 };

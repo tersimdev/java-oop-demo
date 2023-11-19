@@ -21,6 +21,7 @@ public class CampEnquiry implements SerializeToCSV {
     private String reply;
 
     public CampEnquiry() {
+        enquiryId = 0;
         ownerId = null;
         enquiry = "";
         replierId = null;
@@ -34,12 +35,29 @@ public class CampEnquiry implements SerializeToCSV {
         reply = null;
     }
 
-    public int getEnquiryId() { return enquiryId; }
-    public String getOwner() { return ownerId; }
-    public String getEnquiry() { return enquiry; }
-    public String getReply() { return reply; }
-    public void setEnquiryId(int enquiryId) { this.enquiryId = enquiryId; }
-    public void setEnquiry(String newEnquiry) { this.enquiry = newEnquiry; }
+    public int getEnquiryId() {
+        return enquiryId;
+    }
+
+    public String getOwner() {
+        return ownerId;
+    }
+
+    public String getEnquiry() {
+        return enquiry;
+    }
+
+    public String getReply() {
+        return reply;
+    }
+
+    public void setEnquiryId(int enquiryId) {
+        this.enquiryId = enquiryId;
+    }
+
+    public void setEnquiry(String newEnquiry) {
+        this.enquiry = newEnquiry;
+    }
 
     public void reply(String commMemberId, String reply) {
         this.reply = reply;
@@ -49,23 +67,38 @@ public class CampEnquiry implements SerializeToCSV {
     @Override
     public String toCSVLine() {
         String ret = "";
-        //TOOD
+        ret += enquiryId + ","
+                + ownerId + ","
+                + enquiry + ",";
+        if (replierId != null)
+            ret += replierId + "," + reply;
+        else
+            ret += "-1,-";
         return ret;
     }
 
     @Override
     public void fromCSVLine(String csvLine) {
         String[] split = csvLine.split(",");
-        // //TODO
-        // if (split.length != 4) {
-        //     Log.error("csvLine is invalid");
-        // } else {
-        // }
+        if (split.length != getCSVLineLength()) {
+            Log.error("enquiry csvLine is invalid, expected " + getCSVLineLength() + " but got " + split.length);
+            Log.error(csvLine);
+        } else {
+            enquiryId = Integer.parseInt(split[0]);
+            ownerId = split[1];
+            enquiry = split[2];
+            if (split[3].isEmpty()) {
+                replierId = null;
+                reply = null;
+            } else {
+                replierId = split[3];
+                reply = split[4];
+            }
+        }
     }
 
     @Override
     public int getCSVLineLength() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCSVLineLength'");
+        return 5;
     }
 }

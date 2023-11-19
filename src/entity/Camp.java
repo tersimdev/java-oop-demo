@@ -1,11 +1,9 @@
 package entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import util.Log;
 import util.DataStore.SerializeToCSV;
@@ -29,13 +27,7 @@ public class Camp implements SerializeToCSV {
     private boolean visibility; //staff can set this to false to hide, if no one registered and stuff yet
 
     public Camp() {
-        //default vals
-        this.campId = -1;
-        //this.campInformation = campInformation;
-        this.attendees = new ArrayList<Student>();
-        this.committeeList = new ArrayList<CampCommitteeMember>();
-        this.studentList = new ArrayList<String>();
-        this.visibility = true;
+        //todo default vals
     }
 
     public Camp(int campId, CampInformation campInformation) {
@@ -110,18 +102,20 @@ public class Camp implements SerializeToCSV {
     }
 
     // private void checkForDateClash(Student student) {
-    //     ArrayList<LocalDateTime> dates = campInfo.getDates();
+    // ArrayList<LocalDateTime> dates = campInfo.getDates();
     // }
 
     public boolean checkRegistrationClosed() {
         LocalDate today = LocalDate.now();
         LocalDate deadline = campInformation.getRegistrationClosingDate();
-        if (today.compareTo(deadline) >= 0) return true; // registration is closed
+        if (today.compareTo(deadline) >= 0)
+            return true; // registration is closed
         return false;
     }
 
     public boolean checkCampFull() {
-        if (attendees.size() >= campInformation.getTotalSlots()) return true; //camp is full
+        if (attendees.size() >= campInformation.getTotalSlots())
+            return true; // camp is full
         return false;
     }
 
@@ -138,8 +132,8 @@ public class Camp implements SerializeToCSV {
     public String toCSVLine() {
         String ret = "";
         ret += campId + ","
-            + (visibility ? "VISIBLE" : "HIDDEN") + ",";
-        //add student list as one csv cell, separated by semicolon
+                + (visibility ? "VISIBLE" : "HIDDEN") + ",";
+        // add student list as one csv cell, separated by semicolon
         for (String s : studentList) {
             ret += s + ";";
         }
@@ -151,7 +145,8 @@ public class Camp implements SerializeToCSV {
     public void fromCSVLine(String csvLine) {
         String[] split = csvLine.split(",");
         if (split.length != getCSVLineLength()) {
-            Log.error("csvLine is invalid");
+            Log.error("camp csvLine is invalid, expected " + getCSVLineLength() + " but got " + split.length);
+            Log.error(csvLine);
         } else {
             this.campId = Integer.parseInt(split[0]);
             this.visibility = (split[1] == "VISIBLE" ? true : false);
@@ -160,10 +155,11 @@ public class Camp implements SerializeToCSV {
             String campInfoCSV = "";
             for (int i = 3; i < split.length; ++i)
                 campInfoCSV += split[i] + ",";
+            this.campInformation = new CampInformation();
             this.campInformation.fromCSVLine(campInfoCSV);
         }
     }
-    
+
     @Override
     public int getCSVLineLength() {
         return 3 + campInformation.getCSVLineLength();

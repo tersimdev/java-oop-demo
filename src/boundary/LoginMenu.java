@@ -1,9 +1,8 @@
 package boundary;
 
 import control.LoginSystem;
-import util.Input;
-import util.Log;
 import entity.User;
+import util.Log;
 
 /**
  * <p>
@@ -37,8 +36,8 @@ public class LoginMenu extends Menu {
             }
         }
 
-        String usernameStr = Input.getInstance().getLine("Enter User ID: ").trim().toUpperCase();
-        String passwordStr = Input.getInstance().getLine("Enter Password: ").trim();
+        String usernameStr = ui.getInput().getLine("Enter User ID: ").trim().toUpperCase();
+        String passwordStr = ui.getInput().getLine("Enter Password: ").trim();
         User user = loginSystem.login(usernameStr, passwordStr);
         if (user == null) {
             Log.println("Invalid user ID or password.");

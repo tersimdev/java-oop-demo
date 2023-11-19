@@ -75,6 +75,7 @@ public class DataStoreCSVImpl implements DataStoreInterface {
 
     @Override
     public void cleanup() {
+        Log.info("Saving all data to CSVs");
         for (CSVTable t : tables.values())
             t.writeToFile();
     }
@@ -110,7 +111,7 @@ public class DataStoreCSVImpl implements DataStoreInterface {
             s.fromCSVLine(row);
             s.setPassword(newPassword);
             tables.get(tableStudents).updateRow(row, s.toCSVLine());
-
+            tables.get(tableStudents).writeToFile(); // for immediate feedback
         }
         row = tables.get(tableStaff).queryRow(1, userID);
         if (row != null) {
@@ -118,6 +119,7 @@ public class DataStoreCSVImpl implements DataStoreInterface {
             s.fromCSVLine(row);
             s.setPassword(newPassword);
             tables.get(tableStaff).updateRow(row, s.toCSVLine());
+            tables.get(tableStaff).writeToFile(); // for immediate feedback
         }
     }
 

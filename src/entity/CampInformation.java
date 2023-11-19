@@ -1,8 +1,8 @@
 package entity;
 
-import java.util.ArrayList;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+
 import util.Log;
 import util.DataStore.SerializeToCSV;
 
@@ -11,9 +11,9 @@ import util.DataStore.SerializeToCSV;
  * This is a class to represent a camp
  * </p>
  * 
- * @author 
+ * @author Jon Daniel Acu Kang
  * @version 1.0
- * @since 5-11-2023
+ * @since 19-11-2023
  */
 public class CampInformation implements SerializeToCSV {
 
@@ -30,6 +30,10 @@ public class CampInformation implements SerializeToCSV {
     private String staffInChargeId;
     private UserGroup userGroup;
     private Faculty organisingFaculty; //null if usergroup is wholeNTU;
+
+    public CampInformation() {
+        //TODO set some defaults
+    }
 
     public CampInformation (String campName, String description, String location, int totalSlots, int committeeSlots, 
         ArrayList<LocalDate> dates, LocalDate registrationClosingDate, String staffInChargeId, UserGroup userGroup, Faculty organisingFaculty) {
@@ -119,26 +123,53 @@ public class CampInformation implements SerializeToCSV {
     }
 
     // data store functionality
-
     @Override
     public String toCSVLine() {
         String ret = "";
-        //TOOD
+        ret += campId + ","
+        + campName + ","
+        + description + ","
+        + location + ","
+        + totalSlots + ","
+        + committeeSlots + ","
+        + staffInChargeId + ","
+        + organisingFaculty + ","
+        //handle dates last
+        + registrationClosingDate + ","
+        + dates.get(0) + "," //start date
+        + dates.size() + "," //duration of camp
+        + userGroup.toCSVLine(); // do this last for simplicity
         return ret;
     }
 
     @Override
     public void fromCSVLine(String csvLine) {
         String[] split = csvLine.split(",");
-        // //TODO
-        // if (split.length != 4) {
-        //     Log.error("csvLine is invalid");
-        // } else {
-        // }
+        if (split.length != getCSVLineLength()) {
+            Log.error("csvLine is invalid");
+        } else {
+            campId = Integer.parseInt(split[0]);
+            campName = split[1];
+            description = split[2];
+            location = split[3];
+            totalSlots = Integer.parseInt(split[4]);
+            committeeSlots = Integer.parseInt(split[5]);
+            staffInChargeId = split[6];
+            organisingFaculty = Faculty.valueOf(split[7]);
+            //TODO 
+            // use helper convert this string to date format
+            // registrationClosingDate = split[8];
+            String startDate = split[9];
+            int duration = Integer.parseInt(split[10]);
+            //TODO
+            //setDates(startDate, duration)
+            userGroup = new UserGroup();
+            userGroup.fromCSVLine(split[11]);
+        }
     }
 
     @Override
     public int getCSVLineLength() {
-        return 1; //todo
+        return 11 + userGroup.getCSVLineLength();
     }
 }

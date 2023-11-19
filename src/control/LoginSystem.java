@@ -1,7 +1,7 @@
 package control;
 
-import util.Log;
 import entity.User;
+import util.Log;
 
 /**
  * <p>
@@ -15,11 +15,13 @@ import entity.User;
  */
 public class LoginSystem {
 
+    private DataStoreSystem dataStoreSystem;
     private User currentUser;
     private final static int MIN_PASSWORD_LEN = 8;
     
-    public LoginSystem() {
+    public LoginSystem(DataStoreSystem dataStoreSystem) {
         currentUser = null;
+        this.dataStoreSystem = dataStoreSystem;
     }
 
     public User getCurrentUser() {
@@ -30,7 +32,7 @@ public class LoginSystem {
         Log.info("logging in " + userID);
         // find user with username, then check for correct password
         currentUser = null;
-        User user = DataStoreSystem.getInstance().queryUser(userID);
+        User user = dataStoreSystem.queryUser(userID);
         if (user != null) {
             if (user.getPassword().equals(password))
                 currentUser = user;
@@ -44,8 +46,8 @@ public class LoginSystem {
         currentUser = null;
     }
 
-    public boolean changeUserPassword(User user, String newPassword) {
-        String oldPassword = user.getPassword();
+    public boolean changeUserPassword(String newPassword) {
+        String oldPassword = currentUser.getPassword();
         if (oldPassword.equals(newPassword)) {
             Log.println("Error! New password same as old password!");
             return false;
@@ -54,8 +56,8 @@ public class LoginSystem {
             Log.println("Password does not meet required length!");
             return false;
         }
-        user.setPassword(newPassword);
-        DataStoreSystem.getInstance().updateUserPassword(user.getUserID(), newPassword);
+        currentUser.setPassword(newPassword);
+        dataStoreSystem.updateUserPassword(currentUser.getUserID(), newPassword);
         Log.println("Password changed.");
         return true;
     }

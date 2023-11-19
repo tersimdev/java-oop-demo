@@ -1,21 +1,14 @@
 package control;
 
-import entity.User;
-import entity.UserGroup;
-import util.DateStringHelper;
-import util.Input;
-import util.Log;
-import entity.Student;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 import entity.Camp;
 import entity.CampCommitteeMember;
 import entity.CampInformation;
-import entity.Faculty;
+import entity.Student;
+import util.Input;
+import util.Log;
 
 /**
  * <p>
@@ -27,12 +20,14 @@ import entity.Faculty;
  * @since 18-11-2023
  */
 public class CampSystem {
+    private DataStoreSystem dataStoreSystem;
     private ArrayList<Camp> camps;
     private ArrayList<Integer> deletedIdList;
 
-    public CampSystem() {
+    public CampSystem(DataStoreSystem dataStoreSystem) {
         camps = new ArrayList<Camp>();
         deletedIdList = new ArrayList<Integer>();
+        this.dataStoreSystem = dataStoreSystem;
     }
 
     // Staff functions
@@ -47,10 +42,8 @@ public class CampSystem {
         return;
     }
 
-    public void editCamp (int campId, int updateChoice) {
+    public void editCamp (int campId, int updateChoice, Input input) {
         Camp camp = getCampById(campId);
-        Input input = Input.getInstance();
-        
         switch (updateChoice) {
             case 1:
                 String newCampName = input.getLine("Please enter the new camp name: ");

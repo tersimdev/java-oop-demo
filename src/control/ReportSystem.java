@@ -1,13 +1,16 @@
 package control;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import entity.Camp;
-import entity.CampReportFilter;
 import entity.CampReportOptions;
 import entity.User;
+import util.Log;
+import util.ReportWriter.CSVWriterImpl;
 import util.ReportWriter.ReportWriterInterface;
-
-import java.io.IOException;
-import java.util.List;
+import util.ReportWriter.TXTWriterImpl;
 
 /**
  * A singleton class to generate reports for staff and committee members.
@@ -18,45 +21,50 @@ import java.util.List;
  * @since 19-11-2023
  */
 public class ReportSystem {
-    private List<ReportWriterInterface> reportWriters;
+    //map of file extensions to writing implementation
+    private Map<String, ReportWriterInterface> reportWriters;
 
-    public ReportSystem(List<ReportWriterInterface> reportWriters) {
-        this.reportWriters = reportWriters;
+    //an exception class to catch and handle
+    public static class ReportWriteException extends Exception {
+        public ReportWriteException() {
+            super();
+            Log.error("Error! ReportWriteException.");
+            Log.error("ReportWriter encountered an unspecified issue.");
+        }
+        public ReportWriteException(String message) {
+            super();
+            Log.error("ReportWriter encountered an issue:");
+            Log.error(message);
+        }
     }
 
-    public void generateReport(CampReportOptions reportOptions, User user, Camp camp) {
-        StringBuilder reportContent = generateCampReportContent(user, camp, reportOptions.getFilter());
+    public ReportSystem() {
+        this.reportWriters = new HashMap<>();
+        reportWriters.put(".txt", new TXTWriterImpl());
+        reportWriters.put(".csv", new CSVWriterImpl());
+    }
 
-        String fileName = reportOptions.getFilePath() + reportOptions.getFileName() + reportOptions.getFileType();
+    public void generateCampReport(CampReportOptions reportOptions, User user, Camp camp) {
+        String filetype = reportOptions.getFileType();
+        ReportWriterInterface writer = reportWriters.get(filetype);
+        if (writer == null) {
+            Log.error("writer implementation not found, file type is likely invalid");
+            return;
+        }
+
         try {
-            for (ReportWriterInterface reportWriter : reportWriters) {
-                reportWriter.writeReport(fileName, reportContent.toString());
-            }
-            System.out.println("Report Generated: " + fileName);
+            writer.writeCampReport(reportOptions, user, camp);
+        } catch (ReportWriteException exception) {
+            Log.println("Error! Failed to Generate Report.");
+            //error msg for devs
+            Log.error("ReportWriteException while writing report using " + filetype); 
+            Log.error(exception.getMessage());
         } catch (IOException exception) {
-            exception.printStackTrace();
-            System.err.println("Error generating the report. Please try again");
+            Log.println("Error! Failed to write reoprt to file.");
+            Log.error("IOException while writing report using " + filetype); //error msg for devs
         }
     }
-
-    private StringBuilder generateCampReportContent(User user, Camp camp, CampReportFilter filter) {
-        if (camp == null || camp.getCampInformation() == null) {
-            return new StringBuilder("Invalid camp or camp information is missing.");
-        }
-
-        StringBuilder reportContent = new StringBuilder();
-
-        reportContent.append("Camp Name: ").append(camp.getCampInformation().getCampName()).append("\n");
-        reportContent.append("Dates: ").append(camp.getCampInformation().getDates()).append("\n");
-
-        reportContent.append("\nCamp Attendees:\n");
-        for (String attendee : camp.getAttendees()) {
-            if (filter == null || 
-                    (filter == CampReportFilter.ATTENDEE && attendee.contains("ATTENDEE")) ||
-                    (filter == CampReportFilter.CAMP_COMMITTEE && attendee.contains("CAMP_COMMITTEE"))) {
-                reportContent.append("- ").append(attendee).append("\n");
-            }
-        }
-        return reportContent;
+    public void generateEnquiryReport() {
+        //TODO
     }
 }

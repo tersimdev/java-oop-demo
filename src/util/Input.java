@@ -2,7 +2,6 @@ package util;
 
 import java.util.Scanner;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.NoSuchElementException;
@@ -20,20 +19,15 @@ import java.util.NoSuchElementException;
 public class Input {
 
     private Scanner scanner;
-
-    private static Input instance = null;
-
     private final static String INVALID_INPUT_MSG = " Invalid input, try again: ";
 
-    private Input() {
+    public Input() {
+        createScanner();
+    }
+    
+    public void createScanner() {
         scanner = new Scanner(System.in);
         Log.info("Creating scanner");
-    }
-
-    public static Input getInstance() {
-        if (instance == null)
-            instance = new Input();
-        return instance;
     }
 
     /*
@@ -49,8 +43,6 @@ public class Input {
         if (scanner != null) {
             scanner.close();
             scanner = null;
-            // set instance to null, so that next getInstance creates the scanner
-            instance = null;
         }
         Log.info("Closing scanner");
     }

@@ -67,8 +67,9 @@ public abstract class User implements SerializeToCSV {
     @Override
     public void fromCSVLine(String csvLine) {
         String[] split = csvLine.split(",");
-        if (split.length != getCSVLineLength()) {
-            Log.error("csvLine is invalid");
+        if (split.length != User.this.getCSVLineLength()) {
+            Log.error("user csvLine is invalid, expected " + User.this.getCSVLineLength() + " but got " + split.length);
+            Log.error(csvLine);
         } else {
             displayName = split[0].trim();
             userID = split[1].trim().toUpperCase();
