@@ -150,20 +150,52 @@ public class StudentMenu extends Menu {
                     ArrayList<CampSuggestion> comSuggestionList = new ArrayList<>();
                     comSuggestionList = feedbackSystem.getCampSuggestions(selCampName);
                     int size3 = comSuggestionList.size();
-                    int k = 0;
                     for (int i = 0; i < size3; i++) {
                         CampSuggestion temp = comSuggestionList.get(i);
                         if (temp.getOwner()!=student.getUserID()) continue;
                         if (!temp.isPending()) continue;
                         else {
-                            Log.println("SuggestionID: " + k);
+                            Log.println("SuggestionID: " + temp.getSuggestionId());
                             Log.println("CampCommitteeMemberID: " + temp.getOwner());
                             Log.println("Suggestion Status: Pending");
                             Log.println("Suggestion: " + temp.getSuggestion());
                             Log.println("");
                         }
-                        k++;
                     }
+                    Log.println("===Please select the following options=== ");
+                    Log.println("(1) Edit Suggestion");
+                    Log.println("(2) Delete Suggestion");
+                    Log.println("(3) Back to Student Menu");
+                    int cChoice = -1;
+                    while (cChoice < 0) {
+                        cChoice = Input.getInstance().getInt("Enter choice: ");
+                        if (cChoice==1){
+                            int suggestionId = Input.getInstance().getInt("Please enter the suggestionId of the suggestion to edit: ");
+                            String newSuggestion = Input.getInstance().getLine("Please enter new suggestion: ");
+                            Boolean result = feedbackSystem.editCampSuggestion(selCampName, suggestionId, newSuggestion);
+                            if(result) 
+                                Log.println("Edit successful.");
+                            else 
+                                Log.println("Edit failed.");
+                            break;
+                        }
+                        else if (cChoice==2){
+                            int suggestionId = Input.getInstance().getInt("Please enter the suggestionId of the suggestion to delete: ");
+                            Boolean result = feedbackSystem.removeCampSuggestionById(selCampName, suggestionId);
+                            if(result) 
+                                Log.println("Deletion successful.");
+                            else 
+                                Log.println("Deletion failed.");
+                            break;
+                        }
+                        else if (cChoice ==3) break;
+                        else{
+                            Log.println("Invalid choice! Try again.");
+                            sChoice = -1;
+                        }
+                    }
+
+
                     break;
                 case 13:
                     // View Camp Enquiries
