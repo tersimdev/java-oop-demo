@@ -1,6 +1,7 @@
 package util;
 
 import java.util.Scanner;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -93,12 +94,12 @@ public class Input {
         return scanner.nextLine();
     }
 
-    public LocalDateTime getDate(String msg) {
+    public LocalDate getDate(String msg) {
         Log.print(msg);
         String dateStr = scanner.next();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("DD/MM/YYYY");  
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");  
         try {
-            LocalDateTime date = LocalDateTime.parse(dateStr, formatter);
+            LocalDate date = LocalDate.parse(dateStr, formatter);
             return date;
         } catch (DateTimeParseException e) {
             Log.debug("Invalid date format. Please enter the date in the format DD/MM/YYYY.");

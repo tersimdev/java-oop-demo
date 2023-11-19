@@ -1,5 +1,6 @@
 package boundary;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -77,11 +78,11 @@ public class StaffMenu extends Menu {
                             .getInt("Please enter the camp's number of committee slots: ");
                     int duration = Input.getInstance()
                             .getInt("Please enter the number of days the camp will be held: ");
-                    LocalDateTime registrationClosingDate = Input.getInstance()
-                            .getDate("Please enter the closing date for registration (DD/MM/YYYY): ");
-                    LocalDateTime firstDate = Input.getInstance()
+                    LocalDate firstDate = Input.getInstance()
                             .getDate("Please enter the date of day number 1 (DD/MM/YYYY): ");
-                    ArrayList<LocalDateTime> dates = new ArrayList<LocalDateTime>();
+                    LocalDate registrationClosingDate = Input.getInstance()
+                            .getDate("Please enter the closing date for registration (DD/MM/YYYY): ");
+                    ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
                     for (int i = 0; i < duration; i++) {
                         dates.add(firstDate);
                         firstDate = firstDate.plusDays(1);
