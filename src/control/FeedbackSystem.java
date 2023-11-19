@@ -85,6 +85,16 @@ public class FeedbackSystem {
         return false;
     }
 
+    public boolean replyCampEnquiry(String commMemberId, String campName, int enquiryId, String reply) {
+        ArrayList<CampEnquiry> enquiries = enquiriesMap.get(campName);
+        if (enquiries != null && enquiryId >= 0 && enquiryId < enquiries.size()) {
+            CampEnquiry campEnquiry = enquiries.get(enquiryId);
+            campEnquiry.reply(commMemberId, reply);
+            return true;
+        }
+        return false;
+    }
+
     public ArrayList<CampEnquiry> getCampEnquiries(String campName){
         return enquiriesMap.getOrDefault(campName, new ArrayList<>());
     }
