@@ -26,24 +26,22 @@ import entity.Faculty;
  */
 public class CampSystem {
     private ArrayList<Camp> camps;
+    private ArrayList<Integer> deletedIdList;
 
     public CampSystem() {
         camps = new ArrayList<Camp>();
+        deletedIdList = new ArrayList<Integer>();
     }
 
     // Staff functions
     public void createCamp(int campId, CampInformation campInfo, ArrayList<String> studentList) {
-        camps.add(new Camp(campId, campInfo, studentList));
+        camps.add(0, new Camp(campId, campInfo, studentList));
     }
 
     public void deleteCamp(String campName) {
         Camp camp = getCampByName(campName);
-        int index = camp.getCampId()-1;
-        camps.remove(index);
-        // update campId for remaining camps 
-        for (int i = index; i < camps.size(); i++) {
-            camps.get(i).setCampId(i-1);
-        }
+        deletedIdList.add(0, camp.getCampId());
+        camps.remove(camp);
         return;
     }
 
@@ -81,7 +79,7 @@ public class CampSystem {
                 LocalDateTime firstDate = input.getDate("Please enter the date of the first day of the camp: ");
                 ArrayList<LocalDateTime> dates = new ArrayList<LocalDateTime>();
                 for (int i = 0; i < duration; i++) {
-                    dates.add(firstDate);
+                    dates.add(i, firstDate);
                     firstDate = firstDate.plusDays(1);
                 }
                 camp.getCampInformation().setDates(dates);
@@ -144,7 +142,13 @@ public class CampSystem {
         return null;
     }
 
-    public int getTotalNumberOfCamps() {
-        return camps.size();
+    public int generateNewCampId() {
+        if (deletedIdList.isEmpty()) {
+            int lastIndex = camps.size()-1;
+            return camps.get(lastIndex).getCampId()+1;
+        }
+        else {
+            return deletedIdList.remove(0);
+        }
     }
 }
