@@ -25,12 +25,14 @@ import entity.Faculty;
  * @since 18-11-2023
  */
 public class CampSystem {
+    private DataStoreSystem dataStoreSystem;
     private ArrayList<Camp> camps;
     private ArrayList<Integer> deletedIdList;
 
-    public CampSystem() {
+    public CampSystem(DataStoreSystem dataStoreSystem) {
         camps = new ArrayList<Camp>();
         deletedIdList = new ArrayList<Integer>();
+        this.dataStoreSystem = dataStoreSystem;
     }
 
     // Staff functions
@@ -122,7 +124,7 @@ public class CampSystem {
         for (int i = 0; i < camp.getStudentList().size(); i++) {
             // query students, if student is a committee member then print
             String studentId = camp.getStudentList().get(i);
-            Student student = (Student) DataStoreSystem.getInstance().queryUser(studentId);
+            Student student = (Student) dataStoreSystem.queryUser(studentId);
             if (student.getCampCommitteeMember() != null) {
                 Log.println(studentId);
             }

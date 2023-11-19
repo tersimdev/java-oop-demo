@@ -106,7 +106,6 @@ public class ConsoleUI {
 
     public void cleanup() {
         input.close();
-        DataStoreSystem.getInstance().cleanup();
     }
 
     private void switchState() {

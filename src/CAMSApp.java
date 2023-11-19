@@ -4,7 +4,6 @@ import control.DataStoreSystem;
 import control.FeedbackSystem;
 import control.LoginSystem;
 import control.ReportSystem;
-import util.Input;
 
 /**
  * <p>
@@ -19,20 +18,20 @@ import util.Input;
  */
 public class CAMSApp {
     private ConsoleUI consoleUI;
+    private DataStoreSystem dataStoreSystem;
     private LoginSystem loginSystem;
     private CampSystem campSystem;
     private FeedbackSystem feedbackSystem;
     private ReportSystem reportSystem;
 
     public void init() {
-        //init singletons
-        DataStoreSystem.getInstance(); 
-        
         //create systems
-        loginSystem = new LoginSystem();
-        campSystem = new CampSystem();
-        feedbackSystem = new FeedbackSystem();
+        dataStoreSystem = new DataStoreSystem();
+        loginSystem = new LoginSystem(dataStoreSystem);
+        campSystem = new CampSystem(dataStoreSystem);
+        feedbackSystem = new FeedbackSystem(dataStoreSystem);
         reportSystem = new ReportSystem();
+
 
         //create ui
         consoleUI = new ConsoleUI();
@@ -48,5 +47,6 @@ public class CAMSApp {
     public void cleanup() {
         consoleUI.cleanup();
         //cleanup systems here
+        dataStoreSystem.cleanup();
     }
 };

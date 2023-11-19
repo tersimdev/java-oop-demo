@@ -17,12 +17,14 @@ import java.util.HashMap;
  * @since 1-11-2023
  */
 public class FeedbackSystem {
+    private DataStoreSystem dataStoreSystem;
     private Map<String, ArrayList<CampEnquiry>> enquiriesMap;
     private Map<String, ArrayList<CampSuggestion>> suggestionsMap;
 
-    public FeedbackSystem() {
+    public FeedbackSystem(DataStoreSystem dataStoreSystem) {
         this.enquiriesMap = new HashMap<>();
         this.suggestionsMap= new HashMap<>();
+        this.dataStoreSystem = dataStoreSystem;
     }
 
     public void addCampEnquiry(String campName, CampEnquiry enquiry) {
