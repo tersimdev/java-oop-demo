@@ -73,7 +73,7 @@ public class CampEnquiry implements SerializeToCSV {
         if (replierId != null)
             ret += replierId + "," + reply;
         else
-            ret += ",";
+            ret += "-1,-";
         return ret;
     }
 

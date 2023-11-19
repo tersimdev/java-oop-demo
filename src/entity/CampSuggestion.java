@@ -81,7 +81,7 @@ public class CampSuggestion implements SerializeToCSV {
         if (approverId != null)
             ret += approverId + "," + approvalStatus;
         else
-            ret += ",0";
+            ret += "-1,0";
         return ret;
     }
 
