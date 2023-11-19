@@ -37,6 +37,7 @@ public class CampEnquiry implements SerializeToCSV {
     public String getOwner() { return ownerId; }
     public String getEnquiry() { return enquiry; }
     public String getReply() { return reply; }
+    public void setEnquiryId(int enquiryId) { this.enquiryId = enquiryId; }
 
     public void reply(String commMemberID, String reply) {
         this.reply = reply;
