@@ -2,6 +2,7 @@ package entity;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,8 +14,8 @@ import util.DataStore.SerializeToCSV;
  * This is a class to represent a camp
  * </p>
  * 
- * @author 
- * @version 1.0
+ * @author Lim Jun Rong Ryan
+ * @version 1.1
  * @since 19-11-2023
  */
 public class Camp implements SerializeToCSV {
@@ -32,7 +33,7 @@ public class Camp implements SerializeToCSV {
     public Camp(int campId, CampInformation campInfo, ArrayList<String> studentList) {
         this.campId = campId;
         this.campInfo = campInfo;
-        this.studentList = null;
+        this.studentList = new ArrayList<>();
         this.visibility = true;
         totalNumberOfCamps++;
     }
@@ -110,5 +111,13 @@ public class Camp implements SerializeToCSV {
     @Override
     public int getCSVLineLength() {
         return 3 + campInfo.getCSVLineLength();
+    }
+
+    public String getCampName(){
+        return campInfo.getCampName();
+    }
+
+    public List<Student> getAttendees(){
+        return studentList;
     }
 }
