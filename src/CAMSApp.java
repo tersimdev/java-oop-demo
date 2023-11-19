@@ -38,7 +38,6 @@ public class CAMSApp {
         //create ui
         consoleUI = new ConsoleUI();
         consoleUI.init(loginSystem, campSystem, feedbackSystem, reportSystem);
-        consoleUI.cleanup();
     }
     /**
      * run app main update loop
