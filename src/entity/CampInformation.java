@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.ArrayList;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import util.Log;
 import util.DataStore.SerializeToCSV;
@@ -23,15 +24,15 @@ public class CampInformation implements SerializeToCSV {
     private int totalSlots; //for attendees
     private int committeeSlots;
 
-    private ArrayList<LocalDateTime> dates;
-    private LocalDateTime registrationClosingDate;
+    private ArrayList<LocalDate> dates;
+    private LocalDate registrationClosingDate;
     
     private String staffInChargeId;
     private UserGroup userGroup;
     private Faculty organisingFaculty; //null if usergroup is wholeNTU;
 
     public CampInformation (String campName, String description, String location, int totalSlots, int committeeSlots, 
-        ArrayList<LocalDateTime> dates, LocalDateTime registrationClosingDate, String staffInChargeId, UserGroup userGroup, Faculty organisingFaculty) {
+        ArrayList<LocalDate> dates, LocalDate registrationClosingDate, String staffInChargeId, UserGroup userGroup, Faculty organisingFaculty) {
             this.campName = campName;
             this.description = description;
             this.location = location;
@@ -55,20 +56,20 @@ public class CampInformation implements SerializeToCSV {
         return;
     }
 
-    public ArrayList<LocalDateTime> getDates() {
+    public ArrayList<LocalDate> getDates() {
         return dates;
     }
 
-    public void setDates(ArrayList<LocalDateTime> dates) {
+    public void setDates(ArrayList<LocalDate> dates) {
         this.dates = dates;
         return;
     }
 
-    public LocalDateTime getRegistrationClosingDate() {
+    public LocalDate getRegistrationClosingDate() {
         return registrationClosingDate;
     }
 
-    public void setRegistrationClosingDate(LocalDateTime registrationClosingDate) {
+    public void setRegistrationClosingDate(LocalDate registrationClosingDate) {
         this.registrationClosingDate = registrationClosingDate;
         return;
     }

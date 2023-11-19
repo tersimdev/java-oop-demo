@@ -76,8 +76,8 @@ public class CampSystem {
 
             case 6:
                 int duration = input.getInt("Please enter the number of days the camp will be held: ");
-                LocalDateTime firstDate = input.getDate("Please enter the date of the first day of the camp: ");
-                ArrayList<LocalDateTime> dates = new ArrayList<LocalDateTime>();
+                LocalDate firstDate = input.getDate("Please enter the date of the first day of the camp: ");
+                ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
                 for (int i = 0; i < duration; i++) {
                     dates.add(i, firstDate);
                     firstDate = firstDate.plusDays(1);
@@ -86,7 +86,7 @@ public class CampSystem {
                 break;
 
             case 7:
-                LocalDateTime registrationClosingDate = input.getDate("Please enter the new closing date for registration: ");
+                LocalDate registrationClosingDate = input.getDate("Please enter the new closing date for registration: ");
                 camp.getCampInformation().setRegistrationClosingDate(registrationClosingDate);
                 break;
 
@@ -131,6 +131,8 @@ public class CampSystem {
         }
     }
 
+    // Student functions
+
 
     // utility functions
     public Camp getCampByName(String campName) {
@@ -144,8 +146,7 @@ public class CampSystem {
 
     public int generateNewCampId() {
         if (deletedIdList.isEmpty()) {
-            int lastIndex = camps.size()-1;
-            return camps.get(lastIndex).getCampId()+1;
+            return camps.size();
         }
         else {
             return deletedIdList.remove(0);

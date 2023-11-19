@@ -1,5 +1,6 @@
 package entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -62,8 +63,8 @@ public class Camp implements SerializeToCSV {
     // }
 
     private boolean checkRegistrationClosed() {
-        LocalDateTime today = LocalDateTime.now();
-        LocalDateTime deadline = campInformation.getRegistrationClosingDate();
+        LocalDate today = LocalDate.now();
+        LocalDate deadline = campInformation.getRegistrationClosingDate();
         if (today.compareTo(deadline) >= 0) return true; // registration is closed
         return false;
     }
