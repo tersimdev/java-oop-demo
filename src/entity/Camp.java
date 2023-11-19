@@ -21,36 +21,34 @@ import util.DataStore.SerializeToCSV;
 public class Camp implements SerializeToCSV {
 
     private int campId;
-    private CampInformation campInfo;
-    private ArrayList<Student> studentList; //store student ids
+    private CampInformation campInformation;
+    private ArrayList<String> studentList; //store student ids
     private boolean visibility; //staff can set this to false to hide, if no one registered and stuff yet
-    private static int totalNumberOfCamps = 1; //use this value to set campId when creating new camps !!!DOES THIS WORK AHAHAHA
 
     public Camp() {
         //todo default vals
     }
 
-    public Camp(int campId, CampInformation campInfo, ArrayList<String> studentList) {
+    public Camp(int campId, CampInformation campInformation, ArrayList<String> studentList) {
         this.campId = campId;
-        this.campInfo = campInfo;
+        this.campInformation = campInformation;
         this.studentList = new ArrayList<>();
         this.visibility = true;
-        totalNumberOfCamps++;
     }
 
     public int getCampId() {
         return campId;
     }
 
-    public ArrayList<Student> getStudentList() {
+    public ArrayList<String> getStudentList() {
         return studentList;
     }
 
-    public CampInformation getCampInfo() {
-        return campInfo;
+    public CampInformation getCampInformation() {
+        return campInformation;
     }
 
-    public void registerStudent(Student student) {
+    public void registerStudent(String student) {
         studentList.add(student);
     }
 
@@ -60,18 +58,14 @@ public class Camp implements SerializeToCSV {
 
     private boolean checkRegistrationClosed() {
         LocalDateTime today = LocalDateTime.now();
-        LocalDateTime deadline = campInfo.getRegistrationClosingDate();
+        LocalDateTime deadline = campInformation.getRegistrationClosingDate();
         if (today.compareTo(deadline) >= 0) return true; // registration is closed
         return false;
     }
 
     private boolean checkCampFull() {
-        if (studentList.size() >= campInfo.getTotalSlots()) return true; //camp is full
+        if (studentList.size() >= campInformation.getTotalSlots()) return true; //camp is full
         return false;
-    }
-
-    public static int getTotalNumberOfCamps() {
-        return totalNumberOfCamps;
     }
 
     public boolean isVisibility() {
@@ -87,7 +81,7 @@ public class Camp implements SerializeToCSV {
         for (String s : studentList) {
             ret += s + ";";
         }
-        ret += "," + campInfo.toCSVLine();
+        ret += "," + campInformation.toCSVLine();
         return ret;
     }
 
@@ -104,20 +98,20 @@ public class Camp implements SerializeToCSV {
             String campInfoCSV = "";
             for (int i = 3; i < split.length; ++i)
                 campInfoCSV += split[i] + ",";
-            this.campInfo.fromCSVLine(campInfoCSV);
+            this.campInformation.fromCSVLine(campInfoCSV);
         }
     }
     
     @Override
     public int getCSVLineLength() {
-        return 3 + campInfo.getCSVLineLength();
+        return 3 + campInformation.getCSVLineLength();
     }
 
     public String getCampName(){
-        return campInfo.getCampName();
+        return campInformation.getCampName();
     }
 
-    public List<Student> getAttendees(){
+    public List<String> getAttendees(){
         return studentList;
     }
 }
