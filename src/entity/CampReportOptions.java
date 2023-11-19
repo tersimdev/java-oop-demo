@@ -2,12 +2,12 @@ package entity;
 
 /**
  * <p>
- * Class to group together camp opitions for report generation
+ * Class to group together camp options for report generation
  * </p>
  * 
  * @author Lim Jun Rong Ryan
  * @version 1.1
- * @since 18-11-2023
+ * @since 19-11-2023
  */
 public class CampReportOptions {
     private int campId;
