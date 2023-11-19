@@ -59,4 +59,10 @@ public class CampEnquiry implements SerializeToCSV {
         // } else {
         // }
     }
+
+    @Override
+    public int getCSVLineLength() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getCSVLineLength'");
+    }
 }
