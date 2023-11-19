@@ -50,27 +50,26 @@ public class StudentMenu extends Menu {
         Log.println("(3) Register as Committee");
         Log.println("(4) View Registered Camps");
         Log.println("(5) Submit Enquiries");
-        Log.println("(6) View/Edit/Delete Enquiries");
-        Log.println("(7) View Enquiry Replies");
+        Log.println("(6) View/Edit/Delete Pending Enquiries");
+        Log.println("(7) View Processed Enquiry Replies");
         Log.println("(8) Withdraw from Camp");
         if (!isCommittee)
             Log.println("(9) Back to Start");
         else {
             Log.println("==Committee Member Menu==");
             Log.println("(10) Submit Suggestions");
-            Log.println("(11) View Enquiries");
-            Log.println("(12) Reply Enquiries");
-            Log.println("(13) View Suggestions");
-            Log.println("(14) Edit Suggestions");
-            Log.println("(15) Delete Suggestions");
-            Log.println("(16) Generate Camp Report");
-            Log.println("(17) Generate Enquiry Report");
-            Log.println("(18) Back to Start");
+            Log.println("(11) View/Edit/Delete Pending Suggestions");
+            Log.println("(12) View Processed Suggestions Status");
+            Log.println("(13) View Enquiries");
+            Log.println("(14) Reply Enquiries");
+            Log.println("(15) Generate Camp Report");
+            Log.println("(16) Generate Enquiry Report");
+            Log.println("(17) Back to Start");
         }
         int choice = -1;
         while (choice < 0) {
             if (isCommittee)
-                choice = getChoice(1, 17, 18);
+                choice = getChoice(1, 16, 17);
             else
                 choice = getChoice(1, 8, 9);
             if (choice == 0) {
@@ -78,6 +77,7 @@ public class StudentMenu extends Menu {
             }
             switch (choice) {
                 case 5:
+                //Submit Enquiry
                     selCampName = Input.getInstance().getLine("Please enter the camp name to submit enquiry: ");
                     String enquiryStr = Input.getInstance().getLine("Please enter enquiry: ");
                     CampEnquiry enquiry = new CampEnquiry(student.getUserID(),enquiryStr);
@@ -85,6 +85,7 @@ public class StudentMenu extends Menu {
                     Log.println("Enquiry submitted.");
                     break;
                 case 6:
+                //View/Edit/Delete Pending Enquiries
                     selCampName = Input.getInstance().getLine("Please enter the camp name to view/edit/delete your enquiry: ");
                     ArrayList<CampEnquiry> studentEnquiryList = new ArrayList<>();
                     studentEnquiryList = feedbackSystem.getCampEnquiries(selCampName);
@@ -107,6 +108,7 @@ public class StudentMenu extends Menu {
                     break;
 
                 case 10:
+                //Submit Suggestions
                     selCampName = Input.getInstance().getLine("Please enter the camp name to submit suggestion: ");
                     String suggestionStr = Input.getInstance().getLine("Please enter suggestion: ");
                     CampSuggestion suggestion = new CampSuggestion(student.getUserID(),suggestionStr);
@@ -114,6 +116,9 @@ public class StudentMenu extends Menu {
                     Log.println("Suggestion submitted.");
                     break;
                 case 11:
+                //View/Edit/Delete Pending Suggestions
+                    break;
+                case 13:
                     // View Camp Enquiries
                     selCampName = Input.getInstance()
                             .getLine("Please enter the name of the camp you would like to view enquiries: ");
@@ -130,7 +135,7 @@ public class StudentMenu extends Menu {
                         Log.println("");
                     }
 
-                case 16:
+                case 15:
                     selCampName = Input.getInstance().getLine("Please enter the camp name for report generation: ");
                 
                     Camp camp = campSystem.getCampByName(selCampName);
