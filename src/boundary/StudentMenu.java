@@ -90,7 +90,6 @@ public class StudentMenu extends Menu {
                     ArrayList<CampEnquiry> studentEnquiryList = new ArrayList<>();
                     studentEnquiryList = feedbackSystem.getCampEnquiries(selCampName);
                     int size = studentEnquiryList.size();
-                    int j = 0;
                     for (int i = 0; i < size; i++) {
                         CampEnquiry temp = studentEnquiryList.get(i);
                         if (temp.getOwner()!=student.getUserID()) continue;
@@ -102,7 +101,31 @@ public class StudentMenu extends Menu {
                             Log.println("Enquiry: " + temp.getEnquiry());
                             Log.println("");
                         }
-                        j++;
+                    }
+                    Log.println("===Please enter your choice=== ");
+                    Log.println("(1) Edit Enquiry");
+                    Log.println("(2) Delete Enquiry");
+                    Log.println("(3) Back to Student Menu");
+                    int sChoice = -1;
+                    while (sChoice < 0) {
+                        sChoice = getChoice(1, 2, 3);
+                        if (sChoice == 0) {
+                            choice = -1;
+                            break;
+                        }
+                        switch (sChoice) {
+                            case 1:
+                                Log.println("Lol havent do");
+                            break;
+                            case 2:
+                                int enquiryId = Input.getInstance().getInt("Please enter the enquiryId of the enquiry you would like to delete: ");
+                                Boolean result = feedbackSystem.removeCampEnquiryByID(selCampName, enquiryId);
+                                if(result) 
+                                    Log.println("Deletion successful.");
+                                else 
+                                    Log.println("Deletion failed.");
+                            break;
+                        }
                     }
                     break;
 
