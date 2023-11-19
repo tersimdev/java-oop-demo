@@ -37,7 +37,14 @@ public class CampSystem {
     }
 
     public void deleteCamp(String campName) {
-
+        Camp camp = getCampByName(campName);
+        int index = camp.getCampId()-1;
+        camps.remove(index);
+        // update campId for remaining camps 
+        for (int i = index; i < camps.size(); i++) {
+            camps.get(i).setCampId(i-1);
+        }
+        return;
     }
 
     public void editCamp (String campName, int updateChoice) {

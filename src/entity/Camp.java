@@ -40,6 +40,11 @@ public class Camp implements SerializeToCSV {
         return campId;
     }
 
+    public void setCampId(int campId) {
+        this.campId = campId;
+        return;
+    }
+
     public ArrayList<String> getStudentList() {
         return studentList;
     }
