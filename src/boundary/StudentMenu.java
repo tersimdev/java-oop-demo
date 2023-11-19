@@ -1,6 +1,9 @@
 package boundary;
 
+import control.FeedbackSystem;
+import entity.CampSuggestion;
 import entity.Student;
+import util.Input;
 import util.Log;
 
 /**
@@ -20,6 +23,8 @@ public class StudentMenu extends Menu {
 
     @Override
     public boolean show() {
+        String selCampName;
+
         // assume safe, check handled by state machine
         Student student = (Student) ui.getUser();
         boolean isCommittee = student.getCampCommitteeMember() != null;
@@ -53,6 +58,14 @@ public class StudentMenu extends Menu {
                 choice = getChoice(1, 7, 8);
             if (choice == 0) {
                 ui.setStateDirty(true);
+            }
+            switch (choice) {
+                case 9:
+                    selCampName = Input.getInstance().getLine("Please enter the camp name to submit suggestion: ");
+                    String suggestionStr = Input.getInstance().getLine("Please enter suggestion: ");
+                    CampSuggestion suggestion = new CampSuggestion(student.getCampCommitteeMember(),suggestionStr);
+                    FeedbackSystem.getInstance().addCampSuggestion(selCampName, suggestion);
+                    Log.println("Suggestion submitted.");
             }
         }
         return false;

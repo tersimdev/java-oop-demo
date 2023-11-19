@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import control.CampSystem;
+import control.FeedbackSystem;
+import entity.CampEnquiry;
+import entity.CampSuggestion;
 import entity.Faculty;
 import entity.Staff;
 import entity.Student;
@@ -159,6 +162,23 @@ public class StaffMenu extends Menu {
                 case 6:
                     // View Camp Suggestions
                     selCampName = Input.getInstance().getLine("Please enter the name of the camp you would like to inspect");
+                    ArrayList<CampSuggestion> suggestionList = new ArrayList<>();
+                    suggestionList = FeedbackSystem.getInstance().getCampSuggestions(selCampName);
+                    int size = suggestionList.size();
+                    for(int i=0;i<size;i++){
+                        CampSuggestion temp = suggestionList.get(i);
+                        Log.println("Name of Camp Committee Member: " +temp.getOwner());
+
+                        if(temp.hasApproved())
+                            Log.println("Approval status: Approved");
+                        else if(temp.hasRejected())
+                            Log.println("Approval status: Rejected");
+                        else
+                            Log.println("Approval status: Pending");
+                        
+                        Log.println("Suggestion: " +temp.getSuggestion());
+                    }
+
                     
                     break;
 
