@@ -93,8 +93,7 @@ public class StudentMenu extends Menu {
                     Log.println("===Pending Enquiries===");
                     for (int i = 0; i < size; i++) {
                         CampEnquiry temp = studentEnquiryList.get(i);
-                        if (temp.getOwner()!=student.getUserID()) continue;
-                        if (temp.getReply()!=null) continue;
+                        if (temp.getOwner()!=student.getUserID() || temp.getReply()!=null) continue;
                         else {
                             Log.println("EnquiryID: " + temp.getEnquiryId());
                             Log.println("StudentID: " + temp.getOwner());
@@ -145,8 +144,7 @@ public class StudentMenu extends Menu {
                     Log.println("===Processed Enquiries===");
                     for (int i = 0; i < size5; i++) {
                         CampEnquiry temp = processedEnquiryList.get(i);
-                        if (temp.getOwner()!=student.getUserID()) continue;
-                        if (temp.getReply()==null) continue;
+                        if (temp.getOwner()!=student.getUserID() || temp.getReply()==null) continue;
                         else {
                             Log.println("EnquiryID: " + temp.getEnquiryId());
                             Log.println("StudentID: " + temp.getOwner());
@@ -174,8 +172,7 @@ public class StudentMenu extends Menu {
                     Log.println("===Pending Suggestions===");
                     for (int i = 0; i < size3; i++) {
                         CampSuggestion temp = comSuggestionList.get(i);
-                        if (temp.getOwner()!=student.getUserID()) continue;
-                        if (!temp.isPending()) continue;
+                        if (temp.getOwner()!=student.getUserID() || !temp.isPending()) continue;
                         else {
                             Log.println("SuggestionID: " + temp.getSuggestionId());
                             Log.println("CampCommitteeMemberID: " + temp.getOwner());
@@ -214,6 +211,28 @@ public class StudentMenu extends Menu {
                         else{
                             Log.println("Invalid choice! Try again.");
                             sChoice = -1;
+                        }
+                    }
+                    break;
+                case 12:
+                    //View Processed Suggestions
+                    selCampName = Input.getInstance().getLine("Please enter the camp name to view processed suggestions: ");
+                    ArrayList<CampSuggestion> processedSuggestionList = new ArrayList<>();
+                    processedSuggestionList = feedbackSystem.getCampSuggestions(selCampName);
+                    int size6 = processedSuggestionList.size();
+                    Log.println("===Processed Suggestions===");
+                    for (int i = 0; i < size6; i++) {
+                        CampSuggestion temp = processedSuggestionList.get(i);
+                        if (temp.getOwner()!=student.getUserID() || temp.isPending()) continue;
+                        else {
+                            Log.println("SuggestionID: " + temp.getSuggestionId());
+                            Log.println("CampCommitteeMemberID: " + temp.getOwner());
+                            if(temp.hasApproved()) 
+                                Log.println("Suggestion Status: Approved");
+                            else if(temp.hasRejected()) 
+                                Log.println("Suggestion Status: Rejected");
+                            Log.println("Suggestion: " + temp.getSuggestion());
+                            Log.println("");
                         }
                     }
                     break;
