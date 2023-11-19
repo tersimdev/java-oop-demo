@@ -1,5 +1,9 @@
 package control;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import entity.Camp;
 import entity.CampReportOptions;
 import entity.User;
@@ -7,10 +11,6 @@ import util.Log;
 import util.ReportWriter.CSVWriterImpl;
 import util.ReportWriter.ReportWriterInterface;
 import util.ReportWriter.TXTWriterImpl;
-
-import java.io.IOException;
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  * A singleton class to generate reports for staff and committee members.

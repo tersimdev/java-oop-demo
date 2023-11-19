@@ -1,19 +1,13 @@
 package control;
 
-import entity.User;
-import entity.UserGroup;
-import util.Input;
-import util.Log;
-import entity.Student;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 import entity.Camp;
 import entity.CampInformation;
-import entity.Faculty;
+import entity.Student;
+import util.Input;
+import util.Log;
 
 /**
  * <p>

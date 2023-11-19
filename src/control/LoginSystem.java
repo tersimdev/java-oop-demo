@@ -1,7 +1,7 @@
 package control;
 
-import util.Log;
 import entity.User;
+import util.Log;
 
 /**
  * <p>

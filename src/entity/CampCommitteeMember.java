@@ -1,8 +1,5 @@
 package entity;
 
-import control.LoginSystem;
-import util.Log;
-
 /**
  * <p>
  * This is an entity class to represent a camp committee member

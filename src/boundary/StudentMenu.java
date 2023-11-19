@@ -1,15 +1,14 @@
 package boundary;
 
-import control.FeedbackSystem;
-import control.ReportSystem;
-
 import java.util.ArrayList;
 
 import control.CampSystem;
+import control.FeedbackSystem;
+import control.ReportSystem;
 import entity.Camp;
+import entity.CampEnquiry;
 import entity.CampReportFilter;
 import entity.CampReportOptions;
-import entity.CampEnquiry;
 import entity.CampSuggestion;
 import entity.Student;
 import util.Log;

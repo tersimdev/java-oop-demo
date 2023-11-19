@@ -1,9 +1,8 @@
 package entity;
 
-import java.util.ArrayList;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import util.Log;
+import java.util.ArrayList;
+
 import util.DataStore.SerializeToCSV;
 
 /**

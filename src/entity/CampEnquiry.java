@@ -1,6 +1,5 @@
 package entity;
 
-import util.Log;
 import util.DataStore.SerializeToCSV;
 
 /**

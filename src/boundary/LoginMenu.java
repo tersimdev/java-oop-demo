@@ -1,9 +1,8 @@
 package boundary;
 
 import control.LoginSystem;
-import util.Input;
-import util.Log;
 import entity.User;
+import util.Log;
 
 /**
  * <p>
