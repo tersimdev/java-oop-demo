@@ -37,6 +37,7 @@ public class CampSuggestion implements SerializeToCSV {
     public String getOwner() { return ownerId; }
     public String getSuggestion() {return suggestion; }
     public void setSuggestionId(int suggestionId) { this.suggestionId = suggestionId; }
+    public void setSuggestion(String newSuggestion) { this.suggestion = newSuggestion; }
     public boolean isPending() {return approvalStatus == 0; }
     public boolean hasApproved() { return approvalStatus == 1; } 
     public boolean hasRejected() { return approvalStatus == 2; } 

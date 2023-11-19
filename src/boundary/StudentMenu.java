@@ -110,7 +110,13 @@ public class StudentMenu extends Menu {
                     while (sChoice < 0) {
                         sChoice = Input.getInstance().getInt("Enter choice: ");
                         if (sChoice==1){
-                            Log.println("Lol havent do");
+                            int enquiryId = Input.getInstance().getInt("Please enter the enquiryId of the enquiry to edit: ");
+                            String newEnquiry = Input.getInstance().getLine("Please enter new enquiry: ");
+                            Boolean result = feedbackSystem.editCampEnquiry(selCampName, enquiryId, newEnquiry);
+                            if(result) 
+                                Log.println("Edit successful.");
+                            else 
+                                Log.println("Edit failed.");
                             break;
                         }
                         else if (sChoice==2){
