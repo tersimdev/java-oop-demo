@@ -86,7 +86,7 @@ public class StudentMenu extends Menu {
                     break;
                 case 6:
                 //View/Edit/Delete Pending Enquiries
-                    selCampName = Input.getInstance().getLine("Please enter the camp name to view/edit/delete your enquiry: ");
+                    selCampName = Input.getInstance().getLine("Please enter the camp name to view/edit/delete your enquiries: ");
                     ArrayList<CampEnquiry> studentEnquiryList = new ArrayList<>();
                     studentEnquiryList = feedbackSystem.getCampEnquiries(selCampName);
                     int size = studentEnquiryList.size();
@@ -94,13 +94,12 @@ public class StudentMenu extends Menu {
                     for (int i = 0; i < size; i++) {
                         CampEnquiry temp = studentEnquiryList.get(i);
                         if (temp.getOwner()!=student.getUserID()) continue;
+                        if (temp.getReply()!=null) continue;
                         else {
                             Log.println("EnquiryID: " + j);
                             Log.println("StudentID: " + temp.getOwner());
-                            if (temp.getReply()==null)
-                                Log.println("Reply: Null");
-                            else
-                                Log.println("Reply: " +temp.getReply());
+                            Log.println("Enquiry Status: Pending");
+                            Log.println("Enquiry: " + temp.getEnquiry());
                             Log.println("");
                         }
                         j++;
@@ -117,6 +116,24 @@ public class StudentMenu extends Menu {
                     break;
                 case 11:
                 //View/Edit/Delete Pending Suggestions
+                    selCampName = Input.getInstance().getLine("Please enter the camp name to view/edit/delete your suggestions: ");
+                    ArrayList<CampSuggestion> comSuggestionList = new ArrayList<>();
+                    comSuggestionList = feedbackSystem.getCampSuggestions(selCampName);
+                    int size3 = comSuggestionList.size();
+                    int k = 0;
+                    for (int i = 0; i < size3; i++) {
+                        CampSuggestion temp = comSuggestionList.get(i);
+                        if (temp.getOwner()!=student.getUserID()) continue;
+                        if (!temp.isPending()) continue;
+                        else {
+                            Log.println("SuggestionID: " + k);
+                            Log.println("CampCommitteeMemberID: " + temp.getOwner());
+                            Log.println("Suggestion Status: Pending");
+                            Log.println("Suggestion: " + temp.getSuggestion());
+                            Log.println("");
+                        }
+                        k++;
+                    }
                     break;
                 case 13:
                     // View Camp Enquiries
