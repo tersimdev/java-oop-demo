@@ -146,6 +146,7 @@ public class CampInformation implements SerializeToCSV {
         return dates;
     }
 
+    //function overloading :)
     public void setDates(String startDate, int duration) {
         LocalDate firstDate = DateStringHelper.StrToDateConverter(startDate);
         for (int i = 0; i < duration; i++) {
@@ -249,12 +250,9 @@ public class CampInformation implements SerializeToCSV {
             committeeSlots = Integer.parseInt(split[5]);
             staffInChargeId = split[6];
             organisingFaculty = Faculty.valueOf(split[7]);
-            //TODO 
-            // use helper convert this string to date format
             registrationClosingDate = DateStringHelper.StrToDateConverter(split[8]);
             String startDate = split[9];
             int duration = Integer.parseInt(split[10]);
-            //TODO
             setDates(startDate, duration);
             userGroup = new UserGroup();
             userGroup.fromCSVLine(split[11]);

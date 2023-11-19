@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import entity.CampInformation.CampInformationBuilder;
 import util.Log;
 import util.DataStore.SerializeToCSV;
 
@@ -160,7 +161,7 @@ public class Camp implements SerializeToCSV {
             String campInfoCSV = "";
             for (int i = 3; i < split.length; ++i)
                 campInfoCSV += split[i] + ",";
-            this.campInformation = new CampInformation();
+            this.campInformation = new CampInformationBuilder().build();
             this.campInformation.fromCSVLine(campInfoCSV);
         }
     }
