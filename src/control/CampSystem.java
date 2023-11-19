@@ -2,6 +2,7 @@ package control;
 
 import entity.User;
 import entity.UserGroup;
+import util.DateStringHelper;
 import util.Input;
 import util.Log;
 import entity.Student;
@@ -77,7 +78,7 @@ public class CampSystem {
 
             case 6:
                 int duration = input.getInt("Please enter the number of days the camp will be held: ");
-                LocalDate firstDate = input.getDate("Please enter the date of the first day of the camp: ");
+                LocalDate firstDate = input.getDate("Please enter the date of the first day of the camp (DD/MM/YYYY): ");
                 ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
                 for (int i = 0; i < duration; i++) {
                     dates.add(i, firstDate);
@@ -107,11 +108,15 @@ public class CampSystem {
         for (Camp camp : camps) {
             String campName = camp.getCampInformation().getCampName();
             int campId = camp.getCampId();
+            String location = camp.getCampInformation().getLocation();
             Log.println("ID, Camp Name, Camp Location");
-            Log.println(campId + ", " + campName + ", " + camp.getCampInformation().getLocation());
+            Log.println(campId + ", " + campName + ", " + location);
             Log.println("=======================");
             Log.println(camp.getCampInformation().getDescription());
-            Log.println("Camp dates: " + camp.getCampInformation().getDates());
+            Log.println("=======================");
+            Log.println("Start date: " + camp.getCampInformation().getDates().get(0));
+            Log.println("End date: " + camp.getCampInformation().getDates().get(camp.getCampInformation().getDates().size()-1));
+            Log.println("Registration closing date: " + camp.getCampInformation().getRegistrationClosingDate());
         }
     }
 
@@ -139,7 +144,17 @@ public class CampSystem {
         Log.println("ID, Camp Name");
         for (Camp camp : camps) {
             if (!camp.checkCampFull() && !camp.checkRegistrationClosed()) {
-                Log.println(camp.getCampId() + ", " + camp.getCampName());
+                String campName = camp.getCampInformation().getCampName();
+                int campId = camp.getCampId();
+                String location = camp.getCampInformation().getLocation();
+                Log.println("ID, Camp Name, Camp Location");
+                Log.println(campId + ", " + campName + ", " + location);
+                Log.println("=======================");
+                Log.println(camp.getCampInformation().getDescription());
+                Log.println("=======================");
+                Log.println("Start date: " + camp.getCampInformation().getDates().get(0));
+                Log.println("End date: " + camp.getCampInformation().getDates().get(camp.getCampInformation().getDates().size()-1));
+                Log.println("Registration closing date: " + camp.getCampInformation().getRegistrationClosingDate());
             }
         }
     }
@@ -166,7 +181,17 @@ public class CampSystem {
         for (Camp camp : camps) {
             for (Student studentPointer : camp.getAttendees()) {
                 if (student == studentPointer) {
-                    Log.println(camp.getCampId() + ", " + camp.getCampName());
+                    String campName = camp.getCampInformation().getCampName();
+                    int campId = camp.getCampId();
+                    String location = camp.getCampInformation().getLocation();
+                    Log.println("ID, Camp Name, Camp Location");
+                    Log.println(campId + ", " + campName + ", " + location);
+                    Log.println("=======================");
+                    Log.println(camp.getCampInformation().getDescription());
+                    Log.println("=======================");
+                    Log.println("Start date: " + camp.getCampInformation().getDates().get(0));
+                    Log.println("End date: " + camp.getCampInformation().getDates().get(camp.getCampInformation().getDates().size()-1));
+                    Log.println("Registration closing date: " + camp.getCampInformation().getRegistrationClosingDate());
                 }
             }
         }

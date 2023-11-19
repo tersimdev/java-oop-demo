@@ -30,6 +30,8 @@ public class Camp implements SerializeToCSV {
 
     public Camp() {
         //default vals
+        this.campId = -1;
+        //this.campInformation = campInformation;
         this.attendees = new ArrayList<Student>();
         this.committeeList = new ArrayList<CampCommitteeMember>();
         this.studentList = new ArrayList<String>();
@@ -39,6 +41,10 @@ public class Camp implements SerializeToCSV {
     public Camp(int campId, CampInformation campInformation) {
         this.campId = campId;
         this.campInformation = campInformation;
+        this.attendees = new ArrayList<Student>();
+        this.committeeList = new ArrayList<CampCommitteeMember>();
+        this.studentList = new ArrayList<String>();
+        this.visibility = true;
     }
 
     public int getCampId() {
@@ -115,7 +121,7 @@ public class Camp implements SerializeToCSV {
     }
 
     public boolean checkCampFull() {
-        if (studentList.size() >= campInformation.getTotalSlots()) return true; //camp is full
+        if (attendees.size() >= campInformation.getTotalSlots()) return true; //camp is full
         return false;
     }
 
