@@ -51,7 +51,7 @@ public class StartMenu extends Menu {
             case 1:
                 String oldPasswordStr = ui.getInput().getLine("Enter Old Password: ").trim();
                 String newPasswordStr = ui.getInput().getLine("Enter New Password: ").trim();
-                if (!oldPasswordStr.equals(newPasswordStr)) {
+                if (oldPasswordStr.equals(newPasswordStr)) {
                     Log.println("Can't set to same password.");
                     return false;
                 }
