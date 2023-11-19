@@ -1,5 +1,8 @@
 package entity;
 
+import util.Log;
+import util.DataStore.SerializeToCSV;
+
 /**
  * <p>
  * This is an entity class to represent a camp committee member
@@ -7,45 +10,86 @@ package entity;
  * 
  * @author Jon Daniel Acu Kang
  * @version 1.0
- * @since 1-11-2023
+ * @since 19-11-2023
  */
-public class CampCommitteeMember {
+public class CampCommitteeMember implements SerializeToCSV {
+    private boolean isMember;
     private int campId;
     private int points;
     private String studentId;
 
-    //inject dependency
+    // inject dependency
     public CampCommitteeMember(Student student) {
         this.studentId = student.getUserID();
-    } 
+        isMember = false;
+        campId = 0;
+        points = 0;
+    }
 
-    public String getStudentId() { return studentId; }
+    public boolean isMember() {
+        return isMember;
+    }
 
-    public void viewCampDetails (int campId) {
+    public void setMember(boolean isMember) {
+        this.isMember = isMember;
+    }
+
+    public int getCampId() {
+        return campId;
+    }
+
+    public void setCampId(int campId) {
+        this.campId = campId;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    @Override
+    public String toCSVLine() {
+        String ret = "";
+        if (isMember) {
+            ret += "MEMBER,"
+                    + campId + ","
+                    + points + ","
+                    + studentId;
+        } else {
+            ret += "NA,,,";
+        }
+        return ret;
+    }
+
+    @Override
+    public void fromCSVLine(String csvLine) {
+        String[] split = csvLine.split(",");
+        if (split.length != getCSVLineLength()) {
+            Log.error("csvLine is invalid");
+        } else {
+            isMember = split[0] == "MEMBER";
+            if (isMember) {
+                campId = Integer.parseInt(split[1]);
+                points = Integer.parseInt(split[2]);
+                studentId = split[3];
+            } // else do nothing
+        }
 
     }
 
-    public void makeSuggestion () {
-
+    @Override
+    public int getCSVLineLength() {
+        return 4;
     }
-
-    public void replyEnquiries () {
-
-    }
-
-    public void viewSuggestions () {
-
-    }
-
-    public void editSuggestion () {
-
-    }
-    
-    public void deleteSuggestion () {
-
-    }
-
-    // public void generateCampReport (ReportOptions reportOptions, ReportFilter reportFilter) {
-        
-    // }
 }

@@ -119,7 +119,7 @@ public class CampSystem {
             // query students, if student is a committee member then print
             String studentId = camp.getStudentList().get(i);
             Student student = (Student) dataStoreSystem.queryUser(studentId);
-            if (student.getCampCommitteeMember() != null) {
+            if (student.getCampCommitteeMember().isMember()) {
                 Log.println(studentId);
             }
         }

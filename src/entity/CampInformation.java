@@ -11,9 +11,9 @@ import util.DataStore.SerializeToCSV;
  * This is a class to represent a camp
  * </p>
  * 
- * @author 
+ * @author Jon Daniel Acu Kang
  * @version 1.0
- * @since 5-11-2023
+ * @since 19-11-2023
  */
 public class CampInformation implements SerializeToCSV {
 
