@@ -97,6 +97,16 @@ public class FeedbackSystem {
         return false;
     }
 
+    public boolean processCampSuggestion(String staffId, String campName, int suggestionId, boolean decision) {
+        ArrayList<CampSuggestion> suggestions = suggestionsMap.get(campName);
+        if (suggestions != null && suggestionId >= 0 && suggestionId < suggestions.size()) {
+            CampSuggestion campSuggestion = suggestions.get(suggestionId);
+            campSuggestion.setApproval(staffId, decision);
+            return true;
+        }
+        return false;
+    }
+
     public ArrayList<CampEnquiry> getCampEnquiries(String campName){
         return enquiriesMap.getOrDefault(campName, new ArrayList<>());
     }
