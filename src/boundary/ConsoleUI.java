@@ -102,7 +102,7 @@ public class ConsoleUI {
     private void switchState() {
         switch (state) {
             case LOGIN_MENU:
-                if (loginSystem.getCurrentUser() == null) // check just incase
+                if (loginSystem.getCurrentUser() != null) // check just incase
                     state = STATE.START_MENU;
                 break;
             case START_MENU:
