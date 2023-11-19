@@ -17,15 +17,7 @@ import java.io.IOException;
  * @since 19-11-2023
  */
 public class ReportSystem {
-    private static ReportSystem instance = null;
-
-    private ReportSystem() {
-    }
-
-    public static ReportSystem getInstance() {
-        if (instance == null)
-            instance = new ReportSystem();
-        return instance;
+    public ReportSystem() {
     }
 
     public void generateReport(CampReportOptions reportOptions, User user, Camp camp) {

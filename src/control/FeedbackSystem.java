@@ -20,20 +20,10 @@ import java.util.HashMap;
 public class FeedbackSystem {
     private Map<String, ArrayList<CampEnquiry>> enquiriesMap;
     private Map<String, ArrayList<CampSuggestion>> suggestionsMap;
-    /*private ArrayList<CampEnquiry> campEnquiries;
-    private ArrayList<CampSuggestion> campSuggestions;*/
 
-    private static FeedbackSystem instance = null;
-
-    private FeedbackSystem() {
+    public FeedbackSystem() {
         this.enquiriesMap = new HashMap<>();
         this.suggestionsMap= new HashMap<>();
-    }
-
-    public static FeedbackSystem getInstance() {
-        if (instance == null)
-            instance = new FeedbackSystem();
-        return instance;
     }
 
     public void addCampEnquiry(String campName, CampEnquiry enquiry) {

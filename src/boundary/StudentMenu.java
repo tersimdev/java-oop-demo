@@ -22,8 +22,15 @@ import util.Log;
  */
 public class StudentMenu extends Menu {
 
-    public StudentMenu(ConsoleUI ui) {
+    private final CampSystem campSystem;
+    private final FeedbackSystem feedbackSystem;
+    private final ReportSystem reportSystem;
+
+    public StudentMenu(ConsoleUI ui, CampSystem campSystem, FeedbackSystem feedbackSystem, ReportSystem reportSystem) {
         super(ui);
+        this.campSystem = campSystem;
+        this.feedbackSystem = feedbackSystem;
+        this.reportSystem = reportSystem;
     }
 
     @Override
@@ -69,14 +76,13 @@ public class StudentMenu extends Menu {
                     selCampName = Input.getInstance().getLine("Please enter the camp name to submit suggestion: ");
                     String suggestionStr = Input.getInstance().getLine("Please enter suggestion: ");
                     CampSuggestion suggestion = new CampSuggestion(student.getCampCommitteeMember(),suggestionStr);
-                    FeedbackSystem.getInstance().addCampSuggestion(selCampName, suggestion);
+                    feedbackSystem.addCampSuggestion(selCampName, suggestion);
                     Log.println("Suggestion submitted.");
                     break;
                 case 15:
                     selCampName = Input.getInstance().getLine("Please enter the camp name for report generation: ");
-                    Student committeeMember = (Student) ui.getUser();
                 
-                    Camp camp = CampSystem.getInstance().getCampByName(selCampName);
+                    Camp camp = campSystem.getCampByName(selCampName);
                 
                     if (camp != null) {
                         String fileName = Input.getInstance().getLine("Please enter the file name: ");
@@ -99,7 +105,7 @@ public class StudentMenu extends Menu {
                         reportOptions.setFileName(fileName);
                         reportOptions.setFilter(filter);
             
-                        ReportSystem.getInstance().generateReport(reportOptions, committeeMember, camp);
+                        reportSystem.generateReport(reportOptions, student, camp);
                     } else {
                         Log.println("Camp not found with the given name: " + selCampName);
                     }

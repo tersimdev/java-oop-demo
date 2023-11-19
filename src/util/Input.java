@@ -1,7 +1,6 @@
 package util;
 
 import java.util.Scanner;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -10,6 +9,7 @@ import java.util.NoSuchElementException;
 /**
  * <p>
  * This is a singleton class to handle user console input
+ * Singleton allows it to maintain a single scanner instance for the entire app lifetime
  * </p>
  * 
  * @author Sim Yi Wan Terence

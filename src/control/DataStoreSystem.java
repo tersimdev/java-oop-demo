@@ -12,6 +12,7 @@ import util.DataStore.DataStoreCSVImpl;
 /**
  * <p>
  * A singleton class to handle all datastore operations
+ * Singleton allows it to maintain a single state throughout the app lifetime 
  * </p>
  * 
  * @author Sim Yi Wan Terence

@@ -15,7 +15,7 @@ import util.Log;
  * @since 1-11-2023
  */
 public abstract class Menu {
-    protected ConsoleUI ui;
+    protected final ConsoleUI ui;
 
     public Menu(ConsoleUI ui) {
         this.ui = ui;
