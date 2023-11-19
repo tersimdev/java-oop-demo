@@ -107,6 +107,7 @@ public class Camp implements SerializeToCSV {
             String campInfoCSV = "";
             for (int i = 3; i < split.length; ++i)
                 campInfoCSV += split[i] + ",";
+            this.campInformation = new CampInformation(); 
             this.campInformation.fromCSVLine(campInfoCSV);
         }
     }
