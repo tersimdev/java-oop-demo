@@ -16,8 +16,10 @@ import entity.User;
  */
 public class StartMenu extends Menu {
 
-    public StartMenu(ConsoleUI ui) {
+    private final LoginSystem loginSystem;
+    public StartMenu(ConsoleUI ui, LoginSystem loginSystem) {
         super(ui);
+        this.loginSystem = loginSystem;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class StartMenu extends Menu {
         while (choice < 0) {
             choice = getChoice(1, 2, 3);
             if (choice == 0) {
-                ui.getLoginSystem().logout();
+                loginSystem.logout();
                 ui.setStateDirty(true);
                 return false; // dont exit
             }
@@ -54,13 +56,13 @@ public class StartMenu extends Menu {
                     Log.println("Password is wrong, please try again.");
                     return false;
                 }
-                boolean success = ui.getLoginSystem().changeUserPassword(user, newPasswordStr);
+                boolean success = loginSystem.changeUserPassword(user, newPasswordStr);
                 if (!success) {
                     Log.println("Password change failed.");
                     return false;
                 } else {
                     // log out user
-                    ui.getLoginSystem().logout();
+                    loginSystem.logout();
                     ui.setStateDirty(true);
                     // return false;
                 }

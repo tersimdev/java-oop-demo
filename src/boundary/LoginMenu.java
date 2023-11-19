@@ -16,8 +16,10 @@ import entity.User;
  */
 public class LoginMenu extends Menu {
 
-    public LoginMenu(ConsoleUI ui) {
+    private final LoginSystem loginSystem;
+    public LoginMenu(ConsoleUI ui, LoginSystem loginSystem) {
         super(ui);
+        this.loginSystem = loginSystem;
     }
 
     @Override
@@ -37,7 +39,7 @@ public class LoginMenu extends Menu {
 
         String usernameStr = Input.getInstance().getLine("Enter User ID: ").trim().toUpperCase();
         String passwordStr = Input.getInstance().getLine("Enter Password: ").trim();
-        User user = ui.getLoginSystem().login(usernameStr, passwordStr);
+        User user = loginSystem.login(usernameStr, passwordStr);
         if (user == null) {
             Log.println("Invalid user ID or password.");
             return false; // kick user back to menu selection

@@ -38,11 +38,8 @@ public class ConsoleUI {
     private STATE state;
     private boolean stateDirty;// tracks if state needs to be refreshed
 
-    // system dependencies
+    // ui depends on loginsystemm to know state
     private LoginSystem loginSystem;
-    private CampSystem campSystem;
-    private FeedbackSystem feedbackSystem;
-    private ReportSystem reportSystem;
 
     /**
      * Simple constructor to set default values. Call init() to initialize logic.
@@ -61,22 +58,6 @@ public class ConsoleUI {
         return loginSystem.getCurrentUser();
     }
 
-    public LoginSystem getLoginSystem() {
-        return loginSystem;
-    }
-
-    public CampSystem getCampSystem() {
-        return campSystem;
-    }
-
-    public FeedbackSystem getFeedbackSystem() {
-        return feedbackSystem;
-    }
-
-    public ReportSystem getReportSystem() {
-        return reportSystem;
-    }
-
     /**
      * Initializes all menus, creates state map.
      * Uses dependency injection to pass systems to menus
@@ -84,16 +65,13 @@ public class ConsoleUI {
     public void init(LoginSystem loginSystem, CampSystem campSystem, FeedbackSystem feedbackSystem,
             ReportSystem reportSystem) {
         this.loginSystem = loginSystem;
-        this.campSystem = campSystem;
-        this.feedbackSystem = feedbackSystem;
-        this.reportSystem = reportSystem;
-
-        // init menus
+        
+        // init menus with dependency injection
         menuMap = new HashMap<>();
-        menuMap.put(STATE.LOGIN_MENU, new LoginMenu(this));
-        menuMap.put(STATE.START_MENU, new StartMenu(this));
-        menuMap.put(STATE.STAFF_MENU, new StaffMenu(this));
-        menuMap.put(STATE.STUDENT_MENU, new StudentMenu(this));
+        menuMap.put(STATE.LOGIN_MENU, new LoginMenu(this, loginSystem));
+        menuMap.put(STATE.START_MENU, new StartMenu(this, loginSystem));
+        menuMap.put(STATE.STAFF_MENU, new StaffMenu(this, campSystem, feedbackSystem, reportSystem));
+        menuMap.put(STATE.STUDENT_MENU, new StudentMenu(this, campSystem, feedbackSystem, reportSystem));
 
         Log.printLogo("data/logo.txt");
         Log.println("======================================================================");
