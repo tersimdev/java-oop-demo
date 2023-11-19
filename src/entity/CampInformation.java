@@ -34,24 +34,6 @@ public class CampInformation implements SerializeToCSV {
     private String description;
     private String location;
 
-    // public CampInformation() {
-    //     //TODO set some defaults
-    // }
-
-    // public CampInformation (String campName, String description, String location, int totalSlots, int committeeSlots, 
-    //     ArrayList<LocalDate> dates, LocalDate registrationClosingDate, String staffInChargeId, UserGroup userGroup, Faculty organisingFaculty) {
-    //         this.campName = campName;
-    //         this.description = description;
-    //         this.location = location;
-    //         this.totalSlots = totalSlots;
-    //         this.committeeSlots = committeeSlots;
-    //         this.dates = dates;
-    //         this.registrationClosingDate = registrationClosingDate;
-    //         this.staffInChargeId = staffInChargeId;
-    //         this.userGroup = userGroup;
-    //         this.organisingFaculty = organisingFaculty;
-    //     }
-
     private CampInformation(CampInformationBuilder builder) {
         this.campName = builder.campName;
         this.dates = builder.dates;
@@ -96,7 +78,7 @@ public class CampInformation implements SerializeToCSV {
         }
 
         public CampInformationBuilder setDates(String startDate, int duration) {
-            LocalDate firstDate = DateStringHelper.getInstance().StrToDateConverter(startDate);
+            LocalDate firstDate = DateStringHelper.StrToDateConverter(startDate);
             for (int i = 0; i < duration; i++) {
                 dates.add(i, firstDate);
                 firstDate = firstDate.plusDays(1);
@@ -165,7 +147,7 @@ public class CampInformation implements SerializeToCSV {
     }
 
     public void setDates(String startDate, int duration) {
-        LocalDate firstDate = DateStringHelper.getInstance().StrToDateConverter(startDate);
+        LocalDate firstDate = DateStringHelper.StrToDateConverter(startDate);
         for (int i = 0; i < duration; i++) {
             dates.add(i, firstDate);
             firstDate = firstDate.plusDays(1);
@@ -269,7 +251,7 @@ public class CampInformation implements SerializeToCSV {
             organisingFaculty = Faculty.valueOf(split[7]);
             //TODO 
             // use helper convert this string to date format
-            registrationClosingDate = DateStringHelper.getInstance().StrToDateConverter(split[8]);
+            registrationClosingDate = DateStringHelper.StrToDateConverter(split[8]);
             String startDate = split[9];
             int duration = Integer.parseInt(split[10]);
             //TODO

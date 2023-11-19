@@ -88,12 +88,11 @@ public class Input {
 
     public LocalDate getDate(String msg) {
         Log.print(msg);
-        DateStringHelper helper = DateStringHelper.getInstance();
         LocalDate ret = null;
          while (ret == null) {
             try {
                 String dateStr = scanner.next();
-                ret = helper.StrToDateConverter(dateStr);
+                ret = DateStringHelper.StrToDateConverter(dateStr);
                 scanner.nextLine(); //consume \n
             } catch (DateTimeParseException e) {
                 Log.debug("Invalid date format. Please enter the date in the format DD/MM/YYYY.");

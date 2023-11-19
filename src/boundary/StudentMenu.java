@@ -103,6 +103,7 @@ public class StudentMenu extends Menu {
                     feedbackSystem.addCampEnquiry(selCampName, enquiry);
                     Log.println("Enquiry submitted.");
                     break;
+                    
                 case 6:
                     //View/Edit/Delete Pending Enquiries
                     selCampName = ui.getInput().getLine("Please enter the camp name to view/edit/delete your enquiries: ");
