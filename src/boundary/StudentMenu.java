@@ -2,6 +2,9 @@ package boundary;
 
 import control.FeedbackSystem;
 import control.ReportSystem;
+
+import java.util.ArrayList;
+
 import control.CampSystem;
 import entity.Camp;
 import entity.CampReportFilter;
@@ -81,6 +84,13 @@ public class StudentMenu extends Menu {
                     feedbackSystem.addCampEnquiry(selCampName, enquiry);
                     Log.println("Enquiry submitted.");
                     break;
+                case 6:
+                    selCampName = Input.getInstance().getLine("Please enter the camp name to view/edit/delete enquiry: ");
+                
+                    
+                    Log.println("Enquiry submitted.");
+                    break;
+
                 case 10:
                     selCampName = Input.getInstance().getLine("Please enter the camp name to submit suggestion: ");
                     String suggestionStr = Input.getInstance().getLine("Please enter suggestion: ");
@@ -88,6 +98,23 @@ public class StudentMenu extends Menu {
                     feedbackSystem.addCampSuggestion(selCampName, suggestion);
                     Log.println("Suggestion submitted.");
                     break;
+                case 11:
+                    // View Camp Enquiries
+                    selCampName = Input.getInstance()
+                            .getLine("Please enter the name of the camp you would like to view enquiries: ");
+                    ArrayList<CampEnquiry> enquiryList = new ArrayList<>();
+                    enquiryList = feedbackSystem.getCampEnquiries(selCampName);
+                    int size = enquiryList.size();
+                    for (int i = 0; i < size; i++) {
+                        CampEnquiry temp = enquiryList.get(i);
+                        Log.println("StudentID: " + temp.getOwner());
+                        if (temp.getReply()==null)
+                            Log.println("Reply: Null");
+                        else
+                            Log.println("Reply: " +temp.getReply());
+                        Log.println("");
+                    }
+
                 case 16:
                     selCampName = Input.getInstance().getLine("Please enter the camp name for report generation: ");
                 

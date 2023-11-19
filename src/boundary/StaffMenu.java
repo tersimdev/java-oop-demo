@@ -156,13 +156,13 @@ public class StaffMenu extends Menu {
                 case 7:
                     // View Camp Suggestions
                     selCampName = Input.getInstance()
-                            .getLine("Please enter the name of the camp you would like to inspect: ");
+                            .getLine("Please enter the name of the camp you would like to view suggestions: ");
                     ArrayList<CampSuggestion> suggestionList = new ArrayList<>();
                     suggestionList = feedbackSystem.getCampSuggestions(selCampName);
                     int size = suggestionList.size();
                     for (int i = 0; i < size; i++) {
                         CampSuggestion temp = suggestionList.get(i);
-                        Log.println("Name of Camp Committee Member: " + temp.getOwner());
+                        Log.println("CampCommitteeMemberID: " + temp.getOwner());
 
                         if (temp.hasApproved())
                             Log.println("Approval status: Approved");
@@ -172,6 +172,7 @@ public class StaffMenu extends Menu {
                             Log.println("Approval status: Pending");
 
                         Log.println("Suggestion: " + temp.getSuggestion());
+                        Log.println("");
                     }
 
                     break;
