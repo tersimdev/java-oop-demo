@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import control.CampSystem;
 import control.FeedbackSystem;
 import entity.CampEnquiry;
+import entity.CampInformation;
 import entity.CampSuggestion;
 import entity.Faculty;
 import entity.Staff;
@@ -73,14 +74,16 @@ public class StaffMenu extends Menu {
                         firstDate = firstDate.plusDays(1);
                     }
                     
-                    ArrayList<Student> studentList = null;
+                    ArrayList<String> studentList = new ArrayList<>();
                     String staffInChargeId = staff.getUserID();
                     Faculty organisingFaculty= staff.getFaculty();
                     UserGroup userGroup = new UserGroup().setFaculty(organisingFaculty);
                     
                     // create the camp
-                    CampSystem.getInstance().createCamp(studentList, campName, description, location, totalSlots, committeeSlots,
-                    dates, registrationClosingDate, staffInChargeId, userGroup, organisingFaculty);
+                    int campId = CampSystem.getInstance().getTotalNumberOfCamps();
+                    CampInformation campInformation = new CampInformation(campName, description, location, totalSlots, committeeSlots, dates, registrationClosingDate, staffInChargeId, userGroup, organisingFaculty);
+
+                    CampSystem.getInstance().createCamp(campId, campInformation, studentList);
 
                     break;
                 

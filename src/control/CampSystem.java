@@ -37,14 +37,7 @@ public class CampSystem {
     }
 
     // Staff functions
-    public void createCamp(ArrayList<Student> studentList, String campName, String description, String location, int totalSlots, int committeeSlots,
-     ArrayList<LocalDateTime> dates, LocalDateTime registrationClosingDate, String staffInChargeId, UserGroup userGroup, Faculty organisingFaculty) {
-
-        int campId = Camp.getTotalNumberOfCamps();
-
-        CampInformation campInfo = new CampInformation(campName, description, location, totalSlots, committeeSlots, 
-         dates, registrationClosingDate, staffInChargeId, userGroup, organisingFaculty);
-
+    public void createCamp(int campId, CampInformation campInfo, ArrayList<String> studentList) {
         camps.add(new Camp(campId, campInfo, studentList));
     }
 
@@ -67,31 +60,36 @@ public class CampSystem {
     public void viewCampStudentList(String campName) {
         Log.println("===List of all the students attending this camp===");
         int index = campNameToIndex(campName);
-        ArrayList<Student> students = camps.get(index).getStudentList();
-        for (Student student : students) {
-            Log.println(student.getDisplayName());
+        Camp camp = camps.get(index);
+        for (int i = 0; i < camp.getStudentList().size(); i++) {
+            Log.println(camp.getStudentList().get(i));
         }
     }
 
     public void viewCampCommitteeList(String campName) {
         Log.println("===List of all the committee members attending this camp===");
         int index = campNameToIndex(campName);
-        ArrayList<Student> students = camps.get(index).getStudentList();
-        for (Student student : students) {
+        Camp camp = camps.get(index);
+        for (int i = 0; i < camp.getStudentList().size(); i++) {
+            // query students, if student is a committee member then print
+            String studentId = camp.getStudentList().get(i);
+            Student student = (Student) DataStoreSystem.getInstance().queryUser(studentId);
             if (student.getCampCommitteeMember() != null) {
-                Log.println(student.getDisplayName());
+                Log.println(studentId);
             }
         }
-            
     }
 
     private int campNameToIndex(String campName) {
         for (Camp camp : camps) {
-            if (camp.getCampInformation().getCampName() == campName) return camp.getCampId()-1;
-            break;
+            if (camp.getCampInformation().getCampName() == campName) return camp.getCampId();
         }
         Log.debug("camp name not found");
         return -1;
+    }
+
+    public int getTotalNumberOfCamps() {
+        return camps.size();
     }
 
 }
