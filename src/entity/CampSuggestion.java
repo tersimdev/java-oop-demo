@@ -15,12 +15,13 @@ import util.DataStore.SerializeToCSV;
 public class CampSuggestion implements SerializeToCSV {
 
     private int suggestionId;
-    private String ownerId; //owner of this suggestion
+    private String ownerId; // owner of this suggestion
     private String approverId;
-    private String suggestion; //the suggestion in plaintext
-    private int approvalStatus; //0 for not viewd, 1 for approved, 2 for rejected
+    private String suggestion; // the suggestion in plaintext
+    private int approvalStatus; // 0 for not viewd, 1 for approved, 2 for rejected
 
     public CampSuggestion() {
+        suggestionId = 0;
         ownerId = null;
         approverId = null;
         suggestion = "";
@@ -31,16 +32,40 @@ public class CampSuggestion implements SerializeToCSV {
         this.ownerId = commMemberID;
         this.suggestion = suggestion;
         approvalStatus = 0;
+        approverId = null;
     }
-    
-    public int getSuggestionId() { return suggestionId; }
-    public String getOwner() { return ownerId; }
-    public String getSuggestion() {return suggestion; }
-    public void setSuggestionId(int suggestionId) { this.suggestionId = suggestionId; }
-    public void setSuggestion(String newSuggestion) { this.suggestion = newSuggestion; }
-    public boolean isPending() {return approvalStatus == 0; }
-    public boolean hasApproved() { return approvalStatus == 1; } 
-    public boolean hasRejected() { return approvalStatus == 2; } 
+
+    public int getSuggestionId() {
+        return suggestionId;
+    }
+
+    public String getOwner() {
+        return ownerId;
+    }
+
+    public String getSuggestion() {
+        return suggestion;
+    }
+
+    public void setSuggestionId(int suggestionId) {
+        this.suggestionId = suggestionId;
+    }
+
+    public void setSuggestion(String newSuggestion) {
+        this.suggestion = newSuggestion;
+    }
+
+    public boolean isPending() {
+        return approvalStatus == 0;
+    }
+
+    public boolean hasApproved() {
+        return approvalStatus == 1;
+    }
+
+    public boolean hasRejected() {
+        return approvalStatus == 2;
+    }
 
     public void setApproval(String staffID, boolean approve) {
         approverId = staffID;
@@ -50,27 +75,36 @@ public class CampSuggestion implements SerializeToCSV {
     @Override
     public String toCSVLine() {
         String ret = "";
-        ret += "OWNER" + "," //TODO
-            + suggestion + ","
-            + approvalStatus;
+        ret += suggestionId + ","
+                + ownerId + ","
+                + suggestion + ",";
+        if (approverId != null)
+            ret += approverId + "," + approvalStatus;
+        else
+            ret += ",0";
         return ret;
     }
-
+    
     @Override
     public void fromCSVLine(String csvLine) {
         String[] split = csvLine.split(",");
-        if (split.length != 3) {
+        if (split.length != getCSVLineLength()) {
             Log.error("csvLine is invalid");
         } else {
-            //owner = split[0].trim(); //TODO
-            suggestion = split[1].trim();
-            approvalStatus = Integer.parseInt(split[2]);
+            suggestionId = Integer.parseInt(split[0]);
+            ownerId = split[1];
+            suggestion = split[2];
+            approvalStatus = Integer.parseInt(split[4]);
+            if (split[3].isEmpty()) {
+                approverId = null;
+            } else {
+                approverId = split[3];
+            }
         }
     }
 
     @Override
     public int getCSVLineLength() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCSVLineLength'");
+        return 5;
     }
 }
