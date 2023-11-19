@@ -6,6 +6,7 @@ import control.CampSystem;
 import entity.Camp;
 import entity.CampReportFilter;
 import entity.CampReportOptions;
+import entity.CampEnquiry;
 import entity.CampSuggestion;
 import entity.Student;
 import util.Input;
@@ -72,6 +73,13 @@ public class StudentMenu extends Menu {
                 ui.setStateDirty(true);
             }
             switch (choice) {
+                case 5:
+                    selCampName = Input.getInstance().getLine("Please enter the camp name to submit enquiry: ");
+                    String enquiryStr = Input.getInstance().getLine("Please enter enquiry: ");
+                    CampEnquiry enquiry = new CampEnquiry(student,enquiryStr);
+                    feedbackSystem.addCampEnquiry(selCampName, enquiry);
+                    Log.println("Suggestion submitted.");
+                    break;
                 case 9:
                     selCampName = Input.getInstance().getLine("Please enter the camp name to submit suggestion: ");
                     String suggestionStr = Input.getInstance().getLine("Please enter suggestion: ");

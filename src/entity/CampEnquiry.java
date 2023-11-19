@@ -27,8 +27,8 @@ public class CampEnquiry implements SerializeToCSV {
         reply = null;
     }
 
-    public CampEnquiry(Student student, String enquiry) {
-        this.ownerId = student.getUserID();
+    public CampEnquiry(String studentID, String enquiry) {
+        this.ownerId = studentID;
         this.enquiry = enquiry;
         replierId = null;
         reply = null;
