@@ -3,9 +3,15 @@ package util.ReportWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import entity.Camp;
+import entity.CampReportFilter;
+import entity.CampReportOptions;
+import entity.User;
+
 /**
  * <p>
- *  An implementation of the {@link ReportWriterInterface} that writes reports in TXT format.
+ * An implementation of the {@link ReportWriterInterface} that writes reports in
+ * TXT format.
  * Uses strategy design pattern
  * </p>
  * 
@@ -16,14 +22,33 @@ import java.io.IOException;
 
 public class TXTWriterImpl implements ReportWriterInterface {
     @Override
-    public void writeReport(String fileName, String content) {
+    public void writeReport(CampReportOptions reportOptions, User user, Camp camp)
+            throws IOException {
+        if (camp == null || camp.getCampInformation() == null) {
+            return;
+        }
+        StringBuilder reportContent = new StringBuilder();
+
+        reportContent.append("Camp Name: ").append(camp.getCampInformation().getCampName()).append("\n");
+        reportContent.append("Dates: ").append(camp.getCampInformation().getDates()).append("\n");
+
+        reportContent.append("\nCamp Attendees:\n");
+        for (String attendee : camp.getAttendees()) {
+            //this filter doesnt work
+            CampReportFilter filter = reportOptions.getFilter();
+            if (filter == CampReportFilter.NONE ||
+                    (filter == CampReportFilter.ATTENDEE && attendee.contains("ATTENDEE")) ||
+                    (filter == CampReportFilter.CAMP_COMMITTEE && attendee.contains("CAMP_COMMITTEE"))) {
+                reportContent.append("- ").append(attendee).append("\n");
+            }
+        }
+        String fileName = reportOptions.getFilePath() + reportOptions.getFileName() + reportOptions.getFileType();
         try {
             FileWriter fileWriter = new FileWriter(fileName);
-            fileWriter.write(content);
+            fileWriter.write(reportContent.toString());
             fileWriter.close();
         } catch (IOException exception) {
-            exception.printStackTrace();
-            System.err.println("Error writing the report. Please try again");
+            throw exception;
         }
     }
 }

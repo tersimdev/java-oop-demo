@@ -4,10 +4,14 @@ import entity.Camp;
 import entity.CampReportFilter;
 import entity.CampReportOptions;
 import entity.User;
+import util.Log;
+import util.ReportWriter.CSVWriterImpl;
 import util.ReportWriter.ReportWriterInterface;
+import util.ReportWriter.TXTWriterImpl;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * A singleton class to generate reports for staff and committee members.
@@ -18,45 +22,28 @@ import java.util.List;
  * @since 19-11-2023
  */
 public class ReportSystem {
-    private List<ReportWriterInterface> reportWriters;
+    //map of file extensions to writing implementation
+    private Map<String, ReportWriterInterface> reportWriters;
 
-    public ReportSystem(List<ReportWriterInterface> reportWriters) {
-        this.reportWriters = reportWriters;
+    public ReportSystem() {
+        this.reportWriters = new HashMap<>();
+        reportWriters.put("txt", new TXTWriterImpl());
+        reportWriters.put("csv", new CSVWriterImpl());
     }
 
     public void generateReport(CampReportOptions reportOptions, User user, Camp camp) {
-        StringBuilder reportContent = generateCampReportContent(user, camp, reportOptions.getFilter());
+        String filetype = reportOptions.getFileType();
+        ReportWriterInterface writer = reportWriters.get(filetype);
+        if (writer == null) {
+            Log.error("writer implementation not found, file type is likely invalid");
+            return;
+        }
 
-        String fileName = reportOptions.getFilePath() + reportOptions.getFileName() + reportOptions.getFileType();
         try {
-            for (ReportWriterInterface reportWriter : reportWriters) {
-                reportWriter.writeReport(fileName, reportContent.toString());
-            }
-            System.out.println("Report Generated: " + fileName);
+            writer.writeReport(reportOptions, user, camp);
         } catch (IOException exception) {
-            exception.printStackTrace();
-            System.err.println("Error generating the report. Please try again");
+            Log.println("Error! Failed to Generate Report.");
+            Log.error("IOException while writing report using " + filetype); //error msg for devs
         }
-    }
-
-    private StringBuilder generateCampReportContent(User user, Camp camp, CampReportFilter filter) {
-        if (camp == null || camp.getCampInformation() == null) {
-            return new StringBuilder("Invalid camp or camp information is missing.");
-        }
-
-        StringBuilder reportContent = new StringBuilder();
-
-        reportContent.append("Camp Name: ").append(camp.getCampInformation().getCampName()).append("\n");
-        reportContent.append("Dates: ").append(camp.getCampInformation().getDates()).append("\n");
-
-        reportContent.append("\nCamp Attendees:\n");
-        for (String attendee : camp.getAttendees()) {
-            if (filter == null || 
-                    (filter == CampReportFilter.ATTENDEE && attendee.contains("ATTENDEE")) ||
-                    (filter == CampReportFilter.CAMP_COMMITTEE && attendee.contains("CAMP_COMMITTEE"))) {
-                reportContent.append("- ").append(attendee).append("\n");
-            }
-        }
-        return reportContent;
     }
 }

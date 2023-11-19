@@ -8,9 +8,6 @@ import control.FeedbackSystem;
 import control.LoginSystem;
 import control.ReportSystem;
 import util.Input;
-import util.ReportWriter.CSVWriterImpl;
-import util.ReportWriter.ReportWriterInterface;
-import util.ReportWriter.TXTWriterImpl;
 
 /**
  * <p>
@@ -39,10 +36,7 @@ public class CAMSApp {
         loginSystem = new LoginSystem();
         campSystem = new CampSystem();
         feedbackSystem = new FeedbackSystem();
-        List<ReportWriterInterface> reportWriters = new ArrayList<>();
-        reportWriters.add(new TXTWriterImpl());
-        reportWriters.add(new CSVWriterImpl());
-        reportSystem = new ReportSystem(reportWriters);
+        reportSystem = new ReportSystem();
 
         //create ui
         consoleUI = new ConsoleUI();

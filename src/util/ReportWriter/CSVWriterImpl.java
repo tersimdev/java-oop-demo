@@ -3,6 +3,11 @@ package util.ReportWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import entity.Camp;
+import entity.CampReportFilter;
+import entity.CampReportOptions;
+import entity.User;
+
 /**
  * <p>
  *  An implementation of the {@link ReportWriterInterface} that writes reports in CSV format.
@@ -16,26 +21,32 @@ import java.io.IOException;
 
 public class CSVWriterImpl implements ReportWriterInterface {
     @Override
-    public void writeReport(String fileName, String content) {
-        try (FileWriter fileWriter = new FileWriter(fileName)) {
-            String[] lines = content.split("\n");
+    public void writeReport(CampReportOptions reportOptions, User user, Camp camp) throws IOException {
+        if (camp == null || camp.getCampInformation() == null) {
+            return;
+        }
+        StringBuilder reportContent = new StringBuilder();
 
-            for (String line : lines) {
-                String[] values = line.split(",");
-    
-                for (int i = 0; i < values.length; i++) {
-                    fileWriter.append(values[i]);
-                    if (i < values.length - 1) {
-                        fileWriter.append(',');
-                    }
-                }
-                fileWriter.append('\n');
+        reportContent.append("Camp Name,").append(camp.getCampInformation().getCampName()).append("\n");
+        reportContent.append("Dates,").append(camp.getCampInformation().getDates()).append("\n");
+
+        reportContent.append("\nCamp Attendees,\n");
+        for (String attendee : camp.getAttendees()) {
+            //this filter doesnt work
+            CampReportFilter filter = reportOptions.getFilter();
+            if (filter == CampReportFilter.NONE ||
+                    (filter == CampReportFilter.ATTENDEE && attendee.contains("ATTENDEE")) ||
+                    (filter == CampReportFilter.CAMP_COMMITTEE && attendee.contains("CAMP_COMMITTEE"))) {
+                reportContent.append(attendee).append("\n");
             }
-
-            System.out.println("CSV report generated: " + fileName);
+        }
+        String fileName = reportOptions.getFilePath() + reportOptions.getFileName() + reportOptions.getFileType();
+        try {
+            FileWriter fileWriter = new FileWriter(fileName);
+            fileWriter.write(reportContent.toString());
+            fileWriter.close();
         } catch (IOException exception) {
-            exception.printStackTrace();
-            System.err.println("Error writing the report. Please try again");
+            throw exception;
         }
     }
 }

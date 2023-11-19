@@ -11,10 +11,18 @@ package entity;
  */
 public class CampReportOptions {
     private int campId;
-    private String fileType = ".txt";
-    private String fileName = "output";
+    private String fileType; //extension like txt, csv without the dot
+    private String fileName;
     private CampReportFilter filter;
-    private String filePath = "./"; // Set to current directory
+    private String filePath; // Set to current directory
+
+    public CampReportOptions() {
+        campId = 0;
+        fileType = "txt"; //extension like txt, csv without the dot
+        fileName = "output";
+        filter = CampReportFilter.NONE;
+        filePath = "./"; // Set to current directory
+    }
 
     public int getCampId(){
         return campId;
