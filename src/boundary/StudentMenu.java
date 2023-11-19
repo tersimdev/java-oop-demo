@@ -26,7 +26,7 @@ public class StudentMenu extends Menu {
         String selCampName;
 
         // assume safe, check handled by state machine
-        Student student = (Student) ui.getUser();
+        Student student = (Student) ui.getLoginSystem().getCurrentUser();
         boolean isCommittee = student.getCampCommitteeMember() != null;
         Log.println("===Student Menu===");
         Log.println("(1) View Available Camps");
@@ -64,7 +64,7 @@ public class StudentMenu extends Menu {
                     selCampName = Input.getInstance().getLine("Please enter the camp name to submit suggestion: ");
                     String suggestionStr = Input.getInstance().getLine("Please enter suggestion: ");
                     CampSuggestion suggestion = new CampSuggestion(student.getCampCommitteeMember(),suggestionStr);
-                    FeedbackSystem.getInstance().addCampSuggestion(selCampName, suggestion);
+                    ui.getFeedbackSystem().addCampSuggestion(selCampName, suggestion);
                     Log.println("Suggestion submitted.");
             }
         }

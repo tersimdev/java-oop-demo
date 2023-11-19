@@ -5,35 +5,43 @@ import entity.User;
 
 /**
  * <p>
- * A singleton class to handle login logic
+ * Handles login logic
+ * Stores current user, null if none
  * </p>
  * 
  * @author Sim Yi Wan Terence
  * @version 1.0
- * @since 1-11-2023
+ * @since 19-11-2023
  */
 public class LoginSystem {
-    private static LoginSystem instance = null;
 
-    private LoginSystem() {
-    }
-
-    public static LoginSystem getInstance() {
-        if (instance == null)
-            instance = new LoginSystem();
-        return instance;
-    }
-
+    private User currentUser;
     private final static int MIN_PASSWORD_LEN = 8;
+    
+    public LoginSystem() {
+        currentUser = null;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
 
     public User login(String userID, String password) {
+        Log.info("logging in " + userID);
         // find user with username, then check for correct password
+        currentUser = null;
         User user = DataStoreSystem.getInstance().queryUser(userID);
         if (user != null) {
             if (user.getPassword().equals(password))
-                return user;
+                currentUser = user;
         }
-        return null;
+        return currentUser;
+    }
+
+    public void logout() {
+        if (currentUser != null)
+            Log.info("logging out " + currentUser.getUserID());
+        currentUser = null;
     }
 
     public boolean changeUserPassword(User user, String newPassword) {
@@ -42,7 +50,7 @@ public class LoginSystem {
             Log.println("Error! New password same as old password!");
             return false;
         }
-        if (!LoginSystem.getInstance().checkValidPassword(newPassword)) {
+        if (!checkValidPassword(newPassword)) {
             Log.println("Password does not meet required length!");
             return false;
         }

@@ -23,17 +23,10 @@ import entity.Faculty;
  * @since 18-11-2023
  */
 public class CampSystem {
-    private static CampSystem instance = null;
     private ArrayList<Camp> camps;
 
-    private CampSystem() {
+    public CampSystem() {
         camps = new ArrayList<Camp>();
-    }
-
-    public static CampSystem getInstance() {
-        if (instance == null)
-            instance = new CampSystem();
-        return instance;
     }
 
     // Staff functions

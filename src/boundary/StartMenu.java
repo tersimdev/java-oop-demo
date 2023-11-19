@@ -22,9 +22,10 @@ public class StartMenu extends Menu {
 
     @Override
     public boolean show() {
-        Log.println("===Welcome, " + ui.getUser().getDisplayName() + "===");
+        User user = ui.getLoginSystem().getCurrentUser();
+        Log.println("===Welcome, " + user.getDisplayName() + "===");
         // check if new user, force to change password!
-        boolean newUser = ui.getUser().getPassword().equals(User.defaultPassword);
+        boolean newUser = user.getPassword().equals(User.defaultPassword);
 
         if (!newUser) {
             Log.println("(1) Change Password");
@@ -39,7 +40,7 @@ public class StartMenu extends Menu {
         while (choice < 0) {
             choice = getChoice(1, 2, 3);
             if (choice == 0) {
-                ui.setUser(null); // destruct user
+                ui.getLoginSystem().logout();
                 ui.setStateDirty(true);
                 return false; // dont exit
             }
@@ -49,18 +50,17 @@ public class StartMenu extends Menu {
             case 1:
                 String oldPasswordStr = Input.getInstance().getLine("Enter Old Password: ").trim();
                 String newPasswordStr = Input.getInstance().getLine("Enter New Password: ").trim();
-                User user = ui.getUser();
                 if (!oldPasswordStr.equals(user.getPassword())) {
                     Log.println("Password is wrong, please try again.");
                     return false;
                 }
-                boolean success = LoginSystem.getInstance().changeUserPassword(user, newPasswordStr);
+                boolean success = ui.getLoginSystem().changeUserPassword(user, newPasswordStr);
                 if (!success) {
                     Log.println("Password change failed.");
                     return false;
                 } else {
                     // log out user
-                    ui.setUser(null);
+                    ui.getLoginSystem().logout();
                     ui.setStateDirty(true);
                     // return false;
                 }

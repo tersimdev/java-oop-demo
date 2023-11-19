@@ -17,12 +17,12 @@ import util.Log;
  * <p>
  * This class handles ui of the console
  * Implements a simple state machine with a STATE enum to keep track of UI state
- * each UI state has a respective Menu class
+ * Each UI state has a respective Menu class
  * </p>
  * 
  * @author Sim Yi Wan Terence
  * @version 1.0
- * @since 1-11-2023
+ * @since 19-11-2023
  */
 public class ConsoleUI {
 
@@ -33,22 +33,56 @@ public class ConsoleUI {
         STUDENT_MENU,
     }
 
+    // state machine attribs
     private Map<STATE, Menu> menuMap;
+    private STATE state;
+    private boolean stateDirty;// tracks if state needs to be refreshed
 
-    private STATE state = STATE.LOGIN_MENU;
-    private User user = null;
-    private boolean stateDirty = false; // tracks if state needs to be refreshed
+    // system dependencies
+    private LoginSystem loginSystem;
+    private CampSystem campSystem;
+    private FeedbackSystem feedbackSystem;
+    private ReportSystem reportSystem;
 
-    public void init() {
-        Log.enableLogging(true); // enable this for dev work
+    /**
+     * Simple constructor to set default values. Call init() to initialize logic.
+     */
+    public ConsoleUI() {
+        menuMap = null;
+        state = STATE.LOGIN_MENU;
+        stateDirty = false;
+    }
 
-        // init singletons
-        Input.getInstance();
-        DataStoreSystem.getInstance();
-        LoginSystem.getInstance();
-        CampSystem.getInstance();
-        FeedbackSystem.getInstance();
-        ReportSystem.getInstance();
+    public void setStateDirty(boolean dirty) {
+        this.stateDirty = dirty;
+    }
+
+    public LoginSystem getLoginSystem() {
+        return loginSystem;
+    }
+
+    public CampSystem getCampSystem() {
+        return campSystem;
+    }
+
+    public FeedbackSystem getFeedbackSystem() {
+        return feedbackSystem;
+    }
+
+    public ReportSystem getReportSystem() {
+        return reportSystem;
+    }
+
+    /**
+     * Initializes all menus, creates state map.
+     * Uses dependency injection to pass systems to menus
+     */
+    public void init(LoginSystem loginSystem, CampSystem campSystem, FeedbackSystem feedbackSystem,
+            ReportSystem reportSystem) {
+        this.loginSystem = loginSystem;
+        this.campSystem = campSystem;
+        this.feedbackSystem = feedbackSystem;
+        this.reportSystem = reportSystem;
 
         // init menus
         menuMap = new HashMap<>();
@@ -61,18 +95,6 @@ public class ConsoleUI {
         Log.println("======================================================================");
         Log.println("Welcome to Camp Application and Management System (CAMS).");
         Log.println("> Made by Team 2: Terence, Ryan, Jon, Zhi Wei\n");
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setStateDirty(boolean dirty) {
-        this.stateDirty = dirty;
     }
 
     // returns if should exit app
@@ -98,10 +120,11 @@ public class ConsoleUI {
     private void switchState() {
         switch (state) {
             case LOGIN_MENU:
-                if (user != null) // check just incase
+                if (loginSystem.getCurrentUser() == null) // check just incase
                     state = STATE.START_MENU;
                 break;
             case START_MENU:
+                User user = loginSystem.getCurrentUser();
                 if (user == null)
                     state = STATE.LOGIN_MENU;
                 else if (user instanceof Staff)

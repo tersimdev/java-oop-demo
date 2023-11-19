@@ -37,8 +37,7 @@ public class LoginMenu extends Menu {
 
         String usernameStr = Input.getInstance().getLine("Enter User ID: ").trim().toUpperCase();
         String passwordStr = Input.getInstance().getLine("Enter Password: ").trim();
-        User user = LoginSystem.getInstance().login(usernameStr, passwordStr);
-        ui.setUser(user);
+        User user = ui.getLoginSystem().login(usernameStr, passwordStr);
         if (user == null) {
             Log.println("Invalid user ID or password.");
             return false; // kick user back to menu selection
