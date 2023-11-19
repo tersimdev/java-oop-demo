@@ -12,7 +12,6 @@ import entity.CampReportOptions;
 import entity.CampEnquiry;
 import entity.CampSuggestion;
 import entity.Student;
-import util.Input;
 import util.Log;
 
 /**

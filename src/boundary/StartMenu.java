@@ -1,7 +1,6 @@
 package boundary;
 
 import control.LoginSystem;
-import util.Input;
 import util.Log;
 import entity.User;
 
@@ -50,8 +49,8 @@ public class StartMenu extends Menu {
 
         switch (choice) {
             case 1:
-                String oldPasswordStr = Input.getInstance().getLine("Enter Old Password: ").trim();
-                String newPasswordStr = Input.getInstance().getLine("Enter New Password: ").trim();
+                String oldPasswordStr = ui.getInput().getLine("Enter Old Password: ").trim();
+                String newPasswordStr = ui.getInput().getLine("Enter New Password: ").trim();
                 if (!oldPasswordStr.equals(user.getPassword())) {
                     Log.println("Password is wrong, please try again.");
                     return false;
