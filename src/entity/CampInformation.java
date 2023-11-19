@@ -269,11 +269,11 @@ public class CampInformation implements SerializeToCSV {
             organisingFaculty = Faculty.valueOf(split[7]);
             //TODO 
             // use helper convert this string to date format
-            // registrationClosingDate = split[8];
+            registrationClosingDate = DateStringHelper.getInstance().StrToDateConverter(split[8]);
             String startDate = split[9];
             int duration = Integer.parseInt(split[10]);
             //TODO
-            //setDates(startDate, duration)
+            setDates(startDate, duration);
             userGroup = new UserGroup();
             userGroup.fromCSVLine(split[11]);
         }
