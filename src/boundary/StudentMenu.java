@@ -96,7 +96,7 @@ public class StudentMenu extends Menu {
                         if (temp.getOwner()!=student.getUserID()) continue;
                         if (temp.getReply()!=null) continue;
                         else {
-                            Log.println("EnquiryID: " + j);
+                            Log.println("EnquiryID: " + temp.getEnquiryId());
                             Log.println("StudentID: " + temp.getOwner());
                             Log.println("Enquiry Status: Pending");
                             Log.println("Enquiry: " + temp.getEnquiry());

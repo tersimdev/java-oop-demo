@@ -33,6 +33,7 @@ public class CampSuggestion implements SerializeToCSV {
         approvalStatus = 0;
     }
     
+    public int getSuggestionId() { return suggestionId; }
     public String getOwner() { return ownerId; }
     public String getSuggestion() {return suggestion; }
     public void setSuggestionId(int suggestionId) { this.suggestionId = suggestionId; }
@@ -40,8 +41,8 @@ public class CampSuggestion implements SerializeToCSV {
     public boolean hasApproved() { return approvalStatus == 1; } 
     public boolean hasRejected() { return approvalStatus == 2; } 
 
-    public void setApproval(Staff staff, boolean approve) {
-        approverId = staff.getUserID();
+    public void setApproval(String staffID, boolean approve) {
+        approverId = staffID;
         approvalStatus = approve ? 1 : 2;
     }
 

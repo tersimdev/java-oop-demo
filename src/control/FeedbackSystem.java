@@ -27,7 +27,12 @@ public class FeedbackSystem {
     }
 
     public void addCampEnquiry(String campName, CampEnquiry enquiry) {
-        enquiriesMap.computeIfAbsent(campName, k -> new ArrayList<>()).add(enquiry);
+        ArrayList<CampEnquiry> enquiries = enquiriesMap.computeIfAbsent(campName, k -> new ArrayList<>());
+        // Index in the ArrayList used as enquiryID
+        int enquiryID = enquiries.size();
+        enquiry.setEnquiryId(enquiryID);
+        // Add the new enquiry to the ArrayList
+        enquiries.add(enquiry);
     }
 
     public void addCampSuggestion(String campName, CampSuggestion suggestion) {

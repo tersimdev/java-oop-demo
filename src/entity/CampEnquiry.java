@@ -34,6 +34,7 @@ public class CampEnquiry implements SerializeToCSV {
         reply = null;
     }
 
+    public int getEnquiryId() { return enquiryId; }
     public String getOwner() { return ownerId; }
     public String getEnquiry() { return enquiry; }
     public String getReply() { return reply; }
