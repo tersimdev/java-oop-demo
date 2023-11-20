@@ -36,8 +36,8 @@ public class DataStoreCSVImpl implements DataStoreInterface {
     private static final String pathStudents = "data/users/students.csv";
     private static final String pathStaff = "data/users/staff.csv";
     private static final String pathCamps = "data/camps/camps.csv";
-    private static final String pathSuggestions = "data/camps/enquiries.csv";
-    private static final String pathEnquiries = "data/camps/suggestions.csv";
+    private static final String pathSuggestions = "data/camps/suggestions.csv";
+    private static final String pathEnquiries = "data/camps/enquiries.csv";
 
     // table names
     private static final String tableStudents = "students";

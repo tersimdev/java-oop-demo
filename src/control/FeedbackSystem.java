@@ -1,12 +1,11 @@
 package control;
 
-import entity.Camp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import entity.CampEnquiry;
 import entity.CampSuggestion;
-
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  * <p>
@@ -43,12 +42,12 @@ public class FeedbackSystem {
 
         // add to map based on camp id
         for (CampEnquiry ce : enquiryList) {
-            if (enquiriesMap.containsKey(ce.getCampId()))
+            if (!enquiriesMap.containsKey(ce.getCampId()))
                 enquiriesMap.put(ce.getCampId(), new ArrayList<>());
             enquiriesMap.get(ce.getCampId()).add(ce);
         }
         for (CampSuggestion cs : suggestionList) {
-            if (suggestionsMap.containsKey(cs.getCampId()))
+            if (!suggestionsMap.containsKey(cs.getCampId()))
                 suggestionsMap.put(cs.getCampId(), new ArrayList<>());
             suggestionsMap.get(cs.getCampId()).add(cs);
         }
