@@ -22,7 +22,7 @@ public class CampCommitteeMember implements SerializeToCSV {
     public CampCommitteeMember(Student student) {
         this.studentId = student.getUserID();
         isMember = false;
-        campId = 0;
+        campId = -1;
         points = 0;
     }
 

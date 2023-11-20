@@ -54,7 +54,7 @@ public class Camp implements SerializeToCSV {
         return studentList;
     }
 
-    public ArrayList<String> getCampCommitteeMembers() {
+    public ArrayList<String> getComitteeList() {
         return committeeList;
     }
 
@@ -95,7 +95,28 @@ public class Camp implements SerializeToCSV {
     }
 
     public void withdrawStudent(Student student) {
-        studentList.remove(student.getUserID());
+        if (!student.getCampCommitteeMember().isMember()) { // not a committee member
+            // check if student is even registered
+            for (String studentPointer : studentList) {
+                if (studentPointer == student.getUserID()) {
+                    studentList.remove(student.getUserID());
+                    return;
+                }
+            }
+        }
+        else { // committee member
+            // check if student is registered as committee member
+            for (String studentPointer : committeeList) {
+                if (studentPointer == student.getUserID()) {
+                    student.getCampCommitteeMember().setCampId(-1);
+                    student.getCampCommitteeMember().setMember(false);
+                    committeeList.remove(student.getUserID());
+                    return;
+                }
+            }
+        }
+        Log.println("This student is not registered to this camp.");
+        return;
     }
 
     // private void checkForDateClash(Student student) {

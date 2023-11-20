@@ -38,7 +38,8 @@ public class StaffMenu extends Menu {
 
     @Override
     public boolean show() {
-        int selCampId;
+        int selCampId = -1;
+        boolean campIdvalid = false;
         String selCampName;
 
         // assume safe, check handled by state machine
@@ -104,8 +105,11 @@ public class StaffMenu extends Menu {
 
                 case 2:
                     // Edit Camp
-                    selCampId = ui.getInput()
+                    while (campIdvalid == false) {
+                        selCampId = ui.getInput()
                             .getInt("Please enter the ID of the camp you would like to edit: ");
+                        campIdvalid = campSystem.checkValidCampId(selCampId);
+                    }
 
                     Log.println("===What would you like to edit?===");
                     Log.println("(1) Camp name");
@@ -131,8 +135,11 @@ public class StaffMenu extends Menu {
 
                 case 3:
                     // Delete Camp
-                    selCampId = ui.getInput()
-                            .getInt("Please enter the ID of the camp you would like to delete: ");
+                    while (campIdvalid == false) {
+                        selCampId = ui.getInput()
+                            .getInt("Please enter the ID of the camp you would like to edit: ");
+                        campIdvalid = campSystem.checkValidCampId(selCampId);
+                    }
                     campSystem.deleteCamp(selCampId);
                     break;
 
@@ -143,15 +150,21 @@ public class StaffMenu extends Menu {
 
                 case 5:
                     // View Camp Student List
-                    selCampId = ui.getInput()
-                            .getInt("Please enter the ID of the camp you would like to inspect: ");
+                    while (campIdvalid == false) {
+                        selCampId = ui.getInput()
+                            .getInt("Please enter the ID of the camp you would like to edit: ");
+                        campIdvalid = campSystem.checkValidCampId(selCampId);
+                    }
                     campSystem.viewCampStudentList(selCampId);
                     break;
 
                 case 6:
                     // View Camp Committee List
-                    selCampId = ui.getInput()
-                            .getInt("Please enter the ID of the camp you would like to inspect: ");
+                    while (campIdvalid == false) {
+                        selCampId = ui.getInput()
+                            .getInt("Please enter the ID of the camp you would like to edit: ");
+                        campIdvalid = campSystem.checkValidCampId(selCampId);
+                    }
                     campSystem.viewCampCommitteeList(selCampId);
                     break;
 
