@@ -6,7 +6,7 @@ import util.Log;
 
 /**
  * <p>
- * Class defining the login menu functions
+ * Class defining the login menu
  * </p>
  * 
  * @author Sim Yi Wan Terence
@@ -15,13 +15,32 @@ import util.Log;
  */
 public class LoginMenu extends Menu {
 
+    /**
+     * DI of login system
+     */
     private final LoginSystem loginSystem;
 
+    /**
+     * Uses dependency injection for params.
+     * Menu function map is initialised here.
+     * @param ui
+     * @param loginSystem
+     */
     public LoginMenu(ConsoleUI ui, LoginSystem loginSystem) {
         super(ui);
         this.loginSystem = loginSystem;
+
+        // create function map corresponding to ui
+        addMenuFunction(1, this::loginStudent);
+        addMenuFunction(2, this::loginStaff);
     }
 
+    /**
+     * Polymorphisesd function to print out Ui for menu, 
+     * and handle calling of appropriate functions.
+     * Uses getChoice and runFunctionMap.
+     * @return returns whether should exit app
+     */
     @Override
     public boolean show() {
         Log.println("===Login to App===");
@@ -36,21 +55,54 @@ public class LoginMenu extends Menu {
                 return true;
             }
         }
+        // run specific login functions
+        return runMenuFunction(choice);
+    }
 
-        String usernameStr = ui.getInput().getLine("Enter User ID: ").trim().toUpperCase();
-        String passwordStr = ui.getInput().getLine("Enter Password: ").trim();
-        User user;
-        if (choice == 1)
-            user = loginSystem.loginStudent(usernameStr, passwordStr);
-        else
-            user = loginSystem.loginStaff(usernameStr, passwordStr);
-            
-        if (user == null) {
-            Log.println("Invalid user ID or password.");
-            return false; // kick user back to menu selection
-        } else if (user != null)
-            ui.setStateDirty(true);
+    /**
+     * Function to login staff
+     * @param menu
+     * @return returns shouldExit app, always false
+     */
+    private boolean loginStaff(Menu menu) {
+        String[] userDetails = getUserDetails();
+        User user = loginSystem.loginStaff(userDetails[0], userDetails[1]);
+        handleLoginResult(user);
         return false;
     }
 
+    /**
+     * Function to login student
+     * @param menu
+     * @return returns shouldExit app, always false
+     */
+    private boolean loginStudent(Menu menu) {
+        String[] userDetails = getUserDetails();
+        User user = loginSystem.loginStudent(userDetails[0], userDetails[1]);
+        handleLoginResult(user);
+        return false;
+    }
+
+    /**
+     * prompts user for username and password
+     * @return a pair of strings, first being username and second being password
+     */
+    private String[] getUserDetails() {
+        String usernameStr = ui.getInput().getLine("Enter User ID: ").trim().toUpperCase();
+        String passwordStr = ui.getInput().getLine("Enter Password: ").trim();
+        return new String[] { usernameStr, passwordStr };
+    }
+
+    /**
+     * checks if user logged in successfully
+     * if logged in sets ui state dirty
+     * else prints error message
+     */
+    private void handleLoginResult(User user) {
+        if (user == null) {
+            Log.println("Invalid user ID or password.");
+            return; //state remains unchanged
+        } else if (user != null)
+            ui.setStateDirty(true);
+    }
 }
