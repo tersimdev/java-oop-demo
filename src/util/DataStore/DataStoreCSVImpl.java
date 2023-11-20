@@ -50,12 +50,12 @@ public class DataStoreCSVImpl implements DataStoreInterface {
     public void init() {
         // create mapping
         tables = new HashMap<>();
-        tables.put(tableStudents, new CSVTable(tableStudents, pathStudents));
-        tables.put(tableStaff, new CSVTable(tableStaff, pathStaff));
-        tables.put(tableCamps, new CSVTable(tableCamps, pathCamps));
+        tables.put(tableStudents, new CSVTable(tableStudents, pathStudents, 1));
+        tables.put(tableStaff, new CSVTable(tableStaff, pathStaff, 1));
+        tables.put(tableCamps, new CSVTable(tableCamps, pathCamps, 0));
         tables.put(tableSuggestions, new CSVTable(tableSuggestions,
-                pathSuggestions));
-        tables.put(tableEnquiries, new CSVTable(tableEnquiries, pathEnquiries));
+                pathSuggestions, 0));
+        tables.put(tableEnquiries, new CSVTable(tableEnquiries, pathEnquiries, 0));
 
         // load in initial data
         if (!dataExists(pathStudents))
@@ -76,8 +76,11 @@ public class DataStoreCSVImpl implements DataStoreInterface {
     @Override
     public void cleanup() {
         Log.info("Saving all data to CSVs");
-        for (CSVTable t : tables.values())
+        for (CSVTable t : tables.values()) {
+            // should sort by id just incase
+            t.sortRows();
             t.writeToFile();
+        }
     }
 
     @Override
@@ -96,6 +99,7 @@ public class DataStoreCSVImpl implements DataStoreInterface {
         }
         return null;
     }
+
     @Override
     public User queryStaff(String userID) {
         String row = tables.get(tableStaff).queryRow(1, userID);

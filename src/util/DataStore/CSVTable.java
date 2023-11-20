@@ -19,13 +19,15 @@ import util.Log;
  * @since 19-11-2023
  */
 public class CSVTable {
+    private int idIndex;
     private ArrayList<String> rowData;
     private String path;
     private String tableName;
 
-    public CSVTable(String tableName, String path) {
+    public CSVTable(String tableName, String path, int idIndex) {
         this.tableName = tableName;
         this.path = path;
+        this.idIndex = idIndex;
         rowData = null;
     }
 
@@ -37,6 +39,9 @@ public class CSVTable {
     }
     public ArrayList<String> getRowData() {
         return rowData;
+    }
+    public int getIdIndex() {
+        return idIndex;
     }
     public boolean isLoaded() {
         return rowData != null;
@@ -127,5 +132,17 @@ public class CSVTable {
                 Log.error("Error querying for key");
             }
         }
+    }
+
+    /**
+     * Sort by id index
+     */
+    public void sortRows() {
+        rowData.sort((o1, o2) -> { 
+            String id1, id2;
+            id1 = o1.split(",")[idIndex];
+            id2 = o2.split(",")[idIndex];
+            return id1.compareTo(id2);
+        });
     }
 }

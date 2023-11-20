@@ -25,6 +25,10 @@ public class FeedbackSystem {
         this.enquiriesMap = new HashMap<>();
         this.suggestionsMap= new HashMap<>();
         this.dataStoreSystem = dataStoreSystem;
+
+        ArrayList<CampEnquiry> enquiryList = dataStoreSystem.getAllEnquiries();
+        ArrayList<CampSuggestion> suggestionList = dataStoreSystem.getAllSuggestions();
+        //need to map it^
     }
 
     public void addCampEnquiry(int campId, CampEnquiry enquiry) {
@@ -34,6 +38,7 @@ public class FeedbackSystem {
         enquiry.setEnquiryId(enquiryId);
         // Add the new enquiry to the ArrayList
         enquiries.add(enquiry);
+        dataStoreSystem.addEnquiry(enquiry);
     }
 
     public void addCampSuggestion(int campId, CampSuggestion suggestion) {
@@ -43,6 +48,7 @@ public class FeedbackSystem {
         suggestion.setSuggestionId(suggestionId);
         // Add the new suggestion to the ArrayList
         suggestions.add(suggestion);
+        dataStoreSystem.addSuggestion(suggestion);
     }
 
     public boolean editCampEnquiry(int campId, int enquiryId, String newEnquiry) {
