@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import control.CampSystem;
 import control.FeedbackSystem;
 import control.ReportSystem;
+import entity.CampCommitteeMember;
 import entity.CampEnquiry;
 import entity.CampInformation;
 import entity.CampSuggestion;
