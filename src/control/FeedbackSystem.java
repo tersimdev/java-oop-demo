@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 /**
  * <p>
- * A singleton class to store enquiries and suggestions 
+ * A singleton class to store enquiries and suggestions
  * </p>
  * 
  * @author Yen Zhi Wei
@@ -23,12 +23,25 @@ public class FeedbackSystem {
 
     public FeedbackSystem(DataStoreSystem dataStoreSystem) {
         this.enquiriesMap = new HashMap<>();
-        this.suggestionsMap= new HashMap<>();
+        this.suggestionsMap = new HashMap<>();
         this.dataStoreSystem = dataStoreSystem;
 
         ArrayList<CampEnquiry> enquiryList = dataStoreSystem.getAllEnquiries();
         ArrayList<CampSuggestion> suggestionList = dataStoreSystem.getAllSuggestions();
-        //need to map it^
+        int numEnquiries = enquiryList.get(enquiryList.size() - 1).getEnquiryId() + 1;
+        int numSuggestions = suggestionList.get(enquiryList.size() - 1).getSuggestionId() + 1;
+
+        // add to map based on camp id
+        for (CampEnquiry ce : enquiryList) {
+            if (enquiriesMap.containsKey(ce.getCampId()))
+                enquiriesMap.put(ce.getCampId(), new ArrayList<>());
+            enquiriesMap.get(ce.getCampId()).add(ce);
+        }
+        for (CampSuggestion cs : suggestionList) {
+            if (suggestionsMap.containsKey(cs.getCampId()))
+                suggestionsMap.put(cs.getCampId(), new ArrayList<>());
+            suggestionsMap.get(cs.getCampId()).add(cs);
+        }
     }
 
     public void addCampEnquiry(int campId, CampEnquiry enquiry) {
@@ -43,7 +56,7 @@ public class FeedbackSystem {
 
     public void addCampSuggestion(int campId, CampSuggestion suggestion) {
         ArrayList<CampSuggestion> suggestions = suggestionsMap.computeIfAbsent(campId, k -> new ArrayList<>());
-        //Index in the ArrayList used as the suggestionID
+        // Index in the ArrayList used as the suggestionID
         int suggestionId = suggestions.size();
         suggestion.setSuggestionId(suggestionId);
         // Add the new suggestion to the ArrayList
@@ -113,11 +126,11 @@ public class FeedbackSystem {
         return false;
     }
 
-    public ArrayList<CampEnquiry> getCampEnquiries(int campId){
+    public ArrayList<CampEnquiry> getCampEnquiries(int campId) {
         return enquiriesMap.getOrDefault(campId, new ArrayList<>());
     }
 
-    public ArrayList<CampSuggestion> getCampSuggestions(int campId){
+    public ArrayList<CampSuggestion> getCampSuggestions(int campId) {
         return suggestionsMap.getOrDefault(campId, new ArrayList<>());
     }
 

@@ -129,7 +129,7 @@ public class StudentMenu extends Menu {
         // Submit Enquiry
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "submit enquiry");
         String enquiryStr = ui.getInput().getLine("Please enter enquiry: ");
-        CampEnquiry enquiry = new CampEnquiry(student.getUserID(), enquiryStr);
+        CampEnquiry enquiry = new CampEnquiry(student.getUserID(), enquiryStr, selCampId);
         feedbackSystem.addCampEnquiry(selCampId, enquiry);
         Log.println("Enquiry submitted.");
         return false;
@@ -211,7 +211,7 @@ public class StudentMenu extends Menu {
         // Submit Suggestions
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "submit suggestion");
         String suggestionStr = ui.getInput().getLine("Please enter suggestion: ");
-        CampSuggestion suggestion = new CampSuggestion(student.getUserID(), suggestionStr);
+        CampSuggestion suggestion = new CampSuggestion(student.getUserID(), suggestionStr, selCampId);
         feedbackSystem.addCampSuggestion(selCampId, suggestion);
         Log.println("Suggestion submitted.");
         student.getCampCommitteeMember().addPoints();

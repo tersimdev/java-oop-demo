@@ -31,7 +31,6 @@ public class CampSystem {
         ArrayList<Camp> dataStoreCamps = dataStoreSystem.getAllCamps();
         // dataStore camps would not have deleted entries, so index might be wrong
         // sort to get the biggest id
-        dataStoreCamps.sort((o1, o2) -> Integer.compare(o1.getCampId(), o2.getCampId()));
         int size = dataStoreCamps.get(dataStoreCamps.size() - 1).getCampId() + 1;
         camps = new ArrayList<>(Collections.nCopies(size, null)); //init camp arrays of size to null
         //create deleted list

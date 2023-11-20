@@ -14,21 +14,24 @@ import util.DataStore.SerializeToCSV;
  */
 public class CampEnquiry implements SerializeToCSV {
 
-    int enquiryId;
-    String ownerId;
-    String replierId;
+    private int enquiryId;
+    private int campId;
+    private String ownerId;
+    private String replierId;
     private String enquiry;
     private String reply;
 
     public CampEnquiry() {
         enquiryId = 0;
+        campId = 0;
         ownerId = null;
         enquiry = "";
         replierId = null;
         reply = null;
     }
 
-    public CampEnquiry(String studentID, String enquiry) {
+    public CampEnquiry(String studentID, String enquiry, int campId) {
+        this.campId = campId;
         this.ownerId = studentID;
         this.enquiry = enquiry;
         replierId = null;
@@ -37,6 +40,10 @@ public class CampEnquiry implements SerializeToCSV {
 
     public int getEnquiryId() {
         return enquiryId;
+    }
+
+    public int getCampId() {
+        return campId;
     }
 
     public String getOwner() {

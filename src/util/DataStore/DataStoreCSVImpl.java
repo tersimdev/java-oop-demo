@@ -199,7 +199,7 @@ public class DataStoreCSVImpl implements DataStoreInterface {
         // create Student object from initial file
         // then call toCSV and add to data/users/student.csv
 
-        CSVTable initTable = new CSVTable("temp", initStudents);
+        CSVTable initTable = new CSVTable("temp", initStudents, 1);
         ArrayList<String> initialData = initTable.readFromFile();
         ArrayList<Student> studentList = new ArrayList<>();
 
@@ -233,7 +233,7 @@ public class DataStoreCSVImpl implements DataStoreInterface {
         // create Staff object from initial file
         // then call toCSV and add to data/users/staff.csv
 
-        CSVTable initTable = new CSVTable("temp", initStaff);
+        CSVTable initTable = new CSVTable("temp", initStaff, 1);
         ArrayList<String> initialData = initTable.readFromFile();
         ArrayList<Staff> staffList = new ArrayList<>();
 

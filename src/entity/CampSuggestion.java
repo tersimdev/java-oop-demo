@@ -15,6 +15,7 @@ import util.DataStore.SerializeToCSV;
 public class CampSuggestion implements SerializeToCSV {
 
     private int suggestionId;
+    private int campId;
     private String ownerId; // owner of this suggestion
     private String approverId;
     private String suggestion; // the suggestion in plaintext
@@ -28,7 +29,8 @@ public class CampSuggestion implements SerializeToCSV {
         approvalStatus = 0;
     }
 
-    public CampSuggestion(String commMemberID, String suggestion) {
+    public CampSuggestion(String commMemberID, String suggestion, int campId) {
+        this.campId = campId;
         this.ownerId = commMemberID;
         this.suggestion = suggestion;
         approvalStatus = 0;
@@ -37,6 +39,10 @@ public class CampSuggestion implements SerializeToCSV {
 
     public int getSuggestionId() {
         return suggestionId;
+    }
+
+    public int getCampId() {
+        return campId;
     }
 
     public String getOwner() {
