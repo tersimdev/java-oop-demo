@@ -137,7 +137,7 @@ public class StaffMenu extends Menu {
                     // Delete Camp
                     while (campIdvalid == false) {
                         selCampId = ui.getInput()
-                            .getInt("Please enter the ID of the camp you would like to edit: ");
+                            .getInt("Please enter the ID of the camp you would like to delete: ");
                         campIdvalid = campSystem.checkValidCampId(selCampId);
                     }
                     campSystem.deleteCamp(selCampId);
@@ -152,7 +152,7 @@ public class StaffMenu extends Menu {
                     // View Camp Student List
                     while (campIdvalid == false) {
                         selCampId = ui.getInput()
-                            .getInt("Please enter the ID of the camp you would like to edit: ");
+                            .getInt("Please enter the ID of the camp you would like to inspect: ");
                         campIdvalid = campSystem.checkValidCampId(selCampId);
                     }
                     campSystem.viewCampStudentList(selCampId);
@@ -162,7 +162,7 @@ public class StaffMenu extends Menu {
                     // View Camp Committee List
                     while (campIdvalid == false) {
                         selCampId = ui.getInput()
-                            .getInt("Please enter the ID of the camp you would like to edit: ");
+                            .getInt("Please enter the ID of the camp you would like to inspect: ");
                         campIdvalid = campSystem.checkValidCampId(selCampId);
                     }
                     campSystem.viewCampCommitteeList(selCampId);

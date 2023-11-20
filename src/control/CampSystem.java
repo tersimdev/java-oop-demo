@@ -183,7 +183,6 @@ public class CampSystem {
                 return camp;
             }
         }
-        Log.error("Camp not found");
         Log.println("Camp not found");
         return null;
     }
@@ -192,7 +191,6 @@ public class CampSystem {
         for (Camp camp : camps) {
             if (camp.getCampId() == campId) return camp;
         }
-        Log.error("Camp not found");
         Log.println("Camp not found");
         return null;
     }
