@@ -240,18 +240,13 @@ public class CampSystem {
     public void withdrawFromCamp(Student student, int campId) {
         Camp camp = getCampById(campId);
         String studentId = student.getUserID();
-        CampCommitteeMember committeeMember = student.getCampCommitteeMember();
 
-        if (camp.getCommitteeList().contains(studentId)) { // is a committee member for this camp
-            committeeMember.setCampId(-1);
-            committeeMember.setIsMember(false);
-            camp.removeCampCommitteeMember(committeeMember);
-        } else if (camp.getAttendeeList().contains(studentId)) { // is just an attendee for this camp
+        if (camp.getAttendeeList().contains(studentId)) { // is an attendee for this camp
             camp.removeAttendee(student);
         }
         else {
             Log.println(studentId + " is already not registered for camp " + campId);
-            Log.error(studentId + " was not registered for camp " + campId);
+            Log.error(studentId + " was not withdrawn for camp " + campId);
         }
     }
 

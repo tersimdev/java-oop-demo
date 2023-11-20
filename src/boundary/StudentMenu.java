@@ -39,6 +39,7 @@ public class StudentMenu extends Menu {
     public boolean show() {
         String selCampName;
         int selCampId = -1;
+        boolean yesno;
         boolean campIdvalid = false;
 
         // assume safe, check handled by state machine
@@ -95,7 +96,9 @@ public class StudentMenu extends Menu {
                             .getInt("Please enter the ID of the camp you would like to register for: ");
                         campIdvalid = campSystem.checkValidCampId(selCampId);
                     }
-                    campSystem.registerAsCommittee(student, selCampId);
+                    yesno = ui.getInput()
+                        .getBool("You will not be able to quit this camp after registering. Are you sure you want to register? (Y/N)");
+                    if (yesno == true) campSystem.registerAsCommittee(student, selCampId);
                     break;
 
                 case 4:
@@ -186,7 +189,9 @@ public class StudentMenu extends Menu {
                 case 8:
                      selCampId = ui.getInput()
                         .getInt("Please enter the ID of the camp you want to withdraw from: ");
-                        campSystem.withdrawFromCamp(student, selCampId);
+                    yesno = ui.getInput()
+                        .getBool("You will not be able to register for this camp after withdrawing from it. Are you sure you want to withdraw? (Y/N)");
+                    if (yesno == true) campSystem.withdrawFromCamp(student, selCampId);
                     break;
 
                 // ===Committee Member Menu===
