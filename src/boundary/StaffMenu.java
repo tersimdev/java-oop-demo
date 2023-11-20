@@ -83,9 +83,9 @@ public class StaffMenu extends Menu {
                     int duration = ui.getInput()
                             .getInt("Please enter the number of days the camp will be held: ");
                     LocalDate firstDate = ui.getInput()
-                            .getDate("Please enter the date of day number 1 (DD/MM/YYYY): ");
+                            .getDate("Please enter the date of the first day of the camp (DD/MM/YYYY): ");
                     LocalDate registrationClosingDate = ui.getInput()
-                            .getDate("Please enter the closing date for registration (DD/MM/YYYY): ");
+                            .getDate("Please enter the registration deadline (DD/MM/YYYY): ");
                     ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
                     for (int i = 0; i < duration; i++) {
                         dates.add(firstDate);

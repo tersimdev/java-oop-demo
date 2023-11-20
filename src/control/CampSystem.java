@@ -139,8 +139,8 @@ public class CampSystem {
         Log.println("===List of all available camps===");
         for (Camp camp : camps) {
             UserGroup userGroup = camp.getCampInformation().getUserGroup();
-            if (camp!= null && !checkCampFull(camp) && !checkRegistrationClosed(camp) 
-                && camp.checkVisibility() && !checkDateClash(camp, student) 
+            if (camp!= null && (!checkCampFull(camp) || !checkCampCommitteeFull(camp))  
+                && !checkRegistrationClosed(camp) && camp.checkVisibility() && !checkDateClash(camp, student) 
                 && (userGroup.isWholeNTU() || student.getFaculty() == userGroup.getFaculty())) {
                 printCamp(camp);
             }
@@ -187,7 +187,7 @@ public class CampSystem {
             Log.error(studentId + " was not registered for camp " + campId);
             return;
         }
-        if (!checkCampFull(camp) && !checkRegistrationClosed(camp) && !camp.getCommitteeList().contains(studentId)
+        if (!checkCampCommitteeFull(camp) && !checkRegistrationClosed(camp) && !camp.getCommitteeList().contains(studentId)
                 && !camp.getAttendeeList().contains(studentId) && !checkDateClash(camp, student)
                 && (userGroup.isWholeNTU() || student.getFaculty() == userGroup.getFaculty())) {
             CampCommitteeMember committeeMember = student.getCampCommitteeMember();
@@ -204,8 +204,8 @@ public class CampSystem {
         } else if (checkRegistrationClosed(camp)) {
             Log.println("Registration for this camp has closed");
             Log.error(studentId + " was not registered for camp " + campId);
-        } else if (checkCampFull(camp)) {
-            Log.println("This camp is full");
+        } else if (checkCampCommitteeFull(camp)) {
+            Log.println("There are no more camp committee slots for this camp");
             Log.error(studentId + " was not registered for camp " + campId);
         } else if (camp.getAttendeeList().contains(studentId)) {
             Log.println(studentId + " is already registered for " + campId + " as an attendee");
@@ -304,8 +304,15 @@ public class CampSystem {
     }
 
     public boolean checkCampFull(Camp camp) {
-        if (camp.getAttendeeList().size() >= camp.getCampInformation().getTotalSlots())
+        if (camp.getAttendeeList().size() >= (camp.getCampInformation().getTotalSlots() - camp.getCampInformation().getCommitteeSlots()))
             return true; // camp is full
+        return false;
+    }
+
+    public boolean checkCampCommitteeFull(Camp camp) {
+        if (camp.getCommitteeList().size() >= camp.getCampInformation().getCommitteeSlots()) {
+            return true; // no more committee slots left
+        }
         return false;
     }
 
@@ -364,7 +371,7 @@ public class CampSystem {
         if (camp.getCampInformation().getUserGroup().isWholeNTU()) Log.println("This camp is open to all students from NTU");
         else Log.println("This camp is open only to students from " + camp.getCampInformation().getUserGroup());
         Log.println(
-                "Attendee slots left: " + (camp.getCampInformation().getTotalSlots() - camp.getAttendeeList().size()));
+                "Attendee slots left: " + (camp.getCampInformation().getTotalSlots() - camp.getCampInformation().getCommitteeSlots() - camp.getAttendeeList().size()));
         Log.println("Committee slots left: "
                 + (camp.getCampInformation().getCommitteeSlots() - camp.getCommitteeList().size()));
         Log.println("=======================");
