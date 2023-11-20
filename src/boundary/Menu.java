@@ -25,8 +25,8 @@ public abstract class Menu {
      * Implement this interface to perform some function, 
      * with the menu calling passed as parameter
      */
-    private interface MenuFunctionInterface {
-        void doFunction(Menu menu); 
+    protected interface MenuFunctionInterface {
+        boolean doFunction(Menu menu); 
     }
     /**
      * Map of user selected menu choice to function to execute
@@ -37,6 +37,10 @@ public abstract class Menu {
     public Menu(ConsoleUI ui) {
         this.ui = ui;
         functionMap = new HashMap<>();
+    }
+
+    public ConsoleUI getUi() {
+        return ui;
     }
 
     /**
@@ -61,6 +65,31 @@ public abstract class Menu {
      * function to add a menu function to functionMap
      * @param choice choice integer to map to
      * @param func menu function to call
+     * 
+     * @implNote
+     * <p>
+     * The following explanation is for how to use this function:
+     * There are 3 ways to implement the MenuFunctionInterface
+     * other than simply creating a new concrete class file.
+     * </p>
+     * <ol>
+     * <li>Create the class inline.
+     * <p><code>
+     *      addMenuFunction(choice, new MenuFunctionInterface() {
+     *          public void doFunction(Menu menu) {myFunc();}
+     *      });
+     * </code></p></li>
+     * <li>Use lambda / arrow notation.
+     * <p><code>
+     *      addMenuFunction(choice, (menu) -> myFunc(menu));
+     * </code></p></li>
+     * <li>Use method reference.
+     * Note this only works if myFunc matches signature
+     * of doFunction() in the interface.
+     * <p><code>
+     *      addMenuFunction(choice, this::myFunc); 
+     * </code></p></li>
+     * </ol>
      */
     protected void addMenuFunction(int choice, MenuFunctionInterface func) {
         functionMap.put(choice, func);
@@ -81,15 +110,16 @@ public abstract class Menu {
      * Use getChoice to ensure invalid choices are caught.
      * Depends on initialized function map that correspons to choices.
      * @param choice the choice chosen from e.g. getChoice
+     * @return returns whether this menu should exit 
      */
-    protected void runMenuFunction(int choice) {
+    protected boolean runMenuFunction(int choice) {
         MenuFunctionInterface menuFunc = functionMap.get(choice);
         if (menuFunc == null) {
             Log.error("function map likely faulty, choice " + choice + " from"+ this);
-            return;
+            return true;
         }
         //else not null so do function
-        menuFunc.doFunction(this);
+        return menuFunc.doFunction(this);
     }
 
     public abstract boolean show();
