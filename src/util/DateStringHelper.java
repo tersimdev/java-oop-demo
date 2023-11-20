@@ -3,12 +3,20 @@ package util;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Helper class to provide static functions to convert
+ * <code>LocalDate</code> to and from <code>Strings</code>.
+ * 
+ * @author Jon Daniel Acu Kang
+ * @version 1.0
+ * @since 20-11-2023
+ */
 public class DateStringHelper {
 
     private static DateTimeFormatter Formatter;
     private final static String localDateFormat = "dd/MM/uuuu";
-    private final static String stringDateFormat= "dd LLLL uuuu";
-    
+    private final static String stringDateFormat = "dd LLLL uuuu";
+
     public DateStringHelper() {
     }
 
