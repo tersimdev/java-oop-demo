@@ -310,7 +310,7 @@ public class StudentMenu extends Menu {
                     }
                     int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to reply: ");
                     String reply = ui.getInput().getLine("Please enter reply: ");
-                    Boolean result = feedbackSystem.replyCampEnquiry(student.getUserID(),selCampId, enquiryId, reply);
+                    Boolean result = feedbackSystem.processCampEnquiry(student.getUserID(),selCampId, enquiryId, reply);
                     if(result) 
                             Log.println("Enquiry successfully processed.");
                         else 

@@ -65,7 +65,7 @@ public class FeedbackSystem {
         return false;
     }
 
-    public boolean removeCampEnquiryById(int campId, int enquiryId) {
+    public boolean removeCampEnquiry(int campId, int enquiryId) {
         ArrayList<CampEnquiry> enquiries = enquiriesMap.get(campId);
         if (enquiries != null && enquiryId >= 0 && enquiryId < enquiries.size()) {
             enquiries.remove(enquiryId);
@@ -76,7 +76,7 @@ public class FeedbackSystem {
         return false;
     }
 
-    public boolean removeCampSuggestionById(int campId, int suggestionId) {
+    public boolean removeCampSuggestion(int campId, int suggestionId) {
         ArrayList<CampSuggestion> suggestions = suggestionsMap.get(campId);
         if (suggestions != null && suggestionId >= 0 && suggestionId < suggestions.size()) {
             suggestions.remove(suggestionId);
@@ -87,7 +87,7 @@ public class FeedbackSystem {
         return false;
     }
 
-    public boolean replyCampEnquiry(String commMemberId, int campId, int enquiryId, String reply) {
+    public boolean processCampEnquiry(String commMemberId, int campId, int enquiryId, String reply) {
         ArrayList<CampEnquiry> enquiries = enquiriesMap.get(campId);
         if (enquiries != null && enquiryId >= 0 && enquiryId < enquiries.size()) {
             CampEnquiry campEnquiry = enquiries.get(enquiryId);
