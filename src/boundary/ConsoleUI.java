@@ -73,14 +73,27 @@ public class ConsoleUI {
         input = null;
     }
 
+    /**
+     * Setter for stateDirty.
+     * @param dirty whether state is dirty
+     */
     public void setStateDirty(boolean dirty) {
         this.stateDirty = dirty;
     }
 
+    /**
+     * Getter for user object.
+     * @return user object
+     */
     public User getUser() {
         return loginSystem.getCurrentUser();
     }
 
+    /**
+     * Getter for input object.
+     * Call this to do user input.
+     * @return input object
+     */
     public Input getInput() {
         return input;
     }
@@ -112,7 +125,12 @@ public class ConsoleUI {
         Log.println("> Made by Team 2: Terence, Ryan, Jon, Zhi Wei\n");
     }
 
-    // returns if should exit app
+    /**
+     * Main update loop of app. 
+     * Uses state machine design.
+     * Checks if state is dirty and calls switchStates
+     * @return returns if should exit app
+     */
     public boolean run() {
         // return implicitly does break
         boolean shouldExit = false;
@@ -127,10 +145,17 @@ public class ConsoleUI {
         return shouldExit;
     }
 
+    /**
+     * Function to cleanup systems
+     */
     public void cleanup() {
         input.close();
     }
 
+    /**
+     * Function to change states, 
+     * by setting state variable and checking preconditions
+     */
     private void switchState() {
         switch (state) {
             case LOGIN_MENU:
