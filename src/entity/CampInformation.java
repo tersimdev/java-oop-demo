@@ -196,6 +196,10 @@ public class CampInformation implements SerializeToCSV {
         return userGroup;
     }
 
+    public Faculty getOrganisingFaculty() {
+        return organisingFaculty;
+    }
+
     public String getLocation() {
         return location;
     }

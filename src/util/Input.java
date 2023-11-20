@@ -90,11 +90,31 @@ public class Input {
         LocalDate ret = null;
          while (ret == null) {
             try {
-                String dateStr = scanner.next();
+                String dateStr = scanner.nextLine();
                 ret = DateStringHelper.StrToDateConverter(dateStr);
-                scanner.nextLine(); //consume \n
             } catch (DateTimeParseException e) {
-                Log.debug("Invalid date format. Please enter the date in the format DD/MM/YYYY.");
+                Log.debug("invalid date format. Please enter the date in the format DD/MM/YYYY.");
+                Log.print(INVALID_INPUT_MSG);
+                scanner.nextLine(); //consume failed input
+                //e.printStackTrace();
+            }
+        }
+        return ret;
+    }
+
+    public boolean getBool(String msg) {
+        Log.print(msg);
+        Boolean ret = null;
+        while (ret == null) {
+            try {
+                String yesno = scanner.nextLine().toLowerCase();
+                if (yesno == "y" || yesno == "yes") {
+                    ret = true;
+                } else if (yesno == "n" || yesno == "no") {
+                    ret = false;
+                }
+            } catch (NoSuchElementException e) {
+                Log.debug("invalid input to getBool");
                 Log.print(INVALID_INPUT_MSG);
                 scanner.nextLine(); //consume failed input
                 //e.printStackTrace();

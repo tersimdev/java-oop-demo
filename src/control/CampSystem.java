@@ -7,6 +7,7 @@ import entity.Camp;
 import entity.CampCommitteeMember;
 import entity.CampInformation;
 import entity.Student;
+import entity.UserGroup;
 import util.DateStringHelper;
 import util.Input;
 import util.Log;
@@ -85,6 +86,19 @@ public class CampSystem {
                 break;
 
             case 8:
+                UserGroup userGroup = camp.getCampInformation().getUserGroup();
+                boolean yesno;
+                if (userGroup.isWholeNTU()) {
+                    yesno = input.getBool("Would you like to only open the camp to " + userGroup.getFaculty() + "?");
+                    if (yesno == true) userGroup.setFaculty(camp.getCampInformation().getOrganisingFaculty());
+                }
+                else {
+                    yesno = input.getBool("Would you like to open the camp to the whole of NTU?");
+                    if (yesno == true) userGroup.setWholeNTU();
+                }
+                break;
+
+            case 9:
                 boolean visibility = camp.toggleVisibility();
                 if (visibility == true)
                     Log.println("The camp is now visible.");
@@ -100,7 +114,7 @@ public class CampSystem {
     public void viewAllCamps() {
         Log.println("===List of all camps===");
         for (Camp camp : camps) {
-            printCamp(camp);
+            if (camp != null) printCamp(camp);
         }
     }
 
@@ -124,7 +138,10 @@ public class CampSystem {
     public void viewAvailableCamps(Student student) {
         Log.println("===List of all available camps===");
         for (Camp camp : camps) {
-            if (!checkCampFull(camp) && !checkRegistrationClosed(camp) && !checkDateClash(camp, student)) {
+            UserGroup userGroup = camp.getCampInformation().getUserGroup();
+            if (camp!= null && !checkCampFull(camp) && !checkRegistrationClosed(camp) 
+                && camp.checkVisibility() && !checkDateClash(camp, student) 
+                && (userGroup.isWholeNTU() || student.getFaculty() == userGroup.getFaculty())) {
                 printCamp(camp);
             }
         }
@@ -133,9 +150,11 @@ public class CampSystem {
     public void registerAsAttendee(Student student, int campId) {
         String studentId = student.getUserID();
         Camp camp = getCampById(campId);
+        UserGroup userGroup = camp.getCampInformation().getUserGroup();
 
         if (!checkCampFull(camp) && !checkRegistrationClosed(camp) && !camp.getAttendeeList().contains(studentId)
-                && !checkDateClash(camp, student)) {
+                && !camp.getCommitteeList().contains(studentId) && !checkDateClash(camp, student)
+                && (userGroup.isWholeNTU() || student.getFaculty() == userGroup.getFaculty())) {
             camp.addAttendee(student);
             Log.println(studentId + " has been registered for camp " + campId);
         } else if (camp.getAttendeeList().contains(studentId)) {
@@ -150,14 +169,27 @@ public class CampSystem {
         } else if (checkCampFull(camp)) {
             Log.println("This camp is full");
             Log.error(studentId + " was not registered for camp " + campId);
+        } else if (camp.getCommitteeList().contains(studentId)) {
+            Log.println(studentId + " is already registered for " + campId + " as a committee member");
+            Log.error(studentId + " was not registered for camp " + campId);
+        } else if (student.getFaculty() != userGroup.getFaculty()) {
+            Log.println("Camp " + campId + " is only open to " + userGroup.getFaculty());
+            Log.error(studentId + " was not registered for camp " + campId);
         }
     }
 
     public void registerAsCommittee(Student student, int campId) {
         String studentId = student.getUserID();
         Camp camp = getCampById(campId);
+        UserGroup userGroup = camp.getCampInformation().getUserGroup();
+        if (student.getCampCommitteeMember().getIsMember()) {
+            Log.println(campId + " is already a committee member for another camp.");
+            Log.error(studentId + " was not registered for camp " + campId);
+            return;
+        }
         if (!checkCampFull(camp) && !checkRegistrationClosed(camp) && !camp.getCommitteeList().contains(studentId)
-                && !checkDateClash(camp, student)) {
+                && !camp.getAttendeeList().contains(studentId) && !checkDateClash(camp, student)
+                && (userGroup.isWholeNTU() || student.getFaculty() == userGroup.getFaculty())) {
             CampCommitteeMember committeeMember = student.getCampCommitteeMember();
             committeeMember.setCampId(campId);
             committeeMember.setIsMember(true);
@@ -175,6 +207,12 @@ public class CampSystem {
         } else if (checkCampFull(camp)) {
             Log.println("This camp is full");
             Log.error(studentId + " was not registered for camp " + campId);
+        } else if (camp.getAttendeeList().contains(studentId)) {
+            Log.println(studentId + " is already registered for " + campId + " as an attendee");
+            Log.error(studentId + " was not registered for camp " + campId);
+        } else if (student.getFaculty() != userGroup.getFaculty()) {
+            Log.println("Camp " + campId + " is only open to " + userGroup.getFaculty());
+            Log.error(studentId + " was not registered for camp " + campId);
         }
     }
 
@@ -182,13 +220,17 @@ public class CampSystem {
         String studentId = student.getUserID();
         Log.println("===List of all the camps you are registered for===");
         for (Camp camp : camps) {
-            for (String studentPointer : camp.getAttendeeList()) {
-                if (studentId == studentPointer) {
+            if (camp != null) {
+                if(camp.getAttendeeList().contains(studentId)) {
+                    Log.println("=======================");
+                    Log.println("Your role for camp " + camp.getCampId() + ": Attendee");
+                    Log.println("-----------------------");
                     printCamp(camp);
                 }
-            }
-            for (String studentPointer : camp.getCommitteeList()) {
-                if (studentId == studentPointer) {
+                if (camp.getCommitteeList().contains(studentId)) {
+                    Log.println("=======================");
+                    Log.println("Your role for camp " + camp.getCampId() + ": Committee Member");
+                    Log.println("-----------------------");
                     printCamp(camp);
                 }
             }
@@ -199,29 +241,24 @@ public class CampSystem {
         Camp camp = getCampById(campId);
         String studentId = student.getUserID();
         CampCommitteeMember committeeMember = student.getCampCommitteeMember();
-        if (committeeMember.getIsMember()) { // is a committee member
-            if (!camp.getCommitteeList().contains(studentId)) {
-                Log.println(studentId + " is already not registered for camp " + campId);
-                Log.error(studentId + " was not registered for camp " + campId);
-            } else {
-                committeeMember.setCampId(-1);
-                committeeMember.setIsMember(false);
-                camp.removeCampCommitteeMember(committeeMember);
-            }
-        } else { // not a committee member
-            if (!camp.getAttendeeList().contains(studentId)) {
-                Log.println(studentId + " is already not registered for camp " + campId);
-                Log.error(studentId + " was not registered for camp " + campId);
-            } else {
-                camp.removeAttendee(student);
-            }
+
+        if (camp.getCommitteeList().contains(studentId)) { // is a committee member for this camp
+            committeeMember.setCampId(-1);
+            committeeMember.setIsMember(false);
+            camp.removeCampCommitteeMember(committeeMember);
+        } else if (camp.getAttendeeList().contains(studentId)) { // is just an attendee for this camp
+            camp.removeAttendee(student);
+        }
+        else {
+            Log.println(studentId + " is already not registered for camp " + campId);
+            Log.error(studentId + " was not registered for camp " + campId);
         }
     }
 
     // utility functions
     public Camp getCampByName(String campName) {
         for (Camp camp : camps) {
-            if (camp.getCampInformation().getCampName().equalsIgnoreCase(campName)) {
+            if (camp!= null && camp.getCampInformation().getCampName().equalsIgnoreCase(campName)) {
                 return camp;
             }
         }
@@ -249,7 +286,7 @@ public class CampSystem {
     }
 
     public boolean checkValidCampId(int campId) {
-        Camp camp = getCampById(campId);
+        Camp camp = camps.get(campId);
         if (camp != null) {
             return true;
         } else if (camps.isEmpty()) {
@@ -284,25 +321,27 @@ public class CampSystem {
 
         campFirstDate = camp.getCampInformation().getDates().get(0);
         if (camp.getCampInformation().getDates().size() > 1) {
-            campLastDate = camp.getCampInformation().getDates().get(camp.getCampInformation().getDates().size());
+            campLastDate = camp.getCampInformation().getDates().get(camp.getCampInformation().getDates().size()-1);
         } else {
             campLastDate = campFirstDate;
         }
         for (Camp campPointer : camps) {
-            if (campPointer.getAttendeeList().contains(studentId)
-                    || campPointer.getCommitteeList().contains(studentId)) { // student is registered for this camp
+            if (campPointer != null) {
+                if (campPointer.getAttendeeList().contains(studentId)
+                        || campPointer.getCommitteeList().contains(studentId)) { // student is registered for this camp
 
-                ptrCampFirstDate = campPointer.getCampInformation().getDates().get(0);
-                if (campPointer.getCampInformation().getDates().size() > 1) {
-                    ptrCampLastDate = camp.getCampInformation().getDates()
-                            .get(camp.getCampInformation().getDates().size());
-                } else {
-                    ptrCampLastDate = ptrCampFirstDate;
-                }
+                    ptrCampFirstDate = campPointer.getCampInformation().getDates().get(0);
+                    if (campPointer.getCampInformation().getDates().size() > 1) {
+                        ptrCampLastDate = campPointer.getCampInformation().getDates()
+                                .get(campPointer.getCampInformation().getDates().size()-1);
+                    } else {
+                        ptrCampLastDate = ptrCampFirstDate;
+                    }
 
-                // check for date clash
-                if (campFirstDate.compareTo(ptrCampLastDate) <= 0 && campLastDate.compareTo(ptrCampFirstDate) >= 0) {
-                    return true;
+                    // check for date clash
+                    if (campFirstDate.compareTo(ptrCampLastDate) <= 0 && campLastDate.compareTo(ptrCampFirstDate) >= 0) {
+                        return true;
+                    }
                 }
             }
         }
@@ -322,6 +361,8 @@ public class CampSystem {
         Log.println("----------------------");
         Log.println(camp.getCampInformation().getDescription());
         Log.println("----------------------");
+        if (camp.getCampInformation().getUserGroup().isWholeNTU()) Log.println("This camp is open to all students from NTU");
+        else Log.println("This camp is open only to students from " + camp.getCampInformation().getUserGroup());
         Log.println(
                 "Attendee slots left: " + (camp.getCampInformation().getTotalSlots() - camp.getAttendeeList().size()));
         Log.println("Committee slots left: "

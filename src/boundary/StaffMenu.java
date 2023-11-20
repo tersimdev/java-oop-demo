@@ -74,9 +74,12 @@ public class StaffMenu extends Menu {
                     String campName = ui.getInput().getLine("Please enter the camp name: ");
                     String description = ui.getInput().getLine("Please enter the camp's description: ");
                     String location = ui.getInput().getLine("Please enter the camp's location: ");
-                    int totalSlots = ui.getInput().getInt("Please enter the camp's total number of slots: ");
-                    int committeeSlots = ui.getInput()
-                            .getInt("Please enter the camp's number of committee slots: ");
+                    int totalSlots = ui.getInput().getInt("Please enter the camp's total number of slots (including committee members): ");
+                    int committeeSlots = 11;
+                    while (committeeSlots > 10 && (committeeSlots > totalSlots)) {
+                        committeeSlots = ui.getInput()
+                            .getInt("Please enter the camp's number of committee slots (MAX 10): ");
+                    }
                     int duration = ui.getInput()
                             .getInt("Please enter the number of days the camp will be held: ");
                     LocalDate firstDate = ui.getInput()
@@ -88,10 +91,13 @@ public class StaffMenu extends Menu {
                         dates.add(firstDate);
                         firstDate = firstDate.plusDays(1);
                     }
-                    
-                    String staffInChargeId = staff.getUserID();
+                    boolean isWholeNTU = ui.getInput()
+                        .getBool("Will this camp be open to the whole of NTU? (Y/N)");
                     Faculty organisingFaculty = staff.getFaculty();
-                    UserGroup userGroup = new UserGroup().setFaculty(organisingFaculty);
+                    UserGroup userGroup = new UserGroup();
+                    if (isWholeNTU) userGroup.setWholeNTU();
+                    else userGroup.setFaculty(organisingFaculty);
+                    String staffInChargeId = staff.getUserID();
 
                     // create the camp
                     int campId = campSystem.generateNewCampId();
@@ -120,12 +126,13 @@ public class StaffMenu extends Menu {
                     Log.println("(5) Camp's number of committee slots");
                     Log.println("(6) Camp dates");
                     Log.println("(7) Camp registration closing date");
-                    Log.println("(8) Toggle camp visibility");
-                    Log.println("(9) Back to Staff Menu");
+                    Log.println("(8) Camp user group");
+                    Log.println("(9) Toggle camp visibility");
+                    Log.println("(10) Back to Staff Menu");
                     
                     int editChoice = -1;
                     while (editChoice < 0) {
-                        editChoice = getChoice(1, 8, 9);
+                        editChoice = getChoice(1, 9, 10);
                         if (editChoice == 0) {
                             choice = -1;
                             break;
