@@ -97,18 +97,18 @@ public class StudentMenu extends Menu {
 
                 case 5:
                     //Submit Enquiry
-                    selCampName = ui.getInput().getLine("Please enter the camp name to submit enquiry: ");
+                    selCampId = ui.getInput().getInt("Please enter the campID of the camp to submit enquiry: ");
                     String enquiryStr = ui.getInput().getLine("Please enter enquiry: ");
                     CampEnquiry enquiry = new CampEnquiry(student.getUserID(),enquiryStr);
-                    feedbackSystem.addCampEnquiry(selCampName, enquiry);
+                    feedbackSystem.addCampEnquiry(selCampId, enquiry);
                     Log.println("Enquiry submitted.");
                     break;
                     
                 case 6:
                     //View/Edit/Delete Pending Enquiries
-                    selCampName = ui.getInput().getLine("Please enter the camp name to view/edit/delete your enquiries: ");
+                    selCampId = ui.getInput().getInt("Please enter the campID of the camp to view/edit/delete your enquiries: ");
                     ArrayList<CampEnquiry> studentEnquiryList = new ArrayList<>();
-                    studentEnquiryList = feedbackSystem.getCampEnquiries(selCampName);
+                    studentEnquiryList = feedbackSystem.getCampEnquiries(selCampId);
                     int size = studentEnquiryList.size();
                     Log.println("===Pending Enquiries===");
                     for (int i = 0; i < size; i++) {
@@ -132,7 +132,7 @@ public class StudentMenu extends Menu {
                         if (sChoice==1){
                             int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to edit: ");
                             String newEnquiry = ui.getInput().getLine("Please enter new enquiry: ");
-                            Boolean result = feedbackSystem.editCampEnquiry(selCampName, enquiryId, newEnquiry);
+                            Boolean result = feedbackSystem.editCampEnquiry(selCampId, enquiryId, newEnquiry);
                             if(result) 
                                 Log.println("Edit successful.");
                             else 
@@ -141,7 +141,7 @@ public class StudentMenu extends Menu {
                         }
                         else if (sChoice==2){
                             int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to delete: ");
-                            Boolean result = feedbackSystem.removeCampEnquiryById(selCampName, enquiryId);
+                            Boolean result = feedbackSystem.removeCampEnquiryById(selCampId, enquiryId);
                             if(result) 
                                 Log.println("Deletion successful.");
                             else 
@@ -157,9 +157,9 @@ public class StudentMenu extends Menu {
                     break;
                 case 7:
                     //View Processed Enquiry Replies
-                    selCampName = ui.getInput().getLine("Please enter the camp name to view processed enquiries: ");
+                    selCampId = ui.getInput().getInt("Please enter the campID of the camp to view processed enquiries: ");
                     ArrayList<CampEnquiry> processedEnquiryList = new ArrayList<>();
-                    processedEnquiryList = feedbackSystem.getCampEnquiries(selCampName);
+                    processedEnquiryList = feedbackSystem.getCampEnquiries(selCampId);
                     int size5 = processedEnquiryList.size();
                     Log.println("===Processed Enquiries===");
                     for (int i = 0; i < size5; i++) {
@@ -186,17 +186,17 @@ public class StudentMenu extends Menu {
 
                 case 10:
                     //Submit Suggestions
-                    selCampName = ui.getInput().getLine("Please enter the camp name to submit suggestion: ");
+                    selCampId = ui.getInput().getInt("Please enter the campID of the camp to submit suggestion: ");
                     String suggestionStr = ui.getInput().getLine("Please enter suggestion: ");
                     CampSuggestion suggestion = new CampSuggestion(student.getUserID(),suggestionStr);
-                    feedbackSystem.addCampSuggestion(selCampName, suggestion);
+                    feedbackSystem.addCampSuggestion(selCampId, suggestion);
                     Log.println("Suggestion submitted.");
                     break;
                 case 11:
                     //View/Edit/Delete Pending Suggestions
-                    selCampName = ui.getInput().getLine("Please enter the camp name to view/edit/delete your suggestions: ");
+                    selCampId = ui.getInput().getInt("Please enter the campID of the camp to view/edit/delete your suggestions: ");
                     ArrayList<CampSuggestion> comSuggestionList = new ArrayList<>();
-                    comSuggestionList = feedbackSystem.getCampSuggestions(selCampName);
+                    comSuggestionList = feedbackSystem.getCampSuggestions(selCampId);
                     int size3 = comSuggestionList.size();
                     Log.println("===Pending Suggestions===");
                     for (int i = 0; i < size3; i++) {
@@ -220,7 +220,7 @@ public class StudentMenu extends Menu {
                         if (cChoice==1){
                             int suggestionId = ui.getInput().getInt("Please enter the suggestionId of the suggestion to edit: ");
                             String newSuggestion = ui.getInput().getLine("Please enter new suggestion: ");
-                            Boolean result = feedbackSystem.editCampSuggestion(selCampName, suggestionId, newSuggestion);
+                            Boolean result = feedbackSystem.editCampSuggestion(selCampId, suggestionId, newSuggestion);
                             if(result) 
                                 Log.println("Edit successful.");
                             else 
@@ -229,7 +229,7 @@ public class StudentMenu extends Menu {
                         }
                         else if (cChoice==2){
                             int suggestionId = ui.getInput().getInt("Please enter the suggestionId of the suggestion to delete: ");
-                            Boolean result = feedbackSystem.removeCampSuggestionById(selCampName, suggestionId);
+                            Boolean result = feedbackSystem.removeCampSuggestionById(selCampId, suggestionId);
                             if(result) 
                                 Log.println("Deletion successful.");
                             else 
@@ -245,9 +245,9 @@ public class StudentMenu extends Menu {
                     break;
                 case 12:
                     //View Processed Suggestions
-                    selCampName = ui.getInput().getLine("Please enter the camp name to view processed suggestions: ");
+                    selCampId = ui.getInput().getInt("Please enter the campID of the camp to view processed suggestions: ");
                     ArrayList<CampSuggestion> processedSuggestionList = new ArrayList<>();
-                    processedSuggestionList = feedbackSystem.getCampSuggestions(selCampName);
+                    processedSuggestionList = feedbackSystem.getCampSuggestions(selCampId);
                     int size6 = processedSuggestionList.size();
                     Log.println("===Processed Suggestions===");
                     for (int i = 0; i < size6; i++) {
@@ -267,10 +267,10 @@ public class StudentMenu extends Menu {
                     break;
                 case 13:
                     // View Camp Enquiries
-                    selCampName = ui.getInput()
-                            .getLine("Please enter the name of the camp you would like to view enquiries: ");
+                    selCampId = ui.getInput()
+                            .getInt("Please enter the campID of the camp you would like to view enquiries: ");
                     ArrayList<CampEnquiry> enquiryList = new ArrayList<>();
-                    enquiryList = feedbackSystem.getCampEnquiries(selCampName);
+                    enquiryList = feedbackSystem.getCampEnquiries(selCampId);
                     int size2 = enquiryList.size();
                     Log.println("===All Enquiries===");
                     for (int i = 0; i < size2; i++) {
@@ -292,10 +292,10 @@ public class StudentMenu extends Menu {
                     break;
                 case 14:
                     // Reply Unprocessed Enquiries
-                    selCampName = ui.getInput()
-                            .getLine("Please enter the name of the camp you would like to reply unprocessed enquiries: ");
+                    selCampId = ui.getInput()
+                            .getInt("Please enter the campID of the camp you would like to reply unprocessed enquiries: ");
                     ArrayList<CampEnquiry> pendingEnquiryList = new ArrayList<>();
-                    pendingEnquiryList = feedbackSystem.getCampEnquiries(selCampName);
+                    pendingEnquiryList = feedbackSystem.getCampEnquiries(selCampId);
                     int size4 = pendingEnquiryList.size();
                     Log.println("===Unprocessed Enquiries===");
                     for (int i = 0; i < size4; i++) {
@@ -310,7 +310,7 @@ public class StudentMenu extends Menu {
                     }
                     int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to reply: ");
                     String reply = ui.getInput().getLine("Please enter reply: ");
-                    Boolean result = feedbackSystem.replyCampEnquiry(student.getUserID(),selCampName, enquiryId, reply);
+                    Boolean result = feedbackSystem.replyCampEnquiry(student.getUserID(),selCampId, enquiryId, reply);
                     if(result) 
                             Log.println("Enquiry successfully processed.");
                         else 

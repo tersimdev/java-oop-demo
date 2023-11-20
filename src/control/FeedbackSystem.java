@@ -18,8 +18,8 @@ import java.util.HashMap;
  */
 public class FeedbackSystem {
     private DataStoreSystem dataStoreSystem;
-    private Map<String, ArrayList<CampEnquiry>> enquiriesMap;
-    private Map<String, ArrayList<CampSuggestion>> suggestionsMap;
+    private Map<Integer, ArrayList<CampEnquiry>> enquiriesMap;
+    private Map<Integer, ArrayList<CampSuggestion>> suggestionsMap;
 
     public FeedbackSystem(DataStoreSystem dataStoreSystem) {
         this.enquiriesMap = new HashMap<>();
@@ -27,8 +27,8 @@ public class FeedbackSystem {
         this.dataStoreSystem = dataStoreSystem;
     }
 
-    public void addCampEnquiry(String campName, CampEnquiry enquiry) {
-        ArrayList<CampEnquiry> enquiries = enquiriesMap.computeIfAbsent(campName, k -> new ArrayList<>());
+    public void addCampEnquiry(int campId, CampEnquiry enquiry) {
+        ArrayList<CampEnquiry> enquiries = enquiriesMap.computeIfAbsent(campId, k -> new ArrayList<>());
         // Index in the ArrayList used as enquiryID
         int enquiryId = enquiries.size();
         enquiry.setEnquiryId(enquiryId);
@@ -36,8 +36,8 @@ public class FeedbackSystem {
         enquiries.add(enquiry);
     }
 
-    public void addCampSuggestion(String campName, CampSuggestion suggestion) {
-        ArrayList<CampSuggestion> suggestions = suggestionsMap.computeIfAbsent(campName, k -> new ArrayList<>());
+    public void addCampSuggestion(int campId, CampSuggestion suggestion) {
+        ArrayList<CampSuggestion> suggestions = suggestionsMap.computeIfAbsent(campId, k -> new ArrayList<>());
         //Index in the ArrayList used as the suggestionID
         int suggestionId = suggestions.size();
         suggestion.setSuggestionId(suggestionId);
@@ -45,8 +45,8 @@ public class FeedbackSystem {
         suggestions.add(suggestion);
     }
 
-    public boolean editCampEnquiry(String campName, int enquiryId, String newEnquiry) {
-        ArrayList<CampEnquiry> enquiries = enquiriesMap.get(campName);
+    public boolean editCampEnquiry(int campId, int enquiryId, String newEnquiry) {
+        ArrayList<CampEnquiry> enquiries = enquiriesMap.get(campId);
         if (enquiries != null && enquiryId >= 0 && enquiryId < enquiries.size()) {
             CampEnquiry campEnquiry = enquiries.get(enquiryId);
             campEnquiry.setEnquiry(newEnquiry);
@@ -55,8 +55,8 @@ public class FeedbackSystem {
         return false;
     }
 
-    public boolean editCampSuggestion(String campName, int suggestionId, String newSuggestion) {
-        ArrayList<CampSuggestion> suggestions = suggestionsMap.get(campName);
+    public boolean editCampSuggestion(int campId, int suggestionId, String newSuggestion) {
+        ArrayList<CampSuggestion> suggestions = suggestionsMap.get(campId);
         if (suggestions != null && suggestionId >= 0 && suggestionId < suggestions.size()) {
             CampSuggestion campSuggestion = suggestions.get(suggestionId);
             campSuggestion.setSuggestion(newSuggestion);
@@ -65,8 +65,8 @@ public class FeedbackSystem {
         return false;
     }
 
-    public boolean removeCampEnquiryById(String campName, int enquiryId) {
-        ArrayList<CampEnquiry> enquiries = enquiriesMap.get(campName);
+    public boolean removeCampEnquiryById(int campId, int enquiryId) {
+        ArrayList<CampEnquiry> enquiries = enquiriesMap.get(campId);
         if (enquiries != null && enquiryId >= 0 && enquiryId < enquiries.size()) {
             enquiries.remove(enquiryId);
             // Update enquiry IDs after removal to maintain continuous sequence
@@ -76,8 +76,8 @@ public class FeedbackSystem {
         return false;
     }
 
-    public boolean removeCampSuggestionById(String campName, int suggestionId) {
-        ArrayList<CampSuggestion> suggestions = suggestionsMap.get(campName);
+    public boolean removeCampSuggestionById(int campId, int suggestionId) {
+        ArrayList<CampSuggestion> suggestions = suggestionsMap.get(campId);
         if (suggestions != null && suggestionId >= 0 && suggestionId < suggestions.size()) {
             suggestions.remove(suggestionId);
             // Update suggestion IDs after removal to maintain continuous sequence
@@ -87,8 +87,8 @@ public class FeedbackSystem {
         return false;
     }
 
-    public boolean replyCampEnquiry(String commMemberId, String campName, int enquiryId, String reply) {
-        ArrayList<CampEnquiry> enquiries = enquiriesMap.get(campName);
+    public boolean replyCampEnquiry(String commMemberId, int campId, int enquiryId, String reply) {
+        ArrayList<CampEnquiry> enquiries = enquiriesMap.get(campId);
         if (enquiries != null && enquiryId >= 0 && enquiryId < enquiries.size()) {
             CampEnquiry campEnquiry = enquiries.get(enquiryId);
             campEnquiry.reply(commMemberId, reply);
@@ -97,8 +97,8 @@ public class FeedbackSystem {
         return false;
     }
 
-    public boolean processCampSuggestion(String staffId, String campName, int suggestionId, boolean decision) {
-        ArrayList<CampSuggestion> suggestions = suggestionsMap.get(campName);
+    public boolean processCampSuggestion(String staffId, int campId, int suggestionId, boolean decision) {
+        ArrayList<CampSuggestion> suggestions = suggestionsMap.get(campId);
         if (suggestions != null && suggestionId >= 0 && suggestionId < suggestions.size()) {
             CampSuggestion campSuggestion = suggestions.get(suggestionId);
             campSuggestion.setApproval(staffId, decision);
@@ -107,12 +107,12 @@ public class FeedbackSystem {
         return false;
     }
 
-    public ArrayList<CampEnquiry> getCampEnquiries(String campName){
-        return enquiriesMap.getOrDefault(campName, new ArrayList<>());
+    public ArrayList<CampEnquiry> getCampEnquiries(int campId){
+        return enquiriesMap.getOrDefault(campId, new ArrayList<>());
     }
 
-    public ArrayList<CampSuggestion> getCampSuggestions(String campName){
-        return suggestionsMap.getOrDefault(campName, new ArrayList<>());
+    public ArrayList<CampSuggestion> getCampSuggestions(int campId){
+        return suggestionsMap.getOrDefault(campId, new ArrayList<>());
     }
 
     private void updateEnquiryIds(ArrayList<CampEnquiry> enquiries) {
