@@ -79,6 +79,7 @@ public class StaffMenu extends Menu {
             choice = getChoice(1, 13, 14);
             if (choice == 0) {
                 ui.setStateDirty(true);
+                return false;
             }
             runMenuFunction(choice);
         }

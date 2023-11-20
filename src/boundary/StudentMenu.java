@@ -95,6 +95,7 @@ public class StudentMenu extends Menu {
                 choice = getChoice(1, 8, 9);
             if (choice == 0) {
                 ui.setStateDirty(true);
+                return false;
             }
 
             runMenuFunction(choice); // use function map defined in constructor
