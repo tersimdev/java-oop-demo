@@ -153,8 +153,7 @@ public class CampInformation implements SerializeToCSV {
     }
 
     //function overloading :)
-    public void setDates(String startDate, int duration) {
-        LocalDate firstDate = DateStringHelper.StrToDateConverter(startDate);
+    public void setDates(LocalDate firstDate, int duration) {
         for (int i = 0; i < duration; i++) {
             dates.add(i, firstDate);
             firstDate = firstDate.plusDays(1);
@@ -259,7 +258,7 @@ public class CampInformation implements SerializeToCSV {
             registrationClosingDate = DateStringHelper.StrToDateConverter(split[8]);
             String startDate = split[9];
             int duration = Integer.parseInt(split[10]);
-            setDates(startDate, duration);
+            setDates(DateStringHelper.StrToDateConverter(startDate), duration);
             userGroup = new UserGroup();
             String userGrpStr = "";
             for (int i = 0; i < userGroup.getCSVLineLength(); ++i) {
