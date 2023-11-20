@@ -16,10 +16,10 @@ import util.Log;
 
 /**
  * <p>
- * Class defining the staff menu functions
+ * Class defining the staff menu.
  * </p>
  * 
- * @author
+ * @author Team 2
  * @version 1.0
  * @since 1-11-2023
  */

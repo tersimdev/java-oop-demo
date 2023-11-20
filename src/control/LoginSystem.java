@@ -5,8 +5,8 @@ import util.Log;
 
 /**
  * <p>
- * Handles login logic
- * Stores current user, null if none
+ * Handles login logic.
+ * Stores current user, null if none.
  * </p>
  * 
  * @author Sim Yi Wan Terence
@@ -43,8 +43,10 @@ public class LoginSystem {
     }
 
     /**
-     * checks password same then sets current user
-     * returns current user, else returns null
+     * Checks if password is correct then sets current user
+     * @param user the user objecy to login
+     * @param password the password entered
+     * @return current user or null
      */
     private User loginUser(User user, String password) {
         currentUser = null;

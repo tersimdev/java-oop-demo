@@ -6,7 +6,7 @@ import util.Log;
 
 /**
  * <p>
- * Class defining the start menu functions
+ * Class defining the start menu.
  * </p>
  * 
  * @author Sim Yi Wan Terence

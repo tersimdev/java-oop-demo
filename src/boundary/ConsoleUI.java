@@ -15,9 +15,9 @@ import util.Log;
 
 /**
  * <p>
- * This class handles ui of the console
- * Implements a simple state machine with a STATE enum to keep track of UI state
- * Each UI state has a respective Menu class
+ * This class handles ui of the console.
+ * Implements a simple state machine with a STATE enum to keep track of UI state.
+ * Each UI state has a respective Menu class.
  * </p>
  * 
  * @author Sim Yi Wan Terence
@@ -68,7 +68,11 @@ public class ConsoleUI {
 
     /**
      * Initializes all menus, creates state map.
-     * Uses dependency injection to pass systems to menus
+     * Uses dependency injection to pass systems to menus.
+     * @param loginSystem loginSystem object 
+     * @param campSystem campSystem object
+     * @param feedbackSystem feedbackSystem object
+     * @param reportSystem reportSystem object
      */
     public void init(LoginSystem loginSystem, CampSystem campSystem, FeedbackSystem feedbackSystem,
             ReportSystem reportSystem) {
