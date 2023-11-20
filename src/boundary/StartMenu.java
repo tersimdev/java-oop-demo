@@ -11,12 +11,13 @@ import util.Log;
  * 
  * @author Sim Yi Wan Terence
  * @version 1.0
- * @since 1-11-2023
+ * @since 21-11-2023
  */
 public class StartMenu extends Menu {
 
     /**
      * DI of login system
+     * Used to change password
      */
     private final LoginSystem loginSystem;
 
@@ -70,6 +71,12 @@ public class StartMenu extends Menu {
         return runMenuFunction(choice);
     }
 
+    /**
+     * Function change user password.
+     * User will be logged out after changing password.
+     * @param menu start menu
+     * @return returns shouldExit app, always false
+     */
     private boolean changeUserPassword(Menu menu) {
         String oldPasswordStr = ui.getInput().getLine("Enter Old Password: ").trim();
         String newPasswordStr = ui.getInput().getLine("Enter New Password: ").trim();
@@ -91,6 +98,12 @@ public class StartMenu extends Menu {
         return false;
     }
 
+    /**
+     * Function to view app commands.
+     * Simply sets state to dirty for state machine to change menus.
+     * @param menu start menu
+     * @return returns shouldExit app, always false
+     */
     private boolean viewCommands(Menu menu) {
         ui.setStateDirty(true);
         return false;

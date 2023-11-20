@@ -17,6 +17,7 @@ public class LoginMenu extends Menu {
 
     /**
      * DI of login system
+     * Used to login
      */
     private final LoginSystem loginSystem;
 

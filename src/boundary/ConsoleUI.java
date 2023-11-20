@@ -26,6 +26,10 @@ import util.Log;
  */
 public class ConsoleUI {
 
+    /**
+     * Enum class used to represent 
+     * states in state machine.
+     */
     private enum STATE {
         LOGIN_MENU,
         START_MENU,
@@ -34,14 +38,29 @@ public class ConsoleUI {
     }
 
     // state machine attribs
+    /**
+     * A map containing all states and their corresponding menu
+     */
     private Map<STATE, Menu> menuMap;
+    /**
+     * Represents the current state
+     */
     private STATE state;
-    private boolean stateDirty;// tracks if state needs to be refreshed
+    /**
+     * Tracks if state needs to be refreshed.
+     * Dirty means to check to change states.
+     */
+    private boolean stateDirty;
 
-    //input class to handle input using Scanner
+    /**
+     * Input class to handle input using Scanner
+     */
     private Input input;
 
-    // ui depends on loginsystemm to know state
+    /**
+     * DI for login system
+     * ui depends on loginsystemm to know state
+     */
     private LoginSystem loginSystem;
 
     /**
