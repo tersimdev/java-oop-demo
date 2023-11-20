@@ -102,12 +102,6 @@ public class StaffMenu extends Menu {
                 .getDate("Please enter the date of day number 1 (DD/MM/YYYY): ");
         LocalDate registrationClosingDate = ui.getInput()
                 .getDate("Please enter the closing date for registration (DD/MM/YYYY): ");
-        ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
-        for (int i = 0; i < duration; i++) {
-            dates.add(firstDate);
-            firstDate = firstDate.plusDays(1);
-        }
-
         String staffInChargeId = staff.getUserID();
         Faculty organisingFaculty = staff.getFaculty();
         UserGroup userGroup = new UserGroup().setFaculty(organisingFaculty);
@@ -115,7 +109,7 @@ public class StaffMenu extends Menu {
         // create the camp
         int campId = campSystem.generateNewCampId();
         CampInformation campInformation = new CampInformation.CampInformationBuilder().setCampName(campName)
-                .setDates(dates)
+                .setDates(firstDate, duration)
                 .setRegistrationClosingDate(registrationClosingDate).setTotalSlots(totalSlots)
                 .setCommitteeSlots(committeeSlots)
                 .setLocation(location).setDescription(description).setStaffInChargeId(staffInChargeId)

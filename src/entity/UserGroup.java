@@ -19,7 +19,8 @@ public class UserGroup implements SerializeToCSV {
     private Faculty faculty;
 
     public UserGroup() {
-        faculty = null;
+        wholeNTU = true;
+        faculty = Faculty.NULL;
     }
 
     public boolean isWholeNTU() {

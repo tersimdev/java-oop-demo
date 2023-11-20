@@ -15,10 +15,7 @@ public class DateStringHelper {
 
     private static DateTimeFormatter Formatter;
     private final static String localDateFormat = "dd/MM/uuuu";
-    private final static String stringDateFormat = "dd LLLL uuuu";
-
-    public DateStringHelper() {
-    }
+    private final static String printableDateFormat = "dd LLLL uuuu";
 
     public static LocalDate StrToDateConverter(String input) {
         Formatter = DateTimeFormatter.ofPattern(localDateFormat);
@@ -27,9 +24,14 @@ public class DateStringHelper {
     }
 
     public static String DateToStrConverter(LocalDate input) {
-        Formatter = DateTimeFormatter.ofPattern(stringDateFormat);
+        Formatter = DateTimeFormatter.ofPattern(localDateFormat);
         String ret = Formatter.format(input);
         return ret;
     }
 
+    public static String DateToPrintableStrConverter(LocalDate input) {
+        Formatter = DateTimeFormatter.ofPattern(printableDateFormat);
+        String ret = Formatter.format(input);
+        return ret;
+    }
 }

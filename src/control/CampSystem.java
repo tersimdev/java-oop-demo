@@ -2,6 +2,7 @@ package control;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import entity.Camp;
 import entity.CampCommitteeMember;
@@ -25,17 +26,36 @@ public class CampSystem {
     private ArrayList<Camp> camps;
 
     public CampSystem(DataStoreSystem dataStoreSystem) {
-        camps = new ArrayList<Camp>();
         this.dataStoreSystem = dataStoreSystem;
+        // load in camps from datastore
+        ArrayList<Camp> dataStoreCamps = dataStoreSystem.getAllCamps();
+        // dataStore camps would not have deleted entries, so index might be wrong
+        // sort to get the biggest id
+        dataStoreCamps.sort((o1, o2) -> Integer.compare(o1.getCampId(), o2.getCampId()));
+        int size = dataStoreCamps.get(dataStoreCamps.size() - 1).getCampId() + 1;
+        camps = new ArrayList<>(Collections.nCopies(size, null)); //init camp arrays of size to null
+        //create deleted list
+        for (Camp dsc : dataStoreCamps) {
+            int id = dsc.getCampId();
+            camps.set(id, dsc); 
+        }
+        for (Camp c : camps) {
+            if (c == null) {
+                //add to deleted list
+            }
+        }
     }
 
     // Staff functions
     public void createCamp(int campId, CampInformation campInfo) {
-        camps.add(campId, new Camp(campId, campInfo));
+        Camp newCamp = new Camp(campId, campInfo);
+        camps.add(campId, newCamp);
+        dataStoreSystem.addCamp(newCamp);
     }
 
     public void deleteCamp(int campId) {
         camps.set(campId, null);
+        dataStoreSystem.deleteCamp(campId);
         return;
     }
 
@@ -95,6 +115,8 @@ public class CampSystem {
             default:
                 break;
         }
+        // TODO figure out what to do for datastore update
+        // dataStoreSystem.updateCampDetails(camp);
     }
 
     public void viewAllCamps() {
@@ -230,7 +252,8 @@ public class CampSystem {
     }
 
     public Camp getCampById(int campId) {
-        if (checkValidCampId(campId)) return camps.get(campId);
+        if (checkValidCampId(campId))
+            return camps.get(campId);
         else {
             Log.println("Camp not found");
             return null;

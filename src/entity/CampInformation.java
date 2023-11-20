@@ -64,7 +64,14 @@ public class CampInformation implements SerializeToCSV {
         private String description;
         private String location;
 
-        public CampInformationBuilder() { // required public constructor
+        public CampInformationBuilder() { // set default values here
+            campName = "";
+            dates = new ArrayList<>();
+            totalSlots = 0;
+            committeeSlots = 0;
+            staffInChargeId = "";
+            userGroup = new UserGroup();
+            organisingFaculty = Faculty.NULL;
         }
 
         public CampInformationBuilder setCampName(String campName) {
@@ -77,8 +84,7 @@ public class CampInformation implements SerializeToCSV {
             return this;
         }
 
-        public CampInformationBuilder setDates(String startDate, int duration) {
-            LocalDate firstDate = DateStringHelper.StrToDateConverter(startDate);
+        public CampInformationBuilder setDates(LocalDate firstDate, int duration) {
             for (int i = 0; i < duration; i++) {
                 dates.add(i, firstDate);
                 firstDate = firstDate.plusDays(1);
@@ -255,7 +261,11 @@ public class CampInformation implements SerializeToCSV {
             int duration = Integer.parseInt(split[10]);
             setDates(startDate, duration);
             userGroup = new UserGroup();
-            userGroup.fromCSVLine(split[11]);
+            String userGrpStr = "";
+            for (int i = 0; i < userGroup.getCSVLineLength(); ++i) {
+                userGrpStr += split[11+i] + ",";
+            }
+            userGroup.fromCSVLine(userGrpStr);
         }
     }
 
