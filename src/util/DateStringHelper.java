@@ -5,21 +5,22 @@ import java.time.format.DateTimeFormatter;
 
 public class DateStringHelper {
 
-    private static DateTimeFormatter dateFormatter;
-    private static DateTimeFormatter StringFormatter;
+    private static DateTimeFormatter Formatter;
+    private final static String localDateFormat = "dd/MM/uuuu";
+    private final static String stringDateFormat= "dd LLLL uuuu";
     
     public DateStringHelper() {
-        dateFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        StringFormatter = DateTimeFormatter.ofPattern("dd LLLL uuuu");
     }
 
     public static LocalDate StrToDateConverter(String input) {
-        LocalDate ret = LocalDate.parse(input, dateFormatter);
+        Formatter = DateTimeFormatter.ofPattern(localDateFormat);
+        LocalDate ret = LocalDate.parse(input, Formatter);
         return ret;
     }
 
     public static String DateToStrConverter(LocalDate input) {
-        String ret = StringFormatter.format(input);
+        Formatter = DateTimeFormatter.ofPattern(stringDateFormat);
+        String ret = Formatter.format(input);
         return ret;
     }
 

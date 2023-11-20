@@ -100,7 +100,7 @@ public class Camp implements SerializeToCSV {
     }
 
     // private void checkForDateClash(Student student) {
-    // ArrayList<LocalDateTime> dates = campInfo.getDates();
+    //    
     // }
 
     public boolean checkRegistrationClosed() {

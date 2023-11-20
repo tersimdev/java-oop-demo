@@ -175,6 +175,15 @@ public class StudentMenu extends Menu {
                         }
                     }
                     break;
+
+                case 8:
+                     selCampId = ui.getInput()
+                        .getInt("Please enter the ID of the camp you want to withdraw from: ");
+                        campSystem.withdrawFromCamp(student, selCampId);
+                    break;
+
+                // ===Committee Member Menu===
+
                 case 10:
                     //Submit Suggestions
                     selCampName = ui.getInput().getLine("Please enter the camp name to submit suggestion: ");
