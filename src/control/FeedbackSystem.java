@@ -1,5 +1,6 @@
 package control;
 
+import entity.Camp;
 import entity.CampEnquiry;
 import entity.CampSuggestion;
 
@@ -31,10 +32,10 @@ public class FeedbackSystem {
 
         ArrayList<CampEnquiry> enquiryList = dataStoreSystem.getAllEnquiries();
         ArrayList<CampSuggestion> suggestionList = dataStoreSystem.getAllSuggestions();
-        
-        //cld use these as next id, store in system?
-        int nextEnquiryId = 0;
-        int nextSuggetionId = 0;
+
+        // cld use these as next id, store in system?
+        nextEnquiryId = 0;
+        nextSuggetionId = 0;
         if (enquiryList.size() > 0)
             nextEnquiryId = enquiryList.get(enquiryList.size() - 1).getEnquiryId() + 1;
         if (suggestionList.size() > 0)
@@ -74,9 +75,8 @@ public class FeedbackSystem {
     }
 
     public boolean editCampEnquiry(int campId, int enquiryId, String newEnquiry) {
-        ArrayList<CampEnquiry> enquiries = enquiriesMap.get(campId);
-        if (enquiries != null && enquiryId >= 0 && enquiryId < enquiries.size()) {
-            CampEnquiry campEnquiry = enquiries.get(enquiryId);
+        CampEnquiry campEnquiry = findEnquiryById(enquiryId, campId);
+        if (campEnquiry != null) {
             campEnquiry.setEnquiry(newEnquiry);
             return true;
         }
@@ -84,9 +84,8 @@ public class FeedbackSystem {
     }
 
     public boolean editCampSuggestion(int campId, int suggestionId, String newSuggestion) {
-        ArrayList<CampSuggestion> suggestions = suggestionsMap.get(campId);
-        if (suggestions != null && suggestionId >= 0 && suggestionId < suggestions.size()) {
-            CampSuggestion campSuggestion = suggestions.get(suggestionId);
+        CampSuggestion campSuggestion = findSuggestionById(suggestionId, campId);
+        if (campSuggestion != null) {
             campSuggestion.setSuggestion(newSuggestion);
             return true;
         }
@@ -94,31 +93,26 @@ public class FeedbackSystem {
     }
 
     public boolean removeCampEnquiry(int campId, int enquiryId) {
-        ArrayList<CampEnquiry> enquiries = enquiriesMap.get(campId);
-        if (enquiries != null && enquiryId >= 0 && enquiryId < enquiries.size()) {
-            enquiries.remove(enquiryId);
-            // Update enquiry IDs after removal to maintain continuous sequence
-            updateEnquiryIds(enquiries);
+        CampEnquiry campEnquiry = findEnquiryById(enquiryId, campId);
+        if (campEnquiry != null) {
+            getCampEnquiries(campId).remove(campEnquiry);
             return true;
         }
         return false;
     }
 
     public boolean removeCampSuggestion(int campId, int suggestionId) {
-        ArrayList<CampSuggestion> suggestions = suggestionsMap.get(campId);
-        if (suggestions != null && suggestionId >= 0 && suggestionId < suggestions.size()) {
-            suggestions.remove(suggestionId);
-            // Update suggestion IDs after removal to maintain continuous sequence
-            updateSuggestionIds(suggestions);
+        CampSuggestion campSuggestion = findSuggestionById(suggestionId, campId);
+        if (campSuggestion != null) {
+            getCampSuggestions(campId).remove(campSuggestion);
             return true;
         }
         return false;
     }
 
     public boolean processCampEnquiry(String commMemberId, int campId, int enquiryId, String reply) {
-        ArrayList<CampEnquiry> enquiries = enquiriesMap.get(campId);
-        if (enquiries != null && enquiryId >= 0 && enquiryId < enquiries.size()) {
-            CampEnquiry campEnquiry = enquiries.get(enquiryId);
+        CampEnquiry campEnquiry = findEnquiryById(enquiryId, campId);
+        if (campEnquiry != null) {
             campEnquiry.reply(commMemberId, reply);
             return true;
         }
@@ -126,9 +120,8 @@ public class FeedbackSystem {
     }
 
     public boolean processCampSuggestion(String staffId, int campId, int suggestionId, boolean decision) {
-        ArrayList<CampSuggestion> suggestions = suggestionsMap.get(campId);
-        if (suggestions != null && suggestionId >= 0 && suggestionId < suggestions.size()) {
-            CampSuggestion campSuggestion = suggestions.get(suggestionId);
+        CampSuggestion campSuggestion = findSuggestionById(suggestionId, campId);
+        if (campSuggestion != null) {
             campSuggestion.setApproval(staffId, decision);
             return true;
         }
@@ -143,16 +136,28 @@ public class FeedbackSystem {
         return suggestionsMap.getOrDefault(campId, new ArrayList<>());
     }
 
-    private void updateEnquiryIds(ArrayList<CampEnquiry> enquiries) {
-        for (int i = 0; i < enquiries.size(); i++) {
-            enquiries.get(i).setEnquiryId(i);
+    public CampEnquiry findEnquiryById(int enquiryId, int campId) {
+        for (CampEnquiry ce : getCampEnquiries(campId)) {
+            if (ce.getEnquiryId() == enquiryId)
+                return ce;
         }
+        return null;
     }
 
-    private void updateSuggestionIds(ArrayList<CampSuggestion> suggestions) {
-        for (int i = 0; i < suggestions.size(); i++) {
-            suggestions.get(i).setSuggestionId(i);
+    public boolean checkValidEnquiryId(int enquiryId, int campId) {
+        return findEnquiryById(enquiryId, campId) != null;
+    }
+
+    public CampSuggestion findSuggestionById(int enquiryId, int campId) {
+        for (CampSuggestion cs : getCampSuggestions(campId)) {
+            if (cs.getSuggestionId() == enquiryId)
+                return cs;
         }
+        return null;
+    }
+
+    public boolean checkValidSuggestionId(int suggestionId, int campId) {
+        return findSuggestionById(suggestionId, campId) != null;
     }
 
 }

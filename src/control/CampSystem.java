@@ -25,30 +25,21 @@ public class CampSystem {
     private DataStoreSystem dataStoreSystem;
     private ArrayList<Camp> camps;
 
+    private int nextCampId;
+
     public CampSystem(DataStoreSystem dataStoreSystem) {
         this.dataStoreSystem = dataStoreSystem;
         // load in camps from datastore
-        ArrayList<Camp> dataStoreCamps = dataStoreSystem.getAllCamps();
-        // dataStore camps would not have deleted entries, so index might be wrong
-        // sort to get the biggest id
-        int size = dataStoreCamps.get(dataStoreCamps.size() - 1).getCampId() + 1;
-        camps = new ArrayList<>(Collections.nCopies(size, null)); //init camp arrays of size to null
-        //create deleted list
-        for (Camp dsc : dataStoreCamps) {
-            int id = dsc.getCampId();
-            camps.set(id, dsc); 
-        }
-        for (Camp c : camps) {
-            if (c == null) {
-                //add to deleted list
-            }
-        }
+        camps = dataStoreSystem.getAllCamps();
+        nextCampId = 0;
+        if (camps.size() > 0)
+            nextCampId = camps.get(camps.size() - 1).getCampId() + 1;
     }
 
     // Staff functions
-    public void createCamp(int campId, CampInformation campInfo) {
-        Camp newCamp = new Camp(campId, campInfo);
-        camps.add(campId, newCamp);
+    public void createCamp(CampInformation campInfo) {
+        Camp newCamp = new Camp(nextCampId++, campInfo);
+        camps.add(newCamp);
         dataStoreSystem.addCamp(newCamp);
     }
 
@@ -240,44 +231,16 @@ public class CampSystem {
     }
 
     // utility functions
-    public Camp getCampByName(String campName) {
-        for (Camp camp : camps) {
-            if (camp.getCampInformation().getCampName().equalsIgnoreCase(campName)) {
-                return camp;
-            }
+    public Camp getCampById(int campId) {
+        for (Camp c : camps) {
+            if (c.getCampId() == campId)
+                return c;
         }
-        Log.println("Camp not found");
         return null;
     }
 
-    public Camp getCampById(int campId) {
-        if (checkValidCampId(campId))
-            return camps.get(campId);
-        else {
-            Log.println("Camp not found");
-            return null;
-        }
-    }
-
-    public int generateNewCampId() {
-        // if there is a null slot in camps, give that index
-        for (int i = 0; i < camps.size(); i++) {
-            if (camps.get(i) == null) {
-                return i;
-            }
-        }
-        // else give camps.size()
-        return camps.size();
-    }
-
     public boolean checkValidCampId(int campId) {
-        Camp camp = getCampById(campId);
-        if (camp != null) {
-            return true;
-        } else if (camps.isEmpty()) {
-            Log.error("There are no camps in the system");
-        }
-        return false;
+        return getCampById(campId) != null;
     }
 
     public boolean checkRegistrationClosed(Camp camp) {

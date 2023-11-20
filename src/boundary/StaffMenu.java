@@ -107,7 +107,6 @@ public class StaffMenu extends Menu {
         UserGroup userGroup = new UserGroup().setFaculty(organisingFaculty);
 
         // create the camp
-        int campId = campSystem.generateNewCampId();
         CampInformation campInformation = new CampInformation.CampInformationBuilder().setCampName(campName)
                 .setDates(firstDate, duration)
                 .setRegistrationClosingDate(registrationClosingDate).setTotalSlots(totalSlots)
@@ -116,7 +115,7 @@ public class StaffMenu extends Menu {
                 .setUserGroup(userGroup)
                 .setOrganisingFaculty(organisingFaculty).build();
 
-        campSystem.createCamp(campId, campInformation);
+        campSystem.createCamp(campInformation);
         return false;
     }
 

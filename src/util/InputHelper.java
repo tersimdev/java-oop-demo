@@ -31,28 +31,32 @@ public class InputHelper {
         while (!valid) {
             ret = input.getInt("Please enter the ID of the camp you would like to " + action + ": ");
             valid = campSystem.checkValidCampId(ret);
+            if (!valid) 
+                Log.println("Camp ID not found.");
         }
         return ret;
     }
 
-    public static int getEnquiryIdFromUser(Input input, FeedbackSystem feedbackSystem, String action) {
+    public static int getEnquiryIdFromUser(Input input, FeedbackSystem feedbackSystem, String action, int campId) {
         int ret = -1;
         boolean valid = false;
         while (!valid) {
             ret = input.getInt("Please enter the ID of the enquiry you would like to " + action + ": ");
-            // TODO
-            // valid = feedbackSystem.checkValidEnquiryId(ret);
+            valid = feedbackSystem.checkValidEnquiryId(ret, campId);
+            if (!valid) 
+                Log.println("Enquiry ID not found.");
         }
         return ret;
     }
 
-    public static int getSuggestionIdFromUser(Input input, FeedbackSystem feedbackSystem, String action) {
+    public static int getSuggestionIdFromUser(Input input, FeedbackSystem feedbackSystem, String action, int campId) {
         int ret = -1;
         boolean valid = false;
         while (!valid) {
             ret = input.getInt("Please enter the ID of the suggestion you would like to " + action + ": ");
-            // TODO
-            // valid = feedbackSystem.checkValidSuggestionId(ret);
+            valid = feedbackSystem.checkValidSuggestionId(ret, campId);
+            if (!valid) 
+                Log.println("Suggestion ID not found.");
         }
         return ret;
     }
