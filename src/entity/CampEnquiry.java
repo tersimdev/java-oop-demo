@@ -94,7 +94,7 @@ public class CampEnquiry implements SerializeToCSV {
             enquiryId = Integer.parseInt(split[0]);
             ownerId = split[1];
             enquiry = split[2];
-            if (split[3].isEmpty()) {
+            if (split[3].equals("-1")) {
                 replierId = null;
                 reply = null;
             } else {

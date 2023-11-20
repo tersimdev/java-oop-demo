@@ -106,7 +106,7 @@ public class CampSuggestion implements SerializeToCSV {
             ownerId = split[1];
             suggestion = split[2];
             approvalStatus = Integer.parseInt(split[4]);
-            if (split[3].isEmpty()) {
+            if (split[3].equals("-1")) {
                 approverId = null;
             } else {
                 approverId = split[3];
