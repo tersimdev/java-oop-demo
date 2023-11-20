@@ -15,7 +15,17 @@ import util.Log;
  */
 public class StartMenu extends Menu {
 
+    /**
+     * DI of login system
+     */
     private final LoginSystem loginSystem;
+
+    /**
+     * Uses dependency injection for params.
+     * Menu function map is initialised here.
+     * @param ui
+     * @param loginSystem
+     */
     public StartMenu(ConsoleUI ui, LoginSystem loginSystem) {
         super(ui);
         this.loginSystem = loginSystem;
@@ -36,7 +46,7 @@ public class StartMenu extends Menu {
         int choice = -1;
         if (newUser) {
             Log.println("New user detected, please change your password.");
-            choice = 1; //make menu choice
+            choice = 1; // make menu choice
         }
         while (choice < 0) {
             choice = getChoice(1, 2, 3);
