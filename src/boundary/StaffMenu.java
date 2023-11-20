@@ -170,10 +170,10 @@ public class StaffMenu extends Menu {
 
                 case 7:
                     // View Camp Enquiries
-                    selCampName = ui.getInput()
-                            .getLine("Please enter the name of the camp you would like to view enquiries: ");
+                    selCampId = ui.getInput()
+                            .getInt("Please enter the campID of the camp you would like to view enquiries: ");
                     ArrayList<CampEnquiry> enquiryList = new ArrayList<>();
-                    enquiryList = feedbackSystem.getCampEnquiries(selCampName);
+                    enquiryList = feedbackSystem.getCampEnquiries(selCampId);
                     int size2 = enquiryList.size();
                     Log.println("===All Enquiries===");
                     for (int i = 0; i < size2; i++) {
@@ -196,10 +196,10 @@ public class StaffMenu extends Menu {
                     break;
                 case 8:
                     // Reply Unprocessed Enquiries
-                    selCampName = ui.getInput()
-                            .getLine("Please enter the name of the camp you would like to reply unprocessed enquiries: ");
+                    selCampId = ui.getInput()
+                            .getInt("Please enter the campID of the camp you would like to reply unprocessed enquiries: ");
                     ArrayList<CampEnquiry> pendingEnquiryList = new ArrayList<>();
-                    pendingEnquiryList = feedbackSystem.getCampEnquiries(selCampName);
+                    pendingEnquiryList = feedbackSystem.getCampEnquiries(selCampId);
                     int size4 = pendingEnquiryList.size();
                     Log.println("===Unprocessed Enquiries===");
                     for (int i = 0; i < size4; i++) {
@@ -216,7 +216,7 @@ public class StaffMenu extends Menu {
                     }
                     int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to reply: ");
                     String reply = ui.getInput().getLine("Please enter reply: ");
-                    Boolean result = feedbackSystem.replyCampEnquiry(staff.getUserID(),selCampName, enquiryId, reply);
+                    Boolean result = feedbackSystem.replyCampEnquiry(staff.getUserID(),selCampId, enquiryId, reply);
                     if(result) 
                             Log.println("Enquiry successfully processed.");
                         else 
@@ -224,10 +224,10 @@ public class StaffMenu extends Menu {
                     break;
                 case 9:
                     // View Suggestions
-                    selCampName = ui.getInput()
-                            .getLine("Please enter the name of the camp you would like to view suggestions: ");
+                    selCampId = ui.getInput()
+                            .getInt("Please enter the campID of the camp you would like to view suggestions: ");
                     ArrayList<CampSuggestion> suggestionList = new ArrayList<>();
-                    suggestionList = feedbackSystem.getCampSuggestions(selCampName);
+                    suggestionList = feedbackSystem.getCampSuggestions(selCampId);
                     int size = suggestionList.size();
                     Log.println("===All Suggestions===");
                     for (int i = 0; i < size; i++) {
@@ -249,10 +249,10 @@ public class StaffMenu extends Menu {
 
                 case 10:
                     // Accept/Reject Unprocessed Suggestions
-                    selCampName = ui.getInput()
-                            .getLine("Please enter the name of the camp you would like to approve/reject unprocessed suggestions: ");
+                    selCampId = ui.getInput()
+                            .getInt("Please enter the campID of the camp you would like to approve/reject unprocessed suggestions: ");
                     ArrayList<CampSuggestion> pendingSuggestionList = new ArrayList<>();
-                    pendingSuggestionList = feedbackSystem.getCampSuggestions(selCampName);
+                    pendingSuggestionList = feedbackSystem.getCampSuggestions(selCampId);
                     int size1 = pendingSuggestionList.size();
                     Log.println("===Unprocessed Suggestions===");
                     for (int i = 0; i < size1; i++) {
@@ -275,9 +275,9 @@ public class StaffMenu extends Menu {
                     while(decision < 0) {
                         decision = ui.getInput().getInt("Enter choice: ");
                         if(decision==1)
-                            result1 = feedbackSystem.processCampSuggestion(staff.getUserID(),selCampName, suggestionId, true);
+                            result1 = feedbackSystem.processCampSuggestion(staff.getUserID(),selCampId, suggestionId, true);
                         else if(decision==2)
-                            result1 = feedbackSystem.processCampSuggestion(staff.getUserID(),selCampName, suggestionId, false);
+                            result1 = feedbackSystem.processCampSuggestion(staff.getUserID(),selCampId, suggestionId, false);
                         else {
                             Log.println("Invalid choice! Try again.");
                             decision = -1;
