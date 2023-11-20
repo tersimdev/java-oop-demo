@@ -38,17 +38,16 @@ public class CSVWriterImpl implements ReportWriterInterface {
         boolean printCommittee = (filter == CampReportFilter.CAMP_COMMITTEE || filter == CampReportFilter.NONE);
         if (printAttendees) {
             reportContent.append("\nCamp Attendees,\n");
-            for (String attendee : camp.getAttendees()) {
+            for (String attendee : camp.getAttendeeList()) {
                 reportContent.append(attendee).append(",");
             }
         }
         if (printCommittee) {
             reportContent.append("\nCamp Committee,\n");
-            //TODO
             reportContent.append("TODO");
-            // for (String comm : camp.getCommittee()) {
-            //     reportContent.append(comm).append(",");
-            // }
+            for (String comm : camp.getCommitteeList()) {
+                reportContent.append(comm).append(",");
+            }
         }
 
         String fileName = reportOptions.getFilePath() + reportOptions.getFileName() + reportOptions.getFileType();

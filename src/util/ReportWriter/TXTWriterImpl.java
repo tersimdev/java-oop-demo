@@ -38,17 +38,16 @@ public class TXTWriterImpl implements ReportWriterInterface {
         boolean printCommittee = (filter == CampReportFilter.CAMP_COMMITTEE || filter == CampReportFilter.NONE);
         if (printAttendees) {
             reportContent.append("\nCamp Attendees: \n");
-            for (String attendee : camp.getAttendees()) {
+            for (String attendee : camp.getAttendeeList()) {
                 reportContent.append("- ").append(attendee).append("\n");
             }
         }
         if (printCommittee) {
-            reportContent.append("\nCamp Committee: \n");
-            //TODO
+            reportContent.append("\nCamp Committee: \n");            
             reportContent.append("TODO");
-            // for (String comm : camp.getCommittee()) {
-                //reportContent.append("- ").append(comm).append("\n");
-            // }
+            for (String comm : camp.getCommitteeList()) {
+                reportContent.append("- ").append(comm).append("\n");
+            }
         }
 
         String fileName = reportOptions.getFilePath() + reportOptions.getFileName() + reportOptions.getFileType();

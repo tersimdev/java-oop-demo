@@ -86,8 +86,8 @@ public class CampSystem {
                 break;
 
             case 8:
-                boolean visibility = camp.toggleVisibility();
-                if (visibility == true) Log.println("The camp is now visible.");
+                boolean visibile = camp.toggleVisibility();
+                if (visibile) Log.println("The camp is now visible.");
                 else Log.println("The camp is now not visibile.");
                 break;
 
@@ -106,7 +106,7 @@ public class CampSystem {
     public void viewCampStudentList(int campId) {
         Log.println("===List of all the students attending this camp===");
         Camp camp = getCampById(campId);
-        for (String student : camp.getStudentList()) {
+        for (String student : camp.getAttendeeList()) {
             Log.println(student);
         }
     }
@@ -114,7 +114,7 @@ public class CampSystem {
     public void viewCampCommitteeList(int campId) {
         Log.println("===List of all the committee members attending this camp===");
         Camp camp = getCampById(campId);
-        for (String campCommitteeMember : camp.getComitteeList()) {
+        for (String campCommitteeMember : camp.getCommitteeList()) {
             Log.println(campCommitteeMember);
         }
     }
@@ -157,12 +157,12 @@ public class CampSystem {
         String studentId = student.getUserID();
         Log.println("===List of all the camps you are registered for===");
         for (Camp camp : camps) {
-            for (String studentPointer : camp.getStudentList()) {
+            for (String studentPointer : camp.getAttendeeList()) {
                 if (studentId == studentPointer) {
                     printCamp(camp);
                 }
             }
-            for (String studentPointer : camp.getComitteeList()) {
+            for (String studentPointer : camp.getCommitteeList()) {
                 if (studentId == studentPointer) {
                     printCamp(camp);
                 }
@@ -227,8 +227,8 @@ public class CampSystem {
         Log.println("----------------------");
         Log.println(camp.getCampInformation().getDescription());
         Log.println("----------------------");
-        Log.println("Attendee slots left: " + (camp.getCampInformation().getTotalSlots() - camp.getStudentList().size()));
-        Log.println("Committee slots left: " + (camp.getCampInformation().getCommitteeSlots() - camp.getComitteeList().size()));
+        Log.println("Attendee slots left: " + (camp.getCampInformation().getTotalSlots() - camp.getAttendeeList().size()));
+        Log.println("Committee slots left: " + (camp.getCampInformation().getCommitteeSlots() - camp.getCommitteeList().size()));
         Log.println("=======================");
     }
 }

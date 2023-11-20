@@ -9,6 +9,8 @@ package entity;
  * @version 1.1
  * @since 19-11-2023
  */
+
+
 public class CampReportOptions {
     private int campId;
     private String fileType; //extension like txt, csv without the dot

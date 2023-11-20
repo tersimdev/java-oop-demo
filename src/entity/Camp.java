@@ -13,7 +13,7 @@ import util.DataStore.SerializeToCSV;
  * This is a class to represent a camp
  * </p>
  * 
- * @author Lim Jun Rong Ryan
+ * @author Lim Jun Rong Ryan, Jon Daniel Acu Kang
  * @version 1.1
  * @since 19-11-2023
  */
@@ -21,19 +21,23 @@ public class Camp implements SerializeToCSV {
 
     private int campId;
     private CampInformation campInformation;
-    private ArrayList<String> studentList; //store student ids
+    private ArrayList<String> attendeeList; //store attendees student ids
     private ArrayList<String> committeeList; //store committee member studentIds
     private boolean visibility; //staff can set this to false to hide, if no one registered and stuff yet
 
     public Camp() {
-        //todo default vals
+        this.campId = -1;
+        this.campInformation = new CampInformationBuilder().build(); //build empty
+        this.committeeList = new ArrayList<String>();
+        this.attendeeList = new ArrayList<String>();
+        this.visibility = true;
     }
 
     public Camp(int campId, CampInformation campInformation) {
         this.campId = campId;
         this.campInformation = campInformation;
         this.committeeList = new ArrayList<String>();
-        this.studentList = new ArrayList<String>();
+        this.attendeeList = new ArrayList<String>();
         this.visibility = true;
     }
 
@@ -50,11 +54,11 @@ public class Camp implements SerializeToCSV {
         return campInformation.getCampName();
     }
 
-    public ArrayList<String> getStudentList() {
-        return studentList;
+    public ArrayList<String> getAttendeeList() {
+        return attendeeList;
     }
 
-    public ArrayList<String> getComitteeList() {
+    public ArrayList<String> getCommitteeList() {
         return committeeList;
     }
 
@@ -64,7 +68,7 @@ public class Camp implements SerializeToCSV {
 
     public boolean registerStudent(Student student) { // returns true if registration successful
         if (!checkCampFull() && !checkRegistrationClosed()) {
-            studentList.add(student.getUserID());
+            attendeeList.add(student.getUserID());
             return true;
         }
         else if (checkCampFull()) {
@@ -97,9 +101,9 @@ public class Camp implements SerializeToCSV {
     public void withdrawStudent(Student student) {
         if (!student.getCampCommitteeMember().isMember()) { // not a committee member
             // check if student is even registered
-            for (String studentPointer : studentList) {
+            for (String studentPointer : attendeeList) {
                 if (studentPointer == student.getUserID()) {
-                    studentList.remove(student.getUserID());
+                    attendeeList.remove(student.getUserID());
                     return;
                 }
             }
@@ -132,12 +136,12 @@ public class Camp implements SerializeToCSV {
     }
 
     public boolean checkCampFull() {
-        if (studentList.size() >= campInformation.getTotalSlots())
+        if (attendeeList.size() >= campInformation.getTotalSlots())
             return true; // camp is full
         return false;
     }
 
-    public boolean isVisibility() {
+    public boolean checkVisibility() {
         return visibility;
     }
 
@@ -151,8 +155,13 @@ public class Camp implements SerializeToCSV {
         String ret = "";
         ret += campId + ","
                 + (visibility ? "VISIBLE" : "HIDDEN") + ",";
-        // add student list as one csv cell, separated by semicolon
-        for (String s : studentList) {
+        // add attendee list as one csv cell, separated by semicolon
+        for (String s : attendeeList) {
+            ret += s + ";";
+        }
+        ret += ",";
+        // add committee list as one csv cell, separated by semicolon
+        for (String s : committeeList) {
             ret += s + ";";
         }
         ret += "," + campInformation.toCSVLine();
@@ -168,20 +177,21 @@ public class Camp implements SerializeToCSV {
         } else {
             this.campId = Integer.parseInt(split[0]);
             this.visibility = (split[1] == "VISIBLE" ? true : false);
-            String[] students = split[2].split(";");
-            this.studentList = new ArrayList<>(Arrays.asList(students));
-            String campInfoCSV = "";
-            for (int i = 3; i < split.length; ++i)
-                campInfoCSV += split[i] + ",";
-            this.campInformation = new CampInformationBuilder().build();
+            //get list of attendees
+            String[] attendees = split[2].split(";");
+            this.attendeeList = new ArrayList<>(Arrays.asList(attendees));
+            //get list of committee members
+            String[] committee = split[3].split(";");
+            this.committeeList = new ArrayList<>(Arrays.asList(committee));
+            //get the rest of the csv, join them with commas, and pass to campinfo 
+            String campInfoCSV = String.join(",", Arrays.copyOfRange(split, 4, split.length));
+            this.campInformation = new CampInformationBuilder().build(); //build empty instance
             this.campInformation.fromCSVLine(campInfoCSV);
         }
     }
 
     @Override
     public int getCSVLineLength() {
-        return 3 + campInformation.getCSVLineLength();
-    }
-
-    
+        return 4 + campInformation.getCSVLineLength();
+    } 
 }
