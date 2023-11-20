@@ -47,12 +47,8 @@ public class CampSuggestion implements SerializeToCSV {
         return suggestion;
     }
 
-    public void setSuggestionId(int suggestionId) {
-        this.suggestionId = suggestionId;
-    }
-
-    public void setSuggestion(String newSuggestion) {
-        this.suggestion = newSuggestion;
+    public String getApproverId() {
+        return approverId;
     }
 
     public boolean isPending() {
@@ -65,6 +61,14 @@ public class CampSuggestion implements SerializeToCSV {
 
     public boolean hasRejected() {
         return approvalStatus == 2;
+    }
+
+    public void setSuggestionId(int suggestionId) {
+        this.suggestionId = suggestionId;
+    }
+
+    public void setSuggestion(String newSuggestion) {
+        this.suggestion = newSuggestion;
     }
 
     public void setApproval(String staffID, boolean approve) {
