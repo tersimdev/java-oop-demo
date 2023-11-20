@@ -198,6 +198,8 @@ public class StudentMenu extends Menu {
                     CampSuggestion suggestion = new CampSuggestion(student.getUserID(),suggestionStr);
                     feedbackSystem.addCampSuggestion(selCampId, suggestion);
                     Log.println("Suggestion submitted.");
+                    student.getCampCommitteeMember().addPoints();
+
                     break;
                 case 11:
                     //View/Edit/Delete Pending Suggestions
@@ -250,6 +252,7 @@ public class StudentMenu extends Menu {
                         }
                     }
                     break;
+
                 case 12:
                     //View Processed Suggestions
                     selCampId = ui.getInput().getInt("Please enter the campID of the camp to view processed suggestions: ");
@@ -272,6 +275,7 @@ public class StudentMenu extends Menu {
                         }
                     }
                     break;
+
                 case 13:
                     // View Camp Enquiries
                     selCampId = ui.getInput()
@@ -297,6 +301,7 @@ public class StudentMenu extends Menu {
                         Log.println("");
                     }
                     break;
+
                 case 14:
                     // Reply Unprocessed Enquiries
                     selCampId = ui.getInput()
@@ -318,12 +323,15 @@ public class StudentMenu extends Menu {
                     int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to reply: ");
                     String reply = ui.getInput().getLine("Please enter reply: ");
                     Boolean result = feedbackSystem.processCampEnquiry(student.getUserID(),selCampId, enquiryId, reply);
-                    if(result) 
+                    if(result)  {
                             Log.println("Enquiry successfully processed.");
+                            student.getCampCommitteeMember().addPoints();
+                    }
                         else 
                             Log.println("Enquiry processing failed.");
                     break;
                 case 15:
+                
                     selCampName = ui.getInput().getLine("Please enter the camp name for report generation: ");
                 
                     Camp camp = campSystem.getCampByName(selCampName);
