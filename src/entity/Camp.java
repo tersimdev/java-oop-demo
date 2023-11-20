@@ -71,8 +71,6 @@ public class Camp implements SerializeToCSV {
     }
 
     public void addCampCommitteeMember(CampCommitteeMember campCommitteeMember) {
-        campCommitteeMember.setCampId(campId);
-        campCommitteeMember.setIsMember(true);
         committeeList.add(campCommitteeMember.getStudentId());
     }
 
