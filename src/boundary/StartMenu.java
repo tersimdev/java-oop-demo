@@ -23,14 +23,25 @@ public class StartMenu extends Menu {
     /**
      * Uses dependency injection for params.
      * Menu function map is initialised here.
+     * 
      * @param ui
      * @param loginSystem
      */
     public StartMenu(ConsoleUI ui, LoginSystem loginSystem) {
         super(ui);
         this.loginSystem = loginSystem;
+
+        addMenuFunction(1, this::changeUserPassword);
+        addMenuFunction(2, this::viewCommands);
     }
 
+    /**
+     * Polymorphisesd function to print out Ui for menu,
+     * and handle calling of appropriate functions.
+     * Uses getChoice and runFunctionMap.
+     * 
+     * @return returns whether should exit app
+     */
     @Override
     public boolean show() {
         User user = ui.getUser();
@@ -56,32 +67,32 @@ public class StartMenu extends Menu {
                 return false; // dont exit
             }
         }
+        return runMenuFunction(choice);
+    }
 
-        switch (choice) {
-            case 1:
-                String oldPasswordStr = ui.getInput().getLine("Enter Old Password: ").trim();
-                String newPasswordStr = ui.getInput().getLine("Enter New Password: ").trim();
-                if (oldPasswordStr.equals(newPasswordStr)) {
-                    Log.println("Can't set to same password.");
-                    return false;
-                }
-                boolean success = loginSystem.changeUserPassword(newPasswordStr);
-                if (!success) {
-                    Log.println("Password change failed.");
-                    return false;
-                } else {
-                    // log out user
-                    Log.println("Please login with new password.");
-                    loginSystem.logout();
-                    ui.setStateDirty(true);
-                    // return false;
-                }
-                break;
-            case 2:
-                ui.setStateDirty(true);
-                break;
+    private boolean changeUserPassword(Menu menu) {
+        String oldPasswordStr = ui.getInput().getLine("Enter Old Password: ").trim();
+        String newPasswordStr = ui.getInput().getLine("Enter New Password: ").trim();
+        if (oldPasswordStr.equals(newPasswordStr)) {
+            Log.println("Can't set to same password.");
+            return false;
+        }
+        boolean success = loginSystem.changeUserPassword(newPasswordStr);
+        if (!success) {
+            Log.println("Password change failed.");
+            return false;
+        } else {
+            // log out user
+            Log.println("Please login with new password.");
+            loginSystem.logout();
+            ui.setStateDirty(true);
+            // return false;
         }
         return false;
     }
 
+    private boolean viewCommands(Menu menu) {
+        ui.setStateDirty(true);
+        return false;
+    }
 }
