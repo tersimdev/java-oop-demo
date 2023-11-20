@@ -44,11 +44,11 @@ public abstract class Menu {
     }
 
     /**
-     * helper function to get input for a choice 0 exit, <0 invalid
+     * helper function to get input for a choice
      * @param lower the lower bound of choice number
      * @param upper the upper bound of choice number
      * @param exit the choice at which to exit
-     * @return 0 for exit, <0 for invalid, else returns choice chosen
+     * @return 0 for exit, negative for invalid, else returns choice chosen
      */
     protected int getChoice(int lower, int upper, int exit) {
         int choice = ui.getInput().getInt("Enter choice: ");
@@ -62,11 +62,10 @@ public abstract class Menu {
     }
 
     /**
-     * function to add a menu function to functionMap
+     * Function to add a menu function to functionMap
      * @param choice choice integer to map to
      * @param func menu function to call
      * 
-     * @implNote
      * <p>
      * The following explanation is for how to use this function:
      * There are 3 ways to implement the MenuFunctionInterface
@@ -81,7 +80,7 @@ public abstract class Menu {
      * </code></p></li>
      * <li>Use lambda / arrow notation.
      * <p><code>
-     *      addMenuFunction(choice, (menu) -> myFunc(menu));
+     *      addMenuFunction(choice, (menu) -&gt; myFunc(menu));
      * </code></p></li>
      * <li>Use method reference.
      * Note this only works if myFunc matches signature

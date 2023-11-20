@@ -11,7 +11,7 @@ import util.Log;
  * 
  * @author Sim Yi Wan Terence
  * @version 1.0
- * @since 1-11-2023
+ * @since 21-11-2023
  */
 public class LoginMenu extends Menu {
 
@@ -23,8 +23,8 @@ public class LoginMenu extends Menu {
     /**
      * Uses dependency injection for params.
      * Menu function map is initialised here.
-     * @param ui
-     * @param loginSystem
+     * @param ui console ui object
+     * @param loginSystem loginsystem object
      */
     public LoginMenu(ConsoleUI ui, LoginSystem loginSystem) {
         super(ui);
@@ -61,7 +61,7 @@ public class LoginMenu extends Menu {
 
     /**
      * Function to login staff
-     * @param menu
+     * @param menu login menu
      * @return returns shouldExit app, always false
      */
     private boolean loginStaff(Menu menu) {
@@ -73,7 +73,7 @@ public class LoginMenu extends Menu {
 
     /**
      * Function to login student
-     * @param menu
+     * @param menu login menu
      * @return returns shouldExit app, always false
      */
     private boolean loginStudent(Menu menu) {
@@ -97,6 +97,7 @@ public class LoginMenu extends Menu {
      * checks if user logged in successfully
      * if logged in sets ui state dirty
      * else prints error message
+     * @param user the user object to check
      */
     private void handleLoginResult(User user) {
         if (user == null) {
