@@ -38,7 +38,8 @@ public class StudentMenu extends Menu {
     @Override
     public boolean show() {
         String selCampName;
-        int selCampId;
+        int selCampId = -1;
+        boolean campIdvalid = false;
 
         // assume safe, check handled by state machine
         Student student = (Student) ui.getUser();
@@ -80,15 +81,21 @@ public class StudentMenu extends Menu {
                     break;
 
                 case 2:
-                    selCampId = ui.getInput()
-                        .getInt("Please enter the ID of the camp you want to register for: ");
-                        campSystem.registerAsAttendee(student, selCampId);
+                    while (campIdvalid == false) {
+                        selCampId = ui.getInput()
+                            .getInt("Please enter the ID of the camp you would like to register for: ");
+                        campIdvalid = campSystem.checkValidCampId(selCampId);
+                    }
+                    campSystem.registerAsAttendee(student, selCampId);
                     break;
 
                 case 3:
-                    selCampId = ui.getInput()
-                        .getInt("Please enter the ID of the camp you want to register for: ");
-                        campSystem.registerAsCommittee(student, selCampId);
+                    while (campIdvalid == false) {
+                        selCampId = ui.getInput()
+                            .getInt("Please enter the ID of the camp you would like to register for: ");
+                        campIdvalid = campSystem.checkValidCampId(selCampId);
+                    }
+                    campSystem.registerAsCommittee(student, selCampId);
                     break;
 
                 case 4:
