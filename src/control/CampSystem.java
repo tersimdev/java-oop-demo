@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import entity.Camp;
 import entity.CampInformation;
 import entity.Student;
+import util.DateStringHelper;
 import util.Input;
 import util.Log;
 
@@ -14,9 +15,9 @@ import util.Log;
  * A singleton class that stores all camps, and controls access to them 
  * </p>
  * 
- * @author 
+ * @author Jon Kang
  * @version 2.0
- * @since 18-11-2023
+ * @since 20-11-2023
  */
 public class CampSystem {
     private DataStoreSystem dataStoreSystem;
@@ -202,9 +203,9 @@ public class CampSystem {
         Log.println("Camp ID: " + camp.getCampId());
         Log.println("Camp Name: " + camp.getCampName());
         Log.println("Location: " + camp.getCampInformation().getLocation());
-        Log.println("Start date: " + camp.getCampInformation().getDates().get(0));
-        Log.println("End date: " + camp.getCampInformation().getDates().get(camp.getCampInformation().getDates().size()-1));
-        Log.println("Registration closing date: " + camp.getCampInformation().getRegistrationClosingDate());
+        Log.println("Start date: " + DateStringHelper.DateToStrConverter(camp.getCampInformation().getDates().get(0)));
+        Log.println("End date: " + DateStringHelper.DateToStrConverter(camp.getCampInformation().getDates().get(camp.getCampInformation().getDates().size()-1)));
+        Log.println("Registration closing date: " + DateStringHelper.DateToStrConverter(camp.getCampInformation().getRegistrationClosingDate()));
         Log.println("=======================");
         Log.println(camp.getCampInformation().getDescription());
         Log.println("=======================");

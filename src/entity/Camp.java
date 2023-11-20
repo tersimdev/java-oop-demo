@@ -3,7 +3,6 @@ package entity;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import entity.CampInformation.CampInformationBuilder;
 import util.Log;
