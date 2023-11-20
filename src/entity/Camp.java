@@ -85,7 +85,7 @@ public class Camp implements SerializeToCSV {
 
         if (committeeList.size() < campInformation.getCommitteeSlots() && !checkRegistrationClosed()) {
             campCommitteeMember.setCampId(campId);
-            campCommitteeMember.setMember(true);
+            campCommitteeMember.setIsMember(true);
             committeeList.add(campCommitteeMember.getStudentId());
             return true;
         }
@@ -99,7 +99,7 @@ public class Camp implements SerializeToCSV {
     }
 
     public void withdrawStudent(Student student) {
-        if (!student.getCampCommitteeMember().isMember()) { // not a committee member
+        if (!student.getCampCommitteeMember().getIsMember()) { // not a committee member
             // check if student is even registered
             for (String studentPointer : attendeeList) {
                 if (studentPointer == student.getUserID()) {
@@ -113,7 +113,7 @@ public class Camp implements SerializeToCSV {
             for (String studentPointer : committeeList) {
                 if (studentPointer == student.getUserID()) {
                     student.getCampCommitteeMember().setCampId(-1);
-                    student.getCampCommitteeMember().setMember(false);
+                    student.getCampCommitteeMember().setIsMember(false);
                     committeeList.remove(student.getUserID());
                     return;
                 }

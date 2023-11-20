@@ -42,7 +42,7 @@ public class StudentMenu extends Menu {
 
         // assume safe, check handled by state machine
         Student student = (Student) ui.getUser();
-        boolean isCommittee = student.getCampCommitteeMember().isMember();
+        boolean isCommittee = student.getCampCommitteeMember().getIsMember();
         Log.println("===Student Menu===");
         Log.println("(1) View Available Camps");
         Log.println("(2) Register as Attendee");

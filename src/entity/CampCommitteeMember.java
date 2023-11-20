@@ -26,11 +26,11 @@ public class CampCommitteeMember implements SerializeToCSV {
         points = 0;
     }
 
-    public boolean isMember() {
+    public boolean getIsMember() {
         return isMember;
     }
 
-    public void setMember(boolean isMember) {
+    public void setIsMember(boolean isMember) {
         this.isMember = isMember;
     }
 
