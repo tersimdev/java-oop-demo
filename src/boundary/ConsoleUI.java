@@ -26,6 +26,10 @@ import util.Log;
  */
 public class ConsoleUI {
 
+    /**
+     * Enum class used to represent 
+     * states in state machine.
+     */
     private enum STATE {
         LOGIN_MENU,
         START_MENU,
@@ -34,14 +38,29 @@ public class ConsoleUI {
     }
 
     // state machine attribs
+    /**
+     * A map containing all states and their corresponding menu
+     */
     private Map<STATE, Menu> menuMap;
+    /**
+     * Represents the current state
+     */
     private STATE state;
-    private boolean stateDirty;// tracks if state needs to be refreshed
+    /**
+     * Tracks if state needs to be refreshed.
+     * Dirty means to check to change states.
+     */
+    private boolean stateDirty;
 
-    //input class to handle input using Scanner
+    /**
+     * Input class to handle input using Scanner
+     */
     private Input input;
 
-    // ui depends on loginsystemm to know state
+    /**
+     * DI for login system
+     * ui depends on loginsystemm to know state
+     */
     private LoginSystem loginSystem;
 
     /**
@@ -54,14 +73,27 @@ public class ConsoleUI {
         input = null;
     }
 
+    /**
+     * Setter for stateDirty.
+     * @param dirty whether state is dirty
+     */
     public void setStateDirty(boolean dirty) {
         this.stateDirty = dirty;
     }
 
+    /**
+     * Getter for user object.
+     * @return user object
+     */
     public User getUser() {
         return loginSystem.getCurrentUser();
     }
 
+    /**
+     * Getter for input object.
+     * Call this to do user input.
+     * @return input object
+     */
     public Input getInput() {
         return input;
     }
@@ -93,7 +125,12 @@ public class ConsoleUI {
         Log.println("> Made by Team 2: Terence, Ryan, Jon, Zhi Wei\n");
     }
 
-    // returns if should exit app
+    /**
+     * Main update loop of app. 
+     * Uses state machine design.
+     * Checks if state is dirty and calls switchStates
+     * @return returns if should exit app
+     */
     public boolean run() {
         // return implicitly does break
         boolean shouldExit = false;
@@ -108,10 +145,17 @@ public class ConsoleUI {
         return shouldExit;
     }
 
+    /**
+     * Function to cleanup systems
+     */
     public void cleanup() {
         input.close();
     }
 
+    /**
+     * Function to change states, 
+     * by setting state variable and checking preconditions
+     */
     private void switchState() {
         switch (state) {
             case LOGIN_MENU:

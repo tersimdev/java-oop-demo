@@ -61,7 +61,7 @@ public class TXTWriterImpl implements ReportWriterInterface {
     }
 
     @Override
-    public void writeEnquiryReport() throws ReportWriteException, IOException {
+    public void writePerformanceReport() throws ReportWriteException, IOException {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'writeEnquiryReport'");
     }

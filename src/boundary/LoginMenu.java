@@ -17,13 +17,15 @@ public class LoginMenu extends Menu {
 
     /**
      * DI of login system
+     * Used to login
      */
     private final LoginSystem loginSystem;
 
     /**
      * Uses dependency injection for params.
      * Menu function map is initialised here.
-     * @param ui console ui object
+     * 
+     * @param ui          console ui object
      * @param loginSystem loginsystem object
      */
     public LoginMenu(ConsoleUI ui, LoginSystem loginSystem) {
@@ -36,9 +38,10 @@ public class LoginMenu extends Menu {
     }
 
     /**
-     * Polymorphisesd function to print out Ui for menu, 
+     * Polymorphisesd function to print out Ui for menu,
      * and handle calling of appropriate functions.
      * Uses getChoice and runFunctionMap.
+     * 
      * @return returns whether should exit app
      */
     @Override
@@ -61,6 +64,7 @@ public class LoginMenu extends Menu {
 
     /**
      * Function to login staff
+     * 
      * @param menu login menu
      * @return returns shouldExit app, always false
      */
@@ -73,6 +77,7 @@ public class LoginMenu extends Menu {
 
     /**
      * Function to login student
+     * 
      * @param menu login menu
      * @return returns shouldExit app, always false
      */
@@ -85,6 +90,7 @@ public class LoginMenu extends Menu {
 
     /**
      * prompts user for username and password
+     * 
      * @return a pair of strings, first being username and second being password
      */
     private String[] getUserDetails() {
@@ -97,12 +103,13 @@ public class LoginMenu extends Menu {
      * checks if user logged in successfully
      * if logged in sets ui state dirty
      * else prints error message
+     * 
      * @param user the user object to check
      */
     private void handleLoginResult(User user) {
         if (user == null) {
             Log.println("Invalid user ID or password.");
-            return; //state remains unchanged
+            return; // state remains unchanged
         } else if (user != null)
             ui.setStateDirty(true);
     }

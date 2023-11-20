@@ -1,6 +1,5 @@
 package entity;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -79,8 +78,6 @@ public class Camp implements SerializeToCSV {
     }
 
     public void removeCampCommitteeMember(CampCommitteeMember campCommitteeMember) {
-        campCommitteeMember.setCampId(-1);
-        campCommitteeMember.setIsMember(false);
         committeeList.remove(campCommitteeMember.getStudentId());
     }
 

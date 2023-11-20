@@ -64,7 +64,7 @@ public class ReportSystem {
             Log.error("IOException while writing report using " + filetype); //error msg for devs
         }
     }
-    public void generateEnquiryReport() {
+    public void generatePerformanceReport() {
         //TODO
     }
 }
