@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"boundary"},{"l":"control"},{"l":"entity"},{"l":"util"},{"l":"util.DataStore"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"boundary"},{"l":"control"},{"l":"entity"},{"l":"util"},{"l":"util.DataStore"},{"l":"util.ReportWriter"}]
