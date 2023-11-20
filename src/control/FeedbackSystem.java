@@ -21,6 +21,9 @@ public class FeedbackSystem {
     private Map<Integer, ArrayList<CampEnquiry>> enquiriesMap;
     private Map<Integer, ArrayList<CampSuggestion>> suggestionsMap;
 
+    private int nextEnquiryId;
+    private int nextSuggetionId;
+
     public FeedbackSystem(DataStoreSystem dataStoreSystem) {
         this.enquiriesMap = new HashMap<>();
         this.suggestionsMap = new HashMap<>();
@@ -28,8 +31,14 @@ public class FeedbackSystem {
 
         ArrayList<CampEnquiry> enquiryList = dataStoreSystem.getAllEnquiries();
         ArrayList<CampSuggestion> suggestionList = dataStoreSystem.getAllSuggestions();
-        int numEnquiries = enquiryList.get(enquiryList.size() - 1).getEnquiryId() + 1;
-        int numSuggestions = suggestionList.get(enquiryList.size() - 1).getSuggestionId() + 1;
+        
+        //cld use these as next id, store in system?
+        int nextEnquiryId = 0;
+        int nextSuggetionId = 0;
+        if (enquiryList.size() > 0)
+            nextEnquiryId = enquiryList.get(enquiryList.size() - 1).getEnquiryId() + 1;
+        if (suggestionList.size() > 0)
+            nextSuggetionId = suggestionList.get(enquiryList.size() - 1).getSuggestionId() + 1;
 
         // add to map based on camp id
         for (CampEnquiry ce : enquiryList) {
@@ -47,7 +56,7 @@ public class FeedbackSystem {
     public void addCampEnquiry(int campId, CampEnquiry enquiry) {
         ArrayList<CampEnquiry> enquiries = enquiriesMap.computeIfAbsent(campId, k -> new ArrayList<>());
         // Index in the ArrayList used as enquiryID
-        int enquiryId = enquiries.size();
+        int enquiryId = nextEnquiryId++;
         enquiry.setEnquiryId(enquiryId);
         // Add the new enquiry to the ArrayList
         enquiries.add(enquiry);
@@ -57,7 +66,7 @@ public class FeedbackSystem {
     public void addCampSuggestion(int campId, CampSuggestion suggestion) {
         ArrayList<CampSuggestion> suggestions = suggestionsMap.computeIfAbsent(campId, k -> new ArrayList<>());
         // Index in the ArrayList used as the suggestionID
-        int suggestionId = suggestions.size();
+        int suggestionId = nextSuggetionId++;
         suggestion.setSuggestionId(suggestionId);
         // Add the new suggestion to the ArrayList
         suggestions.add(suggestion);
