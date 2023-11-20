@@ -19,5 +19,5 @@ import java.io.IOException;
  */
 public interface ReportWriterInterface {
     void writeCampReport(CampReportOptions reportOptions, User user, Camp camp) throws ReportWriteException, IOException;
-    void writeEnquiryReport(/*TODO */) throws ReportWriteException, IOException;
+    void writePerformanceReport(/*TODO */) throws ReportWriteException, IOException;
 }
