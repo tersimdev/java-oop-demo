@@ -141,7 +141,7 @@ public class StudentMenu extends Menu {
                         }
                         else if (sChoice==2){
                             int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to delete: ");
-                            Boolean result = feedbackSystem.removeCampEnquiryById(selCampId, enquiryId);
+                            Boolean result = feedbackSystem.removeCampEnquiry(selCampId, enquiryId);
                             if(result) 
                                 Log.println("Deletion successful.");
                             else 
@@ -229,7 +229,7 @@ public class StudentMenu extends Menu {
                         }
                         else if (cChoice==2){
                             int suggestionId = ui.getInput().getInt("Please enter the suggestionId of the suggestion to delete: ");
-                            Boolean result = feedbackSystem.removeCampSuggestionById(selCampId, suggestionId);
+                            Boolean result = feedbackSystem.removeCampSuggestion(selCampId, suggestionId);
                             if(result) 
                                 Log.println("Deletion successful.");
                             else 
