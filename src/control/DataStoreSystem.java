@@ -39,9 +39,11 @@ public class DataStoreSystem {
         dataStore.cleanup();
     }
 
-    // query for users with username
-    public User queryUser(String userID) {
-        return dataStore.queryUser(userID);
+    public User queryStaff(String userID) {
+        return dataStore.queryStaff(userID);
+    }
+    public User queryStudent(String userID) {
+        return dataStore.queryStudent(userID);
     }
 
     public void updateUserPassword(String userID, String newPassword) {

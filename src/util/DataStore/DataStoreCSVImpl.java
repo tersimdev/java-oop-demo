@@ -87,14 +87,18 @@ public class DataStoreCSVImpl implements DataStoreInterface {
     }
 
     @Override
-    public User queryUser(String userID) {
+    public User queryStudent(String userID) {
         String row = tables.get(tableStudents).queryRow(1, userID);
         if (row != null) {
             Student ret = new Student();
             ret.fromCSVLine(row);
             return ret;
         }
-        row = tables.get(tableStaff).queryRow(1, userID);
+        return null;
+    }
+    @Override
+    public User queryStaff(String userID) {
+        String row = tables.get(tableStaff).queryRow(1, userID);
         if (row != null) {
             Staff ret = new Staff();
             ret.fromCSVLine(row);

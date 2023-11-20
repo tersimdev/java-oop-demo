@@ -60,6 +60,6 @@ public class CAMSApp {
     }
 
     public boolean isRunning() {
-        return false;
+        return running;
     }
 };

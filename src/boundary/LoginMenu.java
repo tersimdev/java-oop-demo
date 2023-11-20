@@ -16,6 +16,7 @@ import util.Log;
 public class LoginMenu extends Menu {
 
     private final LoginSystem loginSystem;
+
     public LoginMenu(ConsoleUI ui, LoginSystem loginSystem) {
         super(ui);
         this.loginSystem = loginSystem;
@@ -38,7 +39,12 @@ public class LoginMenu extends Menu {
 
         String usernameStr = ui.getInput().getLine("Enter User ID: ").trim().toUpperCase();
         String passwordStr = ui.getInput().getLine("Enter Password: ").trim();
-        User user = loginSystem.login(usernameStr, passwordStr);
+        User user;
+        if (choice == 1)
+            user = loginSystem.loginStudent(usernameStr, passwordStr);
+        else
+            user = loginSystem.loginStaff(usernameStr, passwordStr);
+            
         if (user == null) {
             Log.println("Invalid user ID or password.");
             return false; // kick user back to menu selection
@@ -46,5 +52,5 @@ public class LoginMenu extends Menu {
             ui.setStateDirty(true);
         return false;
     }
-    
+
 }

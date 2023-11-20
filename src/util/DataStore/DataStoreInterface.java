@@ -23,7 +23,8 @@ public interface DataStoreInterface {
     public boolean dataExists(String table);
 
     // user data functions
-    public User queryUser(String userID);
+    public User queryStaff(String userID);
+    public User queryStudent(String userID);
     public void updateUserPassword(String userID, String newPassword);
 
     //TODO, similar functions for camps etc
@@ -41,6 +42,4 @@ public interface DataStoreInterface {
     public void addEnquiry(CampEnquiry enquiry);
     //public void updateEnquiry(int enquiryId);
     public ArrayList<CampEnquiry> getAllEnquiries();
-
-
 }

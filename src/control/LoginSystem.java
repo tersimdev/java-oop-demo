@@ -18,7 +18,7 @@ public class LoginSystem {
     private DataStoreSystem dataStoreSystem;
     private User currentUser;
     private final static int MIN_PASSWORD_LEN = 8;
-    
+
     public LoginSystem(DataStoreSystem dataStoreSystem) {
         currentUser = null;
         this.dataStoreSystem = dataStoreSystem;
@@ -28,11 +28,26 @@ public class LoginSystem {
         return currentUser;
     }
 
-    public User login(String userID, String password) {
-        Log.info("logging in " + userID);
-        // find user with username, then check for correct password
+    public User loginStaff(String userID, String password) {
+        Log.info("logging in staff " + userID);
+        //find user in staff datastore
+        User user = dataStoreSystem.queryStaff(userID);
+        return loginUser(user, password);
+    }
+
+    public User loginStudent(String userID, String password) {
+        Log.info("logging in student " + userID);
+        //find user in student datastore
+        User user = dataStoreSystem.queryStudent(userID);
+        return loginUser(user, password);
+    }
+
+    /**
+     * checks password same then sets current user
+     * returns current user, else returns null
+     */
+    private User loginUser(User user, String password) {
         currentUser = null;
-        User user = dataStoreSystem.queryUser(userID);
         if (user != null) {
             if (user.getPassword().equals(password))
                 currentUser = user;
