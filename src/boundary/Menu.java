@@ -35,11 +35,22 @@ public abstract class Menu {
      */
     private Map<Integer, MenuFunctionInterface> functionMap;
 
+    /**
+     * Uses DI to pass in ConsoleUI
+     * Initializes function map
+     * 
+     * @param ui ui object
+     */
     public Menu(ConsoleUI ui) {
         this.ui = ui;
         functionMap = new HashMap<>();
     }
 
+    /**
+     * Getter for ui
+     * 
+     * @return ui object
+     */
     public ConsoleUI getUi() {
         return ui;
     }
