@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import entity.Camp;
+import entity.CampCommitteeMember;
 import entity.CampInformation;
 import entity.Student;
 import util.DateStringHelper;
@@ -86,8 +87,8 @@ public class CampSystem {
                 break;
 
             case 8:
-                boolean visibile = camp.toggleVisibility();
-                if (visibile) Log.println("The camp is now visible.");
+                boolean visibility = camp.toggleVisibility();
+                if (visibility == true) Log.println("The camp is now visible.");
                 else Log.println("The camp is now not visibile.");
                 break;
 
@@ -122,10 +123,9 @@ public class CampSystem {
     // Student functions
     public void viewAvailableCamps(Student student) {
         String studentId = student.getUserID();
-        // add dates clash checking
         Log.println("===List of all available camps===");
         for (Camp camp : camps) {
-            if (!camp.checkCampFull() && !camp.checkRegistrationClosed()) {
+            if (!checkCampFull(camp) && !checkRegistrationClosed(camp) && !checkDateClash(camp, student)) {
                 printCamp(camp);
             }
         }
@@ -134,22 +134,51 @@ public class CampSystem {
     public void registerAsAttendee(Student student, int campId) {
         String studentId = student.getUserID();
         Camp camp = getCampById(campId);
-        if (camp.registerStudent(student)) {
+        
+        if (!checkCampFull(camp) && !checkRegistrationClosed(camp) && !camp.getAttendeeList().contains(studentId) && !checkDateClash(camp, student)) {
+            camp.addAttendee(student);
             Log.println(studentId + " has been registered for camp " + campId);
         }
-        else {
-            Log.println(studentId + " was not registered for camp " + campId);
+        else if (camp.getAttendeeList().contains(studentId)) {
+            Log.println(studentId + " is already registered for camp " + campId);
+            Log.error(studentId + " was not registered for camp " + campId);
+        }
+        else if (checkDateClash(camp, student)) {
+            Log.println("This camp clashes with another camp " + studentId + " is already registered for");
+            Log.error(studentId + " was not registered for camp " + campId);
+        }
+        else if (checkRegistrationClosed(camp)) {
+            Log.println("Registration for this camp has closed");
+            Log.error(studentId + " was not registered for camp " + campId);
+        }
+        else if (checkCampFull(camp)){
+            Log.println("This camp is full");
+            Log.error(studentId + " was not registered for camp " + campId);
         }
     }
 
     public void registerAsCommittee(Student student, int campId) {
         String studentId = student.getUserID();
         Camp camp = getCampById(campId);
-        if (camp.registerCampCommitteeMember(student)) {
+        if (!checkCampFull(camp) && !checkRegistrationClosed(camp) && !camp.getCommitteeList().contains(studentId) && !checkDateClash(camp, student)) {
+            camp.addCampCommitteeMember(student.getCampCommitteeMember());
             Log.println(studentId + " has been registered for camp " + campId + " as a camp committee member");
         }
-        else {
-            Log.println(studentId + " was not registered for camp " + campId);
+        else if (camp.getCommitteeList().contains(studentId)) {
+            Log.println(studentId + " is already registered for camp " + campId);
+            Log.error(studentId + " was not registered for camp " + campId);
+        }
+        else if (checkDateClash(camp, student)) {
+            Log.println("This camp clashes with another camp " + studentId + " is already registered for");
+            Log.error(studentId + " was not registered for camp " + campId);
+        }
+        else if (checkRegistrationClosed(camp)) {
+            Log.println("Registration for this camp has closed");
+            Log.error(studentId + " was not registered for camp " + campId);
+        }
+        else if (checkCampFull(camp)){
+            Log.println("This camp is full");
+            Log.error(studentId + " was not registered for camp " + campId);
         }
     }
 
@@ -172,8 +201,25 @@ public class CampSystem {
 
     public void withdrawFromCamp(Student student, int campId) {
         Camp camp = getCampById(campId);
-        camp.withdrawStudent(student);
-        Log.println(student.getUserID() + " has been withdrawn from camp " + campId);
+        String studentId = student.getUserID();
+        if (student.getCampCommitteeMember().getIsMember()) { // is a committee member
+            if (!camp.getCommitteeList().contains(studentId)) {
+                Log.println(studentId + " is already not registered for camp " + campId);
+                Log.error(studentId + " was not registered for camp " + campId);
+            }
+            else {
+                camp.addCampCommitteeMember(student.getCampCommitteeMember());
+            }
+        }
+        else { //not a committee member
+            if (!camp.getAttendeeList().contains(studentId)) {
+                Log.println(studentId + " is already not registered for camp " + campId);
+                Log.error(studentId + " was not registered for camp " + campId);
+            }
+            else {
+                camp.addAttendee(student);
+            }
+        }
     } 
 
     // utility functions
@@ -215,6 +261,57 @@ public class CampSystem {
         }
         else return false;
     }
+
+    public boolean checkRegistrationClosed(Camp camp) {
+        LocalDate today = LocalDate.now();
+        LocalDate deadline = camp.getCampInformation().getRegistrationClosingDate();
+        if (today.compareTo(deadline) >= 0)
+            return true; // registration is closed
+        return false;
+    }
+
+    public boolean checkCampFull(Camp camp) {
+        if (camp.getAttendeeList().size() >= camp.getCampInformation().getTotalSlots())
+            return true; // camp is full
+        return false;
+    }
+
+    public boolean checkDateClash(Camp camp, Student student) { // returns true if camp clashes with other camps student is registered for
+        String studentId = student.getUserID();
+        // camp dates for new camp we are checking against
+        LocalDate campFirstDate;
+        LocalDate campLastDate;
+        // camp dates for camps student is already registered for
+        LocalDate ptrCampFirstDate;
+        LocalDate ptrCampLastDate;
+
+        campFirstDate = camp.getCampInformation().getDates().get(0);
+        if (camp.getCampInformation().getDates().size() > 1) {
+            campLastDate = camp.getCampInformation().getDates().get(camp.getCampInformation().getDates().size());
+        }
+        else {
+            campLastDate = campFirstDate;
+        }
+        for (Camp campPointer : camps) {
+            if (campPointer.getAttendeeList().contains(studentId) || campPointer.getCommitteeList().contains(studentId)) { // student is registered for this camp
+
+                ptrCampFirstDate = campPointer.getCampInformation().getDates().get(0);
+                if (campPointer.getCampInformation().getDates().size() > 1) {
+                    ptrCampLastDate = camp.getCampInformation().getDates().get(camp.getCampInformation().getDates().size());
+                }
+                else {
+                    ptrCampLastDate = ptrCampFirstDate;
+                }
+
+                // check for date clash
+                if (campFirstDate.compareTo(ptrCampLastDate) <= 0 && campLastDate.compareTo(ptrCampFirstDate) >= 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     public void printCamp(Camp camp) {
         Log.println("=======================");

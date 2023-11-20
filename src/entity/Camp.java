@@ -66,79 +66,24 @@ public class Camp implements SerializeToCSV {
         return campInformation;
     }
 
-    public boolean registerStudent(Student student) { // returns true if registration successful
-        if (!checkCampFull() && !checkRegistrationClosed()) {
-            attendeeList.add(student.getUserID());
-            return true;
-        }
-        else if (checkCampFull()) {
-            Log.println("The camp is full");
-        }
-        else if (checkRegistrationClosed()) {
-            Log.println("Registration for this camp has closed");
-        }
-        return false;
+    public void addAttendee(Student student) {
+        attendeeList.add(student.getUserID());
     }
 
-    public boolean registerCampCommitteeMember(Student student) { // returns true if registration successful
-        CampCommitteeMember campCommitteeMember = student.getCampCommitteeMember();
-
-        if (committeeList.size() < campInformation.getCommitteeSlots() && !checkRegistrationClosed()) {
-            campCommitteeMember.setCampId(campId);
-            campCommitteeMember.setIsMember(true);
-            committeeList.add(campCommitteeMember.getStudentId());
-            return true;
-        }
-        else if (committeeList.size() < campInformation.getCommitteeSlots()) {
-            Log.println("There are no more camp committee slots for this camp");
-        }
-        else if (checkRegistrationClosed()) {
-            Log.println("Registration for this camp has closed");
-        }
-        return false;
+    public void addCampCommitteeMember(CampCommitteeMember campCommitteeMember) {
+        campCommitteeMember.setCampId(campId);
+        campCommitteeMember.setIsMember(true);
+        committeeList.add(campCommitteeMember.getStudentId());
     }
 
-    public void withdrawStudent(Student student) {
-        if (!student.getCampCommitteeMember().getIsMember()) { // not a committee member
-            // check if student is even registered
-            for (String studentPointer : attendeeList) {
-                if (studentPointer == student.getUserID()) {
-                    attendeeList.remove(student.getUserID());
-                    return;
-                }
-            }
-        }
-        else { // committee member
-            // check if student is registered as committee member
-            for (String studentPointer : committeeList) {
-                if (studentPointer == student.getUserID()) {
-                    student.getCampCommitteeMember().setCampId(-1);
-                    student.getCampCommitteeMember().setIsMember(false);
-                    committeeList.remove(student.getUserID());
-                    return;
-                }
-            }
-        }
-        Log.println("This student is not registered to this camp.");
-        return;
+    public void removeAttendee(Student student) {
+        attendeeList.remove(student.getUserID());
     }
 
-    // private void checkForDateClash(Student student) {
-    //    
-    // }
-
-    public boolean checkRegistrationClosed() {
-        LocalDate today = LocalDate.now();
-        LocalDate deadline = campInformation.getRegistrationClosingDate();
-        if (today.compareTo(deadline) >= 0)
-            return true; // registration is closed
-        return false;
-    }
-
-    public boolean checkCampFull() {
-        if (attendeeList.size() >= campInformation.getTotalSlots())
-            return true; // camp is full
-        return false;
+    public void removeCampCommitteeMember(CampCommitteeMember campCommitteeMember) {
+        campCommitteeMember.setCampId(-1);
+        campCommitteeMember.setIsMember(false);
+        committeeList.remove(campCommitteeMember.getStudentId());
     }
 
     public boolean checkVisibility() {
