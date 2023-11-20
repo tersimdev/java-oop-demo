@@ -23,23 +23,19 @@ import util.Log;
 public class CampSystem {
     private DataStoreSystem dataStoreSystem;
     private ArrayList<Camp> camps;
-    private ArrayList<Integer> deletedIdList;
 
     public CampSystem(DataStoreSystem dataStoreSystem) {
         camps = new ArrayList<Camp>();
-        deletedIdList = new ArrayList<Integer>();
         this.dataStoreSystem = dataStoreSystem;
     }
 
     // Staff functions
     public void createCamp(int campId, CampInformation campInfo) {
-        camps.add(0, new Camp(campId, campInfo));
+        camps.add(campId, new Camp(campId, campInfo));
     }
 
     public void deleteCamp(int campId) {
-        Camp camp = getCampById(campId);
-        deletedIdList.add(0, campId);
-        camps.remove(camp);
+        camps.set(campId, null);
         return;
     }
 
@@ -122,7 +118,6 @@ public class CampSystem {
 
     // Student functions
     public void viewAvailableCamps(Student student) {
-        String studentId = student.getUserID();
         Log.println("===List of all available camps===");
         for (Camp camp : camps) {
             if (!checkCampFull(camp) && !checkRegistrationClosed(camp) && !checkDateClash(camp, student)) {
@@ -234,32 +229,33 @@ public class CampSystem {
     }
 
     public Camp getCampById(int campId) {
-        for (Camp camp : camps) {
-            if (camp.getCampId() == campId) return camp;
+        if (checkValidCampId(campId)) return camps.get(campId);
+        else {
+            Log.println("Camp not found");
+            return null;
         }
-        Log.println("Camp not found");
-        return null;
     }
 
     public int generateNewCampId() {
-        if (deletedIdList.isEmpty()) {
-            return camps.size();
+        // if there is a null slot in camps, give that index
+        for (int i = 0; i < camps.size(); i++) {
+            if (camps.get(i) == null) {
+                return i;
+            }
         }
-        else {
-            return deletedIdList.remove(0);
-        }
+        // else give camps.size()
+        return camps.size();
     }
 
     public boolean checkValidCampId(int campId) { 
         Camp camp = getCampById(campId);
-        if (camps.contains(camp)) {
+        if (camp != null) {
             return true;
         }
         else if (camps.isEmpty()) {
             Log.error("There are no camps in the system");
-            return false;
         }
-        else return false;
+        return false;
     }
 
     public boolean checkRegistrationClosed(Camp camp) {
