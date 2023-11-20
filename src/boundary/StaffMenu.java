@@ -12,6 +12,7 @@ import entity.CampSuggestion;
 import entity.Faculty;
 import entity.Staff;
 import entity.UserGroup;
+import util.InputHelper;
 import util.Log;
 
 /**
@@ -84,18 +85,6 @@ public class StaffMenu extends Menu {
         return false;
     }
 
-    // helper functions below
-    private int getCampIdFromUser(String action) {
-        int selCampId = -1;
-        boolean campIdvalid = false;
-        while (campIdvalid == false) {
-            selCampId = ui.getInput()
-                    .getInt("Please enter the ID of the camp you would like to " + action + ": ");
-            campIdvalid = campSystem.checkValidCampId(selCampId);
-        }
-        return selCampId;
-    }
-
     // menu functions defineed below
 
     private boolean createCamp(Menu menu) { // Create Camp
@@ -138,7 +127,7 @@ public class StaffMenu extends Menu {
 
     private boolean editCamp(Menu menu) {
         // Edit Camp
-        int selCampId = getCampIdFromUser("edit");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "edit");
 
         Log.println("===What would you like to edit?===");
         Log.println("(1) Camp name");
@@ -164,7 +153,7 @@ public class StaffMenu extends Menu {
 
     private boolean deleteCamp(Menu menu) {
         // Delete Camp
-        int selCampId = getCampIdFromUser("delete");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "delete");
         campSystem.deleteCamp(selCampId);
         return false;
     }
@@ -177,20 +166,20 @@ public class StaffMenu extends Menu {
 
     private boolean viewCampAttendeeList(Menu menu) {
         // View Camp Attendee List
-        int selCampId = getCampIdFromUser("inspect");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "inspect");
         campSystem.viewCampStudentList(selCampId);
         return false;
     }
 
     private boolean viewCampCommitteeList(Menu menu) {
-        int selCampId = getCampIdFromUser("inspect");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "inspect");
         campSystem.viewCampCommitteeList(selCampId);
         return false;
     }
 
     private boolean viewEnquiries(Menu menu) {
         // View Camp Enquiries
-        int selCampId = getCampIdFromUser("view enquiries");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view enquiries");
 
         ArrayList<CampEnquiry> enquiryList = new ArrayList<>();
         enquiryList = feedbackSystem.getCampEnquiries(selCampId);
@@ -216,7 +205,7 @@ public class StaffMenu extends Menu {
 
     private boolean replyEnquiries(Menu menu) {
         // Reply Unprocessed Enquiries
-        int selCampId = getCampIdFromUser("reply unprocessed enquiries");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "reply unprocessed enquiries");
 
         ArrayList<CampEnquiry> pendingEnquiryList = new ArrayList<>();
         pendingEnquiryList = feedbackSystem.getCampEnquiries(selCampId);
@@ -247,7 +236,7 @@ public class StaffMenu extends Menu {
 
     private boolean viewSuggestions(Menu menu) {
         // View Suggestions
-        int selCampId = getCampIdFromUser("view suggestions");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view suggestions");
 
         ArrayList<CampSuggestion> suggestionList = new ArrayList<>();
         suggestionList = feedbackSystem.getCampSuggestions(selCampId);
@@ -273,7 +262,7 @@ public class StaffMenu extends Menu {
 
     private boolean acceptRejectSuggestions(Menu menu) {
         // Accept/Reject Unprocessed Suggestions
-        int selCampId = getCampIdFromUser("approve/reject unprocessed suggestions");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "approve/reject unprocessed suggestions");
 
         ArrayList<CampSuggestion> pendingSuggestionList = new ArrayList<>();
         pendingSuggestionList = feedbackSystem.getCampSuggestions(selCampId);
@@ -320,21 +309,21 @@ public class StaffMenu extends Menu {
 
     private boolean generateCampReport(Menu menu) {
         // Generate Camp Report
-        int selCampId = getCampIdFromUser("generate camp report");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "generate camp report");
 
         return false;
     }
 
     private boolean generatePerformanceReport(Menu menu) {
         // Generate Performance Report
-        int selCampId = getCampIdFromUser("generate performance report");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "generate performance report");
 
         return false;
     }
 
     private boolean generateEnquiryReport(Menu menu) {
         // Generate Enquiry Report
-        int selCampId = getCampIdFromUser("generate enquiry report");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "generate enquiry report");
 
         return false;
     }

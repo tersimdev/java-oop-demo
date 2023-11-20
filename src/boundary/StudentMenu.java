@@ -12,6 +12,7 @@ import entity.CampReportFilter;
 import entity.CampReportOptions;
 import entity.CampSuggestion;
 import entity.Student;
+import util.InputHelper;
 import util.Log;
 
 /**
@@ -107,25 +108,13 @@ public class StudentMenu extends Menu {
     }
 
     private boolean registerAttendee(Menu menu) {
-        int selCampId = -1;
-        boolean campIdvalid = false;
-        while (campIdvalid == false) {
-            selCampId = ui.getInput()
-                    .getInt("Please enter the ID of the camp you would like to register for: ");
-            campIdvalid = campSystem.checkValidCampId(selCampId);
-        }
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "register for");
         campSystem.registerAsAttendee(student, selCampId);
         return false;
     }
 
     private boolean registerCommittee(Menu menu) {
-        int selCampId = -1;
-        boolean campIdvalid = false;
-        while (campIdvalid == false) {
-            selCampId = ui.getInput()
-                    .getInt("Please enter the ID of the camp you would like to register for: ");
-            campIdvalid = campSystem.checkValidCampId(selCampId);
-        }
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "register for");
         campSystem.registerAsCommittee(student, selCampId);
         return false;
     }
@@ -137,7 +126,7 @@ public class StudentMenu extends Menu {
 
     private boolean submitEnquiry(Menu menu) {
         // Submit Enquiry
-        int selCampId = ui.getInput().getInt("Please enter the campID of the camp to submit enquiry: ");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "submit enquiry");
         String enquiryStr = ui.getInput().getLine("Please enter enquiry: ");
         CampEnquiry enquiry = new CampEnquiry(student.getUserID(), enquiryStr);
         feedbackSystem.addCampEnquiry(selCampId, enquiry);
@@ -147,8 +136,7 @@ public class StudentMenu extends Menu {
 
     private boolean viewEditDelPendingEnquiries(Menu menu) {
         // View/Edit/Delete Pending Enquiries
-        int selCampId = ui.getInput()
-                .getInt("Please enter the campID of the camp to view/edit/delete your enquiries: ");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view/edit/delete your enquiries");
         ArrayList<CampEnquiry> studentEnquiryList = new ArrayList<>();
         studentEnquiryList = feedbackSystem.getCampEnquiries(selCampId);
         int size = studentEnquiryList.size();
@@ -188,7 +176,8 @@ public class StudentMenu extends Menu {
 
     private boolean viewEnquiryReplies(Menu menu) {
         // View Processed Enquiry Replies
-        int selCampId = ui.getInput().getInt("Please enter the campID of the camp to view processed enquiries: ");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view processed enquiries");
+
         ArrayList<CampEnquiry> processedEnquiryList = new ArrayList<>();
         processedEnquiryList = feedbackSystem.getCampEnquiries(selCampId);
         int size5 = processedEnquiryList.size();
@@ -210,8 +199,7 @@ public class StudentMenu extends Menu {
     }
 
     private boolean withdrawFromCamp(Menu menu) {
-        int selCampId = ui.getInput()
-                .getInt("Please enter the ID of the camp you want to withdraw from: ");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "withdraw from");
         campSystem.withdrawFromCamp(student, selCampId);
         return false;
     }
@@ -220,7 +208,7 @@ public class StudentMenu extends Menu {
 
     private boolean submitSuggestion(Menu menu) {
         // Submit Suggestions
-        int selCampId = ui.getInput().getInt("Please enter the campID of the camp to submit suggestion: ");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "submit suggestion");
         String suggestionStr = ui.getInput().getLine("Please enter suggestion: ");
         CampSuggestion suggestion = new CampSuggestion(student.getUserID(), suggestionStr);
         feedbackSystem.addCampSuggestion(selCampId, suggestion);
@@ -231,8 +219,8 @@ public class StudentMenu extends Menu {
 
     private boolean viewEditDelPendingSuggestions(Menu menu) {
         // View/Edit/Delete Pending Suggestions
-        int selCampId = ui.getInput()
-                .getInt("Please enter the campID of the camp to view/edit/delete your suggestions: ");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view/edit/delete your suggestions");
+
         ArrayList<CampSuggestion> comSuggestionList = new ArrayList<>();
         comSuggestionList = feedbackSystem.getCampSuggestions(selCampId);
         int size3 = comSuggestionList.size();
@@ -287,7 +275,7 @@ public class StudentMenu extends Menu {
 
     private boolean viewSuggestions(Menu menu) {
         // View Processed Suggestions
-        int selCampId = ui.getInput().getInt("Please enter the campID of the camp to view processed suggestions: ");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view processed suggestions");
         ArrayList<CampSuggestion> processedSuggestionList = new ArrayList<>();
         processedSuggestionList = feedbackSystem.getCampSuggestions(selCampId);
         int size6 = processedSuggestionList.size();
@@ -312,8 +300,8 @@ public class StudentMenu extends Menu {
 
     private boolean viewEnquiries(Menu menu) {
         // View Camp Enquiries
-        int selCampId = ui.getInput()
-                .getInt("Please enter the campID of the camp you would like to view enquiries: ");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view enquiries");
+
         ArrayList<CampEnquiry> enquiryList = new ArrayList<>();
         enquiryList = feedbackSystem.getCampEnquiries(selCampId);
         int size2 = enquiryList.size();
@@ -338,8 +326,8 @@ public class StudentMenu extends Menu {
 
     private boolean replyEnquiries(Menu menu) {
         // Reply Unprocessed Enquiries
-        int selCampId = ui.getInput()
-                .getInt("Please enter the campID of the camp you would like to reply unprocessed enquiries: ");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "reply unprocessed enquiries");
+
         ArrayList<CampEnquiry> pendingEnquiryList = new ArrayList<>();
         pendingEnquiryList = feedbackSystem.getCampEnquiries(selCampId);
         int size4 = pendingEnquiryList.size();
@@ -368,9 +356,10 @@ public class StudentMenu extends Menu {
     }
 
     private boolean generateCampReport(Menu menu) {
-        String selCampName = ui.getInput().getLine("Please enter the camp name for report generation: ");
 
-        Camp camp = campSystem.getCampByName(selCampName);
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "generate camp report");
+
+        Camp camp = campSystem.getCampById(selCampId);
 
         if (camp != null) {
             String fileName = ui.getInput().getLine("Please enter the file name: ");
@@ -396,7 +385,7 @@ public class StudentMenu extends Menu {
 
             reportSystem.generateCampReport(reportOptions, student, camp);
         } else {
-            Log.println("Camp not found with the given name: " + selCampName);
+            Log.println("Camp not found " + selCampId);
         }
         return false;
     }
