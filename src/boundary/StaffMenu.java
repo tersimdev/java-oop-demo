@@ -193,10 +193,8 @@ public class StaffMenu extends Menu {
 
         ArrayList<CampEnquiry> enquiryList = new ArrayList<>();
         enquiryList = feedbackSystem.getCampEnquiries(selCampId);
-        //int size2 = enquiryList.size();
         Log.println("===All Enquiries===");
         for (CampEnquiry temp : enquiryList) {
-            //CampEnquiry temp = enquiryList.get(i);
             if(temp == null) continue;
             Log.println("EnquiryID: " + temp.getEnquiryId());
             Log.println("StudentID: " + temp.getOwner());
@@ -220,10 +218,8 @@ public class StaffMenu extends Menu {
 
         ArrayList<CampEnquiry> pendingEnquiryList = new ArrayList<>();
         pendingEnquiryList = feedbackSystem.getCampEnquiries(selCampId);
-        //int size4 = pendingEnquiryList.size();
         Log.println("===Unprocessed Enquiries===");
         for (CampEnquiry temp : pendingEnquiryList) {
-            //CampEnquiry temp = pendingEnquiryList.get(i);
             if (temp == null || !temp.isPending())
                 continue;
             else {
@@ -251,10 +247,9 @@ public class StaffMenu extends Menu {
 
         ArrayList<CampSuggestion> suggestionList = new ArrayList<>();
         suggestionList = feedbackSystem.getCampSuggestions(selCampId);
-        int size = suggestionList.size();
         Log.println("===All Suggestions===");
-        for (int i = 0; i < size; i++) {
-            CampSuggestion temp = suggestionList.get(i);
+        for (CampSuggestion temp : suggestionList) {
+            if (temp == null) continue;
             Log.println("SuggestionID: " + temp.getSuggestionId());
             Log.println("CampCommitteeMemberID: " + temp.getOwner());
 
@@ -278,11 +273,9 @@ public class StaffMenu extends Menu {
 
         ArrayList<CampSuggestion> pendingSuggestionList = new ArrayList<>();
         pendingSuggestionList = feedbackSystem.getCampSuggestions(selCampId);
-        int size1 = pendingSuggestionList.size();
         Log.println("===Unprocessed Suggestions===");
-        for (int i = 0; i < size1; i++) {
-            CampSuggestion temp = pendingSuggestionList.get(i);
-            if (!temp.isPending())
+        for (CampSuggestion temp : pendingSuggestionList) {
+            if (temp == null || !temp.isPending())
                 continue;
             else {
                 Log.println("SuggestionID: " + temp.getSuggestionId());
