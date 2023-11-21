@@ -20,15 +20,15 @@ import java.io.IOException;
 public class Log {
     private static boolean loggingEnabled = true;
 
-    private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_YELLOW = "\u001B[33m";
-    private static final String ANSI_GREEN = "\u001B[32m";
-    //private static final String ANSI_BLUE = "\u001B[34m";
-    //private static final String ANSI_PURPLE = "\u001B[35m";
-    //private static final String ANSI_CYAN = "\u001B[36m";
-    //private static final String ANSI_WHITE = "\u001B[37m";
-    //private static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+    public static final String ANSI_BLACK = "\u001B[30m";
 
     public static void enableLogging(boolean enabled) {
         loggingEnabled = enabled;
@@ -43,7 +43,18 @@ public class Log {
     }
 
     /**
+     * Prints a colored line. No \n character.
+     * 
+     * @param msg   message to print
+     * @param color use the provided ANSI_XXX constants. e.g. ANSI_WHITE
+     */
+    public static void printColor(String msg, String color) {
+        System.out.print(color + msg + ANSI_RESET);
+    }
+
+    /**
      * function to print out ascii art line by line from .txt file
+     * 
      * @param filepath filepath too txt file containing logo
      */
     public static void printLogo(String filepath) {
@@ -53,8 +64,8 @@ public class Log {
             }
         } catch (IOException e) {
             Log.error("cant find file");
-            //e.printStackTrace();
-            Log.println(""); //print empty
+            // e.printStackTrace();
+            Log.println(""); // print empty
         }
     }
 
