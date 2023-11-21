@@ -16,10 +16,10 @@ import util.Log;
 
 /**
  * <p>
- * This is a singleton class to handle reading and writing to csv file
- * Database is loaded into memory on init, and saved on cleanup
- * It stores the following tables: students, staff, camps, enquiries,
- * suggestions
+ * This class implements datastore using reading and writing to csv file.
+ * Database is loaded into memory on init, and saved on cleanup.
+ * It stores the following tables: students, staff, camps,
+ * enquiries, suggestions.
  * </p>
  * 
  * @author Sim Yi Wan Terence
@@ -28,9 +28,12 @@ import util.Log;
  */
 public class DataStoreCSVImpl implements DataStoreInterface {
 
+    /**
+     * A map of table names to csv tables
+     */
     private Map<String, CSVTable> tables;
 
-    // file paths
+    // file path constants
     private static final String initStudents = "data/sample/student_list.csv";
     private static final String initStaff = "data/sample/staff_list.csv";
     private static final String pathStudents = "data/users/students.csv";
@@ -39,13 +42,19 @@ public class DataStoreCSVImpl implements DataStoreInterface {
     private static final String pathSuggestions = "data/camps/suggestions.csv";
     private static final String pathEnquiries = "data/camps/enquiries.csv";
 
-    // table names
+    // table name constants
     private static final String tableStudents = "students";
     private static final String tableStaff = "staff";
     private static final String tableCamps = "camps";
     private static final String tableSuggestions = "suggestions";
     private static final String tableEnquiries = "enquiries";
 
+    /**
+     * Initialises the csv tables.
+     * Creates the file if they dont exist.
+     * Students and Staff are loaded from initial sample file
+     * if they dont exist in data folder.
+     */
     @Override
     public void init() {
         // create mapping
@@ -73,6 +82,9 @@ public class DataStoreCSVImpl implements DataStoreInterface {
         }
     }
 
+    /**
+     * Writes all data in memory back to csv files.
+     */
     @Override
     public void cleanup() {
         Log.info("Saving all data to CSVs");
@@ -81,12 +93,6 @@ public class DataStoreCSVImpl implements DataStoreInterface {
             t.sortRows();
             t.writeToFile();
         }
-    }
-
-    @Override
-    public boolean dataExists(String path) {
-        File f = new File(path);
-        return f.exists() && !f.isDirectory();
     }
 
     @Override
@@ -216,6 +222,20 @@ public class DataStoreCSVImpl implements DataStoreInterface {
         return ret;
     }
 
+    /**
+     * Checks if csv file exists at path
+     * 
+     * @param path filepath to csv file
+     */
+    private boolean dataExists(String path) {
+        File f = new File(path);
+        return f.exists() && !f.isDirectory();
+    }
+
+    /**
+     * Creates a student csv table from the sample csv file.
+     * Makes use of a temporary CSVTable to parse sample file.
+     */
     private void initializeStudentList() {
         // heaaders: Name,Email,Faculty
         // load initialStudentsFile into data/users/student.csv
@@ -249,6 +269,10 @@ public class DataStoreCSVImpl implements DataStoreInterface {
         tables.get(tableStudents).writeToFile(studentList);
     }
 
+    /**
+     * Creates a staff csv table from the sample csv file.
+     * Makes use of a temporary CSVTable to parse sample file.
+     */
     private void initializeStaffList() {
 
         // heaaders: Name,Email,Faculty
