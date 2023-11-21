@@ -143,10 +143,10 @@ public class StudentMenu extends Menu {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view/edit/delete your enquiries");
         ArrayList<CampEnquiry> studentEnquiryList = new ArrayList<>();
         studentEnquiryList = feedbackSystem.getCampEnquiries(selCampId);
-        int size = studentEnquiryList.size();
+        //int size = studentEnquiryList.size();
         Log.println("===Pending Enquiries===");
-        for (int i = 0; i < size; i++) {
-            CampEnquiry temp = studentEnquiryList.get(i);
+        for (CampEnquiry temp : studentEnquiryList) {
+            //CampEnquiry temp = studentEnquiryList.get(i);
             boolean belongsToUser = temp.getOwner().equals(student.getUserID());
             boolean processed = temp.getReply() != null;
             if (!belongsToUser || processed)
@@ -176,6 +176,14 @@ public class StudentMenu extends Menu {
                 else
                     Log.println("Edit failed.");
             }
+            else if (sChoice == 2) {
+                int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to delete: ");
+                Boolean result = feedbackSystem.removeCampEnquiry(selCampId, enquiryId);
+                if (result)
+                    Log.println("Deletion successful.");
+                else
+                    Log.println("Deletion failed.");
+            }
         }
         return false;
     }
@@ -186,11 +194,11 @@ public class StudentMenu extends Menu {
 
         ArrayList<CampEnquiry> processedEnquiryList = new ArrayList<>();
         processedEnquiryList = feedbackSystem.getCampEnquiries(selCampId);
-        int size5 = processedEnquiryList.size();
+        //int size5 = processedEnquiryList.size();
         Log.println("===Processed Enquiries===");
-        for (int i = 0; i < size5; i++) {
-            CampEnquiry temp = processedEnquiryList.get(i);
-            if (temp.getOwner() != student.getUserID() || temp.getReply() == null)
+        for (CampEnquiry temp : processedEnquiryList) {
+            //CampEnquiry temp = processedEnquiryList.get(i);
+            if (temp == null || !temp.getOwner().equals(student.getUserID()) || temp.isPending())
                 continue;
             else {
                 Log.println("EnquiryID: " + temp.getEnquiryId());
@@ -233,11 +241,11 @@ public class StudentMenu extends Menu {
 
         ArrayList<CampSuggestion> comSuggestionList = new ArrayList<>();
         comSuggestionList = feedbackSystem.getCampSuggestions(selCampId);
-        int size3 = comSuggestionList.size();
+        //int size3 = comSuggestionList.size();
         Log.println("===Pending Suggestions===");
-        for (int i = 0; i < size3; i++) {
-            CampSuggestion temp = comSuggestionList.get(i);
-            if (temp.getOwner() != student.getUserID() || !temp.isPending())
+        for (CampSuggestion temp : comSuggestionList) {
+            //CampSuggestion temp = comSuggestionList.get(i);
+            if (!temp.getOwner().equals(student.getUserID()) || !temp.isPending())
                 continue;
             else {
                 Log.println("SuggestionID: " + temp.getSuggestionId());
@@ -288,11 +296,11 @@ public class StudentMenu extends Menu {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view processed suggestions");
         ArrayList<CampSuggestion> processedSuggestionList = new ArrayList<>();
         processedSuggestionList = feedbackSystem.getCampSuggestions(selCampId);
-        int size6 = processedSuggestionList.size();
+        //int size6 = processedSuggestionList.size();
         Log.println("===Processed Suggestions===");
-        for (int i = 0; i < size6; i++) {
-            CampSuggestion temp = processedSuggestionList.get(i);
-            if (temp.getOwner() != student.getUserID() || temp.isPending())
+        for (CampSuggestion temp : processedSuggestionList) {
+            //CampSuggestion temp = processedSuggestionList.get(i);
+            if (temp == null || !temp.getOwner().equals(student.getUserID()) || temp.isPending())
                 continue;
             else {
                 Log.println("SuggestionID: " + temp.getSuggestionId());
@@ -314,10 +322,11 @@ public class StudentMenu extends Menu {
 
         ArrayList<CampEnquiry> enquiryList = new ArrayList<>();
         enquiryList = feedbackSystem.getCampEnquiries(selCampId);
-        int size2 = enquiryList.size();
+        //int size2 = enquiryList.size();
         Log.println("===All Enquiries===");
-        for (int i = 0; i < size2; i++) {
-            CampEnquiry temp = enquiryList.get(i);
+        for (CampEnquiry temp : enquiryList) {
+            //CampEnquiry temp = enquiryList.get(i);
+            if (temp == null) continue;
             Log.println("EnquiryID: " + temp.getEnquiryId());
             Log.println("StudentID: " + temp.getOwner());
             if (temp.getReply() == null) {
@@ -340,11 +349,11 @@ public class StudentMenu extends Menu {
 
         ArrayList<CampEnquiry> pendingEnquiryList = new ArrayList<>();
         pendingEnquiryList = feedbackSystem.getCampEnquiries(selCampId);
-        int size4 = pendingEnquiryList.size();
+        //int size4 = pendingEnquiryList.size();
         Log.println("===Unprocessed Enquiries===");
-        for (int i = 0; i < size4; i++) {
-            CampEnquiry temp = pendingEnquiryList.get(i);
-            if (temp.getReply() != null)
+        for (CampEnquiry temp : pendingEnquiryList) {
+            //CampEnquiry temp = pendingEnquiryList.get(i);
+            if (temp == null || !temp.isPending())
                 continue;
             Log.println("EnquiryID: " + temp.getEnquiryId());
             Log.println("StudentID: " + temp.getOwner());

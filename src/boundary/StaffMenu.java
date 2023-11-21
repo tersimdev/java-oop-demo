@@ -193,10 +193,11 @@ public class StaffMenu extends Menu {
 
         ArrayList<CampEnquiry> enquiryList = new ArrayList<>();
         enquiryList = feedbackSystem.getCampEnquiries(selCampId);
-        int size2 = enquiryList.size();
+        //int size2 = enquiryList.size();
         Log.println("===All Enquiries===");
-        for (int i = 0; i < size2; i++) {
-            CampEnquiry temp = enquiryList.get(i);
+        for (CampEnquiry temp : enquiryList) {
+            //CampEnquiry temp = enquiryList.get(i);
+            if(temp == null) continue;
             Log.println("EnquiryID: " + temp.getEnquiryId());
             Log.println("StudentID: " + temp.getOwner());
             if (temp.getReply() == null) {
@@ -219,11 +220,11 @@ public class StaffMenu extends Menu {
 
         ArrayList<CampEnquiry> pendingEnquiryList = new ArrayList<>();
         pendingEnquiryList = feedbackSystem.getCampEnquiries(selCampId);
-        int size4 = pendingEnquiryList.size();
+        //int size4 = pendingEnquiryList.size();
         Log.println("===Unprocessed Enquiries===");
-        for (int i = 0; i < size4; i++) {
-            CampEnquiry temp = pendingEnquiryList.get(i);
-            if (temp.getReply() != null)
+        for (CampEnquiry temp : pendingEnquiryList) {
+            //CampEnquiry temp = pendingEnquiryList.get(i);
+            if (temp == null || !temp.isPending())
                 continue;
             else {
                 Log.println("EnquiryID: " + temp.getEnquiryId());

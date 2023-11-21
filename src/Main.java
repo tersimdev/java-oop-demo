@@ -1,7 +1,7 @@
 import util.Log;
 
 /**
- * <p>
+ * <p>2
  * Main class with main function
  * Creates the CAMSApp object
  * </p>
