@@ -20,14 +20,14 @@ public class Camp implements SerializeToCSV {
 
     private int campId;
     private CampInformation campInformation;
-    private ArrayList<String> attendeeList; //store attendees student ids
-    private ArrayList<String> committeeList; //store committee member studentIds
+    private ArrayList<String> attendeeList; // store attendees student ids
+    private ArrayList<String> committeeList; // store committee member studentIds
     private ArrayList<String> withdrawnList; // store students who have withdrawn from this camp previously
-    private boolean visibility; //staff can set this to false to hide, if no one registered and stuff yet
+    private boolean visibility; // staff can set this to false to hide, if no one registered and stuff yet
 
     public Camp() {
         this.campId = -1;
-        this.campInformation = new CampInformationBuilder().build(); //build empty
+        this.campInformation = new CampInformationBuilder().build(); // build empty
         this.committeeList = new ArrayList<String>();
         this.attendeeList = new ArrayList<String>();
         this.withdrawnList = new ArrayList<String>();
@@ -52,7 +52,7 @@ public class Camp implements SerializeToCSV {
         return;
     }
 
-    public String getCampName(){
+    public String getCampName() {
         return campInformation.getCampName();
     }
 
@@ -111,6 +111,11 @@ public class Camp implements SerializeToCSV {
         for (String s : committeeList) {
             ret += s + ";";
         }
+        ret += ",";
+        // add withdrawn list as one csv cell, separated by semicolon
+        for (String s : withdrawnList) {
+            ret += s + ";";
+        }
         ret += "," + campInformation.toCSVLine();
         return ret;
     }
@@ -124,21 +129,24 @@ public class Camp implements SerializeToCSV {
         } else {
             this.campId = Integer.parseInt(split[0]);
             this.visibility = (split[1].equals("VISIBLE"));
-            //get list of attendees
+            // get list of attendees
             String[] attendees = split[2].split(";");
             this.attendeeList = new ArrayList<>(Arrays.asList(attendees));
-            //get list of committee members
+            // get list of committee members
             String[] committee = split[3].split(";");
             this.committeeList = new ArrayList<>(Arrays.asList(committee));
-            //get the rest of the csv, join them with commas, and pass to campinfo 
-            String campInfoCSV = String.join(",", Arrays.copyOfRange(split, 4, split.length));
-            this.campInformation = new CampInformationBuilder().build(); //build empty instance
+            // get list of withdraw students
+            String[] withdrawn = split[4].split(";");
+            this.withdrawnList = new ArrayList<>(Arrays.asList(withdrawn));
+            // get the rest of the csv, join them with commas, and pass to campinfo
+            String campInfoCSV = String.join(",", Arrays.copyOfRange(split, 5, split.length));
+            this.campInformation = new CampInformationBuilder().build(); // build empty instance
             this.campInformation.fromCSVLine(campInfoCSV);
         }
     }
 
     @Override
     public int getCSVLineLength() {
-        return 4 + campInformation.getCSVLineLength();
-    } 
+        return 5 + campInformation.getCSVLineLength();
+    }
 }
