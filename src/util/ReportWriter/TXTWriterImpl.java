@@ -75,7 +75,7 @@ public void writePerformanceReport(CampReportOptions reportOptions, User user, A
 
     for (CampCommitteeMember committeeMember : committeeMembers) {
         reportContent.append("User ID: ").append(committeeMember.getStudentId()).append("\n");
-        reportContent.append("- Total Points Earned: ").append(committeeMember.getPoints()).append("\n");
+        reportContent.append("Total Points Earned: ").append(committeeMember.getPoints()).append("\n");
         reportContent.append("\n");
     }
 
