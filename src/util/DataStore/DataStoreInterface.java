@@ -3,6 +3,7 @@ package util.DataStore;
 import java.util.ArrayList;
 
 import entity.Camp;
+import entity.CampCommitteeMember;
 import entity.CampEnquiry;
 import entity.CampSuggestion;
 import entity.User;
@@ -23,9 +24,11 @@ public interface DataStoreInterface {
     public void init();
     public void cleanup();
 
+    // user data functions
     public User queryStaff(String userID);
     public User queryStudent(String userID);
     public void updateUserPassword(String userID, String newPassword);
+    public ArrayList<CampCommitteeMember> queryCommitteeMembers(ArrayList<String> committeeMemberIDs);
 
     // camp data functions
     public void addCamp(Camp camp);

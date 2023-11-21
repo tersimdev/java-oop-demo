@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import entity.Camp;
+import entity.CampCommitteeMember;
 import entity.CampEnquiry;
 import entity.CampSuggestion;
 import entity.Faculty;
@@ -135,6 +136,20 @@ public class DataStoreCSVImpl implements DataStoreInterface {
             tables.get(tableStaff).updateRow(row, s.toCSVLine());
             tables.get(tableStaff).writeToFile(); // for immediate feedback
         }
+    }
+
+    @Override
+    public ArrayList<CampCommitteeMember> queryCommitteeMembers(ArrayList<String> committeeMemberIDs) {
+        ArrayList<CampCommitteeMember> ret = new ArrayList<>();
+        for (String id : committeeMemberIDs) {
+            String row = tables.get(tableStudents).queryRow(1, id);
+            if (row != null) {
+                Student tmp = new Student();
+                tmp.fromCSVLine(row);
+                ret.add(tmp.getCampCommitteeMember());           
+            }
+        }
+        return ret;
     }
 
     @Override
@@ -308,5 +323,4 @@ public class DataStoreCSVImpl implements DataStoreInterface {
         tables.get(tableStaff).writeToFile(staffList);
 
     }
-
 }

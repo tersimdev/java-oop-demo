@@ -3,6 +3,7 @@ package control;
 import java.util.ArrayList;
 
 import entity.Camp;
+import entity.CampCommitteeMember;
 import entity.CampEnquiry;
 import entity.CampSuggestion;
 import entity.User;
@@ -11,21 +12,32 @@ import util.DataStore.DataStoreCSVImpl;
 
 /**
  * <p>
- * A singleton class to handle all datastore operations
- * Singleton allows it to maintain a single state throughout the app lifetime
+ * A class to handle all datastore operations.
+ * This class uses strategy pattern to call datastore operations.
  * </p>
  * 
  * @author Sim Yi Wan Terence
  * @version 1.0
- * @since 19-11-2023
+ * @since 21-11-2023
  */
 public class DataStoreSystem {
+
+    /**
+     * Stores a concrete DataStoreInterface object.
+     */
+    private DataStoreInterface dataStore = null;
+
+    /**
+     * Calls <code>init()</code>.
+     * Ensure to construct the object before other systems.
+     * If future other DataStore implementations are created,
+     * reccommended to create a Factory class to create the DataStoreInterface
+     * object.
+     */
     public DataStoreSystem() {
         dataStore = new DataStoreCSVImpl();
         init();
     }
-
-    private DataStoreInterface dataStore = null;
 
     /**
      * Initializes data store.
@@ -70,6 +82,19 @@ public class DataStoreSystem {
      */
     public void updateUserPassword(String userID, String newPassword) {
         dataStore.updateUserPassword(userID, newPassword);
+    }
+
+    /**
+     * Get a list of camp committee member objects from datastore given the ids.
+     * Note, this does not check if the student is a camp committee member,
+     * assumes that given ids are members.
+     * Use <code>CampCommitteeMember.getIsMember()</code> to check.
+     * 
+     * @param committeeMemberIDs the ids of the members to retrieve
+     * @return array list of <code>CampCommitteeMember</code> objects.
+     */
+    public ArrayList<CampCommitteeMember> queryCommitteeMembers(ArrayList<String> committeeMemberIDs) {
+        return dataStore.queryCommitteeMembers(committeeMemberIDs);
     }
 
     /**

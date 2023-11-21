@@ -30,13 +30,12 @@ public class CAMSApp {
         
         //data store should be created first!
         dataStoreSystem = new DataStoreSystem();
-        dataStoreSystem.init();
         
         // create systems
         loginSystem = new LoginSystem(dataStoreSystem);
         campSystem = new CampSystem(dataStoreSystem);
         feedbackSystem = new FeedbackSystem(dataStoreSystem);
-        reportSystem = new ReportSystem();
+        reportSystem = new ReportSystem(dataStoreSystem);
 
         // create ui
         consoleUI = new ConsoleUI();
