@@ -120,7 +120,7 @@ public class ConsoleUI {
         menuMap.put(STATE.STUDENT_MENU, new StudentMenu(this, campSystem, feedbackSystem, reportSystem));
 
         Log.printLogo("data/logo.txt");
-        Log.println("======================================================================");
+        Log.println("=========================================================================================");
         Log.println("Welcome to Camp Application and Management System (CAMS).");
         Log.println("> Made by Team 2: Terence, Ryan, Jon, Zhi Wei\n");
     }

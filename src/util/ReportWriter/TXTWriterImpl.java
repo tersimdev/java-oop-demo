@@ -2,9 +2,11 @@ package util.ReportWriter;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import control.ReportSystem.ReportWriteException;
 import entity.Camp;
+import entity.CampCommitteeMember;
 import entity.CampReportFilter;
 import entity.CampReportOptions;
 import entity.User;
@@ -44,7 +46,7 @@ public class TXTWriterImpl implements ReportWriterInterface {
         }
         if (printCommittee) {
             reportContent.append("\nCamp Committee: \n");            
-            reportContent.append("TODO");
+            reportContent.append(camp.getCommitteeList());
             for (String comm : camp.getCommitteeList()) {
                 reportContent.append("- ").append(comm).append("\n");
             }
@@ -61,8 +63,31 @@ public class TXTWriterImpl implements ReportWriterInterface {
     }
 
     @Override
-    public void writePerformanceReport() throws ReportWriteException, IOException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'writeEnquiryReport'");
+public void writePerformanceReport(CampReportOptions reportOptions, User user, ArrayList<CampCommitteeMember> committeeMembers)
+        throws ReportWriteException, IOException {
+    if (user == null) {
+        throw new ReportWriteException("User information is invalid");
     }
+
+    StringBuilder reportContent = new StringBuilder();
+
+    reportContent.append("Performance Report for all Camp Committee Members\n");
+
+    for (CampCommitteeMember committeeMember : committeeMembers) {
+        reportContent.append("User ID: ").append(committeeMember.getStudentId()).append("\n");
+        reportContent.append("Total Points Earned: ").append(committeeMember.getPoints()).append("\n");
+        reportContent.append("\n");
+    }
+
+    String fileName = reportOptions.getFilePath() + reportOptions.getFileName() + reportOptions.getFileType();
+    try {
+        FileWriter fileWriter = new FileWriter(fileName);
+        fileWriter.write(reportContent.toString());
+        fileWriter.close();
+    } catch (IOException exception) {
+        throw exception;
+    }
+}
+
+        
 }
