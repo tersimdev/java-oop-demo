@@ -165,6 +165,18 @@ public class DataStoreCSVImpl implements DataStoreInterface {
     }
 
     @Override
+    public void deleteSuggestion(int suggestionId) {
+        tables.get(tableSuggestions).deleteRow(0, Integer.toString(suggestionId));
+
+    }
+
+    @Override
+    public void updateSuggestion(CampSuggestion suggestion) {
+        String row = tables.get(tableSuggestions).queryRow(0, Integer.toString(suggestion.getSuggestionId()));
+        tables.get(tableSuggestions).updateRow(row, suggestion.toCSVLine());
+    }
+
+    @Override
     public ArrayList<CampSuggestion> getAllSuggestions() {
         ArrayList<CampSuggestion> ret = new ArrayList<>();
         ArrayList<String> data = tables.get(tableSuggestions).getRowData();
@@ -179,6 +191,17 @@ public class DataStoreCSVImpl implements DataStoreInterface {
     @Override
     public void addEnquiry(CampEnquiry enquiry) {
         tables.get(tableEnquiries).addRow(enquiry.toCSVLine());
+    }
+
+    @Override
+    public void deleteEnquiry(int enquiryId) {
+        tables.get(tableEnquiries).deleteRow(0, Integer.toString(enquiryId));
+    }
+
+    @Override
+    public void updateEnquiry(CampEnquiry enquiry) {
+        String row = tables.get(tableEnquiries).queryRow(0, Integer.toString(enquiry.getEnquiryId()));
+        tables.get(tableEnquiries).updateRow(row, enquiry.toCSVLine());
     }
 
     @Override

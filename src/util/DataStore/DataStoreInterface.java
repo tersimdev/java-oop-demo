@@ -27,8 +27,6 @@ public interface DataStoreInterface {
     public User queryStudent(String userID);
     public void updateUserPassword(String userID, String newPassword);
 
-    //TODO, similar functions for camps etc
-
     // camp data functions
     public void addCamp(Camp camp);
     public void deleteCamp(int campId);
@@ -37,9 +35,11 @@ public interface DataStoreInterface {
 
     // feedback data functions
     public void addSuggestion(CampSuggestion suggestion);
-    //public void updateSuggestion(int suggestionId);
+    public void deleteSuggestion(int suggestionId);
+    public void updateSuggestion(CampSuggestion suggestion);
     public ArrayList<CampSuggestion> getAllSuggestions();
     public void addEnquiry(CampEnquiry enquiry);
-    //public void updateEnquiry(int enquiryId);
+    public void deleteEnquiry(int enquiryId);
+    public void updateEnquiry(CampEnquiry enquiry);
     public ArrayList<CampEnquiry> getAllEnquiries();
 }

@@ -12,7 +12,7 @@ import util.DataStore.DataStoreCSVImpl;
 /**
  * <p>
  * A singleton class to handle all datastore operations
- * Singleton allows it to maintain a single state throughout the app lifetime 
+ * Singleton allows it to maintain a single state throughout the app lifetime
  * </p>
  * 
  * @author Sim Yi Wan Terence
@@ -24,7 +24,7 @@ public class DataStoreSystem {
         dataStore = new DataStoreCSVImpl();
         init();
     }
-    
+
     private DataStoreInterface dataStore = null;
 
     /**
@@ -42,6 +42,7 @@ public class DataStoreSystem {
     public User queryStaff(String userID) {
         return dataStore.queryStaff(userID);
     }
+
     public User queryStudent(String userID) {
         return dataStore.queryStudent(userID);
     }
@@ -53,14 +54,15 @@ public class DataStoreSystem {
     public void addCamp(Camp camp) {
         dataStore.addCamp(camp);
     }
+
     public void deleteCamp(int campId) {
         dataStore.deleteCamp(campId);
     }
+
     public void updateCampDetails(Camp camp) {
-        //might split this up into multiple update
-        //e.g. updateVisibility, updateDates, etc
         dataStore.updateCampDetails(camp);
     }
+
     public ArrayList<Camp> getAllCamps() {
         return dataStore.getAllCamps();
     }
@@ -68,18 +70,31 @@ public class DataStoreSystem {
     public void addSuggestion(CampSuggestion suggestion) {
         dataStore.addSuggestion(suggestion);
     }
-    // public void updateSuggestion(int suggestionId) {
-    //     dataStore.updateSuggestion(suggestionId);
-    // }
+
+    public void deleteSuggestion(int suggestionId) {
+        dataStore.deleteSuggestion(suggestionId);
+    }
+
+    public void updateSuggestion(CampSuggestion suggestion) {
+        dataStore.updateSuggestion(suggestion);
+    }
+
     public ArrayList<CampSuggestion> getAllSuggestions() {
         return dataStore.getAllSuggestions();
     }
+
     public void addEnquiry(CampEnquiry enquiry) {
         dataStore.addEnquiry(enquiry);
     }
-    // public void updateEnquiry(int enquiryId) {
-    //     dataStore.updateEnquiry(enquiryId);
-    // }
+
+    public void deleteEnquiry(int enquiryId) {
+        dataStore.deleteEnquiry(enquiryId);
+    }
+
+    public void updateEnquiry(CampEnquiry enquiry) {
+        dataStore.updateEnquiry(enquiry);
+    }
+
     public ArrayList<CampEnquiry> getAllEnquiries() {
         return dataStore.getAllEnquiries();
     }
