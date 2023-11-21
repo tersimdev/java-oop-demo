@@ -143,6 +143,7 @@ public class StudentMenu extends Menu {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view/edit/delete your enquiries");
         ArrayList<CampEnquiry> studentEnquiryList = new ArrayList<>();
         studentEnquiryList = feedbackSystem.getCampEnquiries(selCampId);
+        int pending = 0;
         Log.println("===Pending Enquiries===");
         for (CampEnquiry temp : studentEnquiryList) {
             boolean belongsToUser = temp.getOwner().equals(student.getUserID());
@@ -150,6 +151,7 @@ public class StudentMenu extends Menu {
             if (!belongsToUser || processed)
                 continue;
             else {
+                pending += 1;
                 Log.println("EnquiryID: " + temp.getEnquiryId());
                 Log.println("StudentID: " + temp.getOwner());
                 Log.println("Enquiry Status: Pending");
@@ -157,6 +159,10 @@ public class StudentMenu extends Menu {
                 Log.println("");
             }
         }
+        if (pending==0) {
+            Log.println("No pending enquiries found. Directing back to menu...");
+            return false;
+        }    
         Log.println("===Please select the following options=== ");
         Log.println("(1) Edit Enquiry");
         Log.println("(2) Delete Enquiry");
@@ -227,7 +233,6 @@ public class StudentMenu extends Menu {
         CampSuggestion suggestion = new CampSuggestion(student.getUserID(), suggestionStr, selCampId);
         feedbackSystem.addCampSuggestion(selCampId, suggestion);
         Log.println("Suggestion submitted.");
-        student.getCampCommitteeMember().addPoints();
         return false;
     }
 
@@ -237,11 +242,13 @@ public class StudentMenu extends Menu {
 
         ArrayList<CampSuggestion> comSuggestionList = new ArrayList<>();
         comSuggestionList = feedbackSystem.getCampSuggestions(selCampId);
+        int pending = 0;
         Log.println("===Pending Suggestions===");
         for (CampSuggestion temp : comSuggestionList) {
             if (temp == null || !temp.getOwner().equals(student.getUserID()) || !temp.isPending())
                 continue;
             else {
+                pending += 1;
                 Log.println("SuggestionID: " + temp.getSuggestionId());
                 Log.println("CampCommitteeMemberID: " + temp.getOwner());
                 Log.println("Suggestion Status: Pending");
@@ -249,6 +256,10 @@ public class StudentMenu extends Menu {
                 Log.println("");
             }
         }
+        if (pending==0) {
+            Log.println("No pending suggestions found. Directing back to menu...");
+            return false;
+        } 
         Log.println("===Please select the following options=== ");
         Log.println("(1) Edit Suggestion");
         Log.println("(2) Delete Suggestion");
