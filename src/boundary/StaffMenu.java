@@ -167,7 +167,7 @@ public class StaffMenu extends Menu {
 
     private boolean viewAllCamps(Menu menu) {
         boolean yesno = ui.getInput()
-                .getBool("Would you like to view only the camps you created? (Y/N)");
+                .getBool("Would you like to view only the camps you created?(Y/N) ");
         int sortChoice = menu.printCampSortOrderChoices();
         if (yesno == true) campSystem.viewCampsOfStaff(staff, sortChoice);
         else campSystem.viewAllCamps(sortChoice);
@@ -177,13 +177,13 @@ public class StaffMenu extends Menu {
     private boolean viewCampAttendeeList(Menu menu) {
         // View Camp Attendee List
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "inspect");
-        campSystem.viewCampStudentList(selCampId);
+        campSystem.viewAttendeeList(selCampId, staff);
         return false;
     }
 
     private boolean viewCampCommitteeList(Menu menu) {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "inspect");
-        campSystem.viewCampCommitteeList(selCampId);
+        campSystem.viewCampCommitteeList(selCampId, staff);
         return false;
     }
 

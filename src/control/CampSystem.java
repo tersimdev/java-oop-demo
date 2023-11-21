@@ -199,19 +199,37 @@ public class CampSystem {
         }
     }
 
-    public void viewCampStudentList(int campId) {
+    public void viewAttendeeList(int campId, Staff staff) {
         Log.println("===List of all the students attending this camp===");
         Camp camp = getCampById(campId);
         for (String student : camp.getAttendeeList()) {
             Log.println(student);
         }
     }
+    // function overloading!
+    public void viewAttendeeList(int campId, CampCommitteeMember campCommitteeMember) {
+        Log.println("===List of all the students attending this camp===");
+        Camp camp = getCampById(campId);
+        if (!camp.getCommitteeList().contains(campCommitteeMember.getStudentId())) return;
+        for (String student : camp.getAttendeeList()) {
+            Log.println(student);
+        }
+    }
 
-    public void viewCampCommitteeList(int campId) {
+    public void viewCampCommitteeList(int campId, Staff staff) {
         Log.println("===List of all the committee members attending this camp===");
         Camp camp = getCampById(campId);
-        for (String campCommitteeMember : camp.getCommitteeList()) {
-            Log.println(campCommitteeMember);
+        for (String student : camp.getCommitteeList()) {
+            Log.println(student);
+        }
+    }
+
+    public void viewCampCommitteeList(int campId, CampCommitteeMember campCommitteeMember) {
+        Log.println("===List of all the committee members attending this camp===");
+        Camp camp = getCampById(campId);
+        if (!camp.getCommitteeList().contains(campCommitteeMember.getStudentId())) return;
+        for (String student : camp.getCommitteeList()) {
+            Log.println(student);
         }
     }
 

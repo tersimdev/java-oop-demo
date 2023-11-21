@@ -56,6 +56,8 @@ public class StudentMenu extends Menu {
         addMenuFunction(14, this::replyEnquiries);
         addMenuFunction(15, this::generateCampReport);
         addMenuFunction(16, this::generatePerformanceReport);
+        addMenuFunction(17, this::viewCampAttendeeList);
+        addMenuFunction(18, this::viewCampCommitteeList);
     }
 
     @Override
@@ -85,12 +87,14 @@ public class StudentMenu extends Menu {
             Log.println("(14) Reply Unprocessed Enquiries");
             Log.println("(15) Generate Camp Report");
             Log.println("(16) Generate Enquiry Report");
-            Log.println("(17) Back to Start");
+            Log.println("(17) View Camp Attendee List");
+            Log.println("(18) View Camp Committee Members List");
+            Log.println("(19) Back to Start");
         }
         int choice = -1;
         while (choice < 0) {
             if (isCommittee)
-                choice = getChoice(1, 16, 17);
+                choice = getChoice(1, 18, 19);
             else
                 choice = getChoice(1, 8, 9);
             if (choice == 0) {
@@ -411,6 +415,18 @@ public class StudentMenu extends Menu {
     }
 
     private boolean generatePerformanceReport(Menu menu) {
+        return false;
+    }
+
+    private boolean viewCampAttendeeList(Menu menu) {
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "inspect");
+        campSystem.viewAttendeeList(selCampId, student.getCampCommitteeMember());
+        return false;
+    }
+
+    private boolean viewCampCommitteeList(Menu menu) {
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "inspect");
+        campSystem.viewCampCommitteeList(selCampId, student.getCampCommitteeMember());
         return false;
     }
 }
