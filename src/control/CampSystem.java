@@ -277,6 +277,26 @@ public class CampSystem {
         return null;
     }
 
+    public ArrayList<Camp> getCampsByStaff(String staffId) {
+        ArrayList<Camp> camps = new ArrayList<Camp>();
+        for (Camp camp : camps) {
+            if (camp.getCampInformation().getStaffInChargeId() == staffId) {
+                camps.add(camp);
+            }
+        }
+        return camps;
+    }
+
+    public ArrayList<Camp> getCampsByCommittee(String committeeMemberId) {
+        ArrayList<Camp> camps = new ArrayList<Camp>();
+        for (Camp camp : camps) {
+            if (camp.getCommitteeList().contains(committeeMemberId)) {
+                camps.add(camp);
+            }
+        }
+        return camps;
+    }
+
     public boolean checkValidCampId(int campId) {
         return getCampById(campId) != null;
     }
