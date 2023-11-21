@@ -25,8 +25,8 @@ public class StartMenu extends Menu {
      * Uses dependency injection for params.
      * Menu function map is initialised here.
      * 
-     * @param ui
-     * @param loginSystem
+     * @param ui ui object
+     * @param loginSystem login system object
      */
     public StartMenu(ConsoleUI ui, LoginSystem loginSystem) {
         super(ui);

@@ -173,8 +173,8 @@ public class CSVTable {
 
     /**
      * Looks for oldRow, and replaces it with newRow.
-     * @param oldRow
-     * @param newRow
+     * @param oldRow old csv line
+     * @param newRow new csv line
      */
     public void updateRow(String oldRow, String newRow) {
         if (!isLoaded())
@@ -189,7 +189,7 @@ public class CSVTable {
     /**
      * Appends a row to rowData. 
      * Assumes row given is valid.
-     * @param row
+     * @param row csv line to add
      */
     public void addRow(String row) {
         if (!isLoaded())

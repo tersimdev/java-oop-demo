@@ -223,9 +223,10 @@ public class DataStoreCSVImpl implements DataStoreInterface {
     }
 
     /**
-     * Checks if csv file exists at path
+     * Checks if csv file exists at path.
      * 
      * @param path filepath to csv file
+     * @return true if file exists
      */
     private boolean dataExists(String path) {
         File f = new File(path);
