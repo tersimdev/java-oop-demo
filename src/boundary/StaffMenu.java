@@ -88,27 +88,43 @@ public class StaffMenu extends Menu {
 
     // menu functions defineed below
 
-    private boolean createCamp(Menu menu) { // Create Camp
+    private boolean createCamp(Menu menu) {
+        // Create Camp
         // get camp info from user
         String campName = ui.getInput().getLine("Please enter the camp name: ");
         String description = ui.getInput().getLine("Please enter the camp's description: ");
         String location = ui.getInput().getLine("Please enter the camp's location: ");
-        int totalSlots = ui.getInput().getInt("Please enter the camp's total number of slots: ");
-        int committeeSlots = ui.getInput()
-                .getInt("Please enter the camp's number of committee slots: ");
+        int totalSlots = ui.getInput()
+                .getInt("Please enter the camp's total number of slots (including committee members): ");
+        int committeeSlots = 11;
+        while (committeeSlots > 10 && (committeeSlots > totalSlots)) {
+            committeeSlots = ui.getInput()
+                    .getInt("Please enter the camp's number of committee slots (MAX 10): ");
+        }
         int duration = ui.getInput()
                 .getInt("Please enter the number of days the camp will be held: ");
         LocalDate firstDate = ui.getInput()
-                .getDate("Please enter the date of day number 1 (DD/MM/YYYY): ");
+                .getDate("Please enter the date of the first day of the camp (DD/MM/YYYY): ");
         LocalDate registrationClosingDate = ui.getInput()
-                .getDate("Please enter the closing date for registration (DD/MM/YYYY): ");
-        String staffInChargeId = staff.getUserID();
+                .getDate("Please enter the registration deadline (DD/MM/YYYY): ");
+        ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
+        for (int i = 0; i < duration; i++) {
+            dates.add(firstDate);
+            firstDate = firstDate.plusDays(1);
+        }
+        boolean isWholeNTU = ui.getInput()
+                .getBool("Will this camp be open to the whole of NTU? (Y/N)");
         Faculty organisingFaculty = staff.getFaculty();
-        UserGroup userGroup = new UserGroup().setFaculty(organisingFaculty);
+        UserGroup userGroup = new UserGroup();
+        if (isWholeNTU)
+            userGroup.setWholeNTU();
+        else
+            userGroup.setFaculty(organisingFaculty);
+        String staffInChargeId = staff.getUserID();
 
         // create the camp
         CampInformation campInformation = new CampInformation.CampInformationBuilder().setCampName(campName)
-                .setDates(firstDate, duration)
+                .setDates(dates)
                 .setRegistrationClosingDate(registrationClosingDate).setTotalSlots(totalSlots)
                 .setCommitteeSlots(committeeSlots)
                 .setLocation(location).setDescription(description).setStaffInChargeId(staffInChargeId)
@@ -256,7 +272,8 @@ public class StaffMenu extends Menu {
 
     private boolean acceptRejectSuggestions(Menu menu) {
         // Accept/Reject Unprocessed Suggestions
-        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "approve/reject unprocessed suggestions");
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem,
+                "approve/reject unprocessed suggestions");
 
         ArrayList<CampSuggestion> pendingSuggestionList = new ArrayList<>();
         pendingSuggestionList = feedbackSystem.getCampSuggestions(selCampId);
