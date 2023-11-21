@@ -3,6 +3,8 @@ package util;
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.NoSuchElementException;
 
 /**
@@ -104,15 +106,21 @@ public class Input {
 
     public boolean getBool(String msg) {
         Log.print(msg);
+        //fancy way of doing to put more options + efficient lookup
+        Map<String, Boolean> responseMap = new HashMap<>();
+        responseMap.put("y", true);
+        responseMap.put("yes", true);
+        responseMap.put("ya", true);
+        responseMap.put("yeboi", true);
+        responseMap.put("n", false);
+        responseMap.put("no", false);
+        responseMap.put("nay", false);
+        responseMap.put("nah", false);
         Boolean ret = null;
         while (ret == null) {
             try {
-                String yesno = scanner.nextLine().toLowerCase();
-                if (yesno == "y" || yesno == "yes") {
-                    ret = true;
-                } else if (yesno == "n" || yesno == "no") {
-                    ret = false;
-                }
+                String yesno = scanner.nextLine().trim().toLowerCase();
+                ret = responseMap.getOrDefault(yesno, null);
             } catch (NoSuchElementException e) {
                 Log.debug("invalid input to getBool");
                 Log.print(INVALID_INPUT_MSG);

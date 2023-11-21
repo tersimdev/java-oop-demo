@@ -116,7 +116,7 @@ public class Camp implements SerializeToCSV {
             Log.error(csvLine);
         } else {
             this.campId = Integer.parseInt(split[0]);
-            this.visibility = (split[1] == "VISIBLE" ? true : false);
+            this.visibility = (split[1].equals("VISIBLE"));
             //get list of attendees
             String[] attendees = split[2].split(";");
             this.attendeeList = new ArrayList<>(Arrays.asList(attendees));

@@ -33,7 +33,7 @@ public class UserGroup implements SerializeToCSV {
 
     public UserGroup setWholeNTU() {
         wholeNTU = true;
-        faculty = null;
+        faculty = Faculty.NULL;
         return this;
     }
 
