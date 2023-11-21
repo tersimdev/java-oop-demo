@@ -10,6 +10,7 @@ import util.DataStore.SerializeToCSV;
 /**
  * <p>
  * This is a class to represent a camp
+ * Implemented using builder design pattern 
  * </p>
  * 
  * @author Jon Daniel Acu Kang
