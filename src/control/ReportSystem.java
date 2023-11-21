@@ -72,7 +72,7 @@ public class ReportSystem {
         }
     }
 
-    public void generatePerformanceReport(CampReportOptions reportOptions, User user, Camp camp) {
+    public void writePerformanceReport(CampReportOptions reportOptions, User user, Camp camp) {
         String fileType = reportOptions.getFileType();
         ReportWriterInterface writer = reportWriters.get(fileType);
         if (writer == null) {
