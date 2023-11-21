@@ -23,7 +23,7 @@ public class InputHelper {
      * @param input      input object
      * @param campSystem campsystem object
      * @param action     string describing what user would do with id
-     * @return
+     * @return valid campId
      */
     public static int getCampIdFromUser(Input input, CampSystem campSystem, String action) {
         int ret = -1;
@@ -31,31 +31,51 @@ public class InputHelper {
         while (!valid) {
             ret = input.getInt("Please enter the ID of the camp you would like to " + action + ": ");
             valid = campSystem.checkValidCampId(ret);
-            if (!valid) 
+            if (!valid)
                 Log.println("Camp ID not found.");
         }
         return ret;
     }
 
+    /**
+     * Get enquiry id from user input.
+     * User will be asked to enter ID to <code>action</code>.
+     * 
+     * @param input          input object
+     * @param feedbackSystem feedbackSystem object
+     * @param action         string describing what user would do with id
+     * @param campId         camp that enquiry belongs to
+     * @return valid enquiryId
+     */
     public static int getEnquiryIdFromUser(Input input, FeedbackSystem feedbackSystem, String action, int campId) {
         int ret = -1;
         boolean valid = false;
         while (!valid) {
             ret = input.getInt("Please enter the ID of the enquiry you would like to " + action + ": ");
             valid = feedbackSystem.checkValidEnquiryId(ret, campId);
-            if (!valid) 
+            if (!valid)
                 Log.println("Enquiry ID not found.");
         }
         return ret;
     }
 
+    /**
+     * Get suggestion id from user input.
+     * User will be asked to enter ID to <code>action</code>.
+     * 
+     * @param input          input object
+     * @param feedbackSystem feedbackSystem object
+     * @param action         string describing what user would do with id
+     * @param campId         camp that suggestion belongs to
+     * @return valid suggestionId
+     */
     public static int getSuggestionIdFromUser(Input input, FeedbackSystem feedbackSystem, String action, int campId) {
         int ret = -1;
         boolean valid = false;
         while (!valid) {
             ret = input.getInt("Please enter the ID of the suggestion you would like to " + action + ": ");
             valid = feedbackSystem.checkValidSuggestionId(ret, campId);
-            if (!valid) 
+            if (!valid)
                 Log.println("Suggestion ID not found.");
         }
         return ret;
