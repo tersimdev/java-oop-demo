@@ -58,6 +58,10 @@ public class CampEnquiry implements SerializeToCSV {
         return reply;
     }
 
+    public boolean isPending() {
+        return reply == null;
+    }
+
     public void setEnquiryId(int enquiryId) {
         this.enquiryId = enquiryId;
     }
