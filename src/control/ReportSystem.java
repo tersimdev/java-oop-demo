@@ -60,11 +60,27 @@ public class ReportSystem {
             Log.error("ReportWriteException while writing report using " + filetype); 
             Log.error(exception.getMessage());
         } catch (IOException exception) {
-            Log.println("Error! Failed to write reoprt to file.");
+            Log.println("Error! Failed to write report to file.");
             Log.error("IOException while writing report using " + filetype); //error msg for devs
         }
     }
-    public void generatePerformanceReport() {
-        //TODO
+    public void generatePerformanceReport(CampReportOptions reportOptions, User user, Camp camp) {
+        String fileType = reportOptions.getFileType();
+        ReportWriterInterface writer = reportWriters.get(fileType);
+        if (writer == null){
+            Log.error("writer implementation not found, file is likely invalid");
+            return;
+        }
+        try {
+            writer.writePerformanceReport(reportOptions, user);
+        } catch (ReportWriteException exception) {
+            Log.println("Error! Failed to Generate Performance Report.");
+            Log.error("ReportWriteException while writing performance report using " + fileType);
+            Log.error(exception.getMessage());
+        } catch (IOException exception) {
+            Log.println("Error! Failed to write performance report to file.");
+            Log.error("IOException while writing performance report using " + fileType);
+            Log.error(exception.getMessage());
+        }
     }
 }
