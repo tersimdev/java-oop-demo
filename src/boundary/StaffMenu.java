@@ -174,12 +174,6 @@ public class StaffMenu extends Menu {
         return false;
     }
 
-    // private boolean viewCampsOfStaff(Menu menu) {
-    // int sortChoice = menu.printCampSortOrderChoices();
-    // campSystem.viewCampsOfStaff(staff, sortChoice);
-    // return false;
-    // }
-
     private boolean viewCampAttendeeList(Menu menu) {
         // View Camp Attendee List
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "inspect");

@@ -104,7 +104,8 @@ public class StudentMenu extends Menu {
     }
 
     private boolean viewAvailableCamps(Menu menu) {
-        campSystem.viewAvailableCamps(student);
+        int sortChoice = menu.printCampSortOrderChoices();
+        campSystem.viewAvailableCamps(student, sortChoice);
         return false;
     }
 
@@ -124,7 +125,8 @@ public class StudentMenu extends Menu {
     }
 
     private boolean viewRegisteredCamps(Menu menu) {
-        campSystem.viewRegisteredCamps(student);
+        int sortChoice = menu.printCampSortOrderChoices();
+        campSystem.viewRegisteredCamps(student, sortChoice);
         return false;
     }
 
