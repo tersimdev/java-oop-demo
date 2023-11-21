@@ -2,10 +2,12 @@ package control;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import entity.Camp;
 import entity.CampCommitteeMember;
 import entity.CampInformation;
+import entity.Staff;
 import entity.Student;
 import entity.UserGroup;
 import util.DateStringHelper;
@@ -25,6 +27,37 @@ public class CampSystem {
     private DataStoreSystem dataStoreSystem;
     private ArrayList<Camp> camps;
 
+    private enum EditChoice {
+        NAME,
+        DESCRIPTION,
+        LOCATION,
+        TOTAL_SLOTS,
+        COMMITTEE_SLOTS,
+        DATES,
+        REGISTRATION_CLOSING_DATE,
+        USERGROUP,
+        VISIBILITY
+    }
+
+    private final static ArrayList<EditChoice> editChoiceEnumList = new ArrayList<>(
+            Arrays.asList(EditChoice.NAME, EditChoice.DESCRIPTION, EditChoice.LOCATION,
+                    EditChoice.TOTAL_SLOTS, EditChoice.COMMITTEE_SLOTS,
+                    EditChoice.DATES, EditChoice.REGISTRATION_CLOSING_DATE, EditChoice.USERGROUP,
+                    EditChoice.VISIBILITY));
+
+    private enum PrintCampSortOrder {
+        DATES,
+        LOCATION,
+        ATTENDEE_SLOTS_REMAINING,
+        COMMITTEE_SLOTS_REMAINING,
+        REGISTRATION_CLOSING_DATE
+    }
+
+    private final static ArrayList<PrintCampSortOrder> PrintCampSortOrderEnumList = new ArrayList<>(
+            Arrays.asList(PrintCampSortOrder.DATES, PrintCampSortOrder.LOCATION,
+                    PrintCampSortOrder.ATTENDEE_SLOTS_REMAINING,
+                    PrintCampSortOrder.COMMITTEE_SLOTS_REMAINING, PrintCampSortOrder.REGISTRATION_CLOSING_DATE));
+
     private int nextCampId;
 
     public CampSystem(DataStoreSystem dataStoreSystem) {
@@ -36,47 +69,65 @@ public class CampSystem {
             nextCampId = camps.get(camps.size() - 1).getCampId() + 1;
     }
 
-    // Staff functions
+    /**
+     * Creates a camp.
+     * 
+     * @param campInfo ID of a camp.
+     */
     public void createCamp(CampInformation campInfo) {
         Camp newCamp = new Camp(nextCampId++, campInfo);
         camps.add(newCamp);
         dataStoreSystem.addCamp(newCamp);
     }
 
+    /**
+     * Deletes a camp.
+     * 
+     * @param campId ID of a camp.
+     */
     public void deleteCamp(int campId) {
-        camps.set(campId, null);
+        camps.remove(campId);
         dataStoreSystem.deleteCamp(campId);
         return;
     }
 
+    /**
+     * Takes in int as user input for what they would like to edit about the camp,
+     * then edits the camp.
+     * 
+     * @param campId       ID of a camp.
+     * @param updateChoice Determines which aspect of the camp will be edited.
+     * @param input        Input object.
+     */
     public void editCamp(int campId, int updateChoice, Input input) {
         Camp camp = getCampById(campId);
-        switch (updateChoice) {
-            case 1:
+        EditChoice editChoice = editChoiceEnumList.get(updateChoice-1);
+        switch (editChoice) {
+            case NAME:
                 String newCampName = input.getLine("Please enter the new camp name: ");
                 camp.getCampInformation().setCampName(newCampName);
                 break;
-            case 2:
+            case DESCRIPTION:
                 String description = input.getLine("Please enter the new description: ");
                 camp.getCampInformation().setDescription(description);
                 break;
 
-            case 3:
+            case LOCATION:
                 String location = input.getLine("Please enter the new location: ");
                 camp.getCampInformation().setLocation(location);
                 break;
 
-            case 4:
+            case TOTAL_SLOTS:
                 int totalSlots = input.getInt("Please enter the new total number of slots: ");
                 camp.getCampInformation().setTotalSlots(totalSlots);
                 break;
 
-            case 5:
+            case COMMITTEE_SLOTS:
                 int committeeSlots = input.getInt("Please enter the new number of committee slots: ");
                 camp.getCampInformation().setCommitteeSlots(committeeSlots);
                 break;
 
-            case 6:
+            case DATES:
                 int duration = input.getInt("Please enter the number of days the camp will be held: ");
                 LocalDate firstDate = input
                         .getDate("Please enter the date of the first day of the camp (DD/MM/YYYY): ");
@@ -88,13 +139,13 @@ public class CampSystem {
                 camp.getCampInformation().setDates(dates);
                 break;
 
-            case 7:
+            case REGISTRATION_CLOSING_DATE:
                 LocalDate registrationClosingDate = input
                         .getDate("Please enter the new closing date for registration: ");
                 camp.getCampInformation().setRegistrationClosingDate(registrationClosingDate);
                 break;
 
-            case 8:
+            case USERGROUP:
                 UserGroup userGroup = camp.getCampInformation().getUserGroup();
                 boolean yesno;
                 if (userGroup.isWholeNTU()) {
@@ -108,7 +159,7 @@ public class CampSystem {
                 }
                 break;
 
-            case 9:
+            case VISIBILITY:
                 boolean visibility = camp.toggleVisibility();
                 if (visibility == true)
                     Log.println("The camp is now visible.");
@@ -123,10 +174,23 @@ public class CampSystem {
         // dataStoreSystem.updateCampDetails(camp);
     }
 
-    public void viewAllCamps() {
+    public void viewAllCamps(int CampSortOrderChoice) {
         Log.println("===List of all camps===");
-        for (Camp camp : camps) {
+        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(CampSortOrderChoice-1);
+        ArrayList<Camp> sortedCamps = sortCamps(camps, printCampSortOrder);
+        for (Camp camp : sortedCamps) {
             if (camp != null)
+                printCamp(camp);
+        }
+    }
+
+    public void viewCampsOfStaff(Staff staff, int CampSortOrderChoice) {
+        Log.println("===List of all camps created by " + staff.getUserID() + "===");
+        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(CampSortOrderChoice-1);
+        ArrayList<Camp> sortedCamps = sortCamps(camps, printCampSortOrder);
+        for (Camp camp : sortedCamps) {
+            if (camp != null
+                    && camp.getCampInformation().getStaffInChargeId() == staff.getUserID()) // camp created by staff
                 printCamp(camp);
         }
     }
@@ -148,9 +212,12 @@ public class CampSystem {
     }
 
     // Student functions
-    public void viewAvailableCamps(Student student) {
+    public void viewAvailableCamps(Student student, int CampSortOrderChoice) {
         Log.println("===List of all available camps===");
-        for (Camp camp : camps) {
+        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(CampSortOrderChoice-1);
+        ArrayList<Camp> sortedCamps = sortCamps(camps, printCampSortOrder);
+
+        for (Camp camp : sortedCamps) {
             UserGroup userGroup = camp.getCampInformation().getUserGroup();
             boolean campAvailable = camp.checkVisibility()
                     && (!checkCampFull(camp) || !checkCampCommitteeFull(camp)) // not full
@@ -181,7 +248,7 @@ public class CampSystem {
             Log.error(studentId + " was not registered for camp " + campId);
         } else if (checkDateClash(camp, student)) {
             Log.println("This camp clashes with another camp " + studentId + " is already registered for");
-            Log.error(studentId + " was not registered for camp " + campId); 
+            Log.error(studentId + " was not registered for camp " + campId);
         } else if (checkCampFull(camp)) {
             Log.println("This camp is full");
             Log.error(studentId + " was not registered for camp " + campId);
@@ -191,8 +258,7 @@ public class CampSystem {
         } else if (checkStudentWithdrawn(camp, student)) {
             Log.println(studentId + " previously withdrew from camp " + campId);
             Log.error(studentId + " was not registered for camp " + campId);
-        }
-        else {
+        } else {
             camp.addAttendee(student);
             Log.println(studentId + " has been registered for camp " + campId);
         }
@@ -220,8 +286,7 @@ public class CampSystem {
         } else if (student.getFaculty() != userGroup.getFaculty()) {
             Log.println("Camp " + campId + " is only open to " + userGroup.getFaculty());
             Log.error(studentId + " was not registered for camp " + campId);
-        }
-        else {
+        } else {
             CampCommitteeMember committeeMember = student.getCampCommitteeMember();
             committeeMember.setCampId(campId);
             committeeMember.setIsMember(true);
@@ -230,10 +295,12 @@ public class CampSystem {
         }
     }
 
-    public void viewRegisteredCamps(Student student) {
+    public void viewRegisteredCamps(Student student, int CampSortOrderChoice) {
         String studentId = student.getUserID();
         Log.println("===List of all the camps you are registered for===");
-        for (Camp camp : camps) {
+        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(CampSortOrderChoice-1);
+        ArrayList<Camp> sortedCamps = sortCamps(camps, printCampSortOrder);
+        for (Camp camp : sortedCamps) {
             if (camp != null) {
                 if (camp.getAttendeeList().contains(studentId)) {
                     Log.println("=======================");
@@ -296,7 +363,7 @@ public class CampSystem {
         return getCampById(campId) != null;
     }
 
-    private boolean checkStudentWithdrawn (Camp camp, Student student) {
+    private boolean checkStudentWithdrawn(Camp camp, Student student) {
         if (camp.getWithdrawnList().contains(student.getUserID())) {
             return true;
         }
@@ -359,9 +426,58 @@ public class CampSystem {
         return false;
     }
 
+    private ArrayList<Camp> sortCamps(ArrayList<Camp> unsortedCamps, PrintCampSortOrder printCampSortOrder) {
+        ArrayList<Camp> camps = (ArrayList<Camp>) unsortedCamps.clone();
+
+        switch (printCampSortOrder) {
+            case DATES:
+                camps.sort((o1, o2) -> {
+                    LocalDate firstDate1 = o1.getCampInformation().getDates().get(0);
+                    LocalDate firstDate2 = o2.getCampInformation().getDates().get(0);
+                    return firstDate1.compareTo(firstDate2);
+                });
+                break;
+
+            case LOCATION:
+                camps.sort((o1, o2) -> {
+                    String location1 = o1.getCampInformation().getLocation();
+                    String location2 = o2.getCampInformation().getLocation();
+                    return location1.compareTo(location2);
+                });
+                break;
+
+            case ATTENDEE_SLOTS_REMAINING:
+                camps.sort((o1, o2) -> {
+                    int slots1 = o1.getCampInformation().getTotalSlots() - o1.getCampInformation().getCommitteeSlots()
+                            - o1.getAttendeeList().size();
+                    int slots2 = o2.getCampInformation().getTotalSlots() - o1.getCampInformation().getCommitteeSlots()
+                            - o1.getAttendeeList().size();
+                    return Integer.compare(slots1, slots2);
+                });
+                break;
+
+            case COMMITTEE_SLOTS_REMAINING:
+                camps.sort((o1, o2) -> {
+                    int slots1 = o1.getCampInformation().getCommitteeSlots() - o1.getCommitteeList().size();
+                    int slots2 = o1.getCampInformation().getCommitteeSlots() - o1.getCommitteeList().size();
+                    return Integer.compare(slots1, slots2);
+                });
+                break;
+
+            case REGISTRATION_CLOSING_DATE:
+                camps.sort((o1, o2) -> {
+                    LocalDate firstDate1 = o1.getCampInformation().getDates().get(0);
+                    LocalDate firstDate2 = o2.getCampInformation().getDates().get(0);
+                    return firstDate1.compareTo(firstDate2);
+                });
+                break;
+        }
+        return camps;
+    }
+
     public void printCamp(Camp camp) {
-        Log.println("=======================");
-        Log.println("Camp ID: " + camp.getCampId());
+        Log.println("");
+        Log.println("Camp ID: " + camp.getCampId() + "=====================================");
         Log.println("Camp Name: " + camp.getCampName());
         Log.println("Location: " + camp.getCampInformation().getLocation());
         Log.println("Start date: " + DateStringHelper.DateToStrConverter(camp.getCampInformation().getDates().get(0)));
@@ -370,17 +486,19 @@ public class CampSystem {
         Log.println("Registration closing date: "
                 + DateStringHelper.DateToStrConverter(camp.getCampInformation().getRegistrationClosingDate()));
         Log.println("----------------------");
-        Log.println(camp.getCampInformation().getDescription());
+        Log.println("Description " + camp.getCampInformation().getDescription());
         Log.println("----------------------");
         if (camp.getCampInformation().getUserGroup().isWholeNTU())
             Log.println("This camp is open to all students from NTU");
         else
-            Log.println("This camp is open only to students from " + camp.getCampInformation().getUserGroup());
+            Log.println(
+                    "This camp is open only to students from " + camp.getCampInformation().getUserGroup().toString());
         Log.println(
                 "Attendee slots left: " + (camp.getCampInformation().getTotalSlots()
                         - camp.getCampInformation().getCommitteeSlots() - camp.getAttendeeList().size()));
         Log.println("Committee slots left: "
                 + (camp.getCampInformation().getCommitteeSlots() - camp.getCommitteeList().size()));
-        Log.println("=======================");
+        Log.println("Contact: " + camp.getCampInformation().getStaffInChargeId());
+        Log.println("=====================================================");
     }
 }

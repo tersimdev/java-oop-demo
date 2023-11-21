@@ -3,6 +3,7 @@ package boundary;
 import java.util.HashMap;
 import java.util.Map;
 
+import util.InputHelper;
 import util.Log;
 
 /**
@@ -144,6 +145,21 @@ public abstract class Menu {
         }
         // else not null so do function
         return menuFunc.doFunction(this);
+    }
+
+    /**
+     * Prints the list of available filters for the user to view camps,
+     * gets user input (int from 1 to 5 inclusive) and returns that.
+     */
+    protected int printCampSortOrderChoices() {
+        Log.println("In what order would you like to view the camps?");
+        Log.println("(1) Camp Dates");
+        Log.println("(2) Camp location");
+        Log.println("(3) Camp attendee slots remaining");
+        Log.println("(4) Camp committee slots remaining");
+        Log.println("(5) Camp registration deadline");
+        int sortChoice = InputHelper.getBoundedInt(ui.getInput(), 1, 5, null);
+        return sortChoice;
     }
 
     /**

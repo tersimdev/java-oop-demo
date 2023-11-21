@@ -94,15 +94,12 @@ public class StaffMenu extends Menu {
         String campName = ui.getInput().getLine("Please enter the camp name: ");
         String description = ui.getInput().getLine("Please enter the camp's description: ");
         String location = ui.getInput().getLine("Please enter the camp's location: ");
-        int totalSlots = ui.getInput()
-                .getInt("Please enter the camp's total number of slots (including committee members): ");
-        int committeeSlots = 11;
-        while (committeeSlots > 10 && (committeeSlots > totalSlots)) {
-            committeeSlots = ui.getInput()
-                    .getInt("Please enter the camp's number of committee slots (MAX 10): ");
-        }
-        int duration = ui.getInput()
-                .getInt("Please enter the number of days the camp will be held: ");
+        int committeeSlots = InputHelper.getBoundedInt(ui.getInput(), 0, 10,
+                "Please enter the camp's number of committee slots (MAX 10): ");
+        int totalSlots = InputHelper.getBoundedInt(ui.getInput(), committeeSlots + 10, 999,
+                "Please enter the camp's total number of slots (including committee members): ");
+        int duration = InputHelper.getBoundedInt(ui.getInput(), 1, 9999,
+                "Please enter the number of days the camp will be held: ");
         LocalDate firstDate = ui.getInput()
                 .getDate("Please enter the date of the first day of the camp (DD/MM/YYYY): ");
         LocalDate registrationClosingDate = ui.getInput()
@@ -169,10 +166,19 @@ public class StaffMenu extends Menu {
     }
 
     private boolean viewAllCamps(Menu menu) {
-        // View All Camps
-        campSystem.viewAllCamps();
+        boolean yesno = ui.getInput()
+                .getBool("Would you like to view only the camps you created? (Y/N)");
+        int sortChoice = menu.printCampSortOrderChoices();
+        if (yesno == true) campSystem.viewCampsOfStaff(staff, sortChoice);
+        else campSystem.viewAllCamps(sortChoice);
         return false;
     }
+
+    // private boolean viewCampsOfStaff(Menu menu) {
+    // int sortChoice = menu.printCampSortOrderChoices();
+    // campSystem.viewCampsOfStaff(staff, sortChoice);
+    // return false;
+    // }
 
     private boolean viewCampAttendeeList(Menu menu) {
         // View Camp Attendee List
@@ -195,7 +201,8 @@ public class StaffMenu extends Menu {
         enquiryList = feedbackSystem.getCampEnquiries(selCampId);
         Log.println("===All Enquiries===");
         for (CampEnquiry temp : enquiryList) {
-            if(temp == null) continue;
+            if (temp == null)
+                continue;
             Log.println("EnquiryID: " + temp.getEnquiryId());
             Log.println("StudentID: " + temp.getOwner());
             if (temp.getReply() == null) {
@@ -249,7 +256,8 @@ public class StaffMenu extends Menu {
         suggestionList = feedbackSystem.getCampSuggestions(selCampId);
         Log.println("===All Suggestions===");
         for (CampSuggestion temp : suggestionList) {
-            if (temp == null) continue;
+            if (temp == null)
+                continue;
             Log.println("SuggestionID: " + temp.getSuggestionId());
             Log.println("CampCommitteeMemberID: " + temp.getOwner());
 

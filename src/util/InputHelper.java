@@ -81,4 +81,25 @@ public class InputHelper {
         return ret;
     }
 
+    /**
+     * Gets an int from user.
+     * Throws an error message if the input is not within the given min and max.
+     * @param input
+     * @param min
+     * @param max
+     * @param msg
+     * @return
+     */
+    public static int getBoundedInt(Input input, int min, int max, String msg) {
+        int ret = -1;
+        boolean valid = false;
+        while (!valid) {
+            ret = input.getInt(msg);
+            valid = (ret >= min && ret <= max);
+            if (!valid)
+                Log.println("Invalid input. Input exceeds bounds.");
+        }
+        return ret;
+    }
+
 }
