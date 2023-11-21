@@ -2,9 +2,11 @@ package util.ReportWriter;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import control.ReportSystem.ReportWriteException;
 import entity.Camp;
+import entity.CampCommitteeMember;
 import entity.CampReportFilter;
 import entity.CampReportOptions;
 import entity.User;
@@ -61,8 +63,26 @@ public class CSVWriterImpl implements ReportWriterInterface {
     }
 
     @Override
-    public void writePerformanceReport() throws ReportWriteException, IOException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'writeEnquiryReport'");
+    public void writePerformanceReport(CampReportOptions reportOptions, User user,
+            ArrayList<CampCommitteeMember> committeeMembers) throws ReportWriteException, IOException {
+        if (user == null) {
+            throw new ReportWriteException("User information is invalid");
+        }
+
+        StringBuilder reportContent = new StringBuilder();
+
+        reportContent.append("User ID,Total Points Earned\n");
+        for (CampCommitteeMember committeeMember : committeeMembers) {
+            reportContent.append(committeeMember.getStudentId()).append(",").append(committeeMember.getPoints()).append("\n");
+        }
+
+        String fileName = reportOptions.getFilePath() + reportOptions.getFileName() + reportOptions.getFileType();
+        try {
+            FileWriter fileWriter = new FileWriter(fileName);
+            fileWriter.write(reportContent.toString());
+            fileWriter.close();
+        } catch (IOException exception) {
+            throw exception;
+        }
     }
 }

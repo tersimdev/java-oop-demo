@@ -2,10 +2,12 @@ package util.ReportWriter;
 
 
 import entity.Camp;
+import entity.CampCommitteeMember;
 import entity.CampReportOptions;
 import entity.User;
 import control.ReportSystem.ReportWriteException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * <p>
@@ -19,5 +21,5 @@ import java.io.IOException;
  */
 public interface ReportWriterInterface {
     void writeCampReport(CampReportOptions reportOptions, User user, Camp camp) throws ReportWriteException, IOException;
-    void writePerformanceReport(/*TODO */) throws ReportWriteException, IOException;
+    void writePerformanceReport(CampReportOptions reportOptions, User user, ArrayList<CampCommitteeMember> commmitteeMembers) throws ReportWriteException, IOException;
 }
