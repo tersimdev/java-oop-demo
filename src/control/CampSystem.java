@@ -86,9 +86,13 @@ public class CampSystem {
      * @param campId ID of a camp.
      */
     public void deleteCamp(int campId) {
+        Camp camp = getCampById(campId);
+        if (camp == null || !camp.getAttendeeList().isEmpty() || !camp.getCommitteeList().isEmpty()) {
+            return;
+        }
+
         camps.remove(campId);
         dataStoreSystem.deleteCamp(campId);
-        return;
     }
 
     /**
@@ -101,7 +105,7 @@ public class CampSystem {
      */
     public void editCamp(int campId, int updateChoice, Input input) {
         Camp camp = getCampById(campId);
-        EditChoice editChoice = editChoiceEnumList.get(updateChoice-1);
+        EditChoice editChoice = editChoiceEnumList.get(updateChoice - 1);
         switch (editChoice) {
             case NAME:
                 String newCampName = input.getLine("Please enter the new camp name: ");
@@ -176,7 +180,7 @@ public class CampSystem {
 
     public void viewAllCamps(int CampSortOrderChoice) {
         Log.println("===List of all camps===");
-        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(CampSortOrderChoice-1);
+        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(CampSortOrderChoice - 1);
         ArrayList<Camp> sortedCamps = sortCamps(camps, printCampSortOrder);
         for (Camp camp : sortedCamps) {
             if (camp != null)
@@ -186,7 +190,7 @@ public class CampSystem {
 
     public void viewCampsOfStaff(Staff staff, int CampSortOrderChoice) {
         Log.println("===List of all camps created by " + staff.getUserID() + "===");
-        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(CampSortOrderChoice-1);
+        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(CampSortOrderChoice - 1);
         ArrayList<Camp> sortedCamps = sortCamps(camps, printCampSortOrder);
         for (Camp camp : sortedCamps) {
             if (camp != null
@@ -214,7 +218,7 @@ public class CampSystem {
     // Student functions
     public void viewAvailableCamps(Student student, int CampSortOrderChoice) {
         Log.println("===List of all available camps===");
-        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(CampSortOrderChoice-1);
+        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(CampSortOrderChoice - 1);
         ArrayList<Camp> sortedCamps = sortCamps(camps, printCampSortOrder);
 
         for (Camp camp : sortedCamps) {
@@ -298,7 +302,7 @@ public class CampSystem {
     public void viewRegisteredCamps(Student student, int CampSortOrderChoice) {
         String studentId = student.getUserID();
         Log.println("===List of all the camps you are registered for===");
-        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(CampSortOrderChoice-1);
+        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(CampSortOrderChoice - 1);
         ArrayList<Camp> sortedCamps = sortCamps(camps, printCampSortOrder);
         for (Camp camp : sortedCamps) {
             if (camp != null) {
