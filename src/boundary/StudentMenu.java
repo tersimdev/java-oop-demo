@@ -117,7 +117,7 @@ public class StudentMenu extends Menu {
     private boolean registerCommittee(Menu menu) {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "register for");
         boolean yesno = ui.getInput().getBool(
-                "You will not be able to quit this camp after registering. Are you sure you want to register? (Y/N)");
+                "You will not be able to quit this camp after registering. Are you sure you want to register (Y/N)? ");
         if (yesno)
             campSystem.registerAsCommittee(student, selCampId);
         return false;
@@ -208,7 +208,7 @@ public class StudentMenu extends Menu {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "withdraw from");
         boolean yesno = ui.getInput()
                 .getBool(
-                        "You will not be able to register for this camp after withdrawing from it. Are you sure you want to withdraw? (Y/N)");
+                        "You will not be able to register for this camp after withdrawing from it. Are you sure you want to withdraw (Y/N)? ");
         if (yesno)
             campSystem.withdrawFromCamp(student, selCampId);
         return false;

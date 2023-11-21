@@ -113,7 +113,7 @@ public class StaffMenu extends Menu {
             firstDate = firstDate.plusDays(1);
         }
         boolean isWholeNTU = ui.getInput()
-                .getBool("Will this camp be open to the whole of NTU? (Y/N)");
+                .getBool("Will this camp be open to the whole of NTU (Y/N)? ");
         Faculty organisingFaculty = staff.getFaculty();
         UserGroup userGroup = new UserGroup();
         if (isWholeNTU)
