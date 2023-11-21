@@ -22,6 +22,7 @@ public class Camp implements SerializeToCSV {
     private CampInformation campInformation;
     private ArrayList<String> attendeeList; //store attendees student ids
     private ArrayList<String> committeeList; //store committee member studentIds
+    private ArrayList<String> withdrawnList; // store students who have withdrawn from this camp previously
     private boolean visibility; //staff can set this to false to hide, if no one registered and stuff yet
 
     public Camp() {
@@ -29,6 +30,7 @@ public class Camp implements SerializeToCSV {
         this.campInformation = new CampInformationBuilder().build(); //build empty
         this.committeeList = new ArrayList<String>();
         this.attendeeList = new ArrayList<String>();
+        this.withdrawnList = new ArrayList<String>();
         this.visibility = true;
     }
 
@@ -37,6 +39,7 @@ public class Camp implements SerializeToCSV {
         this.campInformation = campInformation;
         this.committeeList = new ArrayList<String>();
         this.attendeeList = new ArrayList<String>();
+        this.withdrawnList = new ArrayList<String>();
         this.visibility = true;
     }
 
@@ -59,6 +62,10 @@ public class Camp implements SerializeToCSV {
 
     public ArrayList<String> getCommitteeList() {
         return committeeList;
+    }
+
+    public ArrayList<String> getWithdrawnList() {
+        return withdrawnList;
     }
 
     public CampInformation getCampInformation() {
