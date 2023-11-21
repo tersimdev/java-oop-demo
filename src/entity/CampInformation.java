@@ -238,8 +238,8 @@ public class CampInformation implements SerializeToCSV {
         + staffInChargeId + ","
         + organisingFaculty + ","
         //handle dates last
-        + registrationClosingDate + ","
-        + dates.get(0) + "," //start date
+        + DateStringHelper.DateToStrConverter(registrationClosingDate) + ","
+        + DateStringHelper.DateToStrConverter(dates.get(0)) + "," //start date
         + dates.size() + "," //duration of camp
         + userGroup.toCSVLine(); // do this last for simplicity
         return ret;

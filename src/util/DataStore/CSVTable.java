@@ -212,6 +212,8 @@ public class CSVTable {
                 String[] split = rowData.get(i).split(",");
                 if (split[keyIndex].equals(keyValue)) {
                     // delete this row
+                    rowData.remove(i);
+                    return; //stop iterating
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
                 Log.error("Error querying for key");
