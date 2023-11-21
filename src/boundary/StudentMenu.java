@@ -147,7 +147,9 @@ public class StudentMenu extends Menu {
         Log.println("===Pending Enquiries===");
         for (int i = 0; i < size; i++) {
             CampEnquiry temp = studentEnquiryList.get(i);
-            if (temp.getOwner() != student.getUserID() || temp.getReply() != null)
+            boolean belongsToUser = temp.getOwner().equals(student.getUserID());
+            boolean processed = temp.getReply() != null;
+            if (!belongsToUser || processed)
                 continue;
             else {
                 Log.println("EnquiryID: " + temp.getEnquiryId());
