@@ -128,7 +128,8 @@ public class StaffMenu extends Menu {
                 .setUserGroup(userGroup)
                 .setOrganisingFaculty(organisingFaculty).build();
 
-        campSystem.createCamp(campInformation);
+        campSystem.getCampCreationSubSystem().createCamp(campInformation);
+        //campSystem.getCampCreationSubSystem.createCamp();
         return false;
     }
 
@@ -153,7 +154,7 @@ public class StaffMenu extends Menu {
             if (editChoice == 0) {
                 return false;
             }
-            campSystem.editCamp(selCampId, editChoice, ui.getInput());
+            campSystem.getCampCreationSubSystem().editCamp(selCampId, editChoice, ui.getInput());
         }
         return false;
     }
@@ -161,7 +162,7 @@ public class StaffMenu extends Menu {
     private boolean deleteCamp(Menu menu) {
         // Delete Camp
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "delete");
-        campSystem.deleteCamp(selCampId);
+        campSystem.getCampCreationSubSystem().deleteCamp(selCampId);
         return false;
     }
 
