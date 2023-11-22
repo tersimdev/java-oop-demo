@@ -63,14 +63,19 @@ public class CampCheckHelperSubSystem {
         String studentId = student.getUserID();
         UserGroup userGroup = camp.getCampInformation().getUserGroup();
 
-        CheckResult ret = 
-            new CheckResult(!camp.getAttendeeList().contains(studentId), "Already registered as attendee") // attendee not registered for this camp
-            .and(new CheckResult(!camp.getCommitteeList().contains(studentId), "Already registered as committee")) // not registered as committee for this camp
-            .and(new CheckResult(student.getFaculty() == userGroup.getFaculty(), "Not available for your faculty")) // camp is not open to this user's faculty
-            .and(checkRegistrationOpen(camp))
-            .and(checkDatesNoClash(camp, student, campSystem.getCampsByStudent(studentId)))
-            .and(checkCampAttendeeNotFull(camp))
-            .and(checkStudentNotWithdrawn(camp, student));  
+        CheckResult ret = checkRegistrationOpen(camp);
+        if (ret.getSuccess() == false)
+            return ret;
+        ret = ret
+                // attendee not registered for this camp
+                .and(new CheckResult(!camp.getAttendeeList().contains(studentId), "Already registered as attendee"))
+                // not registered as committee for this camp
+                .and(new CheckResult(!camp.getCommitteeList().contains(studentId), "Already registered as committee"))
+                // camp is not open to this user's faculty
+                .and(new CheckResult(student.getFaculty() == userGroup.getFaculty(), "Not available for your faculty"))
+                .and(checkDatesNoClash(camp, student, campSystem.getCampsByStudent(studentId)))
+                .and(checkCampAttendeeNotFull(camp))
+                .and(checkStudentNotWithdrawn(camp, student));
 
         return ret;
     }
@@ -81,7 +86,7 @@ public class CampCheckHelperSubSystem {
         UserGroup userGroup = camp.getCampInformation().getUserGroup();
         CheckResult checkResult = new CheckResult().setSuccess();
 
-        //TODO
+        // TODO
         if (student.getCampCommitteeMember().getIsMember()) {
             Log.println(campId + " is already a committee member for a camp.");
             Log.error(studentId + " was not registered for camp " + campId);
