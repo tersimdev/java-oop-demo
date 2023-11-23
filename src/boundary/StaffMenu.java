@@ -211,7 +211,7 @@ public class StaffMenu extends Menu {
             if (!(campFeedback instanceof CampEnquiry))
                 continue;
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
-            Log.println("EnquiryID: " + campEnquiry.getFeedbackId());
+            Log.println("EnquiryID: " + campEnquiry.getId());
             Log.println("StudentID: " + campEnquiry.getOwner());
             if (campEnquiry.getReply() == null) {
                 Log.println("Enquiry Status: Pending");
@@ -240,7 +240,7 @@ public class StaffMenu extends Menu {
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
             if (campEnquiry == null || !campEnquiry.isPending())
                 continue;
-            Log.println("EnquiryID: " + campEnquiry.getFeedbackId());
+            Log.println("EnquiryID: " + campEnquiry.getId());
             Log.println("StudentID: " + campEnquiry.getOwner());
             Log.println("Enquiry Status: Pending");
             Log.println("Enquiry: " + campEnquiry.getFeedback());
@@ -268,7 +268,7 @@ public class StaffMenu extends Menu {
             if (!(campFeedback instanceof CampSuggestion))
                 continue;
             CampSuggestion campSuggestion = (CampSuggestion) campFeedback;
-            Log.println("SuggestionID: " + campSuggestion.getFeedbackId());
+            Log.println("SuggestionID: " + campSuggestion.getId());
             Log.println("CampCommitteeMemberID: " + campSuggestion.getOwner());
 
             if (campSuggestion.hasApproved())
@@ -300,7 +300,7 @@ public class StaffMenu extends Menu {
             if (campSuggestion == null || !campSuggestion.isPending())
                 continue;
             else {
-                Log.println("SuggestionID: " + campSuggestion.getFeedbackId());
+                Log.println("SuggestionID: " + campSuggestion.getId());
                 Log.println("CampCommitteeMemberID: " + campSuggestion.getOwner());
                 Log.println("Approval status: Pending");
                 Log.println("Suggestion: " + campSuggestion.getFeedback());

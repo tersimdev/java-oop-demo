@@ -37,16 +37,12 @@ public abstract class FeedbackSystem {
         this.feedbacksMap = new HashMap<>();
         this.dataStoreSystem = dataStoreSystem;
 
-        // ArrayList<CampFeedback> feedbackList = dataStoreSystem.getAllFeedback();
-        // ArrayList<CampSuggestion> suggestionList =
-        // dataStoreSystem.getAllSuggestions();
-
         ArrayList<CampFeedback> feedbackList = loadFeedbackFromDatastore();
 
         // store in system, use these as next id
         nextFeedbackId = 0;
         if (feedbackList.size() > 0)
-            nextFeedbackId = feedbackList.get(feedbackList.size() - 1).getFeedbackId() + 1;
+            nextFeedbackId = feedbackList.get(feedbackList.size() - 1).getId() + 1;
 
         // add to map based on camp id
         for (CampFeedback cf : feedbackList) {
@@ -62,16 +58,18 @@ public abstract class FeedbackSystem {
         ArrayList<CampFeedback> feedbacks = feedbacksMap.computeIfAbsent(campId, k -> new ArrayList<>());
         // Index in the ArrayList used as enquiryID
         int feedbackId = nextFeedbackId++;
-        feedback.setFeedbackId(feedbackId);
+        feedback.setId(feedbackId);
         // Add the new feedback to the ArrayList
         feedbacks.add(feedback);
-        // NEED EDIT dataStoreSystem.addFeedback(feedback);
+        // TODO dataStoreSystem.addFeedback(feedback);
     }
 
     public boolean editCampFeedback(int campId, int feedbackId, String newFeedback) {
         CampFeedback campFeedback = findFeedbackById(feedbackId, campId);
         if (campFeedback != null) {
             campFeedback.setFeedback(newFeedback);
+            // TODO dataStoreSystem.edit(feedback);
+
             return true;
         }
         return false;
@@ -81,6 +79,7 @@ public abstract class FeedbackSystem {
         CampFeedback campFeedback = findFeedbackById(feedbackId, campId);
         if (campFeedback != null) {
             getCampFeedbacks(campId).remove(campFeedback);
+            // TODO remove from datastore
             return true;
         }
         return false;
@@ -92,7 +91,7 @@ public abstract class FeedbackSystem {
 
     public CampFeedback findFeedbackById(int feedbackId, int campId) {
         for (CampFeedback cf : getCampFeedbacks(campId)) {
-            if (cf.getFeedbackId() == feedbackId)
+            if (cf.getId() == feedbackId)
                 return cf;
         }
         return null;

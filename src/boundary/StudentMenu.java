@@ -167,7 +167,7 @@ public class StudentMenu extends Menu {
                 continue;
             else {
                 pending += 1;
-                Log.println("EnquiryID: " + campEnquiry.getFeedbackId());
+                Log.println("EnquiryID: " + campEnquiry.getId());
                 Log.println("StudentID: " + campEnquiry.getOwner());
                 Log.println("Enquiry Status: Pending");
                 Log.println("Enquiry: " + campEnquiry.getFeedback());
@@ -220,7 +220,7 @@ public class StudentMenu extends Menu {
             if (campEnquiry == null || !campEnquiry.getOwner().equals(student.getUserID()) || campEnquiry.isPending())
                 continue;
             else {
-                Log.println("EnquiryID: " + campEnquiry.getFeedbackId());
+                Log.println("EnquiryID: " + campEnquiry.getId());
                 Log.println("StudentID: " + campEnquiry.getOwner());
                 Log.println("Enquiry Status: Processed");
                 Log.println("Enquiry: " + campEnquiry.getFeedback());
@@ -269,7 +269,7 @@ public class StudentMenu extends Menu {
                 continue;
             else {
                 pending += 1;
-                Log.println("SuggestionID: " + campSuggestion.getFeedbackId());
+                Log.println("SuggestionID: " + campSuggestion.getId());
                 Log.println("CampCommitteeMemberID: " + campSuggestion.getOwner());
                 Log.println("Suggestion Status: Pending");
                 Log.println("Suggestion: " + campSuggestion.getFeedback());
@@ -329,7 +329,7 @@ public class StudentMenu extends Menu {
             if (campSuggestion == null || !campSuggestion.getOwner().equals(student.getUserID()) || campSuggestion.isPending())
                 continue;
             else {
-                Log.println("SuggestionID: " + campSuggestion.getFeedbackId());
+                Log.println("SuggestionID: " + campSuggestion.getId());
                 Log.println("CampCommitteeMemberID: " + campSuggestion.getOwner());
                 if (campSuggestion.hasApproved())
                     Log.println("Suggestion Status: Approved");
@@ -353,7 +353,7 @@ public class StudentMenu extends Menu {
             if (!(campFeedback instanceof CampEnquiry))
                 continue;
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
-            Log.println("EnquiryID: " + campEnquiry.getFeedbackId());
+            Log.println("EnquiryID: " + campEnquiry.getId());
             Log.println("StudentID: " + campEnquiry.getOwner());
             if (campEnquiry.getReply() == null) {
                 Log.println("Enquiry Status: Pending");
@@ -382,7 +382,7 @@ public class StudentMenu extends Menu {
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
             if (campEnquiry == null || !campEnquiry.isPending())
                 continue;
-            Log.println("EnquiryID: " + campEnquiry.getFeedbackId());
+            Log.println("EnquiryID: " + campEnquiry.getId());
             Log.println("StudentID: " + campEnquiry.getOwner());
             Log.println("Enquiry Status: Pending");
             Log.println("Enquiry: " + campEnquiry.getFeedback());

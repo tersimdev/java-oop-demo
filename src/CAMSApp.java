@@ -33,6 +33,7 @@ public class CAMSApp {
         
         //data store should be created first!
         dataStoreSystem = new DataStoreSystem();
+        dataStoreSystem.init();
         
         // create systems
         loginSystem = new LoginSystem(dataStoreSystem);

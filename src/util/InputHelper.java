@@ -52,7 +52,7 @@ public class InputHelper {
         boolean valid = false;
         while (!valid) {
             ret = input.getInt("Please enter the ID of the enquiry you would like to " + action + ": ");
-            valid = feedbackSystem.checkValidEnquiryId(ret, campId);
+            valid = feedbackSystem.checkValidFeedbackId(ret, campId);
             if (!valid)
                 Log.println("Enquiry ID not found.");
         }
@@ -74,7 +74,7 @@ public class InputHelper {
         boolean valid = false;
         while (!valid) {
             ret = input.getInt("Please enter the ID of the suggestion you would like to " + action + ": ");
-            valid = feedbackSystem.checkValidSuggestionId(ret, campId);
+            valid = feedbackSystem.checkValidFeedbackId(ret, campId);
             if (!valid)
                 Log.println("Suggestion ID not found.");
         }

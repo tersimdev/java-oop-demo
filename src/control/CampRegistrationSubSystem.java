@@ -48,7 +48,7 @@ public class CampRegistrationSubSystem {
         else {
             Log.println("Registration failed: " + checkResult.getFailReason());
         }
-        dataStoreSystem.updateCampDetails(camp);
+        dataStoreSystem.getCampDataStoreSubSystem().updateCampDetails(camp);
     }
 
     /**
@@ -71,7 +71,7 @@ public class CampRegistrationSubSystem {
         else {
             Log.println("Registration failed: " + checkResult.getFailReason());
         }
-        dataStoreSystem.updateCampDetails(camp);
+        dataStoreSystem.getCampDataStoreSubSystem().updateCampDetails(camp);
     }
 
     /**
@@ -89,6 +89,6 @@ public class CampRegistrationSubSystem {
         } else {
             Log.println("Withdrawal failed");
         }
-        dataStoreSystem.updateCampDetails(camp);
+        dataStoreSystem.getCampDataStoreSubSystem().updateCampDetails(camp);
     }
 }

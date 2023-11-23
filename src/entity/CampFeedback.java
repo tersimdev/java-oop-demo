@@ -32,7 +32,7 @@ public abstract class CampFeedback implements SerializeToCSV {
         this.feedback = feedback;
     }
 
-    public int getFeedbackId() {
+    public int getId() {
         return feedbackId;
     }
 
@@ -48,7 +48,7 @@ public abstract class CampFeedback implements SerializeToCSV {
         return feedback;
     }
 
-    public void setFeedbackId(int feedbackId) {
+    public void setId(int feedbackId) {
         this.feedbackId = feedbackId;
     }
 

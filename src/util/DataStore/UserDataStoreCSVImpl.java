@@ -1,15 +1,9 @@
 package util.DataStore;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
-import entity.Camp;
 import entity.CampCommitteeMember;
-import entity.CampEnquiry;
-import entity.CampFeedback;
-import entity.CampSuggestion;
 import entity.Faculty;
 import entity.Staff;
 import entity.Student;
@@ -20,81 +14,48 @@ import util.Log;
  * <p>
  * This class implements datastore using reading and writing to csv file.
  * Database is loaded into memory on init, and saved on cleanup.
- * It stores the following tables: students, staff, camps,
- * enquiries, suggestions.
+ * It stores the following tables: students, staff
  * </p>
  * 
  * @author Sim Yi Wan Terence
  * @version 1.0
  * @since 19-11-2023
  */
-public class DataStoreCSVImpl implements DataStoreInterface {
-
-    /**
-     * A map of table names to csv tables
-     */
-    private Map<String, CSVTable> tables;
+public class UserDataStoreCSVImpl extends BaseDataStoreCSV implements UserDataStoreInterface {
 
     // file path constants
     private static final String initStudents = "data/sample/student_list.csv";
     private static final String initStaff = "data/sample/staff_list.csv";
     private static final String pathStudents = "data/users/students.csv";
     private static final String pathStaff = "data/users/staff.csv";
-    private static final String pathCamps = "data/camps/camps.csv";
-    private static final String pathSuggestions = "data/camps/suggestions.csv";
-    private static final String pathEnquiries = "data/camps/enquiries.csv";
 
     // table name constants
     private static final String tableStudents = "students";
     private static final String tableStaff = "staff";
-    private static final String tableCamps = "camps";
-    private static final String tableSuggestions = "suggestions";
-    private static final String tableEnquiries = "enquiries";
 
     /**
-     * Initialises the csv tables.
-     * Creates the file if they dont exist.
+     * Constructor, calls super().
+     * Add mapping of user tables.
+     */
+    public UserDataStoreCSVImpl() {
+        super();
+        this.tables.put(tableStudents, new CSVTable(tableStudents, pathStudents, 1));
+        this.tables.put(tableStaff, new CSVTable(tableStaff, pathStaff, 1));
+    }
+
+    /**
      * Students and Staff are loaded from initial sample file
      * if they dont exist in data folder.
      */
     @Override
     public void init() {
-        // create mapping
-        tables = new HashMap<>();
-        tables.put(tableStudents, new CSVTable(tableStudents, pathStudents, 1));
-        tables.put(tableStaff, new CSVTable(tableStaff, pathStaff, 1));
-        tables.put(tableCamps, new CSVTable(tableCamps, pathCamps, 0));
-        tables.put(tableSuggestions, new CSVTable(tableSuggestions,
-                pathSuggestions, 0));
-        tables.put(tableEnquiries, new CSVTable(tableEnquiries, pathEnquiries, 0));
-
         // load in initial data
         if (!dataExists(pathStudents))
             initializeStudentList();
         if (!dataExists(pathStaff))
             initializeStaffList();
 
-        // load csvs into memory
-        for (CSVTable t : tables.values()) {
-            if (dataExists(t.getPath()))
-                t.readFromFile();
-            else
-                // create the file by writing empty list
-                t.writeToFile(new ArrayList<>());
-        }
-    }
-
-    /**
-     * Writes all data in memory back to csv files.
-     */
-    @Override
-    public void cleanup() {
-        Log.info("Saving all data to CSVs");
-        for (CSVTable t : tables.values()) {
-            // should sort by id just incase
-            t.sortRows();
-            t.writeToFile();
-        }
+        super.init();
     }
 
     @Override
@@ -147,106 +108,10 @@ public class DataStoreCSVImpl implements DataStoreInterface {
             if (row != null) {
                 Student tmp = new Student();
                 tmp.fromCSVLine(row);
-                ret.add(tmp.getCampCommitteeMember());           
+                ret.add(tmp.getCampCommitteeMember());
             }
         }
         return ret;
-    }
-
-    @Override
-    public void addCamp(Camp camp) {
-        tables.get(tableCamps).addRow(camp.toCSVLine());
-    }
-
-    @Override
-    public void deleteCamp(int campId) {
-        tables.get(tableCamps).deleteRow(0, Integer.toString(campId));
-    }
-
-    @Override
-    public void updateCampDetails(Camp camp) {
-        String row = tables.get(tableCamps).queryRow(0, Integer.toString(camp.getCampId()));
-        tables.get(tableCamps).updateRow(row, camp.toCSVLine());
-    }
-
-    @Override
-    public ArrayList<Camp> getAllCamps() {
-        ArrayList<Camp> ret = new ArrayList<>();
-        ArrayList<String> data = tables.get(tableCamps).getRowData();
-        for (String s : data) {
-            Camp tmp = new Camp();
-            tmp.fromCSVLine(s);
-            ret.add(tmp);
-        }
-        return ret;
-    }
-
-    @Override
-    public void addSuggestion(CampSuggestion suggestion) {
-        tables.get(tableSuggestions).addRow(suggestion.toCSVLine());
-    }
-
-    @Override
-    public void deleteSuggestion(int suggestionId) {
-        tables.get(tableSuggestions).deleteRow(0, Integer.toString(suggestionId));
-
-    }
-
-    @Override
-    public void updateSuggestion(CampSuggestion suggestion) {
-        String row = tables.get(tableSuggestions).queryRow(0, Integer.toString(suggestion.getSuggestionId()));
-        tables.get(tableSuggestions).updateRow(row, suggestion.toCSVLine());
-    }
-
-    @Override
-    public ArrayList<CampFeedback> getAllSuggestions() {
-        ArrayList<CampFeedback> ret = new ArrayList<>();
-        ArrayList<String> data = tables.get(tableSuggestions).getRowData();
-        for (String s : data) {
-            CampFeedback tmp = new CampSuggestion();
-            tmp.fromCSVLine(s);
-            ret.add(tmp);
-        }
-        return ret;
-    }
-
-    @Override
-    public void addEnquiry(CampEnquiry enquiry) {
-        tables.get(tableEnquiries).addRow(enquiry.toCSVLine());
-    }
-
-    @Override
-    public void deleteEnquiry(int enquiryId) {
-        tables.get(tableEnquiries).deleteRow(0, Integer.toString(enquiryId));
-    }
-
-    @Override
-    public void updateEnquiry(CampEnquiry enquiry) {
-        String row = tables.get(tableEnquiries).queryRow(0, Integer.toString(enquiry.getEnquiryId()));
-        tables.get(tableEnquiries).updateRow(row, enquiry.toCSVLine());
-    }
-
-    @Override
-    public ArrayList<CampFeedback> getAllEnquiries() {
-        ArrayList<CampFeedback> ret = new ArrayList<>();
-        ArrayList<String> data = tables.get(tableEnquiries).getRowData();
-        for (String s : data) {
-            CampFeedback tmp = new CampEnquiry();
-            tmp.fromCSVLine(s);
-            ret.add(tmp);
-        }
-        return ret;
-    }
-
-    /**
-     * Checks if csv file exists at path.
-     * 
-     * @param path filepath to csv file
-     * @return true if file exists
-     */
-    private boolean dataExists(String path) {
-        File f = new File(path);
-        return f.exists() && !f.isDirectory();
     }
 
     /**
