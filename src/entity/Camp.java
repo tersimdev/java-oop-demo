@@ -82,10 +82,7 @@ public class Camp implements SerializeToCSV {
 
     public void removeAttendee(Student student) {
         attendeeList.remove(student.getUserID());
-    }
-
-    public void removeCampCommitteeMember(CampCommitteeMember campCommitteeMember) {
-        committeeList.remove(campCommitteeMember.getStudentId());
+        withdrawnList.add(student.getUserID());
     }
 
     public boolean checkVisibility() {

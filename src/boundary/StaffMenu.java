@@ -135,7 +135,8 @@ public class StaffMenu extends Menu {
                 .setUserGroup(userGroup)
                 .setOrganisingFaculty(organisingFaculty).build();
 
-        campSystem.createCamp(campInformation);
+        campSystem.getCampCreationSubSystem().createCamp(campInformation);
+        //campSystem.getCampCreationSubSystem.createCamp();
         return false;
     }
 
@@ -160,7 +161,7 @@ public class StaffMenu extends Menu {
             if (editChoice == 0) {
                 return false;
             }
-            campSystem.editCamp(selCampId, editChoice, ui.getInput());
+            campSystem.getCampCreationSubSystem().editCamp(selCampId, editChoice, ui.getInput());
         }
         return false;
     }
@@ -168,7 +169,7 @@ public class StaffMenu extends Menu {
     private boolean deleteCamp(Menu menu) {
         // Delete Camp
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "delete");
-        campSystem.deleteCamp(selCampId);
+        campSystem.getCampCreationSubSystem().deleteCamp(selCampId);
         return false;
     }
 
@@ -176,21 +177,21 @@ public class StaffMenu extends Menu {
         boolean yesno = ui.getInput()
                 .getBool("Would you like to view only the camps you created?(Y/N) ");
         int sortChoice = menu.printCampSortOrderChoices();
-        if (yesno == true) campSystem.viewCampsOfStaff(staff, sortChoice);
-        else campSystem.viewAllCamps(sortChoice);
+        if (yesno == true) campSystem.getCampViewerSubSystem().viewCampsOfStaff(staff, sortChoice);
+        else campSystem.getCampViewerSubSystem().viewAllCamps(sortChoice);
         return false;
     }
 
     private boolean viewCampAttendeeList(Menu menu) {
         // View Camp Attendee List
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "inspect");
-        campSystem.viewAttendeeList(selCampId, staff);
+        campSystem.getCampViewerSubSystem().viewAttendeeList(selCampId, staff);
         return false;
     }
 
     private boolean viewCampCommitteeList(Menu menu) {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "inspect");
-        campSystem.viewCampCommitteeList(selCampId, staff);
+        campSystem.getCampViewerSubSystem().viewCampCommitteeList(selCampId, staff);
         return false;
     }
 
