@@ -25,9 +25,9 @@ public abstract class CampFeedback implements SerializeToCSV {
         feedback = "";
     }
 
-    public CampFeedback(String studentID, String feedback, int campId) {
+    public CampFeedback(String studentId, String feedback, int campId) {
         this.campId = campId;
-        this.ownerId = studentID;
+        this.ownerId = studentId;
         this.feedback = feedback;
     }
 

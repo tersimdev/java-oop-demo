@@ -23,8 +23,8 @@ public class CampEnquiry extends CampFeedback {
         reply = null;
     }
 
-    public CampEnquiry(String studentID, String enquiry, int campId) {
-        super();
+    public CampEnquiry(String studentId, String enquiry, int campId) {
+        super(studentId, enquiry, campId);
         replierId = null;
         reply = null;
     }
