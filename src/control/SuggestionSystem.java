@@ -14,7 +14,7 @@ public class SuggestionSystem extends FeedbackSystem {
 
     @Override
     public ArrayList<CampFeedback> loadFeedbackFromDatastore() {
-        return dataStoreSystem.getAllSuggestions();
+        return dataStoreSystem.getFeedbackDataStoreSubSystem().getAllSuggestions();
     }
 
     public boolean processCampSuggestion(String staffId, int campId, int suggestionId, boolean decision) {

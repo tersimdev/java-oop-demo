@@ -1,18 +1,17 @@
 package entity;
 
 import util.Log;
-import util.DataStore.SerializeToCSV;
 
 /**
  * <p>
  * This is a class to represent a camp enquiry
  * </p>
  * 
- * @author Sim Yi Wan Terence
+ * @author Yen Zhi Wei
  * @version 1.0
- * @since 5-11-2023
+ * @since 23-11-2023
  */
-public class CampEnquiry extends CampFeedback implements SerializeToCSV {
+public class CampEnquiry extends CampFeedback {
 
     private String replierId;
     private String enquiry;
@@ -24,35 +23,11 @@ public class CampEnquiry extends CampFeedback implements SerializeToCSV {
         reply = null;
     }
 
-    public CampEnquiry(String studentID, String enquiry, int campId) {
-        super();
+    public CampEnquiry(String studentId, String enquiry, int campId) {
+        super(studentId, enquiry, campId);
         replierId = null;
         reply = null;
     }
-
-    /*public int getEnquiryId() {
-        return enquiryId;
-    }
-
-    public int getCampId() {
-        return campId;
-    }
-
-    public String getOwner() {
-        return ownerId;
-    }
-
-    public String getEnquiry() {
-        return enquiry;
-    }
-    
-    public void setEnquiryId(int enquiryId) {
-        this.enquiryId = enquiryId;
-    }
-
-    public void setEnquiry(String newEnquiry) {
-        this.enquiry = newEnquiry;
-    }*/
 
     public String getReply() {
         return reply;

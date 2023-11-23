@@ -3,14 +3,13 @@ package boundary;
 import java.util.ArrayList;
 
 import control.CampSystem;
-import control.FeedbackSystem;
 import control.EnquirySystem;
-import control.SuggestionSystem;
 import control.ReportSystem;
+import control.SuggestionSystem;
 import entity.Camp;
 import entity.CampCommitteeMember;
-import entity.CampFeedback;
 import entity.CampEnquiry;
+import entity.CampFeedback;
 import entity.CampReportFilter;
 import entity.CampReportOptions;
 import entity.CampSuggestion;
@@ -158,7 +157,7 @@ public class StudentMenu extends Menu {
         int pending = 0;
         Log.println("===Pending Enquiries===");
         for (CampFeedback campFeedback : studentEnquiryList) {
-            if (!(campFeedback instanceof CampEnquiry))
+            if (campFeedback == null || !(campFeedback instanceof CampEnquiry))
                 continue;
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
             boolean belongsToUser = campEnquiry.getOwner().equals(student.getUserID());
@@ -167,7 +166,7 @@ public class StudentMenu extends Menu {
                 continue;
             else {
                 pending += 1;
-                Log.println("EnquiryID: " + campEnquiry.getFeedbackId());
+                Log.println("EnquiryID: " + campEnquiry.getId());
                 Log.println("StudentID: " + campEnquiry.getOwner());
                 Log.println("Enquiry Status: Pending");
                 Log.println("Enquiry: " + campEnquiry.getFeedback());
@@ -220,7 +219,7 @@ public class StudentMenu extends Menu {
             if (campEnquiry == null || !campEnquiry.getOwner().equals(student.getUserID()) || campEnquiry.isPending())
                 continue;
             else {
-                Log.println("EnquiryID: " + campEnquiry.getFeedbackId());
+                Log.println("EnquiryID: " + campEnquiry.getId());
                 Log.println("StudentID: " + campEnquiry.getOwner());
                 Log.println("Enquiry Status: Processed");
                 Log.println("Enquiry: " + campEnquiry.getFeedback());
@@ -269,7 +268,7 @@ public class StudentMenu extends Menu {
                 continue;
             else {
                 pending += 1;
-                Log.println("SuggestionID: " + campSuggestion.getFeedbackId());
+                Log.println("SuggestionID: " + campSuggestion.getId());
                 Log.println("CampCommitteeMemberID: " + campSuggestion.getOwner());
                 Log.println("Suggestion Status: Pending");
                 Log.println("Suggestion: " + campSuggestion.getFeedback());
@@ -329,7 +328,7 @@ public class StudentMenu extends Menu {
             if (campSuggestion == null || !campSuggestion.getOwner().equals(student.getUserID()) || campSuggestion.isPending())
                 continue;
             else {
-                Log.println("SuggestionID: " + campSuggestion.getFeedbackId());
+                Log.println("SuggestionID: " + campSuggestion.getId());
                 Log.println("CampCommitteeMemberID: " + campSuggestion.getOwner());
                 if (campSuggestion.hasApproved())
                     Log.println("Suggestion Status: Approved");
@@ -353,7 +352,7 @@ public class StudentMenu extends Menu {
             if (!(campFeedback instanceof CampEnquiry))
                 continue;
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
-            Log.println("EnquiryID: " + campEnquiry.getFeedbackId());
+            Log.println("EnquiryID: " + campEnquiry.getId());
             Log.println("StudentID: " + campEnquiry.getOwner());
             if (campEnquiry.getReply() == null) {
                 Log.println("Enquiry Status: Pending");
@@ -382,7 +381,7 @@ public class StudentMenu extends Menu {
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
             if (campEnquiry == null || !campEnquiry.isPending())
                 continue;
-            Log.println("EnquiryID: " + campEnquiry.getFeedbackId());
+            Log.println("EnquiryID: " + campEnquiry.getId());
             Log.println("StudentID: " + campEnquiry.getOwner());
             Log.println("Enquiry Status: Pending");
             Log.println("Enquiry: " + campEnquiry.getFeedback());

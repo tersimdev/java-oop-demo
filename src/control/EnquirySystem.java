@@ -14,7 +14,7 @@ public class EnquirySystem extends FeedbackSystem {
 
     @Override
     public ArrayList<CampFeedback> loadFeedbackFromDatastore() {
-        return dataStoreSystem.getAllEnquiries();
+        return dataStoreSystem.getFeedbackDataStoreSubSystem().getAllEnquiries();
     }
 
     public boolean processCampEnquiry(String commMemberId, int campId, int enquiryId, String reply) {

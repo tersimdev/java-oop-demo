@@ -29,7 +29,7 @@ public class CampSystem {
      */
     public CampSystem(DataStoreSystem dataStoreSystem) {
         // load in camps from datastore
-        camps = dataStoreSystem.getAllCamps();
+        camps = dataStoreSystem.getCampDataStoreSubSystem().getAllCamps();
         currCampId = 0;
         if (camps.size() > 0)
             currCampId = camps.get(camps.size() - 1).getCampId() + 1;

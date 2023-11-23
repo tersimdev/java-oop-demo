@@ -1,5 +1,4 @@
 package entity;
-import util.Log;
 import util.DataStore.SerializeToCSV;
 
 /**
@@ -9,7 +8,7 @@ import util.DataStore.SerializeToCSV;
  * 
  * @author Yen Zhi Wei
  * @version 1.0
- * @since 5-11-2023
+ * @since 23-11-2023
  */
 
 public abstract class CampFeedback implements SerializeToCSV {
@@ -26,13 +25,13 @@ public abstract class CampFeedback implements SerializeToCSV {
         feedback = "";
     }
 
-    public CampFeedback(String studentID, String feedback, int campId) {
+    public CampFeedback(String studentId, String feedback, int campId) {
         this.campId = campId;
-        this.ownerId = studentID;
+        this.ownerId = studentId;
         this.feedback = feedback;
     }
 
-    public int getFeedbackId() {
+    public int getId() {
         return feedbackId;
     }
 
@@ -48,7 +47,7 @@ public abstract class CampFeedback implements SerializeToCSV {
         return feedback;
     }
 
-    public void setFeedbackId(int feedbackId) {
+    public void setId(int feedbackId) {
         this.feedbackId = feedbackId;
     }
 
