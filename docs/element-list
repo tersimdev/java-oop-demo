@@ -3,4 +3,5 @@ control
 entity
 util
 util.DataStore
+util.helpers
 util.ReportWriter
