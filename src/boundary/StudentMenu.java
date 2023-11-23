@@ -63,9 +63,8 @@ public class StudentMenu extends Menu {
         addMenuFunction(13, this::viewEnquiries);
         addMenuFunction(14, this::replyEnquiries);
         addMenuFunction(15, this::generateCampReport);
-        addMenuFunction(16, this::generatePerformanceReport);
-        addMenuFunction(17, this::viewCampAttendeeList);
-        addMenuFunction(18, this::viewCampCommitteeList);
+        addMenuFunction(16, this::viewCampAttendeeList);
+        addMenuFunction(17, this::viewCampCommitteeList);
     }
 
     @Override
@@ -94,15 +93,14 @@ public class StudentMenu extends Menu {
             Log.println("(13) View Enquiries");
             Log.println("(14) Reply Unprocessed Enquiries");
             Log.println("(15) Generate Camp Report");
-            Log.println("(16) Generate Enquiry Report");
-            Log.println("(17) View Camp Attendee List");
-            Log.println("(18) View Camp Committee Members List");
-            Log.println("(19) Back to Start");
+            Log.println("(16) View Camp Attendee List");
+            Log.println("(17) View Camp Committee Members List");
+            Log.println("(18) Back to Start");
         }
         int choice = -1;
         while (choice < 0) {
             if (isCommittee)
-                choice = getChoice(1, 18, 19);
+                choice = getChoice(1, 17, 18);
             else
                 choice = getChoice(1, 8, 9);
             if (choice == 0) {
@@ -404,41 +402,40 @@ public class StudentMenu extends Menu {
     }
 
     private boolean generateCampReport(Menu menu) {
-
-        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "generate camp report");
-
+        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "Generate camp report");
         Camp camp = campSystem.getCampById(selCampId);
 
+        CampReportFilter[] filterChoicesOptions = {
+            CampReportFilter.ATTENDEE,
+            CampReportFilter.CAMP_COMMITTEE,
+            CampReportFilter.NONE,
+        };
+    
         if (camp != null) {
             String fileName = ui.getInput().getLine("Please enter the file name: ");
 
-            int filterChoice = ui.getInput()
-                    .getInt("Please enter the filter (1 for ATTENDEE, 2 for CAMP_COMMITTEE, 3 for no filter): ");
-            CampReportFilter filter = null;
-            switch (filterChoice) {
-                case 1:
-                    filter = CampReportFilter.ATTENDEE;
-                    break;
-                case 2:
-                    filter = CampReportFilter.CAMP_COMMITTEE;
-                    break;
-                default:
-                    break;
-            }
+            //CampReportOptions reportOptions = ReportInputHelper.getOptionsFromUser();
 
+            int filterChoice = ui.getInput().getInt("Please enter the filter (1 for ATTENDEE, 2 for CAMP_COMMITTEE, 3 for no filter): ");
+            CampReportFilter filter = filterChoicesOptions[filterChoice-1];
+
+            String[] fileTypeOptions = {
+                ".txt",
+                ".csv",
+            };
+
+            int fileTypeChoice = ui.getInput().getInt("Choose your filetype((1 for TXT, 2 for CSV): ");
+            String fileType = fileTypeOptions[fileTypeChoice -1];
+    
             CampReportOptions reportOptions = new CampReportOptions();
             reportOptions.setCampId(camp.getCampId());
             reportOptions.setFileName(fileName);
-            reportOptions.setFilter(filter);
-
-            reportSystem.generateCampReport(reportOptions, student, camp);
+            reportOptions.setFileType(fileType);
+    
+            reportSystem.generateCampReport(reportOptions, filter, student, camp);
         } else {
             Log.println("Camp not found " + selCampId);
         }
-        return false;
-    }
-
-    private boolean generatePerformanceReport(Menu menu) {
         return false;
     }
 

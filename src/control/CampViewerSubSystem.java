@@ -209,7 +209,7 @@ public class CampViewerSubSystem {
      * @return Returns a clone of the original list of camps.
      */
     private ArrayList<Camp> sortCamps(ArrayList<Camp> unsortedCamps, PrintCampSortOrder printCampSortOrder) {
-       
+
         ArrayList<Camp> camps = new ArrayList<>();
         camps.addAll(unsortedCamps);
 
@@ -265,23 +265,23 @@ public class CampViewerSubSystem {
      * @param camp The camp being printed.
      */
     private void printCamp(Camp camp) {
-        Log.println("");
-        Log.println("Camp ID: " + camp.getCampId() + "=====================================");
+        Log.println("Camp ID: " + camp.getCampId() + " =====================================");
         Log.println("Camp Name: " + camp.getCampName());
         Log.println("Location: " + camp.getCampInformation().getLocation());
         Log.println("Start date: " + DateStringHelper.DateToStrConverter(camp.getCampInformation().getDates().get(0)));
         Log.println("End date: " + DateStringHelper.DateToStrConverter(
                 camp.getCampInformation().getDates().get(camp.getCampInformation().getDates().size() - 1)));
-        Log.println("Registration closing date: "
+        Log.println("Registration deadline: "
                 + DateStringHelper.DateToStrConverter(camp.getCampInformation().getRegistrationClosingDate()));
         Log.println("----------------------");
-        Log.println("Description " + camp.getCampInformation().getDescription());
+        Log.println("Description: " + camp.getCampInformation().getDescription());
         Log.println("----------------------");
         if (camp.getCampInformation().getUserGroup().isWholeNTU())
             Log.println("This camp is open to all students from NTU");
         else
             Log.println(
-                    "This camp is open only to students from " + camp.getCampInformation().getUserGroup().toString());
+                    "This camp is open only to students from "
+                            + camp.getCampInformation().getUserGroup().getFaculty().toString());
         Log.println(
                 "Attendee slots left: " + (camp.getCampInformation().getTotalSlots()
                         - camp.getCampInformation().getCommitteeSlots() - camp.getAttendeeList().size()));
@@ -289,6 +289,7 @@ public class CampViewerSubSystem {
                 + (camp.getCampInformation().getCommitteeSlots() - camp.getCommitteeList().size()));
         Log.println("Contact: " + camp.getCampInformation().getStaffInChargeId());
         Log.println("=================================================");
+        Log.println("");
     }
 
 }

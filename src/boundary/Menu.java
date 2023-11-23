@@ -158,7 +158,7 @@ public abstract class Menu {
         Log.println("(3) Camp attendee slots remaining");
         Log.println("(4) Camp committee slots remaining");
         Log.println("(5) Camp registration deadline");
-        int sortChoice = InputHelper.getBoundedInt(ui.getInput(), 1, 5, null);
+        int sortChoice = InputHelper.getBoundedInt(ui.getInput(), 1, 5, "Choice: ");
         return sortChoice;
     }
 
