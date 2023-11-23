@@ -9,7 +9,7 @@ import util.Log;
 /**
  * <p>
  * An helper class for facilitating the writing of Strings to files.
- * Adheres to Single Responsibility Principle, through encapsulation
+ * Adheres to Single Responsibility Principle
  * </p>
  * 
  * @author Lim Jun Rong Ryan

@@ -2,7 +2,6 @@ import boundary.ConsoleUI;
 import control.CampSystem;
 import control.DataStoreSystem;
 import control.EnquirySystem;
-import control.FeedbackSystem;
 import control.LoginSystem;
 import control.ReportSystem;
 import control.SuggestionSystem;

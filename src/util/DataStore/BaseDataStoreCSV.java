@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import util.Log;
-
 /**
  * <p>
  * This abstract class defines methods common to DataStoreCSVImpl.

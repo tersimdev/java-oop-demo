@@ -39,7 +39,7 @@ public class CampViewerSubSystem {
      *                        them.
      * @param dataStoreSystem A class to handle all datastore operations.
      */
-    public CampViewerSubSystem(CampSystem campSystem, DataStoreSystem dataStoreSystem,
+    public CampViewerSubSystem(CampSystem campSystem, 
             CampCheckHelperSubSystem campCheckHelperSubSystem) {
         this.campSystem = campSystem;
         this.campCheckHelperSubSystem = campCheckHelperSubSystem;
@@ -156,7 +156,7 @@ public class CampViewerSubSystem {
     /**
      * A function to print all the camps that are available to a student.
      * 
-     * @param student             The student being checked.
+     * @param student             The student.
      * @param CampSortOrderChoice User's choice for sort filter.
      */
     public void viewAvailableCamps(Student student, int CampSortOrderChoice) {
