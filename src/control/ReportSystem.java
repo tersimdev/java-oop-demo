@@ -80,8 +80,8 @@ public class ReportSystem {
             return;
         }
         try {
-            ArrayList<CampCommitteeMember> commmitteeMembers = dataStoreSystem.queryCommitteeMembers(camp.getCommitteeList());
-            writer.writePerformanceReport(reportOptions, user, commmitteeMembers);
+            ArrayList<CampCommitteeMember> committeeMembers = dataStoreSystem.queryCommitteeMembers(camp.getCommitteeList());
+            writer.writePerformanceReport(reportOptions, user, committeeMembers);
         } catch (ReportWriteException exception) {
             Log.println("Error! Failed to Generate Performance Report.");
             Log.error("ReportWriteException while writing performance report using " + fileType);
