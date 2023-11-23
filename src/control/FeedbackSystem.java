@@ -29,8 +29,8 @@ public class FeedbackSystem {
         this.suggestionsMap = new HashMap<>();
         this.dataStoreSystem = dataStoreSystem;
 
-        ArrayList<CampEnquiry> enquiryList = dataStoreSystem.getAllEnquiries();
-        ArrayList<CampSuggestion> suggestionList = dataStoreSystem.getAllSuggestions();
+        ArrayList<CampEnquiry> enquiryList = dataStoreSystem.getFeedbackDataStoreSubSystem().getAllEnquiries();
+        ArrayList<CampSuggestion> suggestionList = dataStoreSystem.getFeedbackDataStoreSubSystem().getAllSuggestions();
 
         // cld use these as next id, store in system?
         nextEnquiryId = 0;
@@ -60,7 +60,7 @@ public class FeedbackSystem {
         enquiry.setEnquiryId(enquiryId);
         // Add the new enquiry to the ArrayList
         enquiries.add(enquiry);
-        dataStoreSystem.addEnquiry(enquiry);
+        dataStoreSystem.getFeedbackDataStoreSubSystem().addEnquiry(enquiry);
     }
 
     public void addCampSuggestion(int campId, CampSuggestion suggestion) {
@@ -70,7 +70,7 @@ public class FeedbackSystem {
         suggestion.setSuggestionId(suggestionId);
         // Add the new suggestion to the ArrayList
         suggestions.add(suggestion);
-        dataStoreSystem.addSuggestion(suggestion);
+        dataStoreSystem.getFeedbackDataStoreSubSystem().addSuggestion(suggestion);
     }
 
     public boolean editCampEnquiry(int campId, int enquiryId, String newEnquiry) {

@@ -62,7 +62,7 @@ public class CampCreationSubSystem {
     public void createCamp(CampInformation campInfo) {
         Camp newCamp = new Camp(campSystem.getNextCampId(), campInfo);
         campSystem.getCamps().add(newCamp);
-        dataStoreSystem.addCamp(newCamp);
+        dataStoreSystem.getCampDataStoreSubSystem().addCamp(newCamp);
     }
 
     /**
@@ -77,7 +77,7 @@ public class CampCreationSubSystem {
         }
 
         campSystem.getCamps().remove(campId);
-        dataStoreSystem.deleteCamp(campId);
+        dataStoreSystem.getCampDataStoreSubSystem().deleteCamp(campId);
     }
     
      /**
@@ -159,7 +159,7 @@ public class CampCreationSubSystem {
             default:
                 break;
         }
-        dataStoreSystem.updateCampDetails(camp);
+        dataStoreSystem.getCampDataStoreSubSystem().updateCampDetails(camp);
     }
     
 }

@@ -80,7 +80,7 @@ public class ReportSystem {
             return;
         }
         try {
-            ArrayList<CampCommitteeMember> commmitteeMembers = dataStoreSystem.queryCommitteeMembers(camp.getCommitteeList());
+            ArrayList<CampCommitteeMember> commmitteeMembers = dataStoreSystem.getUserDataStoreSubSystem().queryCommitteeMembers(camp.getCommitteeList());
             writer.writePerformanceReport(reportOptions, user, commmitteeMembers);
         } catch (ReportWriteException exception) {
             Log.println("Error! Failed to Generate Performance Report.");

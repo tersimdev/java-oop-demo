@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import control.CampCheckHelperSubSystem.CheckResult;
 import entity.Camp;
 import entity.CampCommitteeMember;
 import entity.Staff;

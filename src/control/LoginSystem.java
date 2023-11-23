@@ -31,14 +31,14 @@ public class LoginSystem {
     public User loginStaff(String userID, String password) {
         Log.info("logging in staff " + userID);
         //find user in staff datastore
-        User user = dataStoreSystem.queryStaff(userID);
+        User user = dataStoreSystem.getUserDataStoreSubSystem().queryStaff(userID);
         return loginUser(user, password);
     }
 
     public User loginStudent(String userID, String password) {
         Log.info("logging in student " + userID);
         //find user in student datastore
-        User user = dataStoreSystem.queryStudent(userID);
+        User user = dataStoreSystem.getUserDataStoreSubSystem().queryStudent(userID);
         return loginUser(user, password);
     }
 
@@ -74,7 +74,7 @@ public class LoginSystem {
             return false;
         }
         currentUser.setPassword(newPassword);
-        dataStoreSystem.updateUserPassword(currentUser.getUserID(), newPassword);
+        dataStoreSystem.getUserDataStoreSubSystem().updateUserPassword(currentUser.getUserID(), newPassword);
         Log.println("Password changed.");
         return true;
     }
