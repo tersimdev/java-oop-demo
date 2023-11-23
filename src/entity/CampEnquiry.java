@@ -12,33 +12,25 @@ import util.DataStore.SerializeToCSV;
  * @version 1.0
  * @since 5-11-2023
  */
-public class CampEnquiry implements SerializeToCSV {
+public class CampEnquiry extends CampFeedback implements SerializeToCSV {
 
-    private int enquiryId;
-    private int campId;
-    private String ownerId;
     private String replierId;
     private String enquiry;
     private String reply;
 
     public CampEnquiry() {
-        enquiryId = 0;
-        campId = 0;
-        ownerId = null;
-        enquiry = "";
+        super();
         replierId = null;
         reply = null;
     }
 
     public CampEnquiry(String studentID, String enquiry, int campId) {
-        this.campId = campId;
-        this.ownerId = studentID;
-        this.enquiry = enquiry;
+        super();
         replierId = null;
         reply = null;
     }
 
-    public int getEnquiryId() {
+    /*public int getEnquiryId() {
         return enquiryId;
     }
 
@@ -53,21 +45,21 @@ public class CampEnquiry implements SerializeToCSV {
     public String getEnquiry() {
         return enquiry;
     }
-
-    public String getReply() {
-        return reply;
-    }
-
-    public boolean isPending() {
-        return reply == null;
-    }
-
+    
     public void setEnquiryId(int enquiryId) {
         this.enquiryId = enquiryId;
     }
 
     public void setEnquiry(String newEnquiry) {
         this.enquiry = newEnquiry;
+    }*/
+
+    public String getReply() {
+        return reply;
+    }
+    
+    public boolean isPending() {
+        return reply == null;
     }
 
     public void reply(String commMemberId, String reply) {
@@ -78,7 +70,7 @@ public class CampEnquiry implements SerializeToCSV {
     @Override
     public String toCSVLine() {
         String ret = "";
-        ret += enquiryId + ","
+        ret += feedbackId + ","
                 + ownerId + ","
                 + enquiry + ",";
         if (replierId != null)
@@ -95,7 +87,7 @@ public class CampEnquiry implements SerializeToCSV {
             Log.error("enquiry csvLine is invalid, expected " + getCSVLineLength() + " but got " + split.length);
             Log.error(csvLine);
         } else {
-            enquiryId = Integer.parseInt(split[0]);
+            feedbackId = Integer.parseInt(split[0]);
             ownerId = split[1];
             enquiry = split[2];
             if (split[3].equals("-1")) {
