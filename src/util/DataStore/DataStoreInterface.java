@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import entity.Camp;
 import entity.CampCommitteeMember;
 import entity.CampEnquiry;
+import entity.CampFeedback;
 import entity.CampSuggestion;
 import entity.User;
 
@@ -40,9 +41,9 @@ public interface DataStoreInterface {
     public void addSuggestion(CampSuggestion suggestion);
     public void deleteSuggestion(int suggestionId);
     public void updateSuggestion(CampSuggestion suggestion);
-    public ArrayList<CampSuggestion> getAllSuggestions();
+    public ArrayList<CampFeedback> getAllSuggestions();
     public void addEnquiry(CampEnquiry enquiry);
     public void deleteEnquiry(int enquiryId);
     public void updateEnquiry(CampEnquiry enquiry);
-    public ArrayList<CampEnquiry> getAllEnquiries();
+    public ArrayList<CampFeedback> getAllEnquiries();
 }

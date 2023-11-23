@@ -8,6 +8,7 @@ import java.util.Map;
 import entity.Camp;
 import entity.CampCommitteeMember;
 import entity.CampEnquiry;
+import entity.CampFeedback;
 import entity.CampSuggestion;
 import entity.Faculty;
 import entity.Staff;
@@ -198,11 +199,11 @@ public class DataStoreCSVImpl implements DataStoreInterface {
     }
 
     @Override
-    public ArrayList<CampSuggestion> getAllSuggestions() {
-        ArrayList<CampSuggestion> ret = new ArrayList<>();
+    public ArrayList<CampFeedback> getAllSuggestions() {
+        ArrayList<CampFeedback> ret = new ArrayList<>();
         ArrayList<String> data = tables.get(tableSuggestions).getRowData();
         for (String s : data) {
-            CampSuggestion tmp = new CampSuggestion();
+            CampFeedback tmp = new CampSuggestion();
             tmp.fromCSVLine(s);
             ret.add(tmp);
         }
@@ -226,11 +227,11 @@ public class DataStoreCSVImpl implements DataStoreInterface {
     }
 
     @Override
-    public ArrayList<CampEnquiry> getAllEnquiries() {
-        ArrayList<CampEnquiry> ret = new ArrayList<>();
+    public ArrayList<CampFeedback> getAllEnquiries() {
+        ArrayList<CampFeedback> ret = new ArrayList<>();
         ArrayList<String> data = tables.get(tableEnquiries).getRowData();
         for (String s : data) {
-            CampEnquiry tmp = new CampEnquiry();
+            CampFeedback tmp = new CampEnquiry();
             tmp.fromCSVLine(s);
             ret.add(tmp);
         }

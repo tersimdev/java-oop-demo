@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import entity.Camp;
 import entity.CampCommitteeMember;
 import entity.CampEnquiry;
+import entity.CampFeedback;
 import entity.CampSuggestion;
 import entity.User;
 import util.DataStore.DataStoreInterface;
@@ -165,7 +166,7 @@ public class DataStoreSystem {
      * 
      * @return array list of suggestions, sorted ascending by id
      */
-    public ArrayList<CampSuggestion> getAllSuggestions() {
+    public ArrayList<CampFeedback> getAllSuggestions() {
         return dataStore.getAllSuggestions();
     }
 
@@ -201,7 +202,7 @@ public class DataStoreSystem {
      * 
      * @return array list of enquiries, sorted ascending by id
      */
-    public ArrayList<CampEnquiry> getAllEnquiries() {
+    public ArrayList<CampFeedback> getAllEnquiries() {
         return dataStore.getAllEnquiries();
     }
 

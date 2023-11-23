@@ -1,9 +1,11 @@
 import boundary.ConsoleUI;
 import control.CampSystem;
 import control.DataStoreSystem;
+import control.EnquirySystem;
 import control.FeedbackSystem;
 import control.LoginSystem;
 import control.ReportSystem;
+import control.SuggestionSystem;
 
 /**
  * <p>
@@ -21,7 +23,8 @@ public class CAMSApp {
     private DataStoreSystem dataStoreSystem;
     private LoginSystem loginSystem;
     private CampSystem campSystem;
-    private FeedbackSystem feedbackSystem;
+    private EnquirySystem enquirySystem;
+    private SuggestionSystem suggestionSystem;
     private ReportSystem reportSystem;
 
     private boolean running = false;
@@ -34,12 +37,13 @@ public class CAMSApp {
         // create systems
         loginSystem = new LoginSystem(dataStoreSystem);
         campSystem = new CampSystem(dataStoreSystem);
-        feedbackSystem = new FeedbackSystem(dataStoreSystem);
+        enquirySystem = new EnquirySystem(dataStoreSystem);
+        suggestionSystem = new SuggestionSystem(dataStoreSystem);
         reportSystem = new ReportSystem(dataStoreSystem);
 
         // create ui
         consoleUI = new ConsoleUI();
-        consoleUI.init(loginSystem, campSystem, feedbackSystem, reportSystem);
+        consoleUI.init(loginSystem, campSystem, enquirySystem, suggestionSystem, reportSystem);
 
         running = true;
     }

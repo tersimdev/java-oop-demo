@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import control.CampSystem;
+import control.EnquirySystem;
 import control.FeedbackSystem;
 import control.LoginSystem;
 import control.ReportSystem;
+import control.SuggestionSystem;
 import entity.Staff;
 import entity.Student;
 import entity.User;
@@ -104,9 +106,11 @@ public class ConsoleUI {
      * @param loginSystem loginSystem object 
      * @param campSystem campSystem object
      * @param feedbackSystem feedbackSystem object
+     * @param enquirySystem enquirySystem object
+     * @param suggestionSystem suggestionSystem object
      * @param reportSystem reportSystem object
      */
-    public void init(LoginSystem loginSystem, CampSystem campSystem, FeedbackSystem feedbackSystem,
+    public void init(LoginSystem loginSystem, CampSystem campSystem, EnquirySystem enquirySystem, SuggestionSystem suggestionSystem,
             ReportSystem reportSystem) {
         this.loginSystem = loginSystem;
         
@@ -116,8 +120,8 @@ public class ConsoleUI {
         menuMap = new HashMap<>();
         menuMap.put(STATE.LOGIN_MENU, new LoginMenu(this, loginSystem));
         menuMap.put(STATE.START_MENU, new StartMenu(this, loginSystem));
-        menuMap.put(STATE.STAFF_MENU, new StaffMenu(this, campSystem, feedbackSystem, reportSystem));
-        menuMap.put(STATE.STUDENT_MENU, new StudentMenu(this, campSystem, feedbackSystem, reportSystem));
+        menuMap.put(STATE.STAFF_MENU, new StaffMenu(this, campSystem, enquirySystem, suggestionSystem, reportSystem));
+        menuMap.put(STATE.STUDENT_MENU, new StudentMenu(this, campSystem, enquirySystem, suggestionSystem, reportSystem));
 
         Log.printLogo("data/logo.txt");
         Log.println("=========================================================================================");
