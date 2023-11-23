@@ -33,10 +33,10 @@ public class CampSystem {
         currCampId = 0;
         if (camps.size() > 0)
             currCampId = camps.get(camps.size() - 1).getCampId() + 1;
+        this.campCheckHelperSubSystem = new CampCheckHelperSubSystem(this);
         this.campCreationSubSystem = new CampCreationSubSystem(this, dataStoreSystem);
         this.campRegistrationSubSystem = new CampRegistrationSubSystem(this, dataStoreSystem, campCheckHelperSubSystem);
-        this.campViewerSubSystem = new CampViewerSubSystem(this, dataStoreSystem, campCheckHelperSubSystem);
-        this.campCheckHelperSubSystem = new CampCheckHelperSubSystem(this);
+        this.campViewerSubSystem = new CampViewerSubSystem(this, campCheckHelperSubSystem);
     }
 
     /**
@@ -46,6 +46,15 @@ public class CampSystem {
      */
     public CampCreationSubSystem getCampCreationSubSystem() {
         return this.campCreationSubSystem;
+    }
+
+    /**
+     * Gets the camp check helper sub system.
+     * 
+     * @return Returns a CampCheckHelperSubSystem object.
+     */
+    public CampCheckHelperSubSystem getcaCampCheckHelperSubSystem() {
+        return this.campCheckHelperSubSystem;
     }
 
     /**
