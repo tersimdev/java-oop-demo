@@ -15,14 +15,12 @@ public class CampReportOptions {
     private int campId;
     private String fileType; //extension like txt, csv without the dot
     private String fileName;
-    private CampReportFilter filter;
     private String filePath; // Set to current directory
 
     public CampReportOptions() {
         campId = 0;
         fileType = ".txt"; //extension like txt, csv with the dot
         fileName = "output";
-        filter = CampReportFilter.NONE;
         filePath = "./"; // Set to current directory
     }
 
@@ -48,14 +46,6 @@ public class CampReportOptions {
 
     public void setFileName(String fileName){
         this.fileName = fileName;
-    }
-
-    public CampReportFilter getFilter(){
-        return filter;
-    }
-
-    public void setFilter(CampReportFilter filter){
-        this.filter = filter;
     }
 
     public String getFilePath() {

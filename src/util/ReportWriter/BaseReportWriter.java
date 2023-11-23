@@ -5,7 +5,7 @@ import entity.CampCommitteeMember;
 import entity.CampReportFilter;
 import entity.CampReportOptions;
 import entity.User;
-import util.FileWriterHelper;
+import util.helpers.FileWriterHelper;
 import control.ReportSystem.ReportWriteException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public abstract class BaseReportWriter {
 
-    public abstract void writeCampReport(CampReportOptions reportOptions, User user, Camp camp)
+    public abstract void writeCampReport(CampReportOptions reportOptions, CampReportFilter filter, User user, Camp camp)
             throws ReportWriteException, IOException;
 
     public abstract void writePerformanceReport(CampReportOptions reportOptions, User user,
