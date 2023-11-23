@@ -82,7 +82,7 @@ public class InputHelper {
     }
 
     /**
-     * Gets an int from user.
+     * Gets an int from user within specified bounds.
      * Throws an error message if the input is not within the given min and max.
      * @param input
      * @param min

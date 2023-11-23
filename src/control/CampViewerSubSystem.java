@@ -39,7 +39,7 @@ public class CampViewerSubSystem {
      *                        them.
      * @param dataStoreSystem A class to handle all datastore operations.
      */
-    public CampViewerSubSystem(CampSystem campSystem, DataStoreSystem dataStoreSystem,
+    public CampViewerSubSystem(CampSystem campSystem, 
             CampCheckHelperSubSystem campCheckHelperSubSystem) {
         this.campSystem = campSystem;
         this.campCheckHelperSubSystem = campCheckHelperSubSystem;
