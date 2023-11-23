@@ -7,6 +7,7 @@ import java.util.Map;
 
 import entity.Camp;
 import entity.CampCommitteeMember;
+import entity.CampReportFilter;
 import entity.CampReportOptions;
 import entity.User;
 import util.Log;
@@ -51,7 +52,7 @@ public class ReportSystem {
         reportWriters.put(".csv", new CSVWriterImpl());
     }
 
-    public void generateCampReport(CampReportOptions reportOptions, User user, Camp camp) {
+    public void generateCampReport(CampReportOptions reportOptions, CampReportFilter filter, User user, Camp camp) {
         String filetype = reportOptions.getFileType();
         BaseReportWriter writer = reportWriters.get(filetype);
         if (writer == null) {
@@ -60,7 +61,7 @@ public class ReportSystem {
         }
 
         try {
-            writer.writeCampReport(reportOptions, user, camp);
+            writer.writeCampReport(reportOptions, filter, user, camp);
         } catch (ReportWriteException exception) {
             Log.println("Error! Failed to Generate Report.");
             // error msg for devs

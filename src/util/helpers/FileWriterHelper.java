@@ -1,8 +1,10 @@
-package util;
+package util.helpers;
 
 import java.io.FileWriter;
 
 import java.io.IOException;
+
+import util.Log;
 
 /**
  * <p>

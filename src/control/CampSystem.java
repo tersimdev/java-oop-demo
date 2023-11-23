@@ -22,6 +22,11 @@ public class CampSystem {
 
     private int currCampId;
 
+    /**
+     * A constructor for a camp system.
+     * 
+     * @param dataStoreSystem A class to handle all datastore operations.
+     */
     public CampSystem(DataStoreSystem dataStoreSystem) {
         // load in camps from datastore
         camps = dataStoreSystem.getCampDataStoreSubSystem().getAllCamps();
@@ -34,22 +39,47 @@ public class CampSystem {
         this.campCheckHelperSubSystem = new CampCheckHelperSubSystem(this);
     }
 
+    /**
+     * Gets the camp creation sub system.
+     * 
+     * @return Returns a CampCreationSubSystem object.
+     */
     public CampCreationSubSystem getCampCreationSubSystem() {
         return this.campCreationSubSystem;
     }
 
+    /**
+     * Gets the camp registration sub system.
+     * 
+     * @return Returns a CampRegistrationSubSystem object.
+     */
     public CampRegistrationSubSystem getCampRegistrationSubSystem() {
         return this.campRegistrationSubSystem;
     }
 
+    /**
+     * Gets the camp viewer sub system.
+     * 
+     * @return Returns a CampViewerSubSystem object.
+     */
     public CampViewerSubSystem getCampViewerSubSystem() {
         return this.campViewerSubSystem;
     }
 
+    /**
+     * Gets the correct campId value for a new camp.
+     * 
+     * @return Returns the largest CampId in the system +1.
+     */
     public int getNextCampId() {
         return currCampId++;
     }
 
+    /**
+     * Gets the list of all the camps.
+     * 
+     * @return Returns the list of all the camps.
+     */
     public ArrayList<Camp> getCamps() {
         return camps;
     }
