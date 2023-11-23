@@ -7,8 +7,12 @@ import entity.CampCommitteeMember;
 import entity.CampEnquiry;
 import entity.CampSuggestion;
 import entity.User;
-import util.DataStore.DataStoreInterface;
-import util.DataStore.DataStoreCSVImpl;
+import util.DataStore.CampDataStoreCSVImpl;
+import util.DataStore.CampDataStoreInterface;
+import util.DataStore.FeedbackDataStoreCSVImpl;
+import util.DataStore.FeedbackDataStoreInterface;
+import util.DataStore.UserDataStoreCSVImpl;
+import util.DataStore.UserDataStoreInterface;
 
 /**
  * <p>
@@ -23,9 +27,17 @@ import util.DataStore.DataStoreCSVImpl;
 public class DataStoreSystem {
 
     /**
-     * Stores a concrete DataStoreInterface object.
+     * Stores a concrete UserDataStoreInterface object.
      */
-    private DataStoreInterface dataStore = null;
+    private UserDataStoreInterface userDataStore = null;
+    /**
+     * Stores a concrete CampDataStoreInterface object.
+     */
+    private CampDataStoreInterface campDataStore = null;
+    /**
+     * Stores a concrete FeedbackDataStoreInterface object.
+     */
+    private FeedbackDataStoreInterface feedbackDataStore = null;
 
     /**
      * Calls <code>init()</code>.
@@ -35,7 +47,9 @@ public class DataStoreSystem {
      * object.
      */
     public DataStoreSystem() {
-        dataStore = new DataStoreCSVImpl();
+        userDataStore = new UserDataStoreCSVImpl();
+        campDataStore = new CampDataStoreCSVImpl();
+        feedbackDataStore = new FeedbackDataStoreCSVImpl();
         init();
     }
 
@@ -44,14 +58,18 @@ public class DataStoreSystem {
      * Loads data from initial sample csv if needed.
      */
     public void init() {
-        dataStore.init();
+        userDataStore.init();
+        campDataStore.init();
+        feedbackDataStore.init();
     }
 
     /**
      * Cleanup datastore.
      */
     public void cleanup() {
-        dataStore.cleanup();
+        userDataStore.cleanup();
+        campDataStore.cleanup();
+        feedbackDataStore.cleanup();
     }
 
     /**
@@ -61,7 +79,7 @@ public class DataStoreSystem {
      * @return staff object as User
      */
     public User queryStaff(String userID) {
-        return dataStore.queryStaff(userID);
+        return userDataStore.queryStaff(userID);
     }
 
     /**
@@ -71,7 +89,7 @@ public class DataStoreSystem {
      * @return student object as User
      */
     public User queryStudent(String userID) {
-        return dataStore.queryStudent(userID);
+        return userDataStore.queryStudent(userID);
     }
 
     /**
@@ -81,7 +99,7 @@ public class DataStoreSystem {
      * @param newPassword new password to set to
      */
     public void updateUserPassword(String userID, String newPassword) {
-        dataStore.updateUserPassword(userID, newPassword);
+        userDataStore.updateUserPassword(userID, newPassword);
     }
 
     /**
@@ -94,7 +112,7 @@ public class DataStoreSystem {
      * @return array list of <code>CampCommitteeMember</code> objects.
      */
     public ArrayList<CampCommitteeMember> queryCommitteeMembers(ArrayList<String> committeeMemberIDs) {
-        return dataStore.queryCommitteeMembers(committeeMemberIDs);
+        return userDataStore.queryCommitteeMembers(committeeMemberIDs);
     }
 
     /**
@@ -103,7 +121,7 @@ public class DataStoreSystem {
      * @param camp camp to serialize
      */
     public void addCamp(Camp camp) {
-        dataStore.addCamp(camp);
+        campDataStore.addCamp(camp);
     }
 
     /**
@@ -112,7 +130,7 @@ public class DataStoreSystem {
      * @param campId id of camp
      */
     public void deleteCamp(int campId) {
-        dataStore.deleteCamp(campId);
+        campDataStore.deleteCamp(campId);
     }
 
     /**
@@ -121,7 +139,7 @@ public class DataStoreSystem {
      * @param camp updated camp object
      */
     public void updateCampDetails(Camp camp) {
-        dataStore.updateCampDetails(camp);
+        campDataStore.updateCampDetails(camp);
     }
 
     /**
@@ -130,7 +148,7 @@ public class DataStoreSystem {
      * @return array list of camps, sorted ascending by id
      */
     public ArrayList<Camp> getAllCamps() {
-        return dataStore.getAllCamps();
+        return campDataStore.getAllCamps();
     }
 
     /**
@@ -139,7 +157,7 @@ public class DataStoreSystem {
      * @param suggestion suggestion to serialize
      */
     public void addSuggestion(CampSuggestion suggestion) {
-        dataStore.addSuggestion(suggestion);
+        feedbackDataStore.addSuggestion(suggestion);
     }
 
     /**
@@ -148,7 +166,7 @@ public class DataStoreSystem {
      * @param suggestionId id of suggestion
      */
     public void deleteSuggestion(int suggestionId) {
-        dataStore.deleteSuggestion(suggestionId);
+        feedbackDataStore.deleteSuggestion(suggestionId);
     }
 
     /**
@@ -157,7 +175,7 @@ public class DataStoreSystem {
      * @param suggestion updated suggestion object
      */
     public void updateSuggestion(CampSuggestion suggestion) {
-        dataStore.updateSuggestion(suggestion);
+        feedbackDataStore.updateSuggestion(suggestion);
     }
 
     /**
@@ -166,7 +184,7 @@ public class DataStoreSystem {
      * @return array list of suggestions, sorted ascending by id
      */
     public ArrayList<CampSuggestion> getAllSuggestions() {
-        return dataStore.getAllSuggestions();
+        return feedbackDataStore.getAllSuggestions();
     }
 
     /**
@@ -175,7 +193,7 @@ public class DataStoreSystem {
      * @param enquiry enquiry to serialize
      */
     public void addEnquiry(CampEnquiry enquiry) {
-        dataStore.addEnquiry(enquiry);
+        feedbackDataStore.addEnquiry(enquiry);
     }
 
     /**
@@ -184,7 +202,7 @@ public class DataStoreSystem {
      * @param enquiryId id of enquiry
      */
     public void deleteEnquiry(int enquiryId) {
-        dataStore.deleteEnquiry(enquiryId);
+        feedbackDataStore.deleteEnquiry(enquiryId);
     }
 
     /**
@@ -193,7 +211,7 @@ public class DataStoreSystem {
      * @param enquiry updated enquiryF object
      */
     public void updateEnquiry(CampEnquiry enquiry) {
-        dataStore.updateEnquiry(enquiry);
+        feedbackDataStore.updateEnquiry(enquiry);
     }
 
     /**
@@ -202,7 +220,7 @@ public class DataStoreSystem {
      * @return array list of enquiries, sorted ascending by id
      */
     public ArrayList<CampEnquiry> getAllEnquiries() {
-        return dataStore.getAllEnquiries();
+        return feedbackDataStore.getAllEnquiries();
     }
 
 }
