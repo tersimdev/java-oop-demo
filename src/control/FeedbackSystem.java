@@ -23,9 +23,13 @@ public abstract class FeedbackSystem {
     public FeedbackSystem(DataStoreSystem dataStoreSystem) {
         this.feedbacksMap = new HashMap<>();
         this.dataStoreSystem = dataStoreSystem;
+    }
 
-        ArrayList<CampFeedback> feedbackList = loadFeedbackFromDatastore();
+    public abstract void addToDataStore(CampFeedback feedback);
+    public abstract void updateToDataStore(CampFeedback feedback);
+    public abstract void removeFromDataStore(int feedbackId);
 
+    protected void initFeedbackMap(ArrayList<CampFeedback> feedbackList) {
         // store in system, use these as next id
         nextFeedbackId = 0;
         if (feedbackList.size() > 0)
@@ -39,8 +43,6 @@ public abstract class FeedbackSystem {
         }
     }
 
-    public abstract ArrayList<CampFeedback> loadFeedbackFromDatastore();
-
     public void addCampFeedback(int campId, CampFeedback feedback) {
         ArrayList<CampFeedback> feedbacks = feedbacksMap.computeIfAbsent(campId, k -> new ArrayList<>());
         // Index in the ArrayList used as enquiryID
@@ -48,25 +50,23 @@ public abstract class FeedbackSystem {
         feedback.setId(feedbackId);
         // Add the new feedback to the ArrayList
         feedbacks.add(feedback);
-        // TODO dataStoreSystem.addFeedback(feedback);
+        addToDataStore(feedback);
     }
 
-    public boolean editCampFeedback(int campId, int feedbackId, String newFeedback) {
+    public CampFeedback editCampFeedback(int campId, int feedbackId, String newFeedback) {
         CampFeedback campFeedback = findFeedbackById(feedbackId, campId);
         if (campFeedback != null) {
             campFeedback.setFeedback(newFeedback);
-            // TODO dataStoreSystem.edit(feedback);
-
-            return true;
+            updateToDataStore(campFeedback);
         }
-        return false;
+        return campFeedback;
     }
 
     public boolean removeCampFeedback(int campId, int feedbackId) {
         CampFeedback campFeedback = findFeedbackById(feedbackId, campId);
         if (campFeedback != null) {
             getCampFeedbacks(campId).remove(campFeedback);
-            // TODO remove from datastore
+            removeFromDataStore(feedbackId);
             return true;
         }
         return false;
@@ -87,5 +87,4 @@ public abstract class FeedbackSystem {
     public boolean checkValidFeedbackId(int feedbackId, int campId) {
         return findFeedbackById(feedbackId, campId) != null;
     }
-
 }

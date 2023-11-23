@@ -1,20 +1,14 @@
 package control;
 
-import entity.CampFeedback;
-import java.util.ArrayList;
-
 import entity.CampEnquiry;
+import entity.CampFeedback;
 import util.Log;
 
 public class EnquirySystem extends FeedbackSystem {
 
     public EnquirySystem(DataStoreSystem dataStoreSystem) {
         super(dataStoreSystem);
-    }
-
-    @Override
-    public ArrayList<CampFeedback> loadFeedbackFromDatastore() {
-        return dataStoreSystem.getFeedbackDataStoreSubSystem().getAllEnquiries();
+        initFeedbackMap(dataStoreSystem.getFeedbackDataStoreSubSystem().getAllEnquiries());
     }
 
     public boolean processCampEnquiry(String commMemberId, int campId, int enquiryId, String reply) {
@@ -27,5 +21,26 @@ public class EnquirySystem extends FeedbackSystem {
             Log.error("Feedback not enquiry for some reason");
         }
         return false;
+    }
+
+    @Override
+    public void addToDataStore(CampFeedback feedback) {
+        if (feedback instanceof CampEnquiry)
+            dataStoreSystem.getFeedbackDataStoreSubSystem().addEnquiry((CampEnquiry) feedback);
+        else
+            Log.error("Tried to add a non enquiry");
+    }
+
+    @Override
+    public void updateToDataStore(CampFeedback feedback) {
+        if (feedback instanceof CampEnquiry)
+            dataStoreSystem.getFeedbackDataStoreSubSystem().updateEnquiry((CampEnquiry) feedback);
+        else
+            Log.error("Tried to update a non enquiry");
+    }
+
+    @Override
+    public void removeFromDataStore(int feedbackId) {
+        dataStoreSystem.getFeedbackDataStoreSubSystem().deleteEnquiry(feedbackId);
     }
 }

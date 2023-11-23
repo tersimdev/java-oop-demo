@@ -13,7 +13,7 @@ import util.Log;
  */
 public class CampSuggestion extends CampFeedback {
 
-    private String approverId;
+    private String responderId;
     private int approvalStatus; // 0 for not viewed, 1 for approved, 2 for rejected
 
     public CampSuggestion() {
@@ -24,11 +24,11 @@ public class CampSuggestion extends CampFeedback {
     public CampSuggestion(String commMemberId, String suggestion, int campId) {
         super(commMemberId, suggestion, campId);
         approvalStatus = 0;
-        approverId = null;
+        responderId = null;
     }
 
-    public String getApproverId() {
-        return approverId;
+    public String getResponderId() {
+        return responderId;
     }
 
     public boolean isPending() {
@@ -44,7 +44,7 @@ public class CampSuggestion extends CampFeedback {
     }
 
     public void setApproval(String staffID, boolean approve) {
-        approverId = staffID;
+        responderId = staffID;
         approvalStatus = approve ? 1 : 2;
     }
 
@@ -54,8 +54,8 @@ public class CampSuggestion extends CampFeedback {
         ret += feedbackId + ","
                 + ownerId + ","
                 + feedback + ",";
-        if (approverId != null)
-            ret += approverId + "," + approvalStatus;
+        if (responderId != null)
+            ret += responderId + "," + approvalStatus;
         else
             ret += "-1,0";
         return ret;
@@ -73,9 +73,9 @@ public class CampSuggestion extends CampFeedback {
             feedback = split[2];
             approvalStatus = Integer.parseInt(split[4]);
             if (split[3].equals("-1")) {
-                approverId = null;
+                responderId = null;
             } else {
-                approverId = split[3];
+                responderId = split[3];
             }
         }
     }

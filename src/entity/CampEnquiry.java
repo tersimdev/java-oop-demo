@@ -14,7 +14,6 @@ import util.Log;
 public class CampEnquiry extends CampFeedback {
 
     private String replierId;
-    private String enquiry;
     private String reply;
 
     public CampEnquiry() {
@@ -47,7 +46,7 @@ public class CampEnquiry extends CampFeedback {
         String ret = "";
         ret += feedbackId + ","
                 + ownerId + ","
-                + enquiry + ",";
+                + feedback + ",";
         if (replierId != null)
             ret += replierId + "," + reply;
         else
@@ -64,7 +63,7 @@ public class CampEnquiry extends CampFeedback {
         } else {
             feedbackId = Integer.parseInt(split[0]);
             ownerId = split[1];
-            enquiry = split[2];
+            feedback = split[2];
             if (split[3].equals("-1")) {
                 replierId = null;
                 reply = null;
