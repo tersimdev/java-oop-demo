@@ -1,5 +1,4 @@
 package entity;
-import util.Log;
 import util.DataStore.SerializeToCSV;
 
 /**
@@ -9,7 +8,7 @@ import util.DataStore.SerializeToCSV;
  * 
  * @author Yen Zhi Wei
  * @version 1.0
- * @since 5-11-2023
+ * @since 23-11-2023
  */
 
 public abstract class CampFeedback implements SerializeToCSV {

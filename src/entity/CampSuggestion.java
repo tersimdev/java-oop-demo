@@ -1,18 +1,17 @@
 package entity;
 
 import util.Log;
-import util.DataStore.SerializeToCSV;
 
 /**
  * <p>
  * This is a class to represent a camp suggestion
  * </p>
  * 
- * @author Sim Yi Wan Terence
+ * @author Yen Zhi Wei
  * @version 1.0
- * @since 5-11-2023
+ * @since 23-11-2023
  */
-public class CampSuggestion extends CampFeedback implements SerializeToCSV {
+public class CampSuggestion extends CampFeedback {
 
     private String approverId;
     private int approvalStatus; // 0 for not viewed, 1 for approved, 2 for rejected
@@ -27,30 +26,6 @@ public class CampSuggestion extends CampFeedback implements SerializeToCSV {
         approvalStatus = 0;
         approverId = null;
     }
-
-    /*public int getSuggestionId() {
-        return suggestionId;
-    }
-
-    public int getCampId() {
-        return campId;
-    }
-
-    public String getOwner() {
-        return ownerId;
-    }
-
-    public String getSuggestion() {
-        return suggestion;
-    }
-    
-    public void setSuggestionId(int suggestionId) {
-        this.suggestionId = suggestionId;
-    }
-
-    public void setSuggestion(String newSuggestion) {
-        this.suggestion = newSuggestion;
-    }*/
 
     public String getApproverId() {
         return approverId;

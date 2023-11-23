@@ -5,10 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import entity.CampFeedback;
-import entity.CampEnquiry;
-import entity.CampSuggestion;
-import util.Log;
-import util.Input;
 
 /**
  * <p>
@@ -17,21 +13,12 @@ import util.Input;
  * 
  * @author Yen Zhi Wei
  * @version 1.0
- * @since 1-11-2023
+ * @since 23-11-2023
  */
 public abstract class FeedbackSystem {
     protected DataStoreSystem dataStoreSystem;
-    /*
-     * private Map<Integer, ArrayList<CampEnquiry>> enquiriesMap;
-     * private Map<Integer, ArrayList<CampSuggestion>> suggestionsMap;
-     */
     protected Map<Integer, ArrayList<CampFeedback>> feedbacksMap;
     protected int nextFeedbackId;
-
-    /*
-     * private int nextEnquiryId;
-     * private int nextSuggetionId;
-     */
 
     public FeedbackSystem(DataStoreSystem dataStoreSystem) {
         this.feedbacksMap = new HashMap<>();
