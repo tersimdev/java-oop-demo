@@ -25,6 +25,9 @@ public class Camp implements SerializeToCSV {
     private ArrayList<String> withdrawnList; // store students who have withdrawn from this camp previously
     private boolean visibility; // staff can set this to false to hide, if no one registered and stuff yet
 
+    private final static String EMPTY_STUD_LIST = "NONE";
+    private final static String STUD_LIST_SEP = ";";
+
     public Camp() {
         this.campId = -1;
         this.campInformation = new CampInformationBuilder().build(); // build empty
@@ -94,26 +97,50 @@ public class Camp implements SerializeToCSV {
         return visibility;
     }
 
+    /**
+     * Helper function to convert an array list of string to a single string
+     * 
+     * @param ids list of user ids
+     * @return string of ids separated by STUD_LIST_SEP, returns EMPTY_STUD_LIST if
+     *         size is empty
+     */
+    private String getIDListAsString(ArrayList<String> ids) {
+        String ret = "";
+        for (String s : ids) {
+            ret += s + STUD_LIST_SEP;
+        }
+        if (!ret.isEmpty())
+            return ret;
+        return EMPTY_STUD_LIST;
+    }
+
+    /**
+     * Helper function to a single string to an array list of string
+     * 
+     * @param ids string to convert
+     * @return empty array list if string is EMPTY_STUD_LIST, else array list of
+     *         string
+     */
+    private ArrayList<String> getStringAsIDList(String str) {
+        if (str.trim().equals(EMPTY_STUD_LIST))
+            return new ArrayList<>();
+        String[] arr = str.split(STUD_LIST_SEP);
+        return new ArrayList<>(Arrays.asList(arr));
+    }
+
     @Override
     public String toCSVLine() {
         String ret = "";
         ret += campId + ","
                 + (visibility ? "VISIBLE" : "HIDDEN") + ",";
         // add attendee list as one csv cell, separated by semicolon
-        for (String s : attendeeList) {
-            ret += s + ";";
-        }
-        ret += ",";
+        ret += getIDListAsString(attendeeList) + ",";
         // add committee list as one csv cell, separated by semicolon
-        for (String s : committeeList) {
-            ret += s + ";";
-        }
-        ret += ",";
+        ret += getIDListAsString(committeeList) + ",";
         // add withdrawn list as one csv cell, separated by semicolon
-        for (String s : withdrawnList) {
-            ret += s + ";";
-        }
-        ret += "," + campInformation.toCSVLine();
+        ret += getIDListAsString(withdrawnList) + ",";
+
+        campInformation.toCSVLine();
         return ret;
     }
 
@@ -127,14 +154,11 @@ public class Camp implements SerializeToCSV {
             this.campId = Integer.parseInt(split[0]);
             this.visibility = (split[1].equals("VISIBLE"));
             // get list of attendees
-            String[] attendees = split[2].split(";");
-            this.attendeeList = new ArrayList<>(Arrays.asList(attendees));
+            this.attendeeList = getStringAsIDList(split[2]);
             // get list of committee members
-            String[] committee = split[3].split(";");
-            this.committeeList = new ArrayList<>(Arrays.asList(committee));
+            this.committeeList = getStringAsIDList(split[3]);
             // get list of withdraw students
-            String[] withdrawn = split[4].split(";");
-            this.withdrawnList = new ArrayList<>(Arrays.asList(withdrawn));
+            this.withdrawnList = getStringAsIDList(split[4]);
             // get the rest of the csv, join them with commas, and pass to campinfo
             String campInfoCSV = String.join(",", Arrays.copyOfRange(split, 5, split.length));
             this.campInformation = new CampInformationBuilder().build(); // build empty instance
