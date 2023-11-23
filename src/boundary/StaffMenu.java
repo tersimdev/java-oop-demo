@@ -32,7 +32,6 @@ import util.Log;
 public class StaffMenu extends Menu {
 
     private final CampSystem campSystem;
-    //private final FeedbackSystem feedbackSystem;
     private final EnquirySystem enquirySystem;
     private final SuggestionSystem suggestionSystem;
     private final ReportSystem reportSystem;
@@ -208,18 +207,7 @@ public class StaffMenu extends Menu {
             if (!(campFeedback instanceof CampEnquiry))
                 continue;
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
-            Log.println("EnquiryID: " + campEnquiry.getId());
-            Log.println("StudentID: " + campEnquiry.getOwner());
-            if (campEnquiry.getReply() == null) {
-                Log.println("Enquiry Status: Pending");
-                Log.println("Enquiry: " + campEnquiry.getFeedback());
-                Log.println("Reply: Null");
-            } else {
-                Log.println("Enquiry Status: Processed");
-                Log.println("Enquiry: " + campEnquiry.getFeedback());
-                Log.println("Reply: " + campEnquiry.getReply());
-            }
-            Log.println("");
+            enquirySystem.printEnquiry(campEnquiry);
         }
         return false;
     }
@@ -237,12 +225,7 @@ public class StaffMenu extends Menu {
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
             if (campEnquiry == null || !campEnquiry.isPending())
                 continue;
-            Log.println("EnquiryID: " + campEnquiry.getId());
-            Log.println("StudentID: " + campEnquiry.getOwner());
-            Log.println("Enquiry Status: Pending");
-            Log.println("Enquiry: " + campEnquiry.getFeedback());
-            Log.println("Reply: Null");
-            Log.println("");
+            enquirySystem.printEnquiry(campEnquiry);
         }
         int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to reply: ");
         String reply = ui.getInput().getLine("Please enter reply: ");
@@ -265,18 +248,7 @@ public class StaffMenu extends Menu {
             if (!(campFeedback instanceof CampSuggestion))
                 continue;
             CampSuggestion campSuggestion = (CampSuggestion) campFeedback;
-            Log.println("SuggestionID: " + campSuggestion.getId());
-            Log.println("CampCommitteeMemberID: " + campSuggestion.getOwner());
-
-            if (campSuggestion.hasApproved())
-                Log.println("Approval status: Approved");
-            else if (campSuggestion.hasRejected())
-                Log.println("Approval status: Rejected");
-            else
-                Log.println("Approval status: Pending");
-
-            Log.println("Suggestion: " + campSuggestion.getFeedback());
-            Log.println("");
+            suggestionSystem.printSuggestion(campSuggestion);
         }
         return false;
     }
@@ -297,11 +269,7 @@ public class StaffMenu extends Menu {
             if (campSuggestion == null || !campSuggestion.isPending())
                 continue;
             else {
-                Log.println("SuggestionID: " + campSuggestion.getId());
-                Log.println("CampCommitteeMemberID: " + campSuggestion.getOwner());
-                Log.println("Approval status: Pending");
-                Log.println("Suggestion: " + campSuggestion.getFeedback());
-                Log.println("");
+                suggestionSystem.printSuggestion(campSuggestion);
             }
         }
         int suggestionId = ui.getInput()
