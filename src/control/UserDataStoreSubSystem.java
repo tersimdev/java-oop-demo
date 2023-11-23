@@ -33,7 +33,6 @@ public class UserDataStoreSubSystem {
      */
     public UserDataStoreSubSystem() {
         dataStore = new UserDataStoreCSVImpl();
-        init();
     }
 
     /**

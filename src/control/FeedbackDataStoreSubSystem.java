@@ -34,7 +34,6 @@ public class FeedbackDataStoreSubSystem {
      */
     public FeedbackDataStoreSubSystem() {
         dataStore = new FeedbackDataStoreCSVImpl();
-        init();
     }
 
     /**

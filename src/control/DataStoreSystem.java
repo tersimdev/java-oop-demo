@@ -1,5 +1,7 @@
 package control;
 
+import util.Log;
+
 /**
  * <p>
  * A class composed of XXDataStoreSubSystems.
@@ -23,22 +25,22 @@ public class DataStoreSystem {
      * Subsystem to handle feedback data store operations.
      */
     private FeedbackDataStoreSubSystem feedbackDataStoreSubSystem;
-    
+
     /**
-     * Calls <code>init()</code>.
      * Ensure to construct the object before other systems.
      */
     public DataStoreSystem() {
         userDataStoreSubSystem = new UserDataStoreSubSystem();
         campDataStoreSubSystem = new CampDataStoreSubSystem();
         feedbackDataStoreSubSystem = new FeedbackDataStoreSubSystem();
-        init();
+        //Log.info("creating data stores");
     }
 
     /**
      * Initializes all sub systems.
      */
     public void init() {
+        Log.info("Creating data stores");
         userDataStoreSubSystem.init();
         campDataStoreSubSystem.init();
         feedbackDataStoreSubSystem.init();
@@ -48,6 +50,7 @@ public class DataStoreSystem {
      * Cleanup datastore.
      */
     public void cleanup() {
+        Log.info("Saving all data to CSVs");
         userDataStoreSubSystem.cleanup();
         campDataStoreSubSystem.cleanup();
         feedbackDataStoreSubSystem.cleanup();
@@ -66,7 +69,7 @@ public class DataStoreSystem {
     public CampDataStoreSubSystem getCampDataStoreSubSystem() {
         return campDataStoreSubSystem;
     }
- 
+
     /**
      * Gets the feedback data subsystem
      */

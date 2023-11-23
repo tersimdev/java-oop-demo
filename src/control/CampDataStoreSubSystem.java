@@ -32,7 +32,6 @@ public class CampDataStoreSubSystem {
      */
     public CampDataStoreSubSystem() {
         dataStore = new CampDataStoreCSVImpl();
-        init();
     }
 
     /**

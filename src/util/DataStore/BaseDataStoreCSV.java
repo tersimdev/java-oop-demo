@@ -56,7 +56,6 @@ public abstract class BaseDataStoreCSV {
      * but if yes ensure to do super.cleanup().
      */
     public void cleanup() {
-        Log.info("Saving all data to CSVs");
         for (CSVTable t : tables.values()) {
             // should sort by id just incase
             t.sortRows();
