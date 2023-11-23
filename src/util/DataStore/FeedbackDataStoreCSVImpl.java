@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import entity.CampEnquiry;
+import entity.CampFeedback;
 import entity.CampSuggestion;
 
 /**
@@ -56,13 +57,13 @@ public class FeedbackDataStoreCSVImpl extends BaseDataStoreCSV implements Feedba
 
     @Override
     public void updateSuggestion(CampSuggestion suggestion) {
-        String row = tables.get(tableSuggestions).queryRow(0, Integer.toString(suggestion.getSuggestionId()));
+        String row = tables.get(tableSuggestions).queryRow(0, Integer.toString(suggestion.getId()));
         tables.get(tableSuggestions).updateRow(row, suggestion.toCSVLine());
     }
 
     @Override
-    public ArrayList<CampSuggestion> getAllSuggestions() {
-        ArrayList<CampSuggestion> ret = new ArrayList<>();
+    public ArrayList<CampFeedback> getAllSuggestions() {
+        ArrayList<CampFeedback> ret = new ArrayList<>();
         ArrayList<String> data = tables.get(tableSuggestions).getRowData();
         for (String s : data) {
             CampSuggestion tmp = new CampSuggestion();
@@ -84,13 +85,13 @@ public class FeedbackDataStoreCSVImpl extends BaseDataStoreCSV implements Feedba
 
     @Override
     public void updateEnquiry(CampEnquiry enquiry) {
-        String row = tables.get(tableEnquiries).queryRow(0, Integer.toString(enquiry.getEnquiryId()));
+        String row = tables.get(tableEnquiries).queryRow(0, Integer.toString(enquiry.getId()));
         tables.get(tableEnquiries).updateRow(row, enquiry.toCSVLine());
     }
 
     @Override
-    public ArrayList<CampEnquiry> getAllEnquiries() {
-        ArrayList<CampEnquiry> ret = new ArrayList<>();
+    public ArrayList<CampFeedback> getAllEnquiries() {
+        ArrayList<CampFeedback> ret = new ArrayList<>();
         ArrayList<String> data = tables.get(tableEnquiries).getRowData();
         for (String s : data) {
             CampEnquiry tmp = new CampEnquiry();

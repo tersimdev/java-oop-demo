@@ -11,7 +11,7 @@ import entity.CampReportOptions;
 import entity.User;
 import util.Log;
 import util.ReportWriter.CSVWriterImpl;
-import util.ReportWriter.ReportWriterInterface;
+import util.ReportWriter.BaseReportWriter;
 import util.ReportWriter.TXTWriterImpl;
 
 /**
@@ -25,7 +25,7 @@ import util.ReportWriter.TXTWriterImpl;
  */
 public class ReportSystem {
     // map of file extensions to writing implementation
-    private Map<String, ReportWriterInterface> reportWriters;
+    private Map<String, BaseReportWriter> reportWriters;
 
     private DataStoreSystem dataStoreSystem;
 
@@ -53,7 +53,7 @@ public class ReportSystem {
 
     public void generateCampReport(CampReportOptions reportOptions, User user, Camp camp) {
         String filetype = reportOptions.getFileType();
-        ReportWriterInterface writer = reportWriters.get(filetype);
+        BaseReportWriter writer = reportWriters.get(filetype);
         if (writer == null) {
             Log.error("writer implementation not found, file type is likely invalid");
             return;
@@ -74,7 +74,7 @@ public class ReportSystem {
 
     public void writePerformanceReport(CampReportOptions reportOptions, User user, Camp camp) {
         String fileType = reportOptions.getFileType();
-        ReportWriterInterface writer = reportWriters.get(fileType);
+        BaseReportWriter writer = reportWriters.get(fileType);
         if (writer == null) {
             Log.error("writer implementation not found, file is likely invalid");
             return;

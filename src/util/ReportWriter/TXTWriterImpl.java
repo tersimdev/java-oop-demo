@@ -11,14 +11,14 @@ import entity.CampReportOptions;
 import entity.User;
 
 /**
- * An implementation of the {@link ReportWriterInterface} that writes reports in
- * TXT format. Uses strategy design pattern
+ * An implementation of the {@link BaseReportWriter} that writes reports in
+ * TXT format.
  * 
  * @author Lim Jun Rong Ryan
  * @version 1.0
  * @since 19-11-2023
  */
-public class TXTWriterImpl extends FileWriterHelper implements ReportWriterInterface {
+public class TXTWriterImpl extends BaseReportWriter {
 
     @Override
     public void writeCampReport(CampReportOptions reportOptions, User user, Camp camp)
@@ -33,19 +33,8 @@ public class TXTWriterImpl extends FileWriterHelper implements ReportWriterInter
         reportContent.append("Dates: ").append(camp.getCampInformation().getDates()).append("\n");
 
         CampReportFilter filter = reportOptions.getFilter();
-        boolean printAttendees = (filter == CampReportFilter.ATTENDEE || filter == CampReportFilter.NONE);
-        boolean printCommittee = (filter == CampReportFilter.CAMP_COMMITTEE || filter == CampReportFilter.NONE);
-
-        if (printAttendees) {
-            reportContent.append("\nCamp Attendees: \n");
-            reportContent.append(getAttendeesAsString(camp, "\n"));
-        }
-        if (printCommittee) {
-            reportContent.append("\nCamp Committee: \n");
-            reportContent.append(getCommitteeListAsString(camp,"\n" ));
-        }
-
-        writeToFile(reportOptions, reportContent);
+        reportContent.append(getStudentListAsString(camp, filter));
+        writeReportToFile(reportOptions, reportContent.toString());
     }
 
     @Override
@@ -64,7 +53,6 @@ public class TXTWriterImpl extends FileWriterHelper implements ReportWriterInter
             reportContent.append("Total Points Earned: ").append(committeeMember.getPoints()).append("\n");
             reportContent.append("\n");
         }
-
-        writeToFile(reportOptions, reportContent);
+        writeReportToFile(reportOptions, reportContent.toString());
     }
 }

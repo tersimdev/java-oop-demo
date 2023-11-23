@@ -12,32 +12,23 @@ import util.DataStore.SerializeToCSV;
  * @version 1.0
  * @since 5-11-2023
  */
-public class CampSuggestion implements SerializeToCSV {
+public class CampSuggestion extends CampFeedback implements SerializeToCSV {
 
-    private int suggestionId;
-    private int campId;
-    private String ownerId; // owner of this suggestion
     private String approverId;
-    private String suggestion; // the suggestion in plaintext
-    private int approvalStatus; // 0 for not viewd, 1 for approved, 2 for rejected
+    private int approvalStatus; // 0 for not viewed, 1 for approved, 2 for rejected
 
     public CampSuggestion() {
-        suggestionId = 0;
-        ownerId = null;
-        approverId = null;
-        suggestion = "";
+        super();
         approvalStatus = 0;
     }
 
     public CampSuggestion(String commMemberID, String suggestion, int campId) {
-        this.campId = campId;
-        this.ownerId = commMemberID;
-        this.suggestion = suggestion;
+        super();
         approvalStatus = 0;
         approverId = null;
     }
 
-    public int getSuggestionId() {
+    /*public int getSuggestionId() {
         return suggestionId;
     }
 
@@ -52,6 +43,14 @@ public class CampSuggestion implements SerializeToCSV {
     public String getSuggestion() {
         return suggestion;
     }
+    
+    public void setSuggestionId(int suggestionId) {
+        this.suggestionId = suggestionId;
+    }
+
+    public void setSuggestion(String newSuggestion) {
+        this.suggestion = newSuggestion;
+    }*/
 
     public String getApproverId() {
         return approverId;
@@ -69,14 +68,6 @@ public class CampSuggestion implements SerializeToCSV {
         return approvalStatus == 2;
     }
 
-    public void setSuggestionId(int suggestionId) {
-        this.suggestionId = suggestionId;
-    }
-
-    public void setSuggestion(String newSuggestion) {
-        this.suggestion = newSuggestion;
-    }
-
     public void setApproval(String staffID, boolean approve) {
         approverId = staffID;
         approvalStatus = approve ? 1 : 2;
@@ -85,9 +76,9 @@ public class CampSuggestion implements SerializeToCSV {
     @Override
     public String toCSVLine() {
         String ret = "";
-        ret += suggestionId + ","
+        ret += feedbackId + ","
                 + ownerId + ","
-                + suggestion + ",";
+                + feedback + ",";
         if (approverId != null)
             ret += approverId + "," + approvalStatus;
         else
@@ -102,9 +93,9 @@ public class CampSuggestion implements SerializeToCSV {
             Log.error("suggestion csvLine is invalid, expected " + getCSVLineLength() + " but got " + split.length);
             Log.error(csvLine);
         } else {
-            suggestionId = Integer.parseInt(split[0]);
+            feedbackId = Integer.parseInt(split[0]);
             ownerId = split[1];
-            suggestion = split[2];
+            feedback = split[2];
             approvalStatus = Integer.parseInt(split[4]);
             if (split[3].equals("-1")) {
                 approverId = null;

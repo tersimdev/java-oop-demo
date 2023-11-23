@@ -12,9 +12,8 @@ import entity.User;
 
 /**
  * <p>
- * An implementation of the {@link ReportWriterInterface} that writes reports in
+ * An implementation of the {@link BaseReportWriter} that writes reports in
  * CSV format.
- * Uses strategy design pattern
  * </p>
  * 
  * @author Lim Jun Rong Ryan
@@ -22,7 +21,7 @@ import entity.User;
  * @since 19-11-2023
  */
 
-public class CSVWriterImpl extends FileWriterHelper implements ReportWriterInterface {
+public class CSVWriterImpl extends BaseReportWriter {
 
     @Override
     public void writeCampReport(CampReportOptions reportOptions, User user, Camp camp)
@@ -37,19 +36,8 @@ public class CSVWriterImpl extends FileWriterHelper implements ReportWriterInter
         reportContent.append("Dates: ").append(camp.getCampInformation().getDates()).append("\n");
 
         CampReportFilter filter = reportOptions.getFilter();
-        boolean printAttendees = (filter == CampReportFilter.ATTENDEE || filter == CampReportFilter.NONE);
-        boolean printCommittee = (filter == CampReportFilter.CAMP_COMMITTEE || filter == CampReportFilter.NONE);
-
-        if (printAttendees) {
-            reportContent.append("\nCamp Attendees: \n");
-            reportContent.append(getAttendeesAsString(camp, ","));
-        }
-        if (printCommittee) {
-            reportContent.append("\nCamp Committee: \n");
-            reportContent.append(getCommitteeListAsString(camp,"," ));
-        }
-
-        writeToFile(reportOptions, reportContent);
+        reportContent.append(getStudentListAsString(camp, filter));
+        writeReportToFile(reportOptions, reportContent.toString());
     }
 
     @Override
@@ -67,8 +55,7 @@ public class CSVWriterImpl extends FileWriterHelper implements ReportWriterInter
             reportContent.append("User ID: ").append(committeeMember.getStudentId()).append(",");
             reportContent.append("Total Points Earned: ").append(committeeMember.getPoints()).append(",");
             reportContent.append("\n");
-        }
-
-        writeToFile(reportOptions, reportContent);
+        }        
+        writeReportToFile(reportOptions, reportContent.toString());
     }
 }
