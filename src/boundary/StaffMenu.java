@@ -103,7 +103,7 @@ public class StaffMenu extends Menu {
         String location = ui.getInput().getLine("Please enter the camp's location: ");
         int committeeSlots = InputHelper.getBoundedInt(ui.getInput(), 0, 10,
                 "Please enter the camp's number of committee slots (MAX 10): ");
-        int totalSlots = InputHelper.getBoundedInt(ui.getInput(), committeeSlots + 10, 999,
+        int totalSlots = InputHelper.getBoundedInt(ui.getInput(), committeeSlots + 1, 999,
                 "Please enter the camp's total number of slots (including committee members): ");
         int duration = InputHelper.getBoundedInt(ui.getInput(), 1, 9999,
                 "Please enter the number of days the camp will be held: ");
