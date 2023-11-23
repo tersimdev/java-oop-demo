@@ -22,8 +22,8 @@ public class CampSuggestion extends CampFeedback implements SerializeToCSV {
         approvalStatus = 0;
     }
 
-    public CampSuggestion(String commMemberID, String suggestion, int campId) {
-        super();
+    public CampSuggestion(String commMemberId, String suggestion, int campId) {
+        super(commMemberId, suggestion, campId);
         approvalStatus = 0;
         approverId = null;
     }

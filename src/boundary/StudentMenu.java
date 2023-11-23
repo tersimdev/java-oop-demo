@@ -160,7 +160,7 @@ public class StudentMenu extends Menu {
         int pending = 0;
         Log.println("===Pending Enquiries===");
         for (CampFeedback campFeedback : studentEnquiryList) {
-            if (!(campFeedback instanceof CampEnquiry))
+            if (campFeedback == null || !(campFeedback instanceof CampEnquiry))
                 continue;
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
             boolean belongsToUser = campEnquiry.getOwner().equals(student.getUserID());
