@@ -153,12 +153,13 @@ public abstract class Menu {
      */
     protected int printCampSortOrderChoices() {
         Log.println("In what order would you like to view the camps?");
-        Log.println("(1) Camp Dates");
-        Log.println("(2) Camp location");
-        Log.println("(3) Camp attendee slots remaining");
-        Log.println("(4) Camp committee slots remaining");
-        Log.println("(5) Camp registration deadline");
-        int sortChoice = InputHelper.getBoundedInt(ui.getInput(), 1, 5, "Choice: ");
+        Log.println("(1) Camp IDs");
+        Log.println("(2) Camp Dates");
+        Log.println("(3) Camp location");
+        Log.println("(4) Camp attendee slots remaining");
+        Log.println("(5) Camp committee slots remaining");
+        Log.println("(6) Camp registration deadline");
+        int sortChoice = InputHelper.getBoundedInt(ui.getInput(), 1, 6, "Choice: ");
         return sortChoice;
     }
 

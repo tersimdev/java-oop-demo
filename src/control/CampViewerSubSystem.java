@@ -16,6 +16,7 @@ public class CampViewerSubSystem {
     private CampCheckHelperSubSystem campCheckHelperSubSystem;
 
     private enum PrintCampSortOrder {
+        ID,
         DATES,
         LOCATION,
         ATTENDEE_SLOTS_REMAINING,
@@ -28,7 +29,7 @@ public class CampViewerSubSystem {
      * camps.
      */
     private final static ArrayList<PrintCampSortOrder> PrintCampSortOrderEnumList = new ArrayList<>(
-            Arrays.asList(PrintCampSortOrder.DATES, PrintCampSortOrder.LOCATION,
+            Arrays.asList(PrintCampSortOrder.ID,PrintCampSortOrder.DATES, PrintCampSortOrder.LOCATION,
                     PrintCampSortOrder.ATTENDEE_SLOTS_REMAINING,
                     PrintCampSortOrder.COMMITTEE_SLOTS_REMAINING, PrintCampSortOrder.REGISTRATION_CLOSING_DATE));
 
@@ -51,11 +52,11 @@ public class CampViewerSubSystem {
      * Prints a list of all the camps in the system.
      * Only available to staff.
      * 
-     * @param CampSortOrderChoice The user's choice of filter.
+     * @param campSortOrderChoice The user's choice of filter.
      */
-    public void viewAllCamps(int CampSortOrderChoice) {
+    public void viewAllCamps(int campSortOrderChoice) {
         Log.println("===List of all camps===");
-        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(CampSortOrderChoice - 1);
+        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(campSortOrderChoice - 1);
         ArrayList<Camp> sortedCamps = sortCamps(campSystem.getCamps(), printCampSortOrder);
         for (Camp camp : sortedCamps) {
             if (camp != null)
@@ -68,11 +69,11 @@ public class CampViewerSubSystem {
      * Only available to staff.
      * 
      * @param staff               The staff.
-     * @param CampSortOrderChoice The user's choice of filter.
+     * @param campSortOrderChoice The user's choice of filter.
      */
-    public void viewCampsOfStaff(Staff staff, int CampSortOrderChoice) {
+    public void viewCampsOfStaff(Staff staff, int campSortOrderChoice) {
         Log.println("===List of all camps created by " + staff.getUserID() + "===");
-        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(CampSortOrderChoice - 1);
+        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(campSortOrderChoice - 1);
         ArrayList<Camp> sortedCamps = sortCamps(campSystem.getCamps(), printCampSortOrder);
         for (Camp camp : sortedCamps) {
             if (camp != null
@@ -157,11 +158,11 @@ public class CampViewerSubSystem {
      * A function to print all the camps that are available to a student.
      * 
      * @param student             The student.
-     * @param CampSortOrderChoice User's choice for sort filter.
+     * @param campSortOrderChoice User's choice for sort filter.
      */
-    public void viewAvailableCamps(Student student, int CampSortOrderChoice) {
+    public void viewAvailableCamps(Student student, int campSortOrderChoice) {
         Log.println("===List of all available camps===");
-        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(CampSortOrderChoice - 1);
+        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(campSortOrderChoice - 1);
         ArrayList<Camp> sortedCamps = sortCamps(campSystem.getCamps(), printCampSortOrder);
 
         for (Camp camp : sortedCamps) {
@@ -175,25 +176,23 @@ public class CampViewerSubSystem {
      * A function to view all the camps a student has registered for.
      * 
      * @param student             The student.
-     * @param CampSortOrderChoice The user's choice of filter.
+     * @param campSortOrderChoice The user's choice of filter.
      */
-    public void viewRegisteredCamps(Student student, int CampSortOrderChoice) {
+    public void viewRegisteredCamps(Student student, int campSortOrderChoice) {
         String studentId = student.getUserID();
         Log.println("===List of all the camps you are registered for===");
-        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(CampSortOrderChoice - 1);
+        PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(campSortOrderChoice - 1);
         ArrayList<Camp> sortedCamps = sortCamps(campSystem.getCamps(), printCampSortOrder);
         for (Camp camp : sortedCamps) {
             if (camp != null) {
                 if (camp.getAttendeeList().contains(studentId)) {
-                    Log.println("=======================");
+                    Log.println("===================================");
                     Log.println("Your role for camp " + camp.getCampId() + ": Attendee");
-                    Log.println("-----------------------");
                     printCamp(camp);
                 }
                 if (camp.getCommitteeList().contains(studentId)) {
-                    Log.println("=======================");
+                    Log.println("===================================");
                     Log.println("Your role for camp " + camp.getCampId() + ": Committee Member");
-                    Log.println("-----------------------");
                     printCamp(camp);
                 }
             }
@@ -209,11 +208,22 @@ public class CampViewerSubSystem {
      * @return Returns a clone of the original list of camps.
      */
     private ArrayList<Camp> sortCamps(ArrayList<Camp> unsortedCamps, PrintCampSortOrder printCampSortOrder) {
+        if (unsortedCamps.isEmpty()) {
+            Log.error("Passed empty camp into sorter");
+            return unsortedCamps;
+        }
 
         ArrayList<Camp> camps = new ArrayList<>();
         camps.addAll(unsortedCamps);
 
         switch (printCampSortOrder) {
+            case ID:
+                camps.sort((o1, o2) -> {
+                    int id1 = o1.getCampId();
+                    int id2 = o2.getCampId();
+                    return Integer.compare(id1, id2);
+                });
+                break;
             case DATES:
                 camps.sort((o1, o2) -> {
                     LocalDate firstDate1 = o1.getCampInformation().getDates().get(0);

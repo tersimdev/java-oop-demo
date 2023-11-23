@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import entity.Camp;
 import entity.Student;
 import entity.UserGroup;
+import util.Log;
 
 /**
  * A class that provides helpers for checking various camp related things,
@@ -121,6 +122,7 @@ public class CampCheckHelperSubSystem {
                 .and(checkCampSlotsNotFull(camp))
                 .and(checkRegistrationOpen(camp))
                 .and(checkDatesNoClash(camp, student, campSystem.getCampsByStudent(studentId)))
+                .and(checkStudentNotWithdrawn(camp, student))
                 .and(checkCampOpenToFaculty(camp, student));
 
         return ret;
@@ -138,7 +140,11 @@ public class CampCheckHelperSubSystem {
 
     private CheckResult checkCampOpenToFaculty(Camp camp, Student student) {
         UserGroup userGroup = camp.getCampInformation().getUserGroup();
-        return new CheckResult(student.getFaculty() == userGroup.getFaculty(), "Not available for your faculty");
+        boolean ret = userGroup.isWholeNTU();
+        if (!ret)
+            ret = (student.getFaculty().equals(userGroup.getFaculty()));
+        return new CheckResult(ret,
+                "Not available for your faculty");
     }
 
     private CheckResult checkStudentNotWithdrawn(Camp camp, Student student) {
@@ -166,8 +172,8 @@ public class CampCheckHelperSubSystem {
     public CheckResult checkCampSlotsNotFull(Camp camp) {
         int totalSlots = camp.getCampInformation().getTotalSlots();
         int numberOfAttendees = camp.getAttendeeList().size();
-        int committeeSlots = camp.getCampInformation().getCommitteeSlots();
-        return new CheckResult((numberOfAttendees + committeeSlots < totalSlots), "Camp is full");
+        int numberOfCommittee = camp.getCommitteeList().size();
+        return new CheckResult((numberOfAttendees + numberOfCommittee < totalSlots), "Camp is full");
     }
 
     public CheckResult checkVisibile(Camp camp) {

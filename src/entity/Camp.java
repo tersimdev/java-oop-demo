@@ -140,7 +140,7 @@ public class Camp implements SerializeToCSV {
         // add withdrawn list as one csv cell, separated by semicolon
         ret += getIDListAsString(withdrawnList) + ",";
 
-        campInformation.toCSVLine();
+        ret += campInformation.toCSVLine();
         return ret;
     }
 
