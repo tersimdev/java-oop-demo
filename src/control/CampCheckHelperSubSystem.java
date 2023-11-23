@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import entity.Camp;
 import entity.Student;
 import entity.UserGroup;
-import util.Log;
 
 /**
  * A class that provides helpers for checking various camp related things,
