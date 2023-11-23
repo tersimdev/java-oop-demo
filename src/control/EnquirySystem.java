@@ -43,4 +43,16 @@ public class EnquirySystem extends FeedbackSystem {
     public void removeFromDataStore(int feedbackId) {
         dataStoreSystem.getFeedbackDataStoreSubSystem().deleteEnquiry(feedbackId);
     }
+    
+    public void printEnquiry(CampEnquiry campEnquiry) {
+        Log.println("EnquiryID: " + campEnquiry.getId());
+        Log.println("StudentID: " + campEnquiry.getOwner());
+        Log.println("Enquiry Status: Pending");            
+        Log.println("Enquiry: " + campEnquiry.getFeedback());
+        if(campEnquiry.isPending())
+            Log.println("Reply: null");
+        else
+            Log.println("Reply: " + campEnquiry.getReply());
+        Log.println("");
+    }
 }

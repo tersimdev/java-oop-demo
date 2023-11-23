@@ -43,4 +43,17 @@ public class SuggestionSystem extends FeedbackSystem {
     public void removeFromDataStore(int feedbackId) {
         dataStoreSystem.getFeedbackDataStoreSubSystem().deleteSuggestion(feedbackId);
     }
+    
+    public void printSuggestion(CampSuggestion campSuggestion) {
+        Log.println("SuggestionID: " + campSuggestion.getId());
+        Log.println("CampCommitteeMemberID: " + campSuggestion.getOwner());
+        if(campSuggestion.isPending())
+            Log.println("Suggestion Status: Pending");
+        else if (campSuggestion.hasApproved())
+            Log.println("Suggestion Status: Approved");
+        else if (campSuggestion.hasRejected())
+            Log.println("Suggestion Status: Rejected");
+        Log.println("Suggestion: " + campSuggestion.getFeedback());
+        Log.println("");
+    }
 }

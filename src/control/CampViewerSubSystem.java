@@ -156,7 +156,7 @@ public class CampViewerSubSystem {
     /**
      * A function to print all the camps that are available to a student.
      * 
-     * @param student             The student being checked.
+     * @param student             The student.
      * @param CampSortOrderChoice User's choice for sort filter.
      */
     public void viewAvailableCamps(Student student, int CampSortOrderChoice) {

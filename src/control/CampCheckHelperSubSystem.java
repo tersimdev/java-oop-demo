@@ -107,7 +107,8 @@ public class CampCheckHelperSubSystem {
 
     /**
      * A helper function to check if a camp is available to a student
-     * @param camp The camp being checked
+     * 
+     * @param camp    The camp being checked
      * @param student The student we are checking for
      * @return returns a <code>checkResult</code>
      */
