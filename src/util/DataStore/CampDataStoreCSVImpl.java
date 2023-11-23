@@ -17,12 +17,6 @@ import entity.Camp;
  * @since 19-11-2023
  */
 public class CampDataStoreCSVImpl extends BaseDataStoreCSV implements CampDataStoreInterface {
-
-    /**
-     * A map of table names to csv tables
-     */
-    private Map<String, CSVTable> tables;
-
     // file path constants
     private static final String pathCamps = "data/camps/camps.csv";
 
@@ -30,12 +24,12 @@ public class CampDataStoreCSVImpl extends BaseDataStoreCSV implements CampDataSt
     private static final String tableCamps = "camps";
 
     /**
-     * Function to add mapping of feedback tables.
+     * Constructor, calls super()
+     * Add mapping of feedback tables.
      */
-    @Override
-    protected void addToTable(Map<String, CSVTable> tables) {
-        tables.put(tableCamps, new CSVTable(tableCamps, pathCamps, 0));
-
+    public CampDataStoreCSVImpl() {
+        super();
+        this.tables.put(tableCamps, new CSVTable(tableCamps, pathCamps, 0));
     }
 
     @Override

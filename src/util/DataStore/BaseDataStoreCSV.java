@@ -31,15 +31,7 @@ public abstract class BaseDataStoreCSV {
      */
     public BaseDataStoreCSV() {
         tables = new HashMap<>();
-        addToTable(tables);
     }
-
-    /**
-     * An abtract method called in constructor to create tables mapping.
-     * 
-     * @param tables same as tables attribute, passed in for clarity.
-     */
-    protected abstract void addToTable(Map<String, CSVTable> tables);
 
     /**
      * Initialises the csv tables.

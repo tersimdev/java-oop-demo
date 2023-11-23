@@ -19,12 +19,6 @@ import entity.CampSuggestion;
  * @since 19-11-2023
  */
 public class FeedbackDataStoreCSVImpl extends BaseDataStoreCSV implements FeedbackDataStoreInterface {
-
-    /**
-     * A map of table names to csv tables
-     */
-    private Map<String, CSVTable> tables;
-
     // file path constants
     private static final String pathSuggestions = "data/camps/suggestions.csv";
     private static final String pathEnquiries = "data/camps/enquiries.csv";
@@ -33,15 +27,16 @@ public class FeedbackDataStoreCSVImpl extends BaseDataStoreCSV implements Feedba
     private static final String tableSuggestions = "suggestions";
     private static final String tableEnquiries = "enquiries";
 
-    
     /**
-     * Function to add mapping of feedback tables.
+     * Constructor, calls super().
+     * Add mapping of feedback tables.
      */
-    @Override
-    protected void addToTable(Map<String, CSVTable> tables) {
-        tables.put(tableSuggestions, new CSVTable(tableSuggestions,
+    public FeedbackDataStoreCSVImpl() {
+        super();
+
+        this.tables.put(tableSuggestions, new CSVTable(tableSuggestions,
                 pathSuggestions, 0));
-        tables.put(tableEnquiries, new CSVTable(tableEnquiries, pathEnquiries, 0));
+        this.tables.put(tableEnquiries, new CSVTable(tableEnquiries, pathEnquiries, 0));
     }
 
     @Override

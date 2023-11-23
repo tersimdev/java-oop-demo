@@ -34,12 +34,13 @@ public class UserDataStoreCSVImpl extends BaseDataStoreCSV implements UserDataSt
     private static final String tableStaff = "staff";
 
     /**
-     * Function to add mapping of user tables.
+     * Constructor, calls super().
+     * Add mapping of user tables.
      */
-    @Override
-    protected void addToTable(Map<String, CSVTable> tables) {
-        tables.put(tableStudents, new CSVTable(tableStudents, pathStudents, 1));
-        tables.put(tableStaff, new CSVTable(tableStaff, pathStaff, 1));
+    public UserDataStoreCSVImpl() {
+        super();
+        this.tables.put(tableStudents, new CSVTable(tableStudents, pathStudents, 1));
+        this.tables.put(tableStaff, new CSVTable(tableStaff, pathStaff, 1));
     }
 
     /**
@@ -50,10 +51,10 @@ public class UserDataStoreCSVImpl extends BaseDataStoreCSV implements UserDataSt
     public void init() {
         // load in initial data
         if (!dataExists(pathStudents))
-        initializeStudentList();
+            initializeStudentList();
         if (!dataExists(pathStaff))
-        initializeStaffList();
-        
+            initializeStaffList();
+
         super.init();
     }
 

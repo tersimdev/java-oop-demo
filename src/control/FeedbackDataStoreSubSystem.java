@@ -3,6 +3,7 @@ package control;
 import java.util.ArrayList;
 
 import entity.CampEnquiry;
+import entity.CampFeedback;
 import entity.CampSuggestion;
 import util.DataStore.FeedbackDataStoreCSVImpl;
 import util.DataStore.FeedbackDataStoreInterface;
@@ -83,7 +84,7 @@ public class FeedbackDataStoreSubSystem {
      * 
      * @return array list of suggestions, sorted ascending by id
      */
-    public ArrayList<CampSuggestion> getAllSuggestions() {
+    public ArrayList<CampFeedback> getAllSuggestions() {
         return dataStore.getAllSuggestions();
     }
 
@@ -119,7 +120,7 @@ public class FeedbackDataStoreSubSystem {
      * 
      * @return array list of enquiries, sorted ascending by id
      */
-    public ArrayList<CampEnquiry> getAllEnquiries() {
+    public ArrayList<CampFeedback> getAllEnquiries() {
         return dataStore.getAllEnquiries();
     }
 
