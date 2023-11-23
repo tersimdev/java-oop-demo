@@ -4,18 +4,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import control.CampCheckHelperSubSystem.CheckResult;
 import entity.Camp;
 import entity.CampCommitteeMember;
 import entity.Staff;
 import entity.Student;
-import entity.UserGroup;
 import util.DateStringHelper;
 import util.Log;
 
 public class CampViewerSubSystem {
     private CampSystem campSystem;
-    private DataStoreSystem dataStoreSystem;
     private CampCheckHelperSubSystem campCheckHelperSubSystem;
 
     private enum PrintCampSortOrder {
@@ -45,17 +42,16 @@ public class CampViewerSubSystem {
     public CampViewerSubSystem(CampSystem campSystem, DataStoreSystem dataStoreSystem,
             CampCheckHelperSubSystem campCheckHelperSubSystem) {
         this.campSystem = campSystem;
-        this.dataStoreSystem = dataStoreSystem;
         this.campCheckHelperSubSystem = campCheckHelperSubSystem;
     }
+
+    // STAFF FUNCTIONS
 
     /**
      * Prints a list of all the camps in the system.
      * Only available to staff.
      * 
-     * @param CampSortOrderChoice indexes into
-     *                            <code>PrintCampSortOrderEnumList</code> to give
-     *                            the filter for viewing.
+     * @param CampSortOrderChoice The user's choice of filter.
      */
     public void viewAllCamps(int CampSortOrderChoice) {
         Log.println("===List of all camps===");
@@ -67,6 +63,13 @@ public class CampViewerSubSystem {
         }
     }
 
+    /**
+     * Print a list of all the camps created by a staff.
+     * Only available to staff.
+     * 
+     * @param staff               The staff.
+     * @param CampSortOrderChoice The user's choice of filter.
+     */
     public void viewCampsOfStaff(Staff staff, int CampSortOrderChoice) {
         Log.println("===List of all camps created by " + staff.getUserID() + "===");
         PrintCampSortOrder printCampSortOrder = PrintCampSortOrderEnumList.get(CampSortOrderChoice - 1);
@@ -78,7 +81,15 @@ public class CampViewerSubSystem {
         }
     }
 
-    public void viewAttendeeList(int campId, Staff staff) {
+    /**
+     * A function for staff to view the attendee list for a camp.
+     * Only available to staff.
+     * 
+     * @param staff  Staff object taken in to symbolise that this is a staff
+     *               function.
+     * @param campId Camp being checked.
+     */
+    public void viewAttendeeList(Staff staff, int campId) {
         Log.println("===List of all the students attending this camp===");
         Camp camp = campSystem.getCampById(campId);
         for (String student : camp.getAttendeeList()) {
@@ -86,8 +97,34 @@ public class CampViewerSubSystem {
         }
     }
 
-    // function overloading!
-    public void viewAttendeeList(int campId, CampCommitteeMember campCommitteeMember) {
+    /**
+     * A function for staff to view the committee list for a camp.
+     * Only available to staff.
+     * 
+     * @param staff  Staff object taken in to symbolise that this is a staff
+     *               function.
+     * @param campId Camp being checked.
+     */
+    public void viewCampCommitteeList(Staff staff, int campId) {
+        Log.println("===List of all the committee members attending this camp===");
+        Camp camp = campSystem.getCampById(campId);
+        for (String student : camp.getCommitteeList()) {
+            Log.println(student);
+        }
+    }
+
+    // STUDENT FUNCTIONS
+
+    /**
+     * A function for camp committee members to view the attendee list for a camp.
+     * Only available to camp committee members.
+     * 
+     * @param campCommitteeMember CampCommitteeMember object taken in to symbolise
+     *                            that this is a
+     *                            camp committee member function.
+     * @param campId              Camp being checked.
+     */
+    public void viewAttendeeList(CampCommitteeMember campCommitteeMember, int campId) {
         Log.println("===List of all the students attending this camp===");
         Camp camp = campSystem.getCampById(campId);
         if (!camp.getCommitteeList().contains(campCommitteeMember.getStudentId()))
@@ -97,15 +134,16 @@ public class CampViewerSubSystem {
         }
     }
 
-    public void viewCampCommitteeList(int campId, Staff staff) {
-        Log.println("===List of all the committee members attending this camp===");
-        Camp camp = campSystem.getCampById(campId);
-        for (String student : camp.getCommitteeList()) {
-            Log.println(student);
-        }
-    }
-
-    public void viewCampCommitteeList(int campId, CampCommitteeMember campCommitteeMember) {
+    /**
+     * A function for camp committee members to view the committee list for a camp.
+     * Only available to camp committee members.
+     * 
+     * @param campCommitteeMember CampCommitteeMember object taken in to symbolise
+     *                            that this is a
+     *                            camp committee member function.
+     * @param campId              Camp being checked.
+     */
+    public void viewCampCommitteeList(CampCommitteeMember campCommitteeMember, int campId) {
         Log.println("===List of all the committee members attending this camp===");
         Camp camp = campSystem.getCampById(campId);
         if (!camp.getCommitteeList().contains(campCommitteeMember.getStudentId()))
@@ -115,7 +153,6 @@ public class CampViewerSubSystem {
         }
     }
 
-    // Student functions
     /**
      * A function to print all the camps that are available to a student.
      * 
@@ -128,14 +165,18 @@ public class CampViewerSubSystem {
         ArrayList<Camp> sortedCamps = sortCamps(campSystem.getCamps(), printCampSortOrder);
 
         for (Camp camp : sortedCamps) {
-            UserGroup userGroup = camp.getCampInformation().getUserGroup();
-
             if (campCheckHelperSubSystem.checkCampAvailableToStudent(camp, student).getSuccess()) {
                 printCamp(camp);
             }
         }
     }
 
+    /**
+     * A function to view all the camps a student has registered for.
+     * 
+     * @param student             The student.
+     * @param CampSortOrderChoice The user's choice of filter.
+     */
     public void viewRegisteredCamps(Student student, int CampSortOrderChoice) {
         String studentId = student.getUserID();
         Log.println("===List of all the camps you are registered for===");
@@ -168,7 +209,9 @@ public class CampViewerSubSystem {
      * @return Returns a clone of the original list of camps.
      */
     private ArrayList<Camp> sortCamps(ArrayList<Camp> unsortedCamps, PrintCampSortOrder printCampSortOrder) {
-        ArrayList<Camp> camps = (ArrayList<Camp>) unsortedCamps.clone();
+       
+        ArrayList<Camp> camps = new ArrayList<>();
+        camps.addAll(unsortedCamps);
 
         switch (printCampSortOrder) {
             case DATES:
@@ -219,9 +262,9 @@ public class CampViewerSubSystem {
     /**
      * Helper function to print a camp and its details.
      * 
-     * @param camp
+     * @param camp The camp being printed.
      */
-    public void printCamp(Camp camp) {
+    private void printCamp(Camp camp) {
         Log.println("");
         Log.println("Camp ID: " + camp.getCampId() + "=====================================");
         Log.println("Camp Name: " + camp.getCampName());
@@ -245,7 +288,7 @@ public class CampViewerSubSystem {
         Log.println("Committee slots left: "
                 + (camp.getCampInformation().getCommitteeSlots() - camp.getCommitteeList().size()));
         Log.println("Contact: " + camp.getCampInformation().getStaffInChargeId());
-        Log.println("=====================================================");
+        Log.println("=================================================");
     }
 
 }

@@ -178,13 +178,13 @@ public class StaffMenu extends Menu {
     private boolean viewCampAttendeeList(Menu menu) {
         // View Camp Attendee List
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "inspect");
-        campSystem.getCampViewerSubSystem().viewAttendeeList(selCampId, staff);
+        campSystem.getCampViewerSubSystem().viewAttendeeList(staff, selCampId);
         return false;
     }
 
     private boolean viewCampCommitteeList(Menu menu) {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "inspect");
-        campSystem.getCampViewerSubSystem().viewCampCommitteeList(selCampId, staff);
+        campSystem.getCampViewerSubSystem().viewCampCommitteeList(staff, selCampId);
         return false;
     }
 
