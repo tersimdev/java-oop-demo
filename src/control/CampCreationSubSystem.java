@@ -10,6 +10,15 @@ import entity.UserGroup;
 import util.Input;
 import util.Log;
 
+/**
+ * <p>
+ * A class that handles logic for creation and editing of camps.
+ * </p>
+ * 
+ * @author Team 2
+ * @version 1.0
+ * @since 1-11-2023
+ */
 public class CampCreationSubSystem {
     private CampSystem campSystem;
     private DataStoreSystem dataStoreSystem;
@@ -26,12 +35,20 @@ public class CampCreationSubSystem {
         VISIBILITY
     }
 
+    /**
+     * An ArrayList that contains enumerators for different aspects of a camp to be edited.
+     */
     private final static ArrayList<EditChoice> editChoiceEnumList = new ArrayList<>(
             Arrays.asList(EditChoice.NAME, EditChoice.DESCRIPTION, EditChoice.LOCATION,
                     EditChoice.TOTAL_SLOTS, EditChoice.COMMITTEE_SLOTS,
                     EditChoice.DATES, EditChoice.REGISTRATION_CLOSING_DATE, EditChoice.USERGROUP,
                     EditChoice.VISIBILITY));
 
+    /**
+     * Constructor for the camp creation sub system.
+     * @param campSystem A class that stores all camps, and controls access to them.
+     * @param dataStoreSystem A class to handle all datastore operations.
+     */
     public CampCreationSubSystem(CampSystem campSystem, DataStoreSystem dataStoreSystem) {
         this.campSystem = campSystem;
         this.dataStoreSystem = dataStoreSystem;

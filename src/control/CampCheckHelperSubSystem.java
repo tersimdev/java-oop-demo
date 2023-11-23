@@ -6,12 +6,21 @@ import java.util.ArrayList;
 import entity.Camp;
 import entity.Student;
 import entity.UserGroup;
-import util.Log;
 
+/**
+ * A class that provides helpers for checking various camp related things,
+ * such as if an attendee is allowed to register for a camp.
+ */
 public class CampCheckHelperSubSystem {
 
     private CampSystem campSystem;
 
+    /**
+     * Constructor for camp check helper system
+     * 
+     * @param campSystem A class that stores all camps, and controls access to
+     *                   them.
+     */
     public CampCheckHelperSubSystem(CampSystem campSystem) {
         this.campSystem = campSystem;
     }
@@ -61,18 +70,17 @@ public class CampCheckHelperSubSystem {
 
     public CheckResult canRegisterAttendee(Camp camp, Student student) {
         String studentId = student.getUserID();
-        UserGroup userGroup = camp.getCampInformation().getUserGroup();
 
         CheckResult ret = checkRegistrationOpen(camp);
         if (ret.getSuccess() == false)
             return ret;
         ret = ret
                 // attendee not registered for this camp
-                .and(new CheckResult(!camp.getAttendeeList().contains(studentId), "Already registered as attendee"))
+                .and(checkAttendeeNotRegistered(camp, student))
                 // not registered as committee for this camp
-                .and(new CheckResult(!camp.getCommitteeList().contains(studentId), "Already registered as committee"))
+                .and(checkCommitteeMemberNotRegistered(camp, student))
                 // camp is not open to this user's faculty
-                .and(new CheckResult(student.getFaculty() == userGroup.getFaculty(), "Not available for your faculty"))
+                .and(checkCampOpenToFaculty(camp, student))
                 .and(checkDatesNoClash(camp, student, campSystem.getCampsByStudent(studentId)))
                 .and(checkCampAttendeeNotFull(camp))
                 .and(checkStudentNotWithdrawn(camp, student));
@@ -81,38 +89,57 @@ public class CampCheckHelperSubSystem {
     }
 
     public CheckResult canRegisterCommittee(Camp camp, Student student) {
-        int campId = camp.getCampId();
         String studentId = student.getUserID();
-        UserGroup userGroup = camp.getCampInformation().getUserGroup();
-        CheckResult checkResult = new CheckResult().setSuccess();
 
-        // TODO
-        if (student.getCampCommitteeMember().getIsMember()) {
-            Log.println(campId + " is already a committee member for a camp.");
-            Log.error(studentId + " was not registered for camp " + campId);
-        } else if (camp.getAttendeeList().contains(studentId)) {
-            Log.error(studentId + " was not registered for camp " + campId);
-            checkResult.setFail(studentId + " is already registered for " + campId + " as an attendee");
-        } else if (checkRegistrationClosed(camp)) {
-            Log.error(studentId + " was not registered for camp " + campId);
-            checkResult.setFail("Registration for this camp has closed");
-        } else if (checkDateClash(camp, student, campSystem.getCampsByStudent(studentId))) {
-            Log.error(studentId + " was not registered for camp " + campId);
-            checkResult.setFail("This camp clashes with another camp " + studentId + " is already registered for");
-        } else if (checkCampCommitteeFull(camp)) {
-            Log.error(studentId + " was not registered for camp " + campId);
-            checkResult.setFail("This camp is full");
-        } else if (student.getFaculty() != userGroup.getFaculty()) {
-            Log.error(studentId + " was not registered for camp " + campId);
-            checkResult.setFail("Camp " + campId + " is only open to " + userGroup.getFaculty());
-        } else if (checkStudentWithdrawn(camp, student)) {
-            Log.error(studentId + " was not registered for camp " + campId);
-            checkResult.setFail(studentId + " previously withdrew from camp " + campId);
-        }
-        return checkResult;
+        CheckResult ret = checkRegistrationOpen(camp);
+        if (ret.getSuccess() == false)
+            return ret;
+        ret = ret
+                .and(checkCommitteeMemberNotRegistered(camp, student))
+                .and(checkAttendeeNotRegistered(camp, student))
+                .and(checkDatesNoClash(camp, student, campSystem.getCampsByStudent(studentId)))
+                .and(checkCampCommitteeNotFull(camp))
+                .and(checkCampOpenToFaculty(camp, student))
+                .and(checkStudentNotWithdrawn(camp, student));
+
+        return ret;
+    }
+
+    /**
+     * A helper function to check if a camp is available to a student
+     * @param camp The camp being checked
+     * @param student The student we are checking for
+     * @return returns a <code>checkResult</code>
+     */
+    public CheckResult checkCampAvailableToStudent(Camp camp, Student student) {
+        String studentId = student.getUserID();
+        CheckResult ret = checkVisibile(camp);
+        if (ret.getSuccess() == false)
+            return ret;
+        ret = ret
+                .and(checkCampSlotsNotFull(camp))
+                .and(checkRegistrationOpen(camp))
+                .and(checkDatesNoClash(camp, student, campSystem.getCampsByStudent(studentId)))
+                .and(checkCampOpenToFaculty(camp, student));
+
+        return ret;
     }
 
     // utility
+    private CheckResult checkAttendeeNotRegistered(Camp camp, Student student) {
+        return new CheckResult(!camp.getAttendeeList().contains(student.getUserID()), "Already registered as attendee");
+    }
+
+    private CheckResult checkCommitteeMemberNotRegistered(Camp camp, Student student) {
+        return new CheckResult(!camp.getCommitteeList().contains(student.getUserID()),
+                "Already registered as committee");
+    }
+
+    private CheckResult checkCampOpenToFaculty(Camp camp, Student student) {
+        UserGroup userGroup = camp.getCampInformation().getUserGroup();
+        return new CheckResult(student.getFaculty() == userGroup.getFaculty(), "Not available for your faculty");
+    }
+
     private CheckResult checkStudentNotWithdrawn(Camp camp, Student student) {
         return new CheckResult(!camp.getWithdrawnList().contains(student.getUserID()), "Student previously withdrew");
     }
@@ -133,6 +160,17 @@ public class CampCheckHelperSubSystem {
     public CheckResult checkCampCommitteeNotFull(Camp camp) {
         return new CheckResult(camp.getCommitteeList().size() < camp.getCampInformation().getCommitteeSlots(),
                 "No committee slots");
+    }
+
+    public CheckResult checkCampSlotsNotFull(Camp camp) {
+        int totalSlots = camp.getCampInformation().getTotalSlots();
+        int numberOfAttendees = camp.getAttendeeList().size();
+        int committeeSlots = camp.getCampInformation().getCommitteeSlots();
+        return new CheckResult((numberOfAttendees + committeeSlots < totalSlots), "Camp is full");
+    }
+
+    public CheckResult checkVisibile(Camp camp) {
+        return new CheckResult(camp.checkVisibility(), "Camp visibility is off");
     }
 
     /**

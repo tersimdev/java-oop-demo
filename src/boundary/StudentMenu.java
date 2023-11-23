@@ -109,13 +109,13 @@ public class StudentMenu extends Menu {
 
     private boolean viewAvailableCamps(Menu menu) {
         int sortChoice = menu.printCampSortOrderChoices();
-        campSystem.viewAvailableCamps(student, sortChoice);
+        campSystem.getCampViewerSubSystem().viewAvailableCamps(student, sortChoice);
         return false;
     }
 
     private boolean registerAttendee(Menu menu) {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "register for");
-        campSystem.registerAsAttendee(student, selCampId);
+        campSystem.getCampRegistrationSubSystem().registerAsAttendee(student, selCampId);
         return false;
     }
 
@@ -124,13 +124,13 @@ public class StudentMenu extends Menu {
         boolean yesno = ui.getInput().getBool(
                 "You will not be able to quit this camp after registering. Are you sure you want to register (Y/N)? ");
         if (yesno)
-            campSystem.registerAsCommittee(student, selCampId);
+            campSystem.getCampRegistrationSubSystem().registerAsCommittee(student, selCampId);
         return false;
     }
 
     private boolean viewRegisteredCamps(Menu menu) {
         int sortChoice = menu.printCampSortOrderChoices();
-        campSystem.viewRegisteredCamps(student, sortChoice);
+        campSystem.getCampViewerSubSystem().viewRegisteredCamps(student, sortChoice);
         return false;
     }
 
@@ -226,7 +226,7 @@ public class StudentMenu extends Menu {
                 .getBool(
                         "You will not be able to register for this camp after withdrawing from it. Are you sure you want to withdraw (Y/N)? ");
         if (yesno)
-            campSystem.withdrawFromCamp(student, selCampId);
+            campSystem.getCampRegistrationSubSystem().withdrawFromCamp(student, selCampId);
         return false;
     }
 
@@ -420,13 +420,13 @@ public class StudentMenu extends Menu {
 
     private boolean viewCampAttendeeList(Menu menu) {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "inspect");
-        campSystem.viewAttendeeList(selCampId, student.getCampCommitteeMember());
+        campSystem.getCampViewerSubSystem().viewAttendeeList(selCampId, student.getCampCommitteeMember());
         return false;
     }
 
     private boolean viewCampCommitteeList(Menu menu) {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "inspect");
-        campSystem.viewCampCommitteeList(selCampId, student.getCampCommitteeMember());
+        campSystem.getCampViewerSubSystem().viewCampCommitteeList(selCampId, student.getCampCommitteeMember());
         return false;
     }
 }
