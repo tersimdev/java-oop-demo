@@ -206,7 +206,7 @@ public class StaffMenu extends Menu {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view enquiries");
         Camp camp = campSystem.getCampById(selCampId);
         if(!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())){
-            Log.println("You do not have access to this camp. Redirecting to menu...");
+            Log.println("You are not in charge of this camp.");
             return false;
         }
         enquirySystem.viewAllEnquiries(staff.getUserID(), selCampId, ui.getInput());
@@ -217,7 +217,11 @@ public class StaffMenu extends Menu {
         // Reply Unprocessed Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "reply unprocessed enquiries");
         enquirySystem.viewUnprocessedEnquiries(staff.getUserID(), selCampId, ui.getInput());
-
+        Camp camp = campSystem.getCampById(selCampId);
+        if(!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())){
+            Log.println("You are not in charge of this camp.");
+            return false;
+        }
         int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to reply: ");
         String reply = ui.getInput().getLine("Please enter reply: ");
         Boolean result = enquirySystem.processCampEnquiry(null, staff.getUserID(), selCampId, enquiryId, reply);
@@ -233,7 +237,7 @@ public class StaffMenu extends Menu {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view suggestions");
         Camp camp = campSystem.getCampById(selCampId);
         if(!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())){
-            Log.println("You do not have access to this camp. Redirecting to menu...");
+            Log.println("You are not in charge of this camp.");
             return false;
         }
         suggestionSystem.viewAllSuggestions(selCampId, ui.getInput());
@@ -244,6 +248,11 @@ public class StaffMenu extends Menu {
         // Accept/Reject Unprocessed Suggestions
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem,
                 "approve/reject unprocessed suggestions");
+        Camp camp = campSystem.getCampById(selCampId);
+        if(!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())){
+            Log.println("You are not in charge of this camp.");
+            return false;
+        }
         suggestionSystem.viewUnprocessedSuggestions(selCampId, ui.getInput());
         int suggestionId = ui.getInput()
                 .getInt("Please enter the suggestionId of the suggestion to approve/reject: ");
@@ -275,6 +284,11 @@ public class StaffMenu extends Menu {
     private boolean generateCampReport(Menu menu) {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "Generate camp report");
         Camp camp = campSystem.getCampById(selCampId);
+
+        if(!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())){
+            Log.println("You are not in charge of this camp.");
+            return false;
+        }
 
         CampReportFilter[] filterChoicesOptions = {
                 CampReportFilter.ATTENDEE,
@@ -313,8 +327,12 @@ public class StaffMenu extends Menu {
 
     private boolean generatePerformanceReport(Menu menu) {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "Generate performance report");
-
         Camp camp = campSystem.getCampById(selCampId);
+
+        if(!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())){
+            Log.println("You are not in charge of this camp.");
+            return false;
+        }
 
         String[] fileTypeOptions = {
                 ".txt",

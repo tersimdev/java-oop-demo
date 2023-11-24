@@ -241,6 +241,10 @@ public class StudentMenu extends Menu {
     private boolean generateCampReport(Menu menu) {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "Generate camp report");
         Camp camp = campSystem.getCampById(selCampId);
+        if(!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())){
+            Log.println("You do not have access to this camp. Redirecting to menu...");
+            return false;
+        }
 
         CampReportFilter[] filterChoicesOptions = {
                 CampReportFilter.ATTENDEE,
