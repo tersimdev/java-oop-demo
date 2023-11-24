@@ -193,7 +193,7 @@ public class EnquirySystem extends FeedbackSystem {
      * @param feedback CampFeedback object to be added to the system.
      */
     @Override
-    public void addToDataStore(CampFeedback feedback) {
+    protected void addToDataStore(CampFeedback feedback) {
         if (feedback instanceof CampEnquiry)
             dataStoreSystem.getFeedbackDataStoreSubSystem().addEnquiry((CampEnquiry) feedback);
         else
@@ -205,7 +205,7 @@ public class EnquirySystem extends FeedbackSystem {
      * @param feedback CampFeedback object to be updated to the system.
      */
     @Override
-    public void updateToDataStore(CampFeedback feedback) {
+    protected void updateToDataStore(CampFeedback feedback) {
         if (feedback instanceof CampEnquiry)
             dataStoreSystem.getFeedbackDataStoreSubSystem().updateEnquiry((CampEnquiry) feedback);
         else
@@ -217,7 +217,7 @@ public class EnquirySystem extends FeedbackSystem {
      * @param feedback CampFeedback object to be deleted from the system.
      */  
     @Override
-    public void removeFromDataStore(int feedbackId) {
+    protected void removeFromDataStore(int feedbackId) {
         dataStoreSystem.getFeedbackDataStoreSubSystem().deleteEnquiry(feedbackId);
     }
     
