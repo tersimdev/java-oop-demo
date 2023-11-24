@@ -20,6 +20,7 @@ public class SuggestionSystem extends FeedbackSystem {
 
     /**
      * Constructor for the suggestion system.
+     * 
      * @param dataStoreSystem A class to handle all datastore operations.
      */
     public SuggestionSystem(DataStoreSystem dataStoreSystem) {
@@ -29,8 +30,9 @@ public class SuggestionSystem extends FeedbackSystem {
 
     /**
      * Displays all suggestions in the hashmap linked to the relevant camp.
+     * 
      * @param campId campId of the camp to display suggestions.
-     * @param input Input object.
+     * @param input  Input object.
      */
     public void viewAllSuggestions(int campId, Input input) {
         ArrayList<CampFeedback> suggestionList = new ArrayList<>();
@@ -52,8 +54,9 @@ public class SuggestionSystem extends FeedbackSystem {
 
     /**
      * Displays unprocessed suggestions in the hashmap linked to the relevant camp.
+     * 
      * @param campId campId of the camp to display suggestions.
-     * @param input Input object.
+     * @param input  Input object.
      */
     public void viewUnprocessedSuggestions(int campId, Input input) {
         ArrayList<CampFeedback> pendingSuggestionList = new ArrayList<>();
@@ -80,9 +83,11 @@ public class SuggestionSystem extends FeedbackSystem {
 
     /**
      * Displays processed suggestions in the hashmap linked to the relevant camp.
-     * @param campCommitteeMemberId ID of CampCommiteeMember viewing processed suggestions.
-     * @param campId campId of the camp to display suggestions.
-     * @param input Input object.
+     * 
+     * @param campCommitteeMemberId ID of CampCommiteeMember viewing processed
+     *                              suggestions.
+     * @param campId                campId of the camp to display suggestions.
+     * @param input                 Input object.
      */
     public void viewProcessedSuggestions(String campCommitteeMemberId, int campId, Input input) {
         ArrayList<CampFeedback> processedSuggestionList = new ArrayList<>();
@@ -109,10 +114,14 @@ public class SuggestionSystem extends FeedbackSystem {
     }
 
     /**
-     * View, edit and delete unprocessed suggestions in the hashmap linked to the relevant camp.
-     * @param campCommitteeMemberId ID of CampCommiteeMember viewing, editing and deleting unprocessed suggestions.
-     * @param campId campId of the camp to view, edit and delete suggestions.
-     * @param input Input object.
+     * View, edit and delete unprocessed suggestions in the hashmap linked to the
+     * relevant camp.
+     * 
+     * @param campCommitteeMemberId ID of CampCommiteeMember viewing, editing and
+     *                              deleting unprocessed suggestions.
+     * @param campId                campId of the camp to view, edit and delete
+     *                              suggestions.
+     * @param input                 Input object.
      */
     public void viewEditDelSuggestions(String campCommitteeMemberId, int campId, Input input) {
         ArrayList<CampFeedback> comSuggestionList = new ArrayList<>();
@@ -172,24 +181,25 @@ public class SuggestionSystem extends FeedbackSystem {
 
     /**
      * Process suggestions in the hashmap linked to the relevant camp.
-     * @param staffId ID of Staff processing the suggestions.
-     * @param campId campId of the camp to process suggestions.
+     * 
+     * @param staffId      ID of Staff processing the suggestions.
+     * @param campId       campId of the camp to process suggestions.
      * @param suggestionId ID of suggesstion to be processed.
-     * @param decision Decision of staff to approve/reject suggestion.
+     * @param decision     Decision of staff to approve/reject suggestion.
      */
     public boolean processCampSuggestion(String staffId, int campId, int suggestionId, boolean decision) {
         CampFeedback campFeedback = findFeedbackById(suggestionId, campId);
         if (campFeedback == null || campFeedback instanceof CampSuggestion) {
             CampSuggestion campSuggestion = (CampSuggestion) campFeedback;
             campSuggestion.setApproval(staffId, decision);
-            if(decision) {
+            if (decision) {
                 (campSuggestion.getCampCommitteeMember()).addPoints(2);
-            }
-            else {
+            } else {
                 (campSuggestion.getCampCommitteeMember()).addPoints(1);
             }
             updateToDataStore(campSuggestion);
-            dataStoreSystem.getUserDataStoreSubSystem().updateCommitteeMemberDetails(campSuggestion.getCampCommitteeMember());
+            dataStoreSystem.getUserDataStoreSubSystem()
+                    .updateCommitteeMemberDetails(campSuggestion.getCampCommitteeMember());
             return true;
         } else {
             Log.error("Feedback not suggestion for some reason");
@@ -199,6 +209,7 @@ public class SuggestionSystem extends FeedbackSystem {
 
     /**
      * Adds CampSuggestion object to the system.
+     * 
      * @param feedback CampFeedback object to be added to the system.
      */
     @Override
@@ -211,6 +222,7 @@ public class SuggestionSystem extends FeedbackSystem {
 
     /**
      * Updates existing CampSuggestion object in the system.
+     * 
      * @param feedback CampFeedback object to be updated to the system.
      */
     @Override
@@ -223,21 +235,23 @@ public class SuggestionSystem extends FeedbackSystem {
 
     /**
      * Deletes existing CampSuggestion object from the system.
+     * 
      * @param feedback CampFeedback object to be deleted from the system.
-     */  
+     */
     @Override
     protected void removeFromDataStore(int feedbackId) {
         dataStoreSystem.getFeedbackDataStoreSubSystem().deleteSuggestion(feedbackId);
     }
-    
+
     /**
      * Prints details of CampSuggestion
+     * 
      * @param feedback CampSuggestion object to be printed.
-     */ 
+     */
     public void printSuggestion(CampSuggestion campSuggestion) {
         Log.println("SuggestionID: " + campSuggestion.getId());
         Log.println("CampCommitteeMemberID: " + campSuggestion.getOwnerId());
-        if(campSuggestion.isPending())
+        if (campSuggestion.isPending())
             Log.println("Suggestion Status: Pending");
         else if (campSuggestion.hasApproved())
             Log.println("Suggestion Status: Approved");
