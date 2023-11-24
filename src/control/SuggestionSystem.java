@@ -4,6 +4,7 @@ import entity.CampFeedback;
 import entity.CampSuggestion;
 import util.Input;
 import util.Log;
+import util.helpers.InputHelper;
 
 /**
  * <p>
@@ -158,7 +159,7 @@ public class SuggestionSystem extends FeedbackSystem {
         while (cChoice < 0) {
             cChoice = input.getInt("Enter choice: ");
             if (cChoice == 1) {
-                int suggestionId = input.getInt("Please enter the suggestionId of the suggestion to edit: ");
+                int suggestionId = InputHelper.getSuggestionIdFromUser(input, this, "edit", campId);
                 String newSuggestion = input.getLine("Please enter new suggestion: ");
                 CampFeedback campFeedback = editCampFeedback(campId, suggestionId,
                         newSuggestion);
@@ -168,7 +169,7 @@ public class SuggestionSystem extends FeedbackSystem {
                     Log.println("Edit failed.");
                 break;
             } else if (cChoice == 2) {
-                int suggestionId = input.getInt("Please enter the suggestionId of the suggestion to delete: ");
+                int suggestionId = InputHelper.getSuggestionIdFromUser(input, this, "delete", campId);
                 Boolean result = removeCampFeedback(campId, suggestionId);
                 if (result)
                     Log.println("Deletion successful.");

@@ -214,9 +214,13 @@ public class StudentMenu extends Menu {
         Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
         int selCampId = camp.getCampId();
         
-        enquirySystem.printPendingFeedback(selCampId);
+        int size = enquirySystem.printPendingFeedback(selCampId);
+        if (size == 0) {
+            Log.println("No pending enquiries found. Directing back to menu...");
+            return false;
+        }
 
-        int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to reply: ");
+        int enquiryId = InputHelper.getEnquiryIdFromUser(ui.getInput(), enquirySystem, "reply", selCampId);
         String reply = ui.getInput().getLine("Please enter reply: ");
         Boolean result = enquirySystem.processCampEnquiry(student.getCampCommitteeMember(), student.getUserID(),
                 selCampId, enquiryId,

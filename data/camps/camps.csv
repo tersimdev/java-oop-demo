@@ -1,5 +1,5 @@
 0,VISIBLE,SL22;,NONE,NONE,0,lousy camp,must be a camp by SU,grass field at crespion,5,2,ARVI,NBS,10/10/3010,10/10/3010,3,FACULTY,NBS
 2,VISIBLE,NONE,KOH1;,YCHERN;,0,why,dont come,crespion pond,1000,10,ARVI,NBS,10/10/3010,10/10/3010,365,NTU,NULL
 3,VISIBLE,NONE,NONE,NONE,0,jons wagon,this is a description,Mount sakon,2,10,ARVI,NBS,10/10/2024,10/10/2024,1000,NTU,NULL
-4,VISIBLE,NONE,NONE,NONE,0,ryans lj,hello desc,cash me outside,10,10,ARVI,NBS,10/10/2024,10/10/9999,12,FACULTY,NBS
+4,VISIBLE,NONE,SL22;,NONE,0,ryans lj,hello desc,cash me outside,10,10,ARVI,NBS,10/10/2024,10/10/9999,12,FACULTY,NBS
 5,VISIBLE,NONE,NONE;,NONE,0,Study Boot Camp,Learn to code with super coder Terence,Ryan's room,11,1,UPAM,EEE,29/11/2023,30/11/2023,1,NTU,NULL

@@ -217,13 +217,17 @@ public class StaffMenu extends Menu {
     private boolean replyEnquiries(Menu menu) {
         // Reply Unprocessed Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "reply unprocessed enquiries");
-        enquirySystem.printPendingFeedback(selCampId);
+        int size = enquirySystem.printPendingFeedback(selCampId);
+        if (size == 0) {
+            Log.println("No pending enquiries found. Directing back to menu...");
+            return false;
+        }
         Camp camp = campSystem.getCampById(selCampId);
         if(!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())){
             Log.println("You are not in charge of this camp.");
             return false;
         }
-        int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to reply: ");
+        int enquiryId = InputHelper.getEnquiryIdFromUser(ui.getInput(), enquirySystem, "reply", selCampId);
         String reply = ui.getInput().getLine("Please enter reply: ");
         Boolean result = enquirySystem.processCampEnquiry(null, staff.getUserID(), selCampId, enquiryId, reply);
         if (result) {
@@ -255,8 +259,8 @@ public class StaffMenu extends Menu {
                     return false;
                 }
                 suggestionSystem.printPendingFeedback(selCampId);
-        int suggestionId = ui.getInput()
-                .getInt("Please enter the suggestionId of the suggestion to approve/reject: ");
+        int suggestionId = InputHelper.getSuggestionIdFromUser(ui.getInput(), suggestionSystem, "approve/reject", selCampId);
+
         Log.println("===Please select the following options===");
         Log.println("(1) Accept suggestion");
         Log.println("(2) Reject suggestion");

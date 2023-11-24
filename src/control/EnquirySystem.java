@@ -5,6 +5,7 @@ import entity.CampEnquiry;
 import entity.CampFeedback;
 import util.Input;
 import util.Log;
+import util.helpers.InputHelper;
 
 /**
  * <p>
@@ -157,7 +158,7 @@ public class EnquirySystem extends FeedbackSystem {
         while (sChoice < 0) {
             sChoice = input.getInt("Enter choice: ");
             if (sChoice == 1) {
-                int enquiryId = input.getInt("Please enter the enquiryId of the enquiry to edit: ");
+                int enquiryId = InputHelper.getEnquiryIdFromUser(input, this, "edit", campId);
                 String newEnquiry = input.getLine("Please enter new enquiry: ");
                 CampFeedback campFeedback = editCampFeedback(campId, enquiryId,
                         newEnquiry);
@@ -166,7 +167,7 @@ public class EnquirySystem extends FeedbackSystem {
                 else
                     Log.println("Edit failed.");
             } else if (sChoice == 2) {
-                int enquiryId = input.getInt("Please enter the enquiryId of the enquiry to delete: ");
+                int enquiryId = InputHelper.getEnquiryIdFromUser(input, this, "delete", campId);
                 Boolean result = removeCampFeedback(campId, enquiryId);
                 if (result)
                     Log.println("Deletion successful.");
