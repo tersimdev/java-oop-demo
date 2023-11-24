@@ -18,13 +18,13 @@ import java.io.IOException;
  * @since 24-11-2023
  */
 public class Log {
-    
+
     /**
-     * Whether info, debug, error messages should be printed 
+     * Whether info, debug, error messages should be printed
      */
     private static boolean loggingEnabled = true;
 
-    //below are some provided constants for ansi color printing
+    // below are some provided constants for ansi color printing
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_YELLOW = "\u001B[33m";
@@ -37,6 +37,7 @@ public class Log {
 
     /**
      * Enable logging in order to print dev logging messages
+     * 
      * @param enabled whether to enable logging
      */
     public static void enableLogging(boolean enabled) {
@@ -45,6 +46,7 @@ public class Log {
 
     /**
      * Wrapper around System.out.println
+     * 
      * @param msg msg to print
      */
     public static void println(String msg) {
@@ -53,6 +55,7 @@ public class Log {
 
     /**
      * Wrapper around System.out.print
+     * 
      * @param msg msg to print
      */
     public static void print(String msg) {
