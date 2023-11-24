@@ -150,7 +150,9 @@ public class CSVTable {
     }
 
     /**
-     * Looks for a specific CSV Line based on a given column index and matching value
+     * Looks for a specific CSV Line based on a given column index and matching
+     * value
+     * 
      * @param keyIndex index to check
      * @param keyValue value to match
      * @return CSV Line if found, else null
@@ -173,6 +175,7 @@ public class CSVTable {
 
     /**
      * Looks for oldRow, and replaces it with newRow.
+     * 
      * @param oldRow old csv line
      * @param newRow new csv line
      */
@@ -187,8 +190,9 @@ public class CSVTable {
     }
 
     /**
-     * Appends a row to rowData. 
+     * Appends a row to rowData.
      * Assumes row given is valid.
+     * 
      * @param row csv line to add
      */
     public void addRow(String row) {
@@ -200,6 +204,7 @@ public class CSVTable {
 
     /**
      * Searches for row to delete based on given column index and value.
+     * 
      * @param keyIndex index to search
      * @param keyValue value to match
      */
@@ -213,7 +218,7 @@ public class CSVTable {
                 if (split[keyIndex].equals(keyValue)) {
                     // delete this row
                     rowData.remove(i);
-                    return; //stop iterating
+                    return; // stop iterating
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
                 Log.error("Error querying for key");
@@ -222,14 +227,21 @@ public class CSVTable {
     }
 
     /**
-     * Sorts rowData based on <code>idIndex</code>. 
+     * Sorts rowData based on <code>idIndex</code>.
      */
     public void sortRows() {
         rowData.sort((o1, o2) -> {
             String id1, id2;
             id1 = o1.split(",")[idIndex];
             id2 = o2.split(",")[idIndex];
-            return id1.compareTo(id2);
+            try { //try compare as ints
+                int intId1, intId2;
+                intId1 = Integer.parseInt(id1);
+                intId2 = Integer.parseInt(id2);
+                return Integer.compare(intId1, intId2);
+            } catch (Exception e) {
+                return id1.compareTo(id2);
+            }
         });
     }
 }
