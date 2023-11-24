@@ -14,6 +14,71 @@ public class EnquirySystem extends FeedbackSystem {
         initFeedbackMap(dataStoreSystem.getFeedbackDataStoreSubSystem().getAllEnquiries());
     }
 
+    public void viewAllEnquiries(String userId, int campId, Input input) {
+        ArrayList<CampFeedback> enquiryList = new ArrayList<>();
+        enquiryList = getCampFeedbacks(campId);
+        int enquiries = 0;
+        Log.println("===All Enquiries===");
+        for (CampFeedback campFeedback : enquiryList) {
+            if (campFeedback == null || !(campFeedback instanceof CampEnquiry))
+                continue;
+            CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
+            enquiries += 1;
+            printEnquiry(campEnquiry);
+        }
+        if (enquiries == 0) {
+            Log.println("No enquiries found. Directing back to menu...");
+            return;
+        }
+    }
+
+    public void viewUnprocessedEnquiries(String userId, int campId, Input input) {
+        ArrayList<CampFeedback> processedEnquiryList = new ArrayList<>();
+        processedEnquiryList = getCampFeedbacks(campId);
+        int enquiries = 0;
+        Log.println("===Unprocessed Enquiries===");
+        for (CampFeedback campFeedback : processedEnquiryList) {
+            if (campFeedback == null || !(campFeedback instanceof CampEnquiry))
+                continue;
+            CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
+            boolean processed = !campEnquiry.isPending();
+            if (processed)
+                continue;
+            else {
+                enquiries += 1;
+                printEnquiry(campEnquiry);
+            }
+        }
+        if (enquiries == 0) {
+            Log.println("No unprocessed enquiries found. Directing back to menu...");
+            return;
+        }
+    }
+
+    public void viewProcessedEnquiries(String studentId, int campId, Input input) {
+        ArrayList<CampFeedback> processedEnquiryList = new ArrayList<>();
+        processedEnquiryList = getCampFeedbacks(campId);
+        int enquiries = 0;
+        Log.println("===Processed Enquiries===");
+        for (CampFeedback campFeedback : processedEnquiryList) {
+            if (campFeedback == null || !(campFeedback instanceof CampEnquiry))
+                continue;
+            CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
+            boolean belongsToUser = campEnquiry.getOwnerId().equals(studentId);
+            boolean processed = !campEnquiry.isPending();
+            if (!belongsToUser || !processed)
+                continue;
+            else {
+                enquiries += 1;
+                printEnquiry(campEnquiry);
+            }
+        }
+        if (enquiries == 0) {
+            Log.println("No processed enquiries found. Directing back to menu...");
+            return;
+        }
+    }
+
     public void viewEditDelEnquiries(String studentId, int campId, Input input) {
         ArrayList<CampFeedback> studentEnquiryList = new ArrayList<>();
         studentEnquiryList = getCampFeedbacks(campId);
@@ -64,8 +129,7 @@ public class EnquirySystem extends FeedbackSystem {
             else {
             Log.println("Invalid choice! Try again.");
             sChoice = -1;
-        }
-
+            }
         }
     }
 

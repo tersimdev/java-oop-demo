@@ -199,34 +199,15 @@ public class StaffMenu extends Menu {
     private boolean viewEnquiries(Menu menu) {
         // View Camp Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view enquiries");
-
-        ArrayList<CampFeedback> enquiryList = new ArrayList<>();
-        enquiryList = enquirySystem.getCampFeedbacks(selCampId);
-        Log.println("===All Enquiries===");
-        for (CampFeedback campFeedback : enquiryList) {
-            if (!(campFeedback instanceof CampEnquiry))
-                continue;
-            CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
-            enquirySystem.printEnquiry(campEnquiry);
-        }
+        enquirySystem.viewAllEnquiries(staff.getUserID(), selCampId, ui.getInput());
         return false;
     }
 
     private boolean replyEnquiries(Menu menu) {
         // Reply Unprocessed Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "reply unprocessed enquiries");
+        enquirySystem.viewUnprocessedEnquiries(staff.getUserID(),selCampId, ui.getInput());
 
-        ArrayList<CampFeedback> pendingEnquiryList = new ArrayList<>();
-        pendingEnquiryList = enquirySystem.getCampFeedbacks(selCampId);
-        Log.println("===Unprocessed Enquiries===");
-        for (CampFeedback campFeedback : pendingEnquiryList) {
-            if (!(campFeedback instanceof CampEnquiry))
-                continue;
-            CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
-            if (campEnquiry == null || !campEnquiry.isPending())
-                continue;
-            enquirySystem.printEnquiry(campEnquiry);
-        }
         int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to reply: ");
         String reply = ui.getInput().getLine("Please enter reply: ");
         Boolean result = enquirySystem.processCampEnquiry(staff.getUserID(), selCampId, enquiryId, reply);
@@ -240,16 +221,7 @@ public class StaffMenu extends Menu {
     private boolean viewSuggestions(Menu menu) {
         // View Suggestions
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view suggestions");
-
-        ArrayList<CampFeedback> suggestionList = new ArrayList<>();
-        suggestionList = suggestionSystem.getCampFeedbacks(selCampId);
-        Log.println("===All Suggestions===");
-        for (CampFeedback campFeedback : suggestionList) {
-            if (!(campFeedback instanceof CampSuggestion))
-                continue;
-            CampSuggestion campSuggestion = (CampSuggestion) campFeedback;
-            suggestionSystem.printSuggestion(campSuggestion);
-        }
+        suggestionSystem.viewAllSuggestions(staff.getUserID(), selCampId, ui.getInput());
         return false;
     }
 

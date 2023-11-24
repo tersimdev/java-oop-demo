@@ -14,6 +14,48 @@ public class SuggestionSystem extends FeedbackSystem {
         initFeedbackMap(dataStoreSystem.getFeedbackDataStoreSubSystem().getAllSuggestions());
     }
 
+    public void viewAllSuggestions(String userId, int campId, Input input) {
+        ArrayList<CampFeedback> suggestionList = new ArrayList<>();
+        suggestionList = getCampFeedbacks(campId);
+        int suggestions = 0;
+        Log.println("===All Suggestions===");
+        for (CampFeedback campFeedback : suggestionList) {
+            if (!(campFeedback instanceof CampSuggestion))
+                continue;
+            CampSuggestion campSuggestion = (CampSuggestion) campFeedback;
+            suggestions += 1;
+            printSuggestion(campSuggestion);
+        }
+        if (suggestions == 0) {
+            Log.println("No suggestions found. Directing back to menu...");
+            return;
+        }
+    }
+
+    public void viewProcessedSuggestions(String campCommitteeMemberId, int campId, Input input) {
+        ArrayList<CampFeedback> processedSuggestionList = new ArrayList<>();
+        processedSuggestionList = getCampFeedbacks(campId);
+        int suggestions = 0;
+        Log.println("===Processed Suggestions===");
+        for (CampFeedback campFeedback : processedSuggestionList) {
+            if (campFeedback == null || !(campFeedback instanceof CampSuggestion))
+                continue;
+            CampSuggestion campSuggestion = (CampSuggestion) campFeedback;
+            boolean belongsToUser = campSuggestion.getOwnerId().equals(campCommitteeMemberId);
+            boolean processed = !campSuggestion.isPending();
+            if (!belongsToUser || !processed)
+                continue;
+            else {
+                suggestions += 1;
+                printSuggestion(campSuggestion);
+            }
+        }
+        if (suggestions == 0) {
+            Log.println("No processed suggestions found. Directing back to menu...");
+            return;
+        }
+    }
+
     public void viewEditDelSuggestions(String campCommitteeMemberId, int campId, Input input) {
         ArrayList<CampFeedback> comSuggestionList = new ArrayList<>();
         comSuggestionList = getCampFeedbacks(campId);
@@ -72,7 +114,7 @@ public class SuggestionSystem extends FeedbackSystem {
 
     public boolean processCampSuggestion(String staffId, int campId, int suggestionId, boolean decision) {
         CampFeedback campFeedback = findFeedbackById(suggestionId, campId);
-        if (campFeedback instanceof CampSuggestion) {
+        if (campFeedback == null || campFeedback instanceof CampSuggestion) {
             CampSuggestion campSuggestion = (CampSuggestion) campFeedback;
             campSuggestion.setApproval(staffId, decision);
             if(decision) {
