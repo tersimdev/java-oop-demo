@@ -204,6 +204,11 @@ public class StaffMenu extends Menu {
     private boolean viewEnquiries(Menu menu) {
         // View Camp Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view enquiries");
+        Camp camp = campSystem.getCampById(selCampId);
+        if(!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())){
+            Log.println("You do not have access to this camp. Redirecting to menu...");
+            return false;
+        }
         enquirySystem.viewAllEnquiries(staff.getUserID(), selCampId, ui.getInput());
         return false;
     }
@@ -226,6 +231,11 @@ public class StaffMenu extends Menu {
     private boolean viewSuggestions(Menu menu) {
         // View Suggestions
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view suggestions");
+        Camp camp = campSystem.getCampById(selCampId);
+        if(!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())){
+            Log.println("You do not have access to this camp. Redirecting to menu...");
+            return false;
+        }
         suggestionSystem.viewAllSuggestions(selCampId, ui.getInput());
         return false;
     }
