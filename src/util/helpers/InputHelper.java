@@ -1,7 +1,9 @@
-package util;
+package util.helpers;
 
 import control.CampSystem;
 import control.FeedbackSystem;
+import util.Input;
+import util.Log;
 
 /**
  * A class that provides static functions to help get certain inputs from users

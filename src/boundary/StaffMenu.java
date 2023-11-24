@@ -14,8 +14,8 @@ import entity.CampReportOptions;
 import entity.Faculty;
 import entity.Staff;
 import entity.UserGroup;
-import util.InputHelper;
 import util.Log;
+import util.helpers.InputHelper;
 
 /**
  * <p>

@@ -3,8 +3,8 @@ package boundary;
 import java.util.HashMap;
 import java.util.Map;
 
-import util.InputHelper;
 import util.Log;
+import util.helpers.InputHelper;
 
 /**
  * <p>

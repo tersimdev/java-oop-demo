@@ -11,8 +11,8 @@ import entity.CampReportFilter;
 import entity.CampReportOptions;
 import entity.CampSuggestion;
 import entity.Student;
-import util.InputHelper;
 import util.Log;
+import util.helpers.InputHelper;
 
 /**
  * <p>
