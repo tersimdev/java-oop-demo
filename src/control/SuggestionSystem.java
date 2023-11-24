@@ -1,7 +1,10 @@
 package control;
 
+import entity.CampCommitteeMember;
 import entity.CampFeedback;
 import entity.CampSuggestion;
+import entity.Student;
+import entity.User;
 import util.Input;
 import util.Log;
 import util.helpers.InputHelper;
@@ -198,14 +201,20 @@ public class SuggestionSystem extends FeedbackSystem {
         if (campFeedback == null || campFeedback instanceof CampSuggestion) {
             CampSuggestion campSuggestion = (CampSuggestion) campFeedback;
             campSuggestion.setApproval(staffId, decision);
+            // find committe member from data store
+            User user = dataStoreSystem.getUserDataStoreSubSystem().queryStudent(campSuggestion.getOwnerId());
+            if (user instanceof Student)
+                Log.error("Committee member not found while trying to award points for suggestion.");
+            CampCommitteeMember commmitteeMember = ((Student) user).getCampCommitteeMember();
+            // award points
             if (decision) {
-                (campSuggestion.getCampCommitteeMember()).addPoints(2);
+                commmitteeMember.addPoints(2);
             } else {
-                (campSuggestion.getCampCommitteeMember()).addPoints(1);
+                commmitteeMember.addPoints(1);
             }
             updateToDataStore(campSuggestion);
             dataStoreSystem.getUserDataStoreSubSystem()
-                    .updateCommitteeMemberDetails(campSuggestion.getCampCommitteeMember());
+                    .updateCommitteeMemberDetails(commmitteeMember);
             return true;
         } else {
             Log.error("Feedback not suggestion for some reason");

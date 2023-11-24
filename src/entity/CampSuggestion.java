@@ -14,11 +14,6 @@ import util.Log;
 public class CampSuggestion extends CampFeedback {
 
     /**
-     * The CampCommitteMember object of the committee member who made the
-     * suggestion.
-     */
-    private CampCommitteeMember campCommitteeMember;
-    /**
      * The ID of the staff who responded to the suggestion, if any. Set to null if
      * there has been no response.
      */
@@ -47,10 +42,9 @@ public class CampSuggestion extends CampFeedback {
      * @param suggestion            The suggestion in plaintext.
      * @param campId                ID of the camp the suggestion is for.
      */
-    public CampSuggestion(CampCommitteeMember campCommitteeMember, String campCommitteeMemberId, String suggestion,
+    public CampSuggestion(String campCommitteeMemberId, String suggestion,
             int campId) {
         super(campCommitteeMemberId, suggestion, campId);
-        this.campCommitteeMember = campCommitteeMember;
         approvalStatus = 0;
         responderId = null;
     }
@@ -64,16 +58,6 @@ public class CampSuggestion extends CampFeedback {
         return responderId;
     }
 
-    /**
-     * Getter for the CampCommitteeMember object of the committee member who made
-     * the suggestion.
-     * 
-     * @return The CampCommitteeMember object of the committee member who made the
-     *         suggestion.
-     */
-    public CampCommitteeMember getCampCommitteeMember() {
-        return campCommitteeMember;
-    }
 
     /**
      * Checks if the suggestion's approval status is pending.

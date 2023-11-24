@@ -176,7 +176,7 @@ public class StudentMenu extends Menu {
         int selCampId = camp.getCampId();
         
         String suggestionStr = ui.getInput().getLine("Please enter suggestion: ");
-        CampSuggestion suggestion = new CampSuggestion(student.getCampCommitteeMember(), student.getUserID(),
+        CampSuggestion suggestion = new CampSuggestion(student.getUserID(),
                 suggestionStr, selCampId);
         suggestionSystem.addCampFeedback(selCampId, suggestion);
         Log.println("Suggestion submitted.");
