@@ -2,6 +2,7 @@ package control;
 
 import java.util.ArrayList;
 
+import entity.User;
 import entity.CampEnquiry;
 import entity.CampFeedback;
 import util.Input;
@@ -133,11 +134,11 @@ public class EnquirySystem extends FeedbackSystem {
         }
     }
 
-    public boolean processCampEnquiry(String commMemberId, int campId, int enquiryId, String reply) {
+    public boolean processCampEnquiry(String userId, int campId, int enquiryId, String reply) {
         CampFeedback campFeedback = findFeedbackById(enquiryId, campId);
         if (campFeedback instanceof CampEnquiry) {
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
-            campEnquiry.reply(commMemberId, reply);
+            campEnquiry.reply(userId, reply);
             updateToDataStore(campEnquiry);
             return true;
         } else {

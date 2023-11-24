@@ -147,6 +147,7 @@ public class SuggestionSystem extends FeedbackSystem {
                 (campSuggestion.getCampCommitteeMember()).addPoints(1);
             }
             updateToDataStore(campSuggestion);
+            dataStoreSystem.getUserDataStoreSubSystem().updateCommitteeMemberDetails(campSuggestion.getCampCommitteeMember());
             return true;
         } else {
             Log.error("Feedback not suggestion for some reason");

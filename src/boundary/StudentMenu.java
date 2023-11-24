@@ -29,7 +29,6 @@ import util.Log;
 public class StudentMenu extends Menu {
 
     private final CampSystem campSystem;
-    // private final FeedbackSystem feedbackSystem;
     private final EnquirySystem enquirySystem;
     private final SuggestionSystem suggestionSystem;
     private final ReportSystem reportSystem;
@@ -41,7 +40,6 @@ public class StudentMenu extends Menu {
             SuggestionSystem suggestionSystem, ReportSystem reportSystem) {
         super(ui);
         this.campSystem = campSystem;
-        // this.feedbackSystem = feedbackSystem;
         this.enquirySystem = enquirySystem;
         this.suggestionSystem = suggestionSystem;
         this.reportSystem = reportSystem;
