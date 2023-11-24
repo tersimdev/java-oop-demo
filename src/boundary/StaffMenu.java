@@ -143,10 +143,11 @@ public class StaffMenu extends Menu {
         boolean campBelongsToStaff = false;
         do {
             selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "edit");
-            campBelongsToStaff = (staff.getUserID().equals(campSystem.getCampById(selCampId).getCampInformation().getStaffInChargeId()));
-            if (campBelongsToStaff == false) Log.println("You are not in charge of this camp.");
-        } 
-        while (campBelongsToStaff == false || selCampId < 0);
+            campBelongsToStaff = (staff.getUserID()
+                    .equals(campSystem.getCampById(selCampId).getCampInformation().getStaffInChargeId()));
+            if (campBelongsToStaff == false)
+                Log.println("You are not in charge of this camp.");
+        } while (campBelongsToStaff == false || selCampId < 0);
 
         Log.println("===What would you like to edit?===");
         Log.println("(1) Camp name");
@@ -205,18 +206,18 @@ public class StaffMenu extends Menu {
         // View Camp Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view enquiries");
         Camp camp = campSystem.getCampById(selCampId);
-        if(!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())){
+        if (!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())) {
             Log.println("You do not have access to this camp. Redirecting to menu...");
             return false;
         }
-        enquirySystem.viewAllEnquiries(staff.getUserID(), selCampId, ui.getInput());
+        enquirySystem.printAllFeedback(selCampId);
         return false;
     }
 
     private boolean replyEnquiries(Menu menu) {
         // Reply Unprocessed Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "reply unprocessed enquiries");
-        enquirySystem.viewUnprocessedEnquiries(staff.getUserID(), selCampId, ui.getInput());
+        enquirySystem.printPendingFeedback(selCampId);
 
         int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to reply: ");
         String reply = ui.getInput().getLine("Please enter reply: ");
@@ -232,11 +233,11 @@ public class StaffMenu extends Menu {
         // View Suggestions
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view suggestions");
         Camp camp = campSystem.getCampById(selCampId);
-        if(!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())){
+        if (!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())) {
             Log.println("You do not have access to this camp. Redirecting to menu...");
             return false;
         }
-        suggestionSystem.viewAllSuggestions(selCampId, ui.getInput());
+        suggestionSystem.printAllFeedback(selCampId);
         return false;
     }
 
@@ -244,7 +245,7 @@ public class StaffMenu extends Menu {
         // Accept/Reject Unprocessed Suggestions
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem,
                 "approve/reject unprocessed suggestions");
-        suggestionSystem.viewUnprocessedSuggestions(selCampId, ui.getInput());
+        suggestionSystem.printPendingFeedback(selCampId);
         int suggestionId = ui.getInput()
                 .getInt("Please enter the suggestionId of the suggestion to approve/reject: ");
         Log.println("===Please select the following options===");

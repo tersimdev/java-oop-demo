@@ -31,15 +31,17 @@ public class CampEnquiry extends CampFeedback {
     public String getReply() {
         return reply;
     }
-    
-    public boolean isPending() {
-        return reply == null;
-    }
 
     public void reply(String commMemberId, String reply) {
         this.reply = reply;
         replierId = commMemberId;
     }
+
+    @Override
+    public boolean isPending() {
+        return reply == null;
+    }
+
 
     @Override
     public String toCSVLine() {

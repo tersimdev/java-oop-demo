@@ -147,14 +147,14 @@ public class StudentMenu extends Menu {
     private boolean viewEditDelPendingEnquiries(Menu menu) {
         // View/Edit/Delete Pending Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view/edit/delete your enquiries");
-        enquirySystem.viewEditDelEnquiries(student.getUserID(), selCampId, ui.getInput());
+        enquirySystem.viewEditDelFeedback(student.getUserID(), selCampId, ui.getInput());
         return false;
     }
 
     private boolean viewEnquiryReplies(Menu menu) {
-        // View Processed Enquiry Replies
+        // View Processed Enquiry Replies of a specific student
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view processed enquiries");
-        enquirySystem.viewProcessedEnquiries(student.getUserID(), selCampId, ui.getInput());
+        enquirySystem.printProcessedFeedbackByOwner(student.getUserID(), selCampId);
         return false;
     }
 
@@ -193,14 +193,14 @@ public class StudentMenu extends Menu {
             Log.println("You do not have access to this camp. Redirecting to menu...");
             return false;
         }
-        suggestionSystem.viewEditDelSuggestions(student.getUserID(), selCampId, ui.getInput());
+        suggestionSystem.viewEditDelFeedback(student.getUserID(), selCampId, ui.getInput());
         return false;
     }
 
     private boolean viewSuggestionsApproval(Menu menu) {
-        // View Processed Suggestions
+        // View Processed Suggestions of a specific student
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view processed suggestions");
-        suggestionSystem.viewProcessedSuggestions(student.getUserID(), selCampId, ui.getInput());
+        suggestionSystem.printProcessedFeedbackByOwner(student.getUserID(), selCampId);
         return false;
     }
 
@@ -212,7 +212,7 @@ public class StudentMenu extends Menu {
             Log.println("You do not have access to this camp. Redirecting to menu...");
             return false;
         }
-        enquirySystem.viewAllEnquiries(student.getUserID(), selCampId, ui.getInput());
+        enquirySystem.printAllFeedback(selCampId);
         return false;
     }
 
@@ -224,7 +224,7 @@ public class StudentMenu extends Menu {
             Log.println("You do not have access to this camp. Redirecting to menu...");
             return false;
         }
-        enquirySystem.viewUnprocessedEnquiries(student.getUserID(),selCampId, ui.getInput());
+        enquirySystem.printPendingFeedback(selCampId);
         
         int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to reply: ");
         String reply = ui.getInput().getLine("Please enter reply: ");

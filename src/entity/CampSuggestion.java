@@ -22,7 +22,8 @@ public class CampSuggestion extends CampFeedback {
         approvalStatus = 0;
     }
 
-    public CampSuggestion(CampCommitteeMember campCommitteeMember, String campCommitteeMemberId, String suggestion, int campId) {
+    public CampSuggestion(CampCommitteeMember campCommitteeMember, String campCommitteeMemberId, String suggestion,
+            int campId) {
         super(campCommitteeMemberId, suggestion, campId);
         this.campCommitteeMember = campCommitteeMember;
         approvalStatus = 0;
@@ -37,10 +38,6 @@ public class CampSuggestion extends CampFeedback {
         return campCommitteeMember;
     }
 
-    public boolean isPending() {
-        return approvalStatus == 0;
-    }
-
     public boolean hasApproved() {
         return approvalStatus == 1;
     }
@@ -52,6 +49,11 @@ public class CampSuggestion extends CampFeedback {
     public void setApproval(String staffID, boolean approve) {
         responderId = staffID;
         approvalStatus = approve ? 1 : 2;
+    }
+
+    @Override
+    public boolean isPending() {
+        return approvalStatus == 0;
     }
 
     @Override
