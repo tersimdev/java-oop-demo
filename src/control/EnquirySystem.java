@@ -138,6 +138,7 @@ public class EnquirySystem extends FeedbackSystem {
         if (campFeedback instanceof CampEnquiry) {
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
             campEnquiry.reply(commMemberId, reply);
+            updateToDataStore(campEnquiry);
             return true;
         } else {
             Log.error("Feedback not enquiry for some reason");

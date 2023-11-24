@@ -229,21 +229,7 @@ public class StaffMenu extends Menu {
         // Accept/Reject Unprocessed Suggestions
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem,
                 "approve/reject unprocessed suggestions");
-
-        ArrayList<CampFeedback> pendingSuggestionList = new ArrayList<>();
-        pendingSuggestionList = suggestionSystem.getCampFeedbacks(selCampId);
-        Log.println("===Unprocessed Suggestions===");
-        
-        for (CampFeedback campFeedback : pendingSuggestionList) {
-            if (!(campFeedback instanceof CampSuggestion))
-                continue;
-            CampSuggestion campSuggestion = (CampSuggestion) campFeedback;
-            if (campSuggestion == null || !campSuggestion.isPending())
-                continue;
-            else {
-                suggestionSystem.printSuggestion(campSuggestion);
-            }
-        }
+        suggestionSystem.viewUnprocessedSuggestions(staff.getUserID(), selCampId, ui.getInput());
         int suggestionId = ui.getInput()
                 .getInt("Please enter the suggestionId of the suggestion to approve/reject: ");
         Log.println("===Please select the following options===");
