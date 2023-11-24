@@ -9,8 +9,9 @@ import util.DataStore.SerializeToCSV;
 
 /**
  * <p>
- * This is a class to represent a camp
- * Implemented using builder design pattern
+ * This is a class to represent a camp. It stores information such as camp name,
+ * camp dates, total slots and more.
+ * Implemented using builder design pattern.
  * </p>
  * 
  * @author Team 2

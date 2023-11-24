@@ -18,11 +18,30 @@ import util.DataStore.SerializeToCSV;
  */
 public class Camp implements SerializeToCSV {
 
+    /**
+     * ID of a camp.
+     */
     private int campId;
+    /**
+     * CampInformation object.
+     */
     private CampInformation campInformation;
-    private ArrayList<String> attendeeList; // store attendees student ids
-    private ArrayList<String> committeeList; // store committee member studentIds
-    private ArrayList<String> withdrawnList; // store students who have withdrawn from this camp previously
+    /**
+     * List of student IDs of attendees registered for this camp.
+     */
+    private ArrayList<String> attendeeList;
+    /**
+     * List of student IDs of committee members registered for this camp.
+     */
+    private ArrayList<String> committeeList;
+    /**
+     * List of student IDs of students who previously withdrew from this camp.
+     */
+    private ArrayList<String> withdrawnList; 
+    /**
+     * Staff can set this to false to hide the camp.
+     * Hiding the camp would prevent students from viewing the camp.
+     */
     private boolean visibility; // staff can set this to false to hide, if no one registered and stuff yet
 
     private final static String EMPTY_STUD_LIST = "NONE";

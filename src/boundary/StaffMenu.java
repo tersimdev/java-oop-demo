@@ -38,10 +38,11 @@ public class StaffMenu extends Menu {
 
     private Staff staff;
 
-    public StaffMenu(ConsoleUI ui, CampSystem campSystem, EnquirySystem enquirySystem, SuggestionSystem suggestionSystem, ReportSystem reportSystem) {
+    public StaffMenu(ConsoleUI ui, CampSystem campSystem, EnquirySystem enquirySystem,
+            SuggestionSystem suggestionSystem, ReportSystem reportSystem) {
         super(ui);
         this.campSystem = campSystem;
-        //this.feedbackSystem = feedbackSystem;
+        // this.feedbackSystem = feedbackSystem;
         this.enquirySystem = enquirySystem;
         this.suggestionSystem = suggestionSystem;
         this.reportSystem = reportSystem;
@@ -141,7 +142,14 @@ public class StaffMenu extends Menu {
 
     private boolean editCamp(Menu menu) {
         // Edit Camp
-        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "edit");
+        int selCampId;
+        boolean campBelongsToStaff = false;
+        do {
+            selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "edit");
+            campBelongsToStaff = (staff.getUserID().equals(campSystem.getCampById(selCampId).getCampInformation().getStaffInChargeId()));
+            if (campBelongsToStaff == false) Log.println("You are not in charge of this camp.");
+        } 
+        while (campBelongsToStaff == false || selCampId < 0);
 
         Log.println("===What would you like to edit?===");
         Log.println("(1) Camp name");
@@ -206,7 +214,7 @@ public class StaffMenu extends Menu {
     private boolean replyEnquiries(Menu menu) {
         // Reply Unprocessed Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "reply unprocessed enquiries");
-        enquirySystem.viewUnprocessedEnquiries(staff.getUserID(),selCampId, ui.getInput());
+        enquirySystem.viewUnprocessedEnquiries(staff.getUserID(), selCampId, ui.getInput());
 
         int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to reply: ");
         String reply = ui.getInput().getLine("Please enter reply: ");
@@ -262,34 +270,34 @@ public class StaffMenu extends Menu {
         Camp camp = campSystem.getCampById(selCampId);
 
         CampReportFilter[] filterChoicesOptions = {
-            CampReportFilter.ATTENDEE,
-            CampReportFilter.CAMP_COMMITTEE,
-            CampReportFilter.NONE,
+                CampReportFilter.ATTENDEE,
+                CampReportFilter.CAMP_COMMITTEE,
+                CampReportFilter.NONE,
         };
-    
-         String[] fileTypeOptions = {
+
+        String[] fileTypeOptions = {
                 ".txt",
                 ".csv",
-            };
+        };
 
         if (camp != null) {
             String fileName = ui.getInput().getLine("Please enter the file name: ");
 
-            //CampReportOptions reportOptions = ReportInputHelper.getOptionsFromUser();
+            // CampReportOptions reportOptions = ReportInputHelper.getOptionsFromUser();
 
-            int filterChoice = ui.getInput().getInt("Please enter the filter (1 for ATTENDEE, 2 for CAMP_COMMITTEE, 3 for no filter): ");
-            CampReportFilter filter = filterChoicesOptions[filterChoice-1];
-
+            int filterChoice = ui.getInput()
+                    .getInt("Please enter the filter (1 for ATTENDEE, 2 for CAMP_COMMITTEE, 3 for no filter): ");
+            CampReportFilter filter = filterChoicesOptions[filterChoice - 1];
 
             int fileTypeChoice = ui.getInput().getInt("Choose your filetype((1 for TXT, 2 for CSV): ");
-            String fileType = fileTypeOptions[fileTypeChoice -1];
-    
+            String fileType = fileTypeOptions[fileTypeChoice - 1];
+
             CampReportOptions reportOptions = new CampReportOptions();
             reportOptions.setCampId(camp.getCampId());
             reportOptions.setFileName(fileName);
             reportOptions.setFileType(fileType);
-    
-            reportSystem.generateCampReport(reportOptions,filter, staff, camp);
+
+            reportSystem.generateCampReport(reportOptions, filter, staff, camp);
         } else {
             Log.println("Camp not found " + selCampId);
         }
@@ -304,14 +312,14 @@ public class StaffMenu extends Menu {
         String[] fileTypeOptions = {
                 ".txt",
                 ".csv",
-            };
+        };
 
         if (camp != null) {
             String fileName = ui.getInput().getLine("Please enter the file name: ");
 
             int fileTypeChoice = ui.getInput().getInt("Choose your filetype((1 for TXT, 2 for CSV): ");
-            String fileType = fileTypeOptions[fileTypeChoice -1];
-    
+            String fileType = fileTypeOptions[fileTypeChoice - 1];
+
             CampReportOptions reportOptions = new CampReportOptions();
             reportOptions.setCampId(camp.getCampId());
             reportOptions.setFileName(fileName);
