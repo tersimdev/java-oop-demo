@@ -226,7 +226,7 @@ public class StaffMenu extends Menu {
     private boolean viewSuggestions(Menu menu) {
         // View Suggestions
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view suggestions");
-        suggestionSystem.viewAllSuggestions(staff.getUserID(), selCampId, ui.getInput());
+        suggestionSystem.viewAllSuggestions(selCampId, ui.getInput());
         return false;
     }
 
@@ -234,7 +234,7 @@ public class StaffMenu extends Menu {
         // Accept/Reject Unprocessed Suggestions
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem,
                 "approve/reject unprocessed suggestions");
-        suggestionSystem.viewUnprocessedSuggestions(staff.getUserID(), selCampId, ui.getInput());
+        suggestionSystem.viewUnprocessedSuggestions(selCampId, ui.getInput());
         int suggestionId = ui.getInput()
                 .getInt("Please enter the suggestionId of the suggestion to approve/reject: ");
         Log.println("===Please select the following options===");

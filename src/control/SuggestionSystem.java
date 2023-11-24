@@ -7,14 +7,32 @@ import entity.CampSuggestion;
 import util.Input;
 import util.Log;
 
+/**
+ * <p>
+ * A singleton class to store enquiries and suggestions
+ * </p>
+ * 
+ * @author Yen Zhi Wei
+ * @version 1.0
+ * @since 23-11-2023
+ */
 public class SuggestionSystem extends FeedbackSystem {
 
+    /**
+     * Constructor for the suggestion system.
+     * @param dataStoreSystem A class to handle all datastore operations.
+     */
     public SuggestionSystem(DataStoreSystem dataStoreSystem) {
         super(dataStoreSystem);
         initFeedbackMap(dataStoreSystem.getFeedbackDataStoreSubSystem().getAllSuggestions());
     }
 
-    public void viewAllSuggestions(String userId, int campId, Input input) {
+    /**
+     * Displays all suggestions in the hashmap linked to the relevant camp.
+     * @param campId campId of the camp to display suggestions.
+     * @param input Input object.
+     */
+    public void viewAllSuggestions(int campId, Input input) {
         ArrayList<CampFeedback> suggestionList = new ArrayList<>();
         suggestionList = getCampFeedbacks(campId);
         int suggestions = 0;
@@ -32,7 +50,12 @@ public class SuggestionSystem extends FeedbackSystem {
         }
     }
 
-    public void viewUnprocessedSuggestions(String staffId, int campId, Input input) {
+    /**
+     * Displays unprocessed suggestions in the hashmap linked to the relevant camp.
+     * @param campId campId of the camp to display suggestions.
+     * @param input Input object.
+     */
+    public void viewUnprocessedSuggestions(int campId, Input input) {
         ArrayList<CampFeedback> pendingSuggestionList = new ArrayList<>();
         pendingSuggestionList = getCampFeedbacks(campId);
         Log.println("===Unprocessed Suggestions===");
@@ -55,6 +78,12 @@ public class SuggestionSystem extends FeedbackSystem {
         }
     }
 
+    /**
+     * Displays processed suggestions in the hashmap linked to the relevant camp.
+     * @param campCommitteeMemberId ID of CampCommiteeMember viewing processed suggestions.
+     * @param campId campId of the camp to display suggestions.
+     * @param input Input object.
+     */
     public void viewProcessedSuggestions(String campCommitteeMemberId, int campId, Input input) {
         ArrayList<CampFeedback> processedSuggestionList = new ArrayList<>();
         processedSuggestionList = getCampFeedbacks(campId);
@@ -79,6 +108,12 @@ public class SuggestionSystem extends FeedbackSystem {
         }
     }
 
+    /**
+     * View, edit and delete unprocessed suggestions in the hashmap linked to the relevant camp.
+     * @param campCommitteeMemberId ID of CampCommiteeMember viewing, editing and deleting unprocessed suggestions.
+     * @param campId campId of the camp to display suggestions.
+     * @param input Input object.
+     */
     public void viewEditDelSuggestions(String campCommitteeMemberId, int campId, Input input) {
         ArrayList<CampFeedback> comSuggestionList = new ArrayList<>();
         comSuggestionList = getCampFeedbacks(campId);
@@ -135,6 +170,12 @@ public class SuggestionSystem extends FeedbackSystem {
         }
     }
 
+    /**
+     * Process suggestions in the hashmap linked to the relevant camp.
+     * @param campCommitteeMemberId ID of Staff processing the suggestions.
+     * @param campId campId of the camp to process suggestions.
+     * @param input Input object.
+     */
     public boolean processCampSuggestion(String staffId, int campId, int suggestionId, boolean decision) {
         CampFeedback campFeedback = findFeedbackById(suggestionId, campId);
         if (campFeedback == null || campFeedback instanceof CampSuggestion) {
@@ -155,6 +196,10 @@ public class SuggestionSystem extends FeedbackSystem {
         return false;
     }
 
+    /**
+     * Adds CampSuggestion object to the system.
+     * @param feedback CampFeedback object to be added to the system.
+     */
     @Override
     public void addToDataStore(CampFeedback feedback) {
         if (feedback instanceof CampSuggestion)
@@ -163,6 +208,10 @@ public class SuggestionSystem extends FeedbackSystem {
             Log.error("Tried to add a non suggestion");
     }
 
+    /**
+     * Updates existing CampSuggestion object in the system.
+     * @param feedback CampFeedback object to be updated to the system.
+     */
     @Override
     public void updateToDataStore(CampFeedback feedback) {
         if (feedback instanceof CampSuggestion)
@@ -171,11 +220,19 @@ public class SuggestionSystem extends FeedbackSystem {
             Log.error("Tried to update a non suggestion");
     }
 
+    /**
+     * Deletes existing CampSuggestion object from the system.
+     * @param feedback CampFeedback object to be deleted from the system.
+     */  
     @Override
     public void removeFromDataStore(int feedbackId) {
         dataStoreSystem.getFeedbackDataStoreSubSystem().deleteSuggestion(feedbackId);
     }
     
+    /**
+     * Prints details of CampSuggestion
+     * @param feedback CampSuggestion object to be printed.
+     */ 
     public void printSuggestion(CampSuggestion campSuggestion) {
         Log.println("SuggestionID: " + campSuggestion.getId());
         Log.println("CampCommitteeMemberID: " + campSuggestion.getOwnerId());
