@@ -1,7 +1,7 @@
 import util.Log;
 
 /**
- * <p>2
+ * <p>
  * Main class with main function
  * Creates the CAMSApp object
  * </p>
@@ -11,6 +11,9 @@ import util.Log;
  * @since 19-11-2023
  */
 public class Main {
+    /**
+     * Main function. Entry point. Creates and owns CAMSApp object.
+     */
     public static void main(String[] args) {
         Log.enableLogging(true); // enable this for dev work
 

@@ -9,8 +9,8 @@ import control.SuggestionSystem;
 /**
  * <p>
  * Entry point for our application.
- * Creates UI and System objects,
- * with exception of DataStoreSystem which is a singleton
+ * Creates UI and System objects and passes 
+ * them in using Dependency Injection
  * </p>
  * 
  * @author Sim Yi Wan Terence
@@ -18,16 +18,44 @@ import control.SuggestionSystem;
  * @since 19-11-2023
  */
 public class CAMSApp {
+    /**
+     * UI to display to user
+     */
     private ConsoleUI consoleUI;
+    /**
+     * System to store data for data permanence
+     */
     private DataStoreSystem dataStoreSystem;
+    /**
+     * System to handle login logic
+     */
     private LoginSystem loginSystem;
+    /**
+     * System to handle camp logic
+     */
     private CampSystem campSystem;
+    /**
+     * System to handle enquiry logic
+     */
     private EnquirySystem enquirySystem;
+    /**
+     * System to handle suggestion logic
+     */
     private SuggestionSystem suggestionSystem;
+    /**
+     * System to handle report generation logic
+     */
     private ReportSystem reportSystem;
 
+    /**
+     * Keeps track whether app has been cleaned up
+     */
     private boolean running = false;
 
+    /**
+     * Intializes all systems and creates the UI.
+     * Sets running to true.
+     */
     public void init() {
         
         //data store should be created first!
@@ -49,7 +77,7 @@ public class CAMSApp {
     }
 
     /**
-     * run app main update loop
+     * run app main update loop.
      * 
      * @return if app should exit
      */
@@ -57,6 +85,9 @@ public class CAMSApp {
         return consoleUI.run();
     }
 
+    /**
+     * Does systems cleanup if app was running.
+     */
     public void cleanup() {
         if (!running)
             return; // alr cleaned
@@ -66,6 +97,12 @@ public class CAMSApp {
         running = false;
     }
 
+    /**
+     * Returns whether app did init and ran. 
+     * Used to determine if cleanup needs to be done.
+     * 
+     * @return whether app is running
+     */
     public boolean isRunning() {
         return running;
     }
