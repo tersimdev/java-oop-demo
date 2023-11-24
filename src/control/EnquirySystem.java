@@ -2,7 +2,6 @@ package control;
 
 import java.util.ArrayList;
 
-import entity.User;
 import entity.CampEnquiry;
 import entity.CampFeedback;
 import util.Input;
