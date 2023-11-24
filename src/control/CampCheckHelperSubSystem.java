@@ -32,11 +32,18 @@ public class CampCheckHelperSubSystem {
     }
 
     /**
-     * A boolean wrapper that contains a <code>failReason</code> indicating the
+     * A boolean wrapper that also contains a <code>failReason</code> indicating the
      * reason why the boolean value is false.
      */
     public class CheckResult {
+        /**
+         * Whether the check returns true.
+         */
         private boolean success;
+        
+        /**
+         * The reason for why the check returned false, if it did.
+         */
         private String failReason;
 
         /**
@@ -195,6 +202,14 @@ public class CampCheckHelperSubSystem {
 
     /**
      * A helper function to check if a camp is available to a student.
+     * Checks if:
+     * <ul>
+     * <li>The camp is not full</li>
+     * <li>Camp deadline has not been passed</li>
+     * <li>Dates of the camp does not overlap with other camps registered by the
+     * student</li>
+     * <li>The student has not withdrawn from this camp in the past</li>
+     * <li>The camp is open to the student's faculty</li>
      * 
      * @param camp    The camp being checked
      * @param student The student we are checking for

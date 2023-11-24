@@ -113,6 +113,12 @@ public class UserDataStoreCSVImpl extends BaseDataStoreCSV implements UserDataSt
         return ret;
     }
 
+    @Override
+    public void updateCommitteeMemberDetails(CampCommitteeMember campCommitteeMember) {
+        String row = tables.get(tableStudents).queryRow(0, (campCommitteeMember.getStudentId()));
+        tables.get(tableStudents).updateRow(row, campCommitteeMember.toCSVLine());
+    }
+
     /**
      * Creates a student csv table from the sample csv file.
      * Makes use of a temporary CSVTable to parse sample file.

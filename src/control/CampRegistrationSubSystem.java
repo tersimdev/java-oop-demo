@@ -72,6 +72,7 @@ public class CampRegistrationSubSystem {
             Log.println("Registration failed: " + checkResult.getFailReason());
         }
         dataStoreSystem.getCampDataStoreSubSystem().updateCampDetails(camp);
+        dataStoreSystem.getUserDataStoreSubSystem().updateCommitteeMemberDetails(student.getCampCommitteeMember());
     }
 
     /**

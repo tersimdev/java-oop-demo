@@ -26,4 +26,5 @@ public interface UserDataStoreInterface {
     public User queryStudent(String userID);
     public void updateUserPassword(String userID, String newPassword);
     public ArrayList<CampCommitteeMember> queryCommitteeMembers(ArrayList<String> committeeMemberIDs);
+    public void updateCommitteeMemberDetails(CampCommitteeMember campCommitteeMember);
 }

@@ -92,4 +92,12 @@ public class UserDataStoreSubSystem {
     public ArrayList<CampCommitteeMember> queryCommitteeMembers(ArrayList<String> committeeMemberIDs) {
         return dataStore.queryCommitteeMembers(committeeMemberIDs);
     }
+
+    /**
+     * Updates camp commitee member details in data store.
+     * @param campCommitteeMember updated camp committee member object.
+     */
+    public void updateCommitteeMemberDetails(CampCommitteeMember campCommitteeMember) {
+        dataStore.updateCommitteeMemberDetails(campCommitteeMember);
+    }
 }
