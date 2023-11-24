@@ -202,6 +202,11 @@ public class StudentMenu extends Menu {
     private boolean viewEnquiries(Menu menu) {
         // View Camp Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view enquiries");
+        Camp camp = campSystem.getCampById(selCampId);
+        if(!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())){
+            Log.println("You do not have access to this camp. Redirecting to menu...");
+            return false;
+        }
         enquirySystem.viewAllEnquiries(student.getUserID(), selCampId, ui.getInput());
         return false;
     }
@@ -209,6 +214,11 @@ public class StudentMenu extends Menu {
     private boolean replyEnquiries(Menu menu) {
         // Reply Unprocessed Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "reply unprocessed enquiries");
+        Camp camp = campSystem.getCampById(selCampId);
+        if(!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())){
+            Log.println("You do not have access to this camp. Redirecting to menu...");
+            return false;
+        }
         enquirySystem.viewUnprocessedEnquiries(student.getUserID(),selCampId, ui.getInput());
         
         int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to reply: ");
