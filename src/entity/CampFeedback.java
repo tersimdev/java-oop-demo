@@ -107,4 +107,6 @@ public abstract class CampFeedback implements SerializeToCSV {
     public void setFeedback(String newFeedback) {
         this.feedback = newFeedback;
     }
+
+    public abstract boolean isPending();
 }

@@ -143,10 +143,11 @@ public class StaffMenu extends Menu {
         boolean campBelongsToStaff = false;
         do {
             selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "edit");
-            campBelongsToStaff = (staff.getUserID().equals(campSystem.getCampById(selCampId).getCampInformation().getStaffInChargeId()));
-            if (campBelongsToStaff == false) Log.println("You are not in charge of this camp.");
-        } 
-        while (campBelongsToStaff == false || selCampId < 0);
+            campBelongsToStaff = (staff.getUserID()
+                    .equals(campSystem.getCampById(selCampId).getCampInformation().getStaffInChargeId()));
+            if (campBelongsToStaff == false)
+                Log.println("You are not in charge of this camp.");
+        } while (campBelongsToStaff == false || selCampId < 0);
 
         Log.println("===What would you like to edit?===");
         Log.println("(1) Camp name");
@@ -206,21 +207,25 @@ public class StaffMenu extends Menu {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view enquiries");
         Camp camp = campSystem.getCampById(selCampId);
         if(!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())){
-            Log.println("You do not have access to this camp. Redirecting to menu...");
+            Log.println("You are not in charge of this camp.");
             return false;
         }
-        enquirySystem.viewAllEnquiries(staff.getUserID(), selCampId, ui.getInput());
+        enquirySystem.printAllFeedback(selCampId);
         return false;
     }
 
     private boolean replyEnquiries(Menu menu) {
         // Reply Unprocessed Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "reply unprocessed enquiries");
-        enquirySystem.viewUnprocessedEnquiries(staff.getUserID(), selCampId, ui.getInput());
-
+        enquirySystem.printPendingFeedback(selCampId);
+        Camp camp = campSystem.getCampById(selCampId);
+        if(!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())){
+            Log.println("You are not in charge of this camp.");
+            return false;
+        }
         int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to reply: ");
         String reply = ui.getInput().getLine("Please enter reply: ");
-        Boolean result = enquirySystem.processCampEnquiry(staff.getUserID(), selCampId, enquiryId, reply);
+        Boolean result = enquirySystem.processCampEnquiry(null, staff.getUserID(), selCampId, enquiryId, reply);
         if (result) {
             Log.println("Enquiry successfully processed.");
         } else
@@ -233,10 +238,10 @@ public class StaffMenu extends Menu {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view suggestions");
         Camp camp = campSystem.getCampById(selCampId);
         if(!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())){
-            Log.println("You do not have access to this camp. Redirecting to menu...");
+            Log.println("You are not in charge of this camp.");
             return false;
         }
-        suggestionSystem.viewAllSuggestions(selCampId, ui.getInput());
+        suggestionSystem.printAllFeedback(selCampId);
         return false;
     }
 
@@ -244,7 +249,12 @@ public class StaffMenu extends Menu {
         // Accept/Reject Unprocessed Suggestions
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem,
                 "approve/reject unprocessed suggestions");
-        suggestionSystem.viewUnprocessedSuggestions(selCampId, ui.getInput());
+                Camp camp = campSystem.getCampById(selCampId);
+                if(!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())){
+                    Log.println("You are not in charge of this camp.");
+                    return false;
+                }
+                suggestionSystem.printPendingFeedback(selCampId);
         int suggestionId = ui.getInput()
                 .getInt("Please enter the suggestionId of the suggestion to approve/reject: ");
         Log.println("===Please select the following options===");
@@ -276,6 +286,11 @@ public class StaffMenu extends Menu {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "Generate camp report");
         Camp camp = campSystem.getCampById(selCampId);
 
+        if(!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())){
+            Log.println("You are not in charge of this camp.");
+            return false;
+        }
+
         CampReportFilter[] filterChoicesOptions = {
                 CampReportFilter.ATTENDEE,
                 CampReportFilter.CAMP_COMMITTEE,
@@ -287,56 +302,52 @@ public class StaffMenu extends Menu {
                 ".csv",
         };
 
-        if (camp != null) {
-            String fileName = ui.getInput().getLine("Please enter the file name: ");
+        String fileName = ui.getInput().getLine("Please enter the file name: ");
 
-            // CampReportOptions reportOptions = ReportInputHelper.getOptionsFromUser();
+        // CampReportOptions reportOptions = ReportInputHelper.getOptionsFromUser();
 
-            int filterChoice = ui.getInput()
-                    .getInt("Please enter the filter (1 for ATTENDEE, 2 for CAMP_COMMITTEE, 3 for no filter): ");
-            CampReportFilter filter = filterChoicesOptions[filterChoice - 1];
+        int filterChoice = ui.getInput()
+                .getInt("Please enter the filter (1 for ATTENDEE, 2 for CAMP_COMMITTEE, 3 for no filter): ");
+        CampReportFilter filter = filterChoicesOptions[filterChoice - 1];
 
-            int fileTypeChoice = ui.getInput().getInt("Choose your filetype((1 for TXT, 2 for CSV): ");
-            String fileType = fileTypeOptions[fileTypeChoice - 1];
+        int fileTypeChoice = ui.getInput().getInt("Choose your filetype((1 for TXT, 2 for CSV): ");
+        String fileType = fileTypeOptions[fileTypeChoice - 1];
 
-            CampReportOptions reportOptions = new CampReportOptions();
-            reportOptions.setCampId(camp.getCampId());
-            reportOptions.setFileName(fileName);
-            reportOptions.setFileType(fileType);
+        CampReportOptions reportOptions = new CampReportOptions();
+        reportOptions.setCampId(camp.getCampId());
+        reportOptions.setFileName(fileName);
+        reportOptions.setFileType(fileType);
 
-            reportSystem.writeCampReport(reportOptions, filter, staff, camp);
-        } else {
-            Log.println("Camp not found " + selCampId);
-        }
+        reportSystem.writeCampReport(reportOptions, filter, staff, camp);
         return false;
     }
 
     private boolean generatePerformanceReport(Menu menu) {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "Generate performance report");
-
         Camp camp = campSystem.getCampById(selCampId);
+
+        if(!camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())){
+            Log.println("You are not in charge of this camp.");
+            return false;
+        }
 
         String[] fileTypeOptions = {
                 ".txt",
                 ".csv",
         };
 
-        if (camp != null) {
-            String fileName = ui.getInput().getLine("Please enter the file name: ");
+        String fileName = ui.getInput().getLine("Please enter the file name: ");
 
-            int fileTypeChoice = ui.getInput().getInt("Choose your filetype((1 for TXT, 2 for CSV): ");
-            String fileType = fileTypeOptions[fileTypeChoice - 1];
+        int fileTypeChoice = ui.getInput().getInt("Choose your filetype((1 for TXT, 2 for CSV): ");
+        String fileType = fileTypeOptions[fileTypeChoice - 1];
 
-            CampReportOptions reportOptions = new CampReportOptions();
-            reportOptions.setCampId(camp.getCampId());
-            reportOptions.setFileName(fileName);
-            reportOptions.setFileType(fileType);
+        CampReportOptions reportOptions = new CampReportOptions();
+        reportOptions.setCampId(camp.getCampId());
+        reportOptions.setFileName(fileName);
+        reportOptions.setFileType(fileType);
 
-            reportSystem.writePerformanceReport(reportOptions, staff, camp);
-            Log.println("Performance report generated successfully.");
-        } else {
-            Log.println("Camp not found " + selCampId);
-        }
+        reportSystem.writePerformanceReport(reportOptions, staff, camp);
+        Log.println("Performance report generated successfully.");
 
         return false;
     }

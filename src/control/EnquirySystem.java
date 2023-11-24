@@ -1,7 +1,6 @@
 package control;
 
-import java.util.ArrayList;
-
+import entity.CampCommitteeMember;
 import entity.CampEnquiry;
 import entity.CampFeedback;
 import util.Input;
@@ -20,6 +19,7 @@ public class EnquirySystem extends FeedbackSystem {
 
     /**
      * Constructor for the enquiry system.
+     * 
      * @param dataStoreSystem A class to handle all datastore operations.
      */
     public EnquirySystem(DataStoreSystem dataStoreSystem) {
@@ -28,111 +28,124 @@ public class EnquirySystem extends FeedbackSystem {
     }
 
     /**
+     * Adds CampEnquiry object to the system.
+     * 
+     * @param feedback CampFeedback object to be added to the system.
+     */
+    @Override
+    protected void addToDataStore(CampFeedback feedback) {
+        if (feedback instanceof CampEnquiry)
+            dataStoreSystem.getFeedbackDataStoreSubSystem().addEnquiry((CampEnquiry) feedback);
+        else
+            Log.error("Tried to add a non enquiry");
+    }
+
+    /**
+     * Updates existing CampEnquiry object in the system.
+     * 
+     * @param feedback CampFeedback object to be updated to the system.
+     */
+    @Override
+    protected void updateToDataStore(CampFeedback feedback) {
+        if (feedback instanceof CampEnquiry)
+            dataStoreSystem.getFeedbackDataStoreSubSystem().updateEnquiry((CampEnquiry) feedback);
+        else
+            Log.error("Tried to update a non enquiry");
+    }
+
+    /**
+     * Deletes existing CampEnquiry object from the system.
+     * 
+     * @param feedback CampFeedback object to be deleted from the system.
+     */
+    @Override
+    protected void removeFromDataStore(int feedbackId) {
+        dataStoreSystem.getFeedbackDataStoreSubSystem().deleteEnquiry(feedbackId);
+    }
+
+    /**
+     * Prints details of CampEnquiry
+     * 
+     * @param feedback CampEnquiry object to be printed.
+     */
+    @Override
+    public void printFeedback(CampFeedback campFeedback) {
+        if (!(campFeedback instanceof CampEnquiry)) {
+            Log.error("Tried to print feedback of wrong type");
+            return;
+        }
+        CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
+        Log.println("EnquiryID: " + campEnquiry.getId());
+        Log.println("StudentID: " + campEnquiry.getOwnerId());
+        Log.println("Enquiry Status: Pending");
+        Log.println("Enquiry: " + campEnquiry.getFeedback());
+        if (campEnquiry.isPending())
+            Log.println("Reply: null");
+        else
+            Log.println("Reply: " + campEnquiry.getReply());
+        Log.println("");
+    }
+
+    /**
      * Displays all enquiries in the hashmap linked to the relevant camp.
+     * 
      * @param campId campId of the camp to display enquiries.
-     * @param input Input object.
+     * @param input  Input object.
      */
-    public void viewAllEnquiries(String userId, int campId, Input input) {
-        ArrayList<CampFeedback> enquiryList = new ArrayList<>();
-        enquiryList = getCampFeedbacks(campId);
-        int enquiries = 0;
+    @Override
+    public int printAllFeedback(int campId) {
         Log.println("===All Enquiries===");
-        for (CampFeedback campFeedback : enquiryList) {
-            if (campFeedback == null || !(campFeedback instanceof CampEnquiry))
-                continue;
-            CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
-            enquiries += 1;
-            printEnquiry(campEnquiry);
-        }
-        if (enquiries == 0) {
+        int size = super.printAllFeedback(campId);
+        if (size == 0)
             Log.println("No enquiries found. Directing back to menu...");
-            return;
-        }
+        return size;
     }
 
     /**
-     * Displays unprocessed enquiriesin the hashmap linked to the relevant camp.
+     * Displays pending or processed enquiries in the hashmap linked to the relevant
+     * camp.
+     * 
      * @param campId campId of the camp to display enquiries.
-     * @param input Input object.
      */
-    public void viewUnprocessedEnquiries(String userId, int campId, Input input) {
-        ArrayList<CampFeedback> processedEnquiryList = new ArrayList<>();
-        processedEnquiryList = getCampFeedbacks(campId);
-        int enquiries = 0;
+    @Override
+    public int printPendingFeedback(int campId) {
         Log.println("===Unprocessed Enquiries===");
-        for (CampFeedback campFeedback : processedEnquiryList) {
-            if (campFeedback == null || !(campFeedback instanceof CampEnquiry))
-                continue;
-            CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
-            boolean processed = !campEnquiry.isPending();
-            if (processed)
-                continue;
-            else {
-                enquiries += 1;
-                printEnquiry(campEnquiry);
-            }
-        }
-        if (enquiries == 0) {
+        int size = super.printPendingFeedback(campId);
+        if (size == 0)
             Log.println("No unprocessed enquiries found. Directing back to menu...");
-            return;
-        }
+        return size;
     }
 
     /**
-     * Displays processed enquiries in the hashmap linked to the relevant camp.
+     * Displays processed enquiries belonging to student
+     * in the hashmap linked to the relevant camp.
+     * 
      * @param studentId ID of student viewing processed enquiries.
-     * @param campId campId of the camp to display enquiries.
-     * @param input Input object.
+     * @param campId    campId of the camp to display enquiries.
      */
-    public void viewProcessedEnquiries(String studentId, int campId, Input input) {
-        ArrayList<CampFeedback> processedEnquiryList = new ArrayList<>();
-        processedEnquiryList = getCampFeedbacks(campId);
-        int enquiries = 0;
+    @Override
+    public int printProcessedFeedbackByOwner(String studentId, int campId) {
         Log.println("===Processed Enquiries===");
-        for (CampFeedback campFeedback : processedEnquiryList) {
-            if (campFeedback == null || !(campFeedback instanceof CampEnquiry))
-                continue;
-            CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
-            boolean belongsToUser = campEnquiry.getOwnerId().equals(studentId);
-            boolean processed = !campEnquiry.isPending();
-            if (!belongsToUser || !processed)
-                continue;
-            else {
-                enquiries += 1;
-                printEnquiry(campEnquiry);
-            }
-        }
-        if (enquiries == 0) {
+        int size = super.printProcessedFeedbackByOwner(studentId, campId);
+        if (size == 0)
             Log.println("No processed enquiries found. Directing back to menu...");
-            return;
-        }
+        return size;
     }
 
     /**
-     * View, edit and delete unprocessed enquiries in the hashmap linked to the relevant camp.
-     * @param studentId ID of student viewing, editing and deleting unprocessed enquiries.
-     * @param campId campId of the camp to view, edit and delete enquiries.
-     * @param input Input object.
+     * View, edit and delete unprocessed enquiries in the hashmap linked to the
+     * relevant camp.
+     * 
+     * @param studentId ID of student viewing, editing and deleting unprocessed
+     *                  enquiries.
+     * @param campId    campId of the camp to view, edit and delete enquiries.
+     * @param input     Input object.
      */
-    public void viewEditDelEnquiries(String studentId, int campId, Input input) {
-        ArrayList<CampFeedback> studentEnquiryList = new ArrayList<>();
-        studentEnquiryList = getCampFeedbacks(campId);
-        int pending = 0;
-        Log.println("===Pending Enquiries===");
-        for (CampFeedback campFeedback : studentEnquiryList) {
-            if (campFeedback == null || !(campFeedback instanceof CampEnquiry))
-                continue;
-            CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
-            boolean belongsToUser = campEnquiry.getOwnerId().equals(studentId);
-            boolean processed = !campEnquiry.isPending();
-            if (!belongsToUser || processed)
-                continue;
-            else {
-                pending += 1;
-                printEnquiry(campEnquiry);
-            }
-        }
-        if (pending == 0) {
+    @Override
+    public void viewEditDelFeedback(String studentId, int campId, Input input) {
+        Log.println("===Pending Enquiries by You===");
+        int size = printPendingFeedbackByOwner(studentId, campId);
+        if (size == 0) {
             Log.println("No pending enquiries found. Directing back to menu...");
             return;
         }
@@ -160,80 +173,36 @@ public class EnquirySystem extends FeedbackSystem {
                 else
                     Log.println("Deletion failed.");
             } else if (sChoice == 3)
-                    break;
+                break;
             else {
-            Log.println("Invalid choice! Try again.");
-            sChoice = -1;
+                Log.println("Invalid choice! Try again.");
+                sChoice = -1;
             }
         }
     }
 
     /**
      * Process enquiries in the hashmap linked to the relevant camp.
-     * @param userId ID of User processing the enquiries
-     * @param campId campId of the camp to process enquiries.
+     * 
+     * @param userId    ID of User processing the enquiries
+     * @param campId    campId of the camp to process enquiries.
      * @param enquiryId ID of enquiry to be processed.
-     * @param reply Reply to the enquiry.
+     * @param reply     Reply to the enquiry.
      */
-    public boolean processCampEnquiry(String userId, int campId, int enquiryId, String reply) {
+    public boolean processCampEnquiry(CampCommitteeMember campCommitteeMember, String userId, int campId, int enquiryId, String reply) {
         CampFeedback campFeedback = findFeedbackById(enquiryId, campId);
         if (campFeedback instanceof CampEnquiry) {
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
             campEnquiry.reply(userId, reply);
+            if(campCommitteeMember != null) {
+            campCommitteeMember.addPoints(1);
+            dataStoreSystem.getUserDataStoreSubSystem().updateCommitteeMemberDetails(campCommitteeMember);
+            }
             updateToDataStore(campEnquiry);
             return true;
         } else {
             Log.error("Feedback not enquiry for some reason");
         }
         return false;
-    }
-
-    /**
-     * Adds CampEnquiry object to the system.
-     * @param feedback CampFeedback object to be added to the system.
-     */
-    @Override
-    protected void addToDataStore(CampFeedback feedback) {
-        if (feedback instanceof CampEnquiry)
-            dataStoreSystem.getFeedbackDataStoreSubSystem().addEnquiry((CampEnquiry) feedback);
-        else
-            Log.error("Tried to add a non enquiry");
-    }
-
-    /**
-     * Updates existing CampEnquiry object in the system.
-     * @param feedback CampFeedback object to be updated to the system.
-     */
-    @Override
-    protected void updateToDataStore(CampFeedback feedback) {
-        if (feedback instanceof CampEnquiry)
-            dataStoreSystem.getFeedbackDataStoreSubSystem().updateEnquiry((CampEnquiry) feedback);
-        else
-            Log.error("Tried to update a non enquiry");
-    }
-
-    /**
-     * Deletes existing CampEnquiry object from the system.
-     * @param feedback CampFeedback object to be deleted from the system.
-     */  
-    @Override
-    protected void removeFromDataStore(int feedbackId) {
-        dataStoreSystem.getFeedbackDataStoreSubSystem().deleteEnquiry(feedbackId);
-    }
-    
-    /**
-     * Prints details of CampEnquiry
-     * @param feedback CampEnquiry object to be printed.
-     */ 
-    public void printEnquiry(CampEnquiry campEnquiry) {
-        Log.println("EnquiryID: " + campEnquiry.getId());
-        Log.println("StudentID: " + campEnquiry.getOwnerId());
-        Log.println("Enquiry Status: Pending");            
-        Log.println("Enquiry: " + campEnquiry.getFeedback());
-        if(campEnquiry.isPending())
-            Log.println("Reply: null");
-        else
-            Log.println("Reply: " + campEnquiry.getReply());
-        Log.println("");
     }
 }

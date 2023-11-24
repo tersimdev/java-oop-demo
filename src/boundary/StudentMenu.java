@@ -147,14 +147,14 @@ public class StudentMenu extends Menu {
     private boolean viewEditDelPendingEnquiries(Menu menu) {
         // View/Edit/Delete Pending Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view/edit/delete your enquiries");
-        enquirySystem.viewEditDelEnquiries(student.getUserID(), selCampId, ui.getInput());
+        enquirySystem.viewEditDelFeedback(student.getUserID(), selCampId, ui.getInput());
         return false;
     }
 
     private boolean viewEnquiryReplies(Menu menu) {
-        // View Processed Enquiry Replies
+        // View Processed Enquiry Replies of a specific student
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view processed enquiries");
-        enquirySystem.viewProcessedEnquiries(student.getUserID(), selCampId, ui.getInput());
+        enquirySystem.printProcessedFeedbackByOwner(student.getUserID(), selCampId);
         return false;
     }
 
@@ -174,12 +174,13 @@ public class StudentMenu extends Menu {
         // Submit Suggestions
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "submit suggestion");
         Camp camp = campSystem.getCampById(selCampId);
-        if(!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())){
+        if (!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())) {
             Log.println("You do not have access to this camp. Redirecting to menu...");
             return false;
         }
         String suggestionStr = ui.getInput().getLine("Please enter suggestion: ");
-        CampSuggestion suggestion = new CampSuggestion(student.getCampCommitteeMember(), student.getUserID(), suggestionStr, selCampId);
+        CampSuggestion suggestion = new CampSuggestion(student.getCampCommitteeMember(), student.getUserID(),
+                suggestionStr, selCampId);
         suggestionSystem.addCampFeedback(selCampId, suggestion);
         Log.println("Suggestion submitted.");
         return false;
@@ -189,18 +190,18 @@ public class StudentMenu extends Menu {
         // View/Edit/Delete Pending Suggestions
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view/edit/delete your suggestions");
         Camp camp = campSystem.getCampById(selCampId);
-        if(!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())){
+        if (!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())) {
             Log.println("You do not have access to this camp. Redirecting to menu...");
             return false;
         }
-        suggestionSystem.viewEditDelSuggestions(student.getUserID(), selCampId, ui.getInput());
+        suggestionSystem.viewEditDelFeedback(student.getUserID(), selCampId, ui.getInput());
         return false;
     }
 
     private boolean viewSuggestionsApproval(Menu menu) {
-        // View Processed Suggestions
+        // View Processed Suggestions of a specific student
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view processed suggestions");
-        suggestionSystem.viewProcessedSuggestions(student.getUserID(), selCampId, ui.getInput());
+        suggestionSystem.printProcessedFeedbackByOwner(student.getUserID(), selCampId);
         return false;
     }
 
@@ -208,11 +209,11 @@ public class StudentMenu extends Menu {
         // View Camp Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view enquiries");
         Camp camp = campSystem.getCampById(selCampId);
-        if(!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())){
+        if (!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())) {
             Log.println("You do not have access to this camp. Redirecting to menu...");
             return false;
         }
-        enquirySystem.viewAllEnquiries(student.getUserID(), selCampId, ui.getInput());
+        enquirySystem.printAllFeedback(selCampId);
         return false;
     }
 
@@ -220,15 +221,16 @@ public class StudentMenu extends Menu {
         // Reply Unprocessed Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "reply unprocessed enquiries");
         Camp camp = campSystem.getCampById(selCampId);
-        if(!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())){
+        if (!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())) {
             Log.println("You do not have access to this camp. Redirecting to menu...");
             return false;
         }
-        enquirySystem.viewUnprocessedEnquiries(student.getUserID(),selCampId, ui.getInput());
-        
+        enquirySystem.printPendingFeedback(selCampId);
+
         int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to reply: ");
         String reply = ui.getInput().getLine("Please enter reply: ");
-        Boolean result = enquirySystem.processCampEnquiry(student.getUserID(), selCampId, enquiryId,
+        Boolean result = enquirySystem.processCampEnquiry(student.getCampCommitteeMember(), student.getUserID(),
+                selCampId, enquiryId,
                 reply);
         if (result) {
             Log.println("Enquiry successfully processed.");
@@ -241,6 +243,10 @@ public class StudentMenu extends Menu {
     private boolean generateCampReport(Menu menu) {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "Generate camp report");
         Camp camp = campSystem.getCampById(selCampId);
+        if (!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())) {
+            Log.println("You do not have access to this camp. Redirecting to menu...");
+            return false;
+        }
 
         CampReportFilter[] filterChoicesOptions = {
                 CampReportFilter.ATTENDEE,
@@ -248,32 +254,28 @@ public class StudentMenu extends Menu {
                 CampReportFilter.NONE,
         };
 
-        if (camp != null) {
-            String fileName = ui.getInput().getLine("Please enter the file name: ");
+        String fileName = ui.getInput().getLine("Please enter the file name: ");
 
-            // CampReportOptions reportOptions = ReportInputHelper.getOptionsFromUser();
+        // CampReportOptions reportOptions = ReportInputHelper.getOptionsFromUser();
 
-            int filterChoice = ui.getInput()
-                    .getInt("Please enter the filter (1 for ATTENDEE, 2 for CAMP_COMMITTEE, 3 for no filter): ");
-            CampReportFilter filter = filterChoicesOptions[filterChoice - 1];
+        int filterChoice = ui.getInput()
+                .getInt("Please enter the filter (1 for ATTENDEE, 2 for CAMP_COMMITTEE, 3 for no filter): ");
+        CampReportFilter filter = filterChoicesOptions[filterChoice - 1];
 
-            String[] fileTypeOptions = {
-                    ".txt",
-                    ".csv",
-            };
+        String[] fileTypeOptions = {
+                ".txt",
+                ".csv",
+        };
 
-            int fileTypeChoice = ui.getInput().getInt("Choose your filetype((1 for TXT, 2 for CSV): ");
-            String fileType = fileTypeOptions[fileTypeChoice - 1];
+        int fileTypeChoice = ui.getInput().getInt("Choose your filetype((1 for TXT, 2 for CSV): ");
+        String fileType = fileTypeOptions[fileTypeChoice - 1];
 
-            CampReportOptions reportOptions = new CampReportOptions();
-            reportOptions.setCampId(camp.getCampId());
-            reportOptions.setFileName(fileName);
-            reportOptions.setFileType(fileType);
+        CampReportOptions reportOptions = new CampReportOptions();
+        reportOptions.setCampId(camp.getCampId());
+        reportOptions.setFileName(fileName);
+        reportOptions.setFileType(fileType);
 
-            reportSystem.writeCampReport(reportOptions, filter, student, camp);
-        } else {
-            Log.println("Camp not found " + selCampId);
-        }
+        reportSystem.writeCampReport(reportOptions, filter, student, camp);
         return false;
     }
 
