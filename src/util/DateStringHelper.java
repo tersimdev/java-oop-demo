@@ -13,21 +13,45 @@ import java.time.format.DateTimeFormatter;
  */
 public class DateStringHelper {
 
+    /**
+     * Format of the date to convert
+     */
     private final static String localDateFormat = "dd/MM/uuuu";
+    /**
+     * Format of the date to print
+     */
     private final static String printableDateFormat = "dd LLLL uuuu";
 
+    /**
+     * Parses string to date object
+     * 
+     * @param input string to parse
+     * @return LocalDate object
+     */
     public static LocalDate StrToDateConverter(String input) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(localDateFormat);
         LocalDate ret = LocalDate.parse(input, formatter);
         return ret;
     }
 
+    /**
+     * Formats a date object into a string
+     * 
+     * @param input LocalDate object to format
+     * @return date as string
+     */
     public static String DateToStrConverter(LocalDate input) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(localDateFormat);
         String ret = formatter.format(input);
         return ret;
     }
 
+    /**
+     * Formats a date object into a printable string
+     * 
+     * @param input LocalDate object to format
+     * @return date as string in nice printable format
+     */
     public static String DateToPrintableStrConverter(LocalDate input) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(printableDateFormat);
         String ret = formatter.format(input);
