@@ -20,6 +20,7 @@ public class EnquirySystem extends FeedbackSystem {
 
     /**
      * Constructor for the enquiry system.
+     * 
      * @param dataStoreSystem A class to handle all datastore operations.
      */
     public EnquirySystem(DataStoreSystem dataStoreSystem) {
@@ -29,8 +30,9 @@ public class EnquirySystem extends FeedbackSystem {
 
     /**
      * Displays all enquiries in the hashmap linked to the relevant camp.
+     * 
      * @param campId campId of the camp to display enquiries.
-     * @param input Input object.
+     * @param input  Input object.
      */
     public void viewAllEnquiries(String userId, int campId, Input input) {
         ArrayList<CampFeedback> enquiryList = new ArrayList<>();
@@ -42,7 +44,7 @@ public class EnquirySystem extends FeedbackSystem {
                 continue;
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
             enquiries += 1;
-            printEnquiry(campEnquiry);
+            printFeedback(campEnquiry);
         }
         if (enquiries == 0) {
             Log.println("No enquiries found. Directing back to menu...");
@@ -52,8 +54,9 @@ public class EnquirySystem extends FeedbackSystem {
 
     /**
      * Displays unprocessed enquiriesin the hashmap linked to the relevant camp.
+     * 
      * @param campId campId of the camp to display enquiries.
-     * @param input Input object.
+     * @param input  Input object.
      */
     public void viewUnprocessedEnquiries(String userId, int campId, Input input) {
         ArrayList<CampFeedback> processedEnquiryList = new ArrayList<>();
@@ -69,7 +72,7 @@ public class EnquirySystem extends FeedbackSystem {
                 continue;
             else {
                 enquiries += 1;
-                printEnquiry(campEnquiry);
+                printFeedback(campEnquiry);
             }
         }
         if (enquiries == 0) {
@@ -80,9 +83,10 @@ public class EnquirySystem extends FeedbackSystem {
 
     /**
      * Displays processed enquiries in the hashmap linked to the relevant camp.
+     * 
      * @param studentId ID of student viewing processed enquiries.
-     * @param campId campId of the camp to display enquiries.
-     * @param input Input object.
+     * @param campId    campId of the camp to display enquiries.
+     * @param input     Input object.
      */
     public void viewProcessedEnquiries(String studentId, int campId, Input input) {
         ArrayList<CampFeedback> processedEnquiryList = new ArrayList<>();
@@ -99,7 +103,7 @@ public class EnquirySystem extends FeedbackSystem {
                 continue;
             else {
                 enquiries += 1;
-                printEnquiry(campEnquiry);
+                printFeedback(campEnquiry);
             }
         }
         if (enquiries == 0) {
@@ -109,10 +113,13 @@ public class EnquirySystem extends FeedbackSystem {
     }
 
     /**
-     * View, edit and delete unprocessed enquiries in the hashmap linked to the relevant camp.
-     * @param studentId ID of student viewing, editing and deleting unprocessed enquiries.
-     * @param campId campId of the camp to view, edit and delete enquiries.
-     * @param input Input object.
+     * View, edit and delete unprocessed enquiries in the hashmap linked to the
+     * relevant camp.
+     * 
+     * @param studentId ID of student viewing, editing and deleting unprocessed
+     *                  enquiries.
+     * @param campId    campId of the camp to view, edit and delete enquiries.
+     * @param input     Input object.
      */
     public void viewEditDelEnquiries(String studentId, int campId, Input input) {
         ArrayList<CampFeedback> studentEnquiryList = new ArrayList<>();
@@ -129,7 +136,7 @@ public class EnquirySystem extends FeedbackSystem {
                 continue;
             else {
                 pending += 1;
-                printEnquiry(campEnquiry);
+                printFeedback(campEnquiry);
             }
         }
         if (pending == 0) {
@@ -160,20 +167,21 @@ public class EnquirySystem extends FeedbackSystem {
                 else
                     Log.println("Deletion failed.");
             } else if (sChoice == 3)
-                    break;
+                break;
             else {
-            Log.println("Invalid choice! Try again.");
-            sChoice = -1;
+                Log.println("Invalid choice! Try again.");
+                sChoice = -1;
             }
         }
     }
 
     /**
      * Process enquiries in the hashmap linked to the relevant camp.
-     * @param userId ID of User processing the enquiries
-     * @param campId campId of the camp to process enquiries.
+     * 
+     * @param userId    ID of User processing the enquiries
+     * @param campId    campId of the camp to process enquiries.
      * @param enquiryId ID of enquiry to be processed.
-     * @param reply Reply to the enquiry.
+     * @param reply     Reply to the enquiry.
      */
     public boolean processCampEnquiry(String userId, int campId, int enquiryId, String reply) {
         CampFeedback campFeedback = findFeedbackById(enquiryId, campId);
@@ -190,6 +198,7 @@ public class EnquirySystem extends FeedbackSystem {
 
     /**
      * Adds CampEnquiry object to the system.
+     * 
      * @param feedback CampFeedback object to be added to the system.
      */
     @Override
@@ -202,6 +211,7 @@ public class EnquirySystem extends FeedbackSystem {
 
     /**
      * Updates existing CampEnquiry object in the system.
+     * 
      * @param feedback CampFeedback object to be updated to the system.
      */
     @Override
@@ -214,23 +224,32 @@ public class EnquirySystem extends FeedbackSystem {
 
     /**
      * Deletes existing CampEnquiry object from the system.
+     * 
      * @param feedback CampFeedback object to be deleted from the system.
-     */  
+     */
     @Override
     protected void removeFromDataStore(int feedbackId) {
         dataStoreSystem.getFeedbackDataStoreSubSystem().deleteEnquiry(feedbackId);
     }
+
     
     /**
      * Prints details of CampEnquiry
+     * 
      * @param feedback CampEnquiry object to be printed.
-     */ 
-    public void printEnquiry(CampEnquiry campEnquiry) {
+     */
+    @Override
+    public void printFeedback(CampFeedback campFeedback) {
+        if (!(campFeedback instanceof CampEnquiry)) {
+            Log.error("Tried to print feedback of wrong type");
+            return;
+        }
+        CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
         Log.println("EnquiryID: " + campEnquiry.getId());
         Log.println("StudentID: " + campEnquiry.getOwnerId());
-        Log.println("Enquiry Status: Pending");            
+        Log.println("Enquiry Status: Pending");
         Log.println("Enquiry: " + campEnquiry.getFeedback());
-        if(campEnquiry.isPending())
+        if (campEnquiry.isPending())
             Log.println("Reply: null");
         else
             Log.println("Reply: " + campEnquiry.getReply());

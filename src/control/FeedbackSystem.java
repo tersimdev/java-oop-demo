@@ -49,6 +49,12 @@ public abstract class FeedbackSystem {
     protected abstract void removeFromDataStore(int feedbackId);
 
     /**
+     * Prints details of CampFeedback
+     * @param feedback CampFeedback object to be printed.
+     */ 
+    public abstract void printFeedback(CampFeedback feedback);
+
+    /**
      * Creates the mapping of the feedback to relevant campIds.
      * @param feedbackList feedbackList where feedback is stored.
      */
