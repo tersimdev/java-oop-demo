@@ -83,7 +83,7 @@ public class CampCommitteeMember implements SerializeToCSV {
             Log.error("camp committee csvLine is invalid, expected " + getCSVLineLength() + " but got " + split.length);
             Log.error(csvLine);
         } else {
-            isMember = split[0] == "MEMBER";
+            isMember = split[0].trim().equals("MEMBER");
             if (isMember) {
                 campId = Integer.parseInt(split[1]);
                 points = Integer.parseInt(split[2]);
