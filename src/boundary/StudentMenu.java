@@ -188,6 +188,11 @@ public class StudentMenu extends Menu {
     private boolean viewEditDelPendingSuggestions(Menu menu) {
         // View/Edit/Delete Pending Suggestions
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view/edit/delete your suggestions");
+        Camp camp = campSystem.getCampById(selCampId);
+        if(!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())){
+            Log.println("You do not have access to this camp. Redirecting to menu...");
+            return false;
+        }
         suggestionSystem.viewEditDelSuggestions(student.getUserID(), selCampId, ui.getInput());
         return false;
     }
