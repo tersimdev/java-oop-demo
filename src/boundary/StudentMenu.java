@@ -172,12 +172,9 @@ public class StudentMenu extends Menu {
 
     private boolean submitSuggestion(Menu menu) {
         // Submit Suggestions
-        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "submit suggestion");
-        Camp camp = campSystem.getCampById(selCampId);
-        if (!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())) {
-            Log.println("You do not have access to this camp. Redirecting to menu...");
-            return false;
-        }
+        Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
+        int selCampId = camp.getCampId();
+        
         String suggestionStr = ui.getInput().getLine("Please enter suggestion: ");
         CampSuggestion suggestion = new CampSuggestion(student.getCampCommitteeMember(), student.getUserID(),
                 suggestionStr, selCampId);
@@ -188,43 +185,35 @@ public class StudentMenu extends Menu {
 
     private boolean viewEditDelPendingSuggestions(Menu menu) {
         // View/Edit/Delete Pending Suggestions
-        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view/edit/delete your suggestions");
-        Camp camp = campSystem.getCampById(selCampId);
-        if (!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())) {
-            Log.println("You do not have access to this camp. Redirecting to menu...");
-            return false;
-        }
+        Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
+        int selCampId = camp.getCampId();
+        
         suggestionSystem.viewEditDelFeedback(student.getUserID(), selCampId, ui.getInput());
         return false;
     }
 
     private boolean viewSuggestionsApproval(Menu menu) {
         // View Processed Suggestions of a specific student
-        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view processed suggestions");
+        Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
+        int selCampId = camp.getCampId();
         suggestionSystem.printProcessedFeedbackByOwner(student.getUserID(), selCampId);
         return false;
     }
 
     private boolean viewEnquiries(Menu menu) {
         // View Camp Enquiries
-        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view enquiries");
-        Camp camp = campSystem.getCampById(selCampId);
-        if (!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())) {
-            Log.println("You do not have access to this camp. Redirecting to menu...");
-            return false;
-        }
+        Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
+        int selCampId = camp.getCampId();
+        
         enquirySystem.printAllFeedback(selCampId);
         return false;
     }
 
     private boolean replyEnquiries(Menu menu) {
         // Reply Unprocessed Enquiries
-        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "reply unprocessed enquiries");
-        Camp camp = campSystem.getCampById(selCampId);
-        if (!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())) {
-            Log.println("You do not have access to this camp. Redirecting to menu...");
-            return false;
-        }
+        Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
+        int selCampId = camp.getCampId();
+        
         enquirySystem.printPendingFeedback(selCampId);
 
         int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to reply: ");
@@ -241,12 +230,7 @@ public class StudentMenu extends Menu {
     }
 
     private boolean generateCampReport(Menu menu) {
-        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "Generate camp report");
-        Camp camp = campSystem.getCampById(selCampId);
-        if (!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())) {
-            Log.println("You do not have access to this camp. Redirecting to menu...");
-            return false;
-        }
+        Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
 
         CampReportFilter[] filterChoicesOptions = {
                 CampReportFilter.ATTENDEE,
@@ -280,13 +264,15 @@ public class StudentMenu extends Menu {
     }
 
     private boolean viewCampAttendeeList(Menu menu) {
-        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "inspect");
+        Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
+        int selCampId = camp.getCampId();
         campSystem.getCampViewerSubSystem().viewAttendeeList(student.getCampCommitteeMember(), selCampId);
         return false;
     }
 
     private boolean viewCampCommitteeList(Menu menu) {
-        int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "inspect");
+        Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
+        int selCampId = camp.getCampId();
         campSystem.getCampViewerSubSystem().viewCampCommitteeList(student.getCampCommitteeMember(), selCampId);
         return false;
     }
