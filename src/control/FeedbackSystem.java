@@ -16,9 +16,10 @@ import entity.CampFeedback;
  * @since 23-11-2023
  */
 public abstract class FeedbackSystem {
-    protected DataStoreSystem dataStoreSystem;
+    
     protected Map<Integer, ArrayList<CampFeedback>> feedbacksMap;
     protected int nextFeedbackId;
+    protected DataStoreSystem dataStoreSystem;
 
     public FeedbackSystem(DataStoreSystem dataStoreSystem) {
         this.feedbacksMap = new HashMap<>();

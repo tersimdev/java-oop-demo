@@ -1,7 +1,10 @@
 package control;
 
+import java.util.ArrayList;
+
 import entity.CampFeedback;
 import entity.CampSuggestion;
+import util.Input;
 import util.Log;
 
 public class SuggestionSystem extends FeedbackSystem {
@@ -9,6 +12,62 @@ public class SuggestionSystem extends FeedbackSystem {
     public SuggestionSystem(DataStoreSystem dataStoreSystem) {
         super(dataStoreSystem);
         initFeedbackMap(dataStoreSystem.getFeedbackDataStoreSubSystem().getAllSuggestions());
+    }
+
+    public void viewEditDelSuggestions(String campCommitteeMemberId, int campId, Input input) {
+        ArrayList<CampFeedback> comSuggestionList = new ArrayList<>();
+        comSuggestionList = getCampFeedbacks(campId);
+        int pending = 0;
+        Log.println("===Pending Suggestions===");
+        for (CampFeedback campFeedback : comSuggestionList) {
+            if (campFeedback == null || !(campFeedback instanceof CampSuggestion))
+                continue;
+            CampSuggestion campSuggestion = (CampSuggestion) campFeedback;
+            boolean belongsToUser = campSuggestion.getOwnerId().equals(campCommitteeMemberId);
+            boolean processed = !campSuggestion.isPending();
+            if (!belongsToUser || processed)
+                continue;
+            else {
+                pending += 1;
+                printSuggestion(campSuggestion);
+            }
+        }
+        if (pending == 0) {
+            Log.println("No pending suggestions found. Directing back to menu...");
+            return;
+        }
+        Log.println("===Please select the following options=== ");
+        Log.println("(1) Edit Suggestion");
+        Log.println("(2) Delete Suggestion");
+        Log.println("(3) Back to Student Menu");
+        int cChoice = -1;
+        while (cChoice < 0) {
+            cChoice = input.getInt("Enter choice: ");
+            if (cChoice == 1) {
+                int suggestionId = input.getInt("Please enter the suggestionId of the suggestion to edit: ");
+                String newSuggestion = input.getLine("Please enter new suggestion: ");
+                CampFeedback campFeedback = editCampFeedback(campId, suggestionId,
+                        newSuggestion);
+                if (campFeedback != null)
+                    Log.println("Edit successful.");
+                else
+                    Log.println("Edit failed.");
+                break;
+            } else if (cChoice == 2) {
+                int suggestionId = input.getInt("Please enter the suggestionId of the suggestion to delete: ");
+                Boolean result = removeCampFeedback(campId, suggestionId);
+                if (result)
+                    Log.println("Deletion successful.");
+                else
+                    Log.println("Deletion failed.");
+                break;
+            } else if (cChoice == 3)
+                break;
+            else {
+                Log.println("Invalid choice! Try again.");
+                cChoice = -1;
+            }
+        }
     }
 
     public boolean processCampSuggestion(String staffId, int campId, int suggestionId, boolean decision) {

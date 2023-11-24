@@ -152,52 +152,7 @@ public class StudentMenu extends Menu {
     private boolean viewEditDelPendingEnquiries(Menu menu) {
         // View/Edit/Delete Pending Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view/edit/delete your enquiries");
-        ArrayList<CampFeedback> studentEnquiryList = new ArrayList<>();
-        studentEnquiryList = enquirySystem.getCampFeedbacks(selCampId);
-        int pending = 0;
-        Log.println("===Pending Enquiries===");
-        for (CampFeedback campFeedback : studentEnquiryList) {
-            if (campFeedback == null || !(campFeedback instanceof CampEnquiry))
-                continue;
-            CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
-            boolean belongsToUser = campEnquiry.getOwnerId().equals(student.getUserID());
-            boolean processed = campEnquiry.getReply() != null;
-            if (!belongsToUser || processed)
-                continue;
-            else {
-                pending += 1;
-                enquirySystem.printEnquiry(campEnquiry);
-            }
-        }
-        if (pending == 0) {
-            Log.println("No pending enquiries found. Directing back to menu...");
-            return false;
-        }
-        Log.println("===Please select the following options=== ");
-        Log.println("(1) Edit Enquiry");
-        Log.println("(2) Delete Enquiry");
-        Log.println("(3) Back to Student Menu");
-        int sChoice = -1;
-        while (sChoice < 0) {
-            sChoice = ui.getInput().getInt("Enter choice: ");
-            if (sChoice == 1) {
-                int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to edit: ");
-                String newEnquiry = ui.getInput().getLine("Please enter new enquiry: ");
-                CampFeedback campFeedback = enquirySystem.editCampFeedback(selCampId, enquiryId,
-                        newEnquiry);
-                if (campFeedback != null)
-                    Log.println("Edit successful.");
-                else
-                    Log.println("Edit failed.");
-            } else if (sChoice == 2) {
-                int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to delete: ");
-                Boolean result = enquirySystem.removeCampFeedback(selCampId, enquiryId);
-                if (result)
-                    Log.println("Deletion successful.");
-                else
-                    Log.println("Deletion failed.");
-            }
-        }
+        enquirySystem.viewEditDelEnquiries(student.getUserID(), selCampId, ui.getInput());
         return false;
     }
 
@@ -246,60 +201,7 @@ public class StudentMenu extends Menu {
     private boolean viewEditDelPendingSuggestions(Menu menu) {
         // View/Edit/Delete Pending Suggestions
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view/edit/delete your suggestions");
-
-        ArrayList<CampFeedback> comSuggestionList = new ArrayList<>();
-        comSuggestionList = suggestionSystem.getCampFeedbacks(selCampId);
-        int pending = 0;
-        Log.println("===Pending Suggestions===");
-        for (CampFeedback campFeedback : comSuggestionList) {
-            if (!(campFeedback instanceof CampSuggestion))
-                continue;
-            CampSuggestion campSuggestion = (CampSuggestion) campFeedback;
-            if (campSuggestion == null || !campSuggestion.getOwnerId().equals(student.getUserID())
-                    || !campSuggestion.isPending())
-                continue;
-            else {
-                pending += 1;
-                suggestionSystem.printSuggestion(campSuggestion);
-            }
-        }
-        if (pending == 0) {
-            Log.println("No pending suggestions found. Directing back to menu...");
-            return false;
-        }
-        Log.println("===Please select the following options=== ");
-        Log.println("(1) Edit Suggestion");
-        Log.println("(2) Delete Suggestion");
-        Log.println("(3) Back to Student Menu");
-        int cChoice = -1;
-        while (cChoice < 0) {
-            cChoice = ui.getInput().getInt("Enter choice: ");
-            if (cChoice == 1) {
-                int suggestionId = ui.getInput().getInt("Please enter the suggestionId of the suggestion to edit: ");
-                String newSuggestion = ui.getInput().getLine("Please enter new suggestion: ");
-                CampFeedback campFeedback = suggestionSystem.editCampFeedback(selCampId, suggestionId,
-                        newSuggestion);
-                if (campFeedback != null)
-                    Log.println("Edit successful.");
-                else
-                    Log.println("Edit failed.");
-                break;
-            } else if (cChoice == 2) {
-                int suggestionId = ui.getInput().getInt("Please enter the suggestionId of the suggestion to delete: ");
-                Boolean result = suggestionSystem.removeCampFeedback(selCampId,
-                        suggestionId);
-                if (result)
-                    Log.println("Deletion successful.");
-                else
-                    Log.println("Deletion failed.");
-                break;
-            } else if (cChoice == 3)
-                break;
-            else {
-                Log.println("Invalid choice! Try again.");
-                cChoice = -1;
-            }
-        }
+        suggestionSystem.viewEditDelSuggestions(student.getUserID(), selCampId, ui.getInput());
         return false;
     }
 
