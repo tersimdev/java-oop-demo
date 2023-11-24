@@ -15,11 +15,16 @@ import java.io.IOException;
  * 
  * @author Sim Yi Wan Terence
  * @version 1.0
- * @since 1-11-2023
+ * @since 24-11-2023
  */
 public class Log {
+    
+    /**
+     * Whether info, debug, error messages should be printed 
+     */
     private static boolean loggingEnabled = true;
 
+    //below are some provided constants for ansi color printing
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_YELLOW = "\u001B[33m";
@@ -30,14 +35,26 @@ public class Log {
     public static final String ANSI_WHITE = "\u001B[37m";
     public static final String ANSI_BLACK = "\u001B[30m";
 
+    /**
+     * Enable logging in order to print dev logging messages
+     * @param enabled whether to enable logging
+     */
     public static void enableLogging(boolean enabled) {
         loggingEnabled = enabled;
     }
 
+    /**
+     * Wrapper around System.out.println
+     * @param msg msg to print
+     */
     public static void println(String msg) {
         System.out.println(msg);
     }
 
+    /**
+     * Wrapper around System.out.print
+     * @param msg msg to print
+     */
     public static void print(String msg) {
         System.out.print(msg);
     }
@@ -53,7 +70,7 @@ public class Log {
     }
 
     /**
-     * function to print out ascii art line by line from .txt file
+     * Function to print out ascii art line by line from .txt file.
      * 
      * @param filepath filepath too txt file containing logo
      */
@@ -69,16 +86,31 @@ public class Log {
         }
     }
 
+    /**
+     * Function to inform dev of status
+     * 
+     * @param msg msg to print
+     */
     public static void info(String msg) {
         if (loggingEnabled)
             System.out.println(ANSI_GREEN + "[INFO]: " + msg + ANSI_RESET);
     }
 
+    /**
+     * Function to print debug messages
+     * 
+     * @param msg msg to print
+     */
     public static void debug(String msg) {
         if (loggingEnabled)
             System.out.println(ANSI_YELLOW + "[DEBUG]: " + msg + ANSI_RESET);
     }
 
+    /**
+     * Function to print dev error messages
+     * 
+     * @param msg msg to print
+     */
     public static void error(String msg) {
         if (loggingEnabled)
             System.out.println(ANSI_RED + "[ERROR]: " + msg + ANSI_RESET);
