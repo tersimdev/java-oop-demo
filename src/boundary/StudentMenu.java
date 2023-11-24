@@ -160,7 +160,7 @@ public class StudentMenu extends Menu {
             if (campFeedback == null || !(campFeedback instanceof CampEnquiry))
                 continue;
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
-            boolean belongsToUser = campEnquiry.getOwner().equals(student.getUserID());
+            boolean belongsToUser = campEnquiry.getOwnerId().equals(student.getUserID());
             boolean processed = campEnquiry.getReply() != null;
             if (!belongsToUser || processed)
                 continue;
@@ -212,7 +212,7 @@ public class StudentMenu extends Menu {
             if (!(campFeedback instanceof CampEnquiry))
                 continue;
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
-            if (campEnquiry == null || !campEnquiry.getOwner().equals(student.getUserID()) || campEnquiry.isPending())
+            if (campEnquiry == null || !campEnquiry.getOwnerId().equals(student.getUserID()) || campEnquiry.isPending())
                 continue;
             else {
                 enquirySystem.printEnquiry(campEnquiry);
@@ -237,7 +237,7 @@ public class StudentMenu extends Menu {
         // Submit Suggestions
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "submit suggestion");
         String suggestionStr = ui.getInput().getLine("Please enter suggestion: ");
-        CampSuggestion suggestion = new CampSuggestion(student.getUserID(), suggestionStr, selCampId);
+        CampSuggestion suggestion = new CampSuggestion(student.getCampCommitteeMember(), student.getUserID(), suggestionStr, selCampId);
         suggestionSystem.addCampFeedback(selCampId, suggestion);
         Log.println("Suggestion submitted.");
         return false;
@@ -255,7 +255,7 @@ public class StudentMenu extends Menu {
             if (!(campFeedback instanceof CampSuggestion))
                 continue;
             CampSuggestion campSuggestion = (CampSuggestion) campFeedback;
-            if (campSuggestion == null || !campSuggestion.getOwner().equals(student.getUserID())
+            if (campSuggestion == null || !campSuggestion.getOwnerId().equals(student.getUserID())
                     || !campSuggestion.isPending())
                 continue;
             else {
@@ -313,7 +313,7 @@ public class StudentMenu extends Menu {
             if (!(campFeedback instanceof CampSuggestion))
                 continue;
             CampSuggestion campSuggestion = (CampSuggestion) campFeedback;
-            if (campSuggestion == null || !campSuggestion.getOwner().equals(student.getUserID())
+            if (campSuggestion == null || !campSuggestion.getOwnerId().equals(student.getUserID())
                     || campSuggestion.isPending())
                 continue;
             else {
@@ -360,7 +360,7 @@ public class StudentMenu extends Menu {
                 reply);
         if (result) {
             Log.println("Enquiry successfully processed.");
-            student.getCampCommitteeMember().addPoints();
+            student.getCampCommitteeMember().addPoints(1);
         } else
             Log.println("Enquiry processing failed.");
         return false;

@@ -46,8 +46,8 @@ public class CampCommitteeMember implements SerializeToCSV {
         return points;
     }
     
-    public void addPoints() {
-        this.points +=1 ;
+    public void addPoints(int additionalPoints) {
+        this.points += additionalPoints;
     }
     
     public void setPoints(int points) {

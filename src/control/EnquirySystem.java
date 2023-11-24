@@ -46,7 +46,7 @@ public class EnquirySystem extends FeedbackSystem {
     
     public void printEnquiry(CampEnquiry campEnquiry) {
         Log.println("EnquiryID: " + campEnquiry.getId());
-        Log.println("StudentID: " + campEnquiry.getOwner());
+        Log.println("StudentID: " + campEnquiry.getOwnerId());
         Log.println("Enquiry Status: Pending");            
         Log.println("Enquiry: " + campEnquiry.getFeedback());
         if(campEnquiry.isPending())

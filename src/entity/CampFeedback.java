@@ -39,7 +39,7 @@ public abstract class CampFeedback implements SerializeToCSV {
         return campId;
     }
 
-    public String getOwner() {
+    public String getOwnerId() {
         return ownerId;
     }
 

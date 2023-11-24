@@ -16,6 +16,11 @@ public class SuggestionSystem extends FeedbackSystem {
         if (campFeedback instanceof CampSuggestion) {
             CampSuggestion campSuggestion = (CampSuggestion) campFeedback;
             campSuggestion.setApproval(staffId, decision);
+            if(decision) {
+                (campSuggestion.getCampCommitteeMember()).addPoints(2);
+            }
+            else
+                (campSuggestion.getCampCommitteeMember()).addPoints(1);
             return true;
         } else {
             Log.error("Feedback not suggestion for some reason");
@@ -46,7 +51,7 @@ public class SuggestionSystem extends FeedbackSystem {
     
     public void printSuggestion(CampSuggestion campSuggestion) {
         Log.println("SuggestionID: " + campSuggestion.getId());
-        Log.println("CampCommitteeMemberID: " + campSuggestion.getOwner());
+        Log.println("CampCommitteeMemberID: " + campSuggestion.getOwnerId());
         if(campSuggestion.isPending())
             Log.println("Suggestion Status: Pending");
         else if (campSuggestion.hasApproved())

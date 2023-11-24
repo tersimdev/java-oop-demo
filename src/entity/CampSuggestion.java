@@ -1,6 +1,7 @@
 package entity;
 
 import util.Log;
+import entity.CampCommitteeMember;
 
 /**
  * <p>
@@ -13,6 +14,7 @@ import util.Log;
  */
 public class CampSuggestion extends CampFeedback {
 
+    private CampCommitteeMember campCommitteeMember;
     private String responderId;
     private int approvalStatus; // 0 for not viewed, 1 for approved, 2 for rejected
 
@@ -21,14 +23,19 @@ public class CampSuggestion extends CampFeedback {
         approvalStatus = 0;
     }
 
-    public CampSuggestion(String commMemberId, String suggestion, int campId) {
-        super(commMemberId, suggestion, campId);
+    public CampSuggestion(CampCommitteeMember campCommitteeMember, String campCommitteeMemberId, String suggestion, int campId) {
+        super(campCommitteeMemberId, suggestion, campId);
+        this.campCommitteeMember = campCommitteeMember;
         approvalStatus = 0;
         responderId = null;
     }
 
     public String getResponderId() {
         return responderId;
+    }
+
+    public CampCommitteeMember getCampCommitteeMember() {
+        return campCommitteeMember;
     }
 
     public boolean isPending() {
