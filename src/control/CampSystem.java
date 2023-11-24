@@ -25,7 +25,7 @@ public class CampSystem {
     /**
      * A constructor for a camp system.
      * 
-     * @param dataStoreSystem A class to handle all datastore operations.
+     * @param dataStoreSystem A dataStore object.
      */
     public CampSystem(DataStoreSystem dataStoreSystem) {
         // load in camps from datastore
@@ -132,7 +132,7 @@ public class CampSystem {
      */
     public ArrayList<Camp> getCampsByCommittee(String committeeMemberId) {
         ArrayList<Camp> ret = new ArrayList<Camp>();
-        for (Camp camp : ret) {
+        for (Camp camp : camps) {
             if (camp.getCommitteeList().contains(committeeMemberId)) {
                 ret.add(camp);
             }
@@ -148,7 +148,7 @@ public class CampSystem {
      */
     public ArrayList<Camp> getCampsByAttendee(String studentId) {
         ArrayList<Camp> ret = new ArrayList<Camp>();
-        for (Camp camp : ret) {
+        for (Camp camp : camps) {
             if (camp.getAttendeeList().contains(studentId)) {
                 ret.add(camp);
             }
