@@ -11,6 +11,16 @@ import entity.Student;
 import util.DateStringHelper;
 import util.Log;
 
+/**
+ * <p>
+ * A class that handles logic for printing camps and their information for
+ * viewing.
+ * </p>
+ * 
+ * @author Team 2
+ * @version 1.0
+ * @since 24-11-2023
+ */
 public class CampViewerSubSystem {
     private CampSystem campSystem;
     private CampCheckHelperSubSystem campCheckHelperSubSystem;
@@ -29,7 +39,7 @@ public class CampViewerSubSystem {
      * camps.
      */
     private final static ArrayList<PrintCampSortOrder> PrintCampSortOrderEnumList = new ArrayList<>(
-            Arrays.asList(PrintCampSortOrder.ID,PrintCampSortOrder.DATES, PrintCampSortOrder.LOCATION,
+            Arrays.asList(PrintCampSortOrder.ID, PrintCampSortOrder.DATES, PrintCampSortOrder.LOCATION,
                     PrintCampSortOrder.ATTENDEE_SLOTS_REMAINING,
                     PrintCampSortOrder.COMMITTEE_SLOTS_REMAINING, PrintCampSortOrder.REGISTRATION_CLOSING_DATE));
 
@@ -40,7 +50,7 @@ public class CampViewerSubSystem {
      *                        them.
      * @param dataStoreSystem A class to handle all datastore operations.
      */
-    public CampViewerSubSystem(CampSystem campSystem, 
+    public CampViewerSubSystem(CampSystem campSystem,
             CampCheckHelperSubSystem campCheckHelperSubSystem) {
         this.campSystem = campSystem;
         this.campCheckHelperSubSystem = campCheckHelperSubSystem;

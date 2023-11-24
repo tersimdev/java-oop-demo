@@ -12,9 +12,9 @@ import util.DataStore.SerializeToCSV;
  * This is a class to represent a camp
  * </p>
  * 
- * @author Lim Jun Rong Ryan, Jon Daniel Acu Kang
+ * @author Team 2
  * @version 1.1
- * @since 19-11-2023
+ * @since 24-11-2023
  */
 public class Camp implements SerializeToCSV {
 
@@ -28,6 +28,9 @@ public class Camp implements SerializeToCSV {
     private final static String EMPTY_STUD_LIST = "NONE";
     private final static String STUD_LIST_SEP = ";";
 
+    /**
+     * Default camp constructor
+     */
     public Camp() {
         this.campId = -1;
         this.campInformation = new CampInformationBuilder().build(); // build empty
@@ -37,6 +40,12 @@ public class Camp implements SerializeToCSV {
         this.visibility = true;
     }
 
+    /**
+     * Camp constructor.
+     * 
+     * @param campId          The camp ID.
+     * @param campInformation The camp information.
+     */
     public Camp(int campId, CampInformation campInformation) {
         this.campId = campId;
         this.campInformation = campInformation;
@@ -46,52 +55,113 @@ public class Camp implements SerializeToCSV {
         this.visibility = true;
     }
 
+    /**
+     * Getter for the camp ID.
+     * 
+     * @return Returns the camp ID.
+     */
     public int getCampId() {
         return campId;
     }
 
+    /**
+     * Setter for the camp ID.
+     * 
+     * @param campId Camp ID to be set.
+     */
     public void setCampId(int campId) {
         this.campId = campId;
         return;
     }
 
+    /**
+     * Getter for the camp name.
+     * 
+     * @return Returns the camp name.
+     */
     public String getCampName() {
         return campInformation.getCampName();
     }
 
+    /**
+     * Getter for the list of attendees.
+     * 
+     * @return Returns the list of attendees.
+     */
     public ArrayList<String> getAttendeeList() {
         return attendeeList;
     }
 
+    /**
+     * Getter for the list of committee members.
+     * 
+     * @return Returns the list of committee members.
+     */
     public ArrayList<String> getCommitteeList() {
         return committeeList;
     }
 
+    /**
+     * Getter for the withdrawn list.
+     * 
+     * @return Returns the list of students who previously withdrew.
+     */
     public ArrayList<String> getWithdrawnList() {
         return withdrawnList;
     }
 
+    /**
+     * Getter for the camp information.
+     * 
+     * @return Returns a CampInformation object.
+     */
     public CampInformation getCampInformation() {
         return campInformation;
     }
 
+    /**
+     * Adds an attendee to the attendee list
+     * 
+     * @param student The student to be added.
+     */
     public void addAttendee(Student student) {
         attendeeList.add(student.getUserID());
     }
 
+    /**
+     * Adds a camp committee member to the committee list.
+     * 
+     * @param campCommitteeMember The camp committee member to be added.
+     */
     public void addCampCommitteeMember(CampCommitteeMember campCommitteeMember) {
         committeeList.add(campCommitteeMember.getStudentId());
     }
 
+    /**
+     * Removes an attendee from the attendee list and adds them to the withdrawn
+     * list.
+     * 
+     * @param student The student being withdrawn.
+     */
     public void removeAttendee(Student student) {
         attendeeList.remove(student.getUserID());
         withdrawnList.add(student.getUserID());
     }
 
+    /**
+     * Checks if the camp is visible (true by default).
+     * 
+     * @return Returns true if the camp is visible.
+     */
     public boolean checkVisibility() {
         return visibility;
     }
 
+    /**
+     * Toggles the visibility of the camp.
+     * 
+     * @return Returns the new camp visibility.
+     */
     public boolean toggleVisibility() {
         visibility = !visibility;
         return visibility;
@@ -115,7 +185,7 @@ public class Camp implements SerializeToCSV {
     }
 
     /**
-     * Helper function to a single string to an array list of string
+     * Helper function to convert a single string to an array list of string
      * 
      * @param ids string to convert
      * @return empty array list if string is EMPTY_STUD_LIST, else array list of

@@ -17,7 +17,7 @@ import util.Log;
  * 
  * @author Team 2
  * @version 1.0
- * @since 1-11-2023
+ * @since 24-11-2023
  */
 public class CampCreationSubSystem {
     private CampSystem campSystem;

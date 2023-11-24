@@ -11,7 +11,7 @@ import entity.Camp;
  * 
  * @author Jon Kang
  * @version 2.0
- * @since 20-11-2023
+ * @since 24-11-2023
  */
 public class CampSystem {
     private CampCheckHelperSubSystem campCheckHelperSubSystem;
@@ -94,6 +94,12 @@ public class CampSystem {
     }
 
     // utility functions
+    /**
+     * Gets a camp object from its ID.
+     * 
+     * @param campId The ID of the camp.
+     * @return Returns the camp object corresponding to the campId.
+     */
     public Camp getCampById(int campId) {
         for (Camp c : camps) {
             if (c.getCampId() == campId)
@@ -102,6 +108,12 @@ public class CampSystem {
         return null;
     }
 
+    /**
+     * Gets the list of all camps created by a staff.
+     * 
+     * @param staffId The ID of the staff.
+     * @return Returns a list of camp objects.
+     */
     public ArrayList<Camp> getCampsByStaff(String staffId) {
         ArrayList<Camp> ret = new ArrayList<Camp>();
         for (Camp camp : ret) {
@@ -112,6 +124,12 @@ public class CampSystem {
         return ret;
     }
 
+    /**
+     * Gets the list of all camps that contain a camp committee member
+     * 
+     * @param committeeMemberId The ID of the camp committee member.
+     * @return Returns a list of camp objects.
+     */
     public ArrayList<Camp> getCampsByCommittee(String committeeMemberId) {
         ArrayList<Camp> ret = new ArrayList<Camp>();
         for (Camp camp : ret) {
@@ -122,6 +140,12 @@ public class CampSystem {
         return ret;
     }
 
+    /**
+     * Gets the list of all camps that contain an attendee.
+     * 
+     * @param studentId The ID of the attendee.
+     * @return Returns a list of camp objects.
+     */
     public ArrayList<Camp> getCampsByAttendee(String studentId) {
         ArrayList<Camp> ret = new ArrayList<Camp>();
         for (Camp camp : ret) {
@@ -132,12 +156,25 @@ public class CampSystem {
         return ret;
     }
 
+    /**
+     * Gets the list of all camps containing a student, regardless of his role in
+     * the camp.
+     * 
+     * @param studentId The ID of the student.
+     * @return Returns a list of camp objects.
+     */
     public ArrayList<Camp> getCampsByStudent(String studentId) {
         ArrayList<Camp> ret = getCampsByAttendee(studentId);
         ret.addAll(getCampsByCommittee(studentId));
         return ret;
     }
 
+    /**
+     * Ensures that the camp corresponding to the campId exists.
+     * 
+     * @param campId The ID of the camp.
+     * @return Returns true if the camp is valid.
+     */
     public boolean checkValidCampId(int campId) {
         return getCampById(campId) != null;
     }
