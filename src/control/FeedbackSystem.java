@@ -203,7 +203,7 @@ public abstract class FeedbackSystem {
      * @param campId campId of the camp to display feedback.
      */
     public int printAllFeedback(int campId) {
-        ArrayList<CampFeedback> feedbacks = getCampFeedbacks(nextFeedbackId);
+        ArrayList<CampFeedback> feedbacks = getCampFeedbacks(campId);
         for (CampFeedback cf : feedbacks)
             printFeedback(cf);
         return feedbacks.size();
@@ -215,7 +215,7 @@ public abstract class FeedbackSystem {
      * @param campId campId of the camp to display suggestions.
      */
     public int printPendingFeedback(int campId) {
-        ArrayList<CampFeedback> feedbacks = getCampFeedbacks(nextFeedbackId, true);
+        ArrayList<CampFeedback> feedbacks = getCampFeedbacks(campId, true);
         for (CampFeedback cf : feedbacks)
             printFeedback(cf);
         return feedbacks.size();
@@ -228,7 +228,7 @@ public abstract class FeedbackSystem {
      * @param campId campId of the camp to display suggestions.
      */
     public int printPendingFeedbackByOwner(String ownerId, int campId) {
-        ArrayList<CampFeedback> feedbacks = getCampFeedbacks(nextFeedbackId, true, ownerId);
+        ArrayList<CampFeedback> feedbacks = getCampFeedbacks(campId, true, ownerId);
         for (CampFeedback cf : feedbacks)
             printFeedback(cf);
         return feedbacks.size();
@@ -242,7 +242,7 @@ public abstract class FeedbackSystem {
      * @param campId  campId of the camp to display suggestions.
      */
     public int printProcessedFeedbackByOwner(String ownerId, int campId) {
-        ArrayList<CampFeedback> feedbacks = getCampFeedbacks(nextFeedbackId, false, ownerId);
+        ArrayList<CampFeedback> feedbacks = getCampFeedbacks(campId, false, ownerId);
         for (CampFeedback cf : feedbacks)
             printFeedback(cf);
         return feedbacks.size();
