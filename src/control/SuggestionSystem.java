@@ -9,7 +9,7 @@ import util.Log;
 
 /**
  * <p>
- * A singleton class to store enquiries and suggestions
+ * A class to handle suggestion operations.
  * </p>
  * 
  * @author Yen Zhi Wei
@@ -111,7 +111,7 @@ public class SuggestionSystem extends FeedbackSystem {
     /**
      * View, edit and delete unprocessed suggestions in the hashmap linked to the relevant camp.
      * @param campCommitteeMemberId ID of CampCommiteeMember viewing, editing and deleting unprocessed suggestions.
-     * @param campId campId of the camp to display suggestions.
+     * @param campId campId of the camp to view, edit and delete suggestions.
      * @param input Input object.
      */
     public void viewEditDelSuggestions(String campCommitteeMemberId, int campId, Input input) {
@@ -172,9 +172,10 @@ public class SuggestionSystem extends FeedbackSystem {
 
     /**
      * Process suggestions in the hashmap linked to the relevant camp.
-     * @param campCommitteeMemberId ID of Staff processing the suggestions.
+     * @param staffId ID of Staff processing the suggestions.
      * @param campId campId of the camp to process suggestions.
-     * @param input Input object.
+     * @param suggestionId ID of suggesstion to be processed.
+     * @param decision Decision of staff to approve/reject suggestion.
      */
     public boolean processCampSuggestion(String staffId, int campId, int suggestionId, boolean decision) {
         CampFeedback campFeedback = findFeedbackById(suggestionId, campId);

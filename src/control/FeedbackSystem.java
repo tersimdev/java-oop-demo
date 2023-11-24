@@ -8,7 +8,7 @@ import entity.CampFeedback;
 
 /**
  * <p>
- * A singleton class to store enquiries and suggestions
+ * A class to handle feedback operations.
  * </p>
  * 
  * @author Yen Zhi Wei
