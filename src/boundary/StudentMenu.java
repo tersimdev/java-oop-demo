@@ -101,10 +101,8 @@ public class StudentMenu extends Menu {
                 ui.setStateDirty(true);
                 return false;
             }
-
-            runMenuFunction(choice); // use function map defined in constructor
         }
-        return false;
+        return runMenuFunction(choice); // use function map defined in constructor
     }
 
     private boolean viewAvailableCamps(Menu menu) {

@@ -203,8 +203,10 @@ public class SuggestionSystem extends FeedbackSystem {
             campSuggestion.setApproval(staffId, decision);
             // find committe member from data store
             User user = dataStoreSystem.getUserDataStoreSubSystem().queryStudent(campSuggestion.getOwnerId());
-            if (user instanceof Student)
+            if (!(user instanceof Student)) {
                 Log.error("Committee member not found while trying to award points for suggestion.");
+                return false;
+            }
             CampCommitteeMember commmitteeMember = ((Student) user).getCampCommitteeMember();
             // award points
             if (decision) {
