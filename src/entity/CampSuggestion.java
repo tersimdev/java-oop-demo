@@ -13,15 +13,40 @@ import util.Log;
  */
 public class CampSuggestion extends CampFeedback {
 
+    /**
+     * The CampCommitteMember object of the committee member who made the
+     * suggestion.
+     */
     private CampCommitteeMember campCommitteeMember;
+    /**
+     * The ID of the staff who responded to the suggestion, if any. Set to null if
+     * there has been no response.
+     */
     private String responderId;
-    private int approvalStatus; // 0 for not viewed, 1 for approved, 2 for rejected
+    /**
+     * The approval status of the suggestion. Set to 0 for not viewed, 1 for
+     * approved, 2 for rejected.
+     */
+    private int approvalStatus;
 
+    /**
+     * Default constructor for a camp suggestion object.
+     */
     public CampSuggestion() {
         super();
         approvalStatus = 0;
     }
 
+    /**
+     * Constructor for a camp suggestion object.
+     * 
+     * @param campCommitteeMember   CampCommitteeMember object of the committee
+     *                              member who made the suggestion.
+     * @param campCommitteeMemberId ID of the committee member who made the
+     *                              suggestion.
+     * @param suggestion            The suggestion in plaintext.
+     * @param campId                ID of the camp the suggestion is for.
+     */
     public CampSuggestion(CampCommitteeMember campCommitteeMember, String campCommitteeMemberId, String suggestion,
             int campId) {
         super(campCommitteeMemberId, suggestion, campId);
@@ -30,32 +55,71 @@ public class CampSuggestion extends CampFeedback {
         responderId = null;
     }
 
+    /**
+     * Getter for responder ID.
+     * 
+     * @return ID of the responder, null if no response yet.
+     */
     public String getResponderId() {
         return responderId;
     }
 
+    /**
+     * Getter for the CampCommitteeMember object of the committee member who made
+     * the suggestion.
+     * 
+     * @return The CampCommitteeMember object of the committee member who made the
+     *         suggestion.
+     */
     public CampCommitteeMember getCampCommitteeMember() {
         return campCommitteeMember;
     }
 
+    /**
+     * Checks if the suggestion's approval status is pending.
+     * 
+     * @return True if the suggestion is pending a response.
+     */
+    public boolean isPending() {
+        return approvalStatus == 0;
+    }
+
+    /**
+     * Checks if the suggestion's approval status is approved.
+     * 
+     * @return True if the suggestion has been approved.
+     */
     public boolean hasApproved() {
         return approvalStatus == 1;
     }
 
+    /**
+     * Checks if the suggestion's approval status is rejected.
+     * 
+     * @return True if the suggestion has been rejected.
+     */
     public boolean hasRejected() {
         return approvalStatus == 2;
     }
 
+    /**
+     * Sets for the approval status of the suggestion to either approved or
+     * rejected.
+     * 
+     * @param staffID ID of the staff responding to the suggestion.
+     * @param approve Whether the suggestion is approved or not.
+     */
     public void setApproval(String staffID, boolean approve) {
         responderId = staffID;
         approvalStatus = approve ? 1 : 2;
     }
 
-    @Override
-    public boolean isPending() {
-        return approvalStatus == 0;
-    }
-
+    /**
+     * Converts the suggestion's feedback ID, owner ID, suggestion itself, responder
+     * ID and approval status into a string in CSV format.
+     * 
+     * @return A string of comma separated values.
+     */
     @Override
     public String toCSVLine() {
         String ret = "";
@@ -69,6 +133,12 @@ public class CampSuggestion extends CampFeedback {
         return ret;
     }
 
+    /**
+     * Sets the feedback ID, owner ID, suggestion itself, responder
+     * ID and approval status based on the information from a csvline.
+     * 
+     * @param csvLine The string containing all the suggestion's information.
+     */
     @Override
     public void fromCSVLine(String csvLine) {
         String[] split = csvLine.split(",");
@@ -88,6 +158,11 @@ public class CampSuggestion extends CampFeedback {
         }
     }
 
+    /**
+     * Gets the length of a csvline containing a suggestion's information.
+     * 
+     * @return The length of the csvline.
+     */
     @Override
     public int getCSVLineLength() {
         return 5;

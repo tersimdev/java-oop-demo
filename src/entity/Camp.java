@@ -37,7 +37,7 @@ public class Camp implements SerializeToCSV {
     /**
      * List of student IDs of students who previously withdrew from this camp.
      */
-    private ArrayList<String> withdrawnList; 
+    private ArrayList<String> withdrawnList;
     /**
      * Staff can set this to false to hide the camp.
      * Hiding the camp would prevent students from viewing the camp.
@@ -217,6 +217,12 @@ public class Camp implements SerializeToCSV {
         return new ArrayList<>(Arrays.asList(arr));
     }
 
+    /**
+     * Converts the camp's visibility, attendee list, committee list, withdrawn list
+     * and camp information into a string in CSV format.
+     * 
+     * @return A string of comma separated values.
+     */
     @Override
     public String toCSVLine() {
         String ret = "";
@@ -233,6 +239,12 @@ public class Camp implements SerializeToCSV {
         return ret;
     }
 
+    /**
+     * Sets the camp's visibility, attendee list, committee list, withdrawn list
+     * and camp information based on the information from a csvline.
+     * 
+     * @param csvLine The string containing all the camp's information.
+     */
     @Override
     public void fromCSVLine(String csvLine) {
         String[] split = csvLine.split(",");
@@ -255,6 +267,11 @@ public class Camp implements SerializeToCSV {
         }
     }
 
+    /**
+     * Gets the length of a csvline containing a camp's information.
+     * 
+     * @return The length of the csvline.
+     */
     @Override
     public int getCSVLineLength() {
         return 5 + campInformation.getCSVLineLength();
