@@ -125,6 +125,7 @@ public class CampSuggestion extends CampFeedback {
         String ret = "";
         ret += feedbackId + ","
                 + ownerId + ","
+                + campId + ","
                 + feedback + ",";
         if (responderId != null)
             ret += responderId + "," + approvalStatus;
@@ -148,9 +149,11 @@ public class CampSuggestion extends CampFeedback {
         } else {
             feedbackId = Integer.parseInt(split[0]);
             ownerId = split[1];
-            feedback = split[2];
-            approvalStatus = Integer.parseInt(split[4]);
-            if (split[3].equals("-1")) {
+            campId = Integer.parseInt(split[2]);
+
+            feedback = split[3];
+            approvalStatus = Integer.parseInt(split[5]);
+            if (split[4].equals("-1")) {
                 responderId = null;
             } else {
                 responderId = split[3];
@@ -165,6 +168,6 @@ public class CampSuggestion extends CampFeedback {
      */
     @Override
     public int getCSVLineLength() {
-        return 5;
+        return 6;
     }
 }
