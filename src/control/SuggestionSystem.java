@@ -32,6 +32,29 @@ public class SuggestionSystem extends FeedbackSystem {
         }
     }
 
+    public void viewUnprocessedSuggestions(String staffId, int campId, Input input) {
+        ArrayList<CampFeedback> pendingSuggestionList = new ArrayList<>();
+        pendingSuggestionList = getCampFeedbacks(campId);
+        Log.println("===Unprocessed Suggestions===");
+        int suggestions = 0;
+        for (CampFeedback campFeedback : pendingSuggestionList) {
+            if (campFeedback == null || !(campFeedback instanceof CampSuggestion))
+                continue;
+            CampSuggestion campSuggestion = (CampSuggestion) campFeedback;
+            boolean processed = !campSuggestion.isPending();
+            if (processed)
+                continue;
+            else {
+                suggestions += 1;
+                printSuggestion(campSuggestion);
+            }
+        }
+        if (suggestions == 0) {
+            Log.println("No unprocessed suggestions found. Directing back to menu...");
+            return;
+        }
+    }
+
     public void viewProcessedSuggestions(String campCommitteeMemberId, int campId, Input input) {
         ArrayList<CampFeedback> processedSuggestionList = new ArrayList<>();
         processedSuggestionList = getCampFeedbacks(campId);
