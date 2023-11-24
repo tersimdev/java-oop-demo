@@ -250,7 +250,7 @@ public class StudentMenu extends Menu {
             reportOptions.setFileName(fileName);
             reportOptions.setFileType(fileType);
 
-            reportSystem.generateCampReport(reportOptions, filter, student, camp);
+            reportSystem.writeCampReport(reportOptions, filter, student, camp);
         } else {
             Log.println("Camp not found " + selCampId);
         }

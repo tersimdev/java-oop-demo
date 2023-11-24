@@ -52,7 +52,7 @@ public class ReportSystem {
         reportWriters.put(".csv", new CSVWriterImpl());
     }
 
-    public void generateCampReport(CampReportOptions reportOptions, CampReportFilter filter, User user, Camp camp) {
+    public void writeCampReport(CampReportOptions reportOptions, CampReportFilter filter, User user, Camp camp) {
         String filetype = reportOptions.getFileType();
         BaseReportWriter writer = reportWriters.get(filetype);
         if (writer == null) {
