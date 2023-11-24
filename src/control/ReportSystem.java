@@ -25,12 +25,16 @@ import util.ReportWriter.TXTWriterImpl;
  * @since 19-11-2023
  */
 public class ReportSystem {
-    // map of file extensions to writing implementation
+    /**
+     * A camp of file extensions to writing implementation.
+     */
     private Map<String, BaseReportWriter> reportWriters;
 
     private DataStoreSystem dataStoreSystem;
 
-    // an exception class to catch and handle
+    /**
+     * An exception class to handle report writing exceptions.
+     */
     public static class ReportWriteException extends Exception {
         public ReportWriteException() {
             super();
@@ -45,6 +49,11 @@ public class ReportSystem {
         }
     }
 
+    /**
+     * Constructor for a report system.
+     * 
+     * @param dataStoreSystem A dataStoreSystem object.
+     */
     public ReportSystem(DataStoreSystem dataStoreSystem) {
         this.dataStoreSystem = dataStoreSystem;
         this.reportWriters = new HashMap<>();
@@ -52,6 +61,14 @@ public class ReportSystem {
         reportWriters.put(".csv", new CSVWriterImpl());
     }
 
+    /**
+     * Writes to file a camp report by using a <code>BaseReportWriter</code> object.
+     * 
+     * @param reportOptions The chosen report options.
+     * @param filter        The chosen filter for camp report generation.
+     * @param user          The user requesting for the report.
+     * @param camp          The camp the report is about.
+     */
     public void writeCampReport(CampReportOptions reportOptions, CampReportFilter filter, User user, Camp camp) {
         String filetype = reportOptions.getFileType();
         BaseReportWriter writer = reportWriters.get(filetype);
@@ -73,6 +90,13 @@ public class ReportSystem {
         }
     }
 
+    /**
+     * Writes to file the performance report of the committee members of a camp.
+     * 
+     * @param reportOptions The chosen report options.
+     * @param user          The user requesting for the report.
+     * @param camp          The camp of which the committee members are registered.
+     */
     public void writePerformanceReport(CampReportOptions reportOptions, User user, Camp camp) {
         String fileType = reportOptions.getFileType();
         BaseReportWriter writer = reportWriters.get(fileType);
@@ -81,7 +105,8 @@ public class ReportSystem {
             return;
         }
         try {
-            ArrayList<CampCommitteeMember> commmitteeMembers = dataStoreSystem.getUserDataStoreSubSystem().queryCommitteeMembers(camp.getCommitteeList());
+            ArrayList<CampCommitteeMember> commmitteeMembers = dataStoreSystem.getUserDataStoreSubSystem()
+                    .queryCommitteeMembers(camp.getCommitteeList());
             writer.writePerformanceReport(reportOptions, user, commmitteeMembers);
         } catch (ReportWriteException exception) {
             Log.println("Error! Failed to Generate Performance Report.");

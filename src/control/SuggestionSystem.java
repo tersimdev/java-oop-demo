@@ -102,10 +102,17 @@ public class SuggestionSystem extends FeedbackSystem {
     }
 
     /**
+<<<<<<< HEAD
      * Displays pending or processed suggestions in the hashmap linked to the
      * relevant camp.
      * 
      * @param campId campId of the camp to display suggestions.
+=======
+     * Displays unprocessed suggestions in the hashmap linked to the relevant camp.
+     * 
+     * @param campId campId of the camp to display suggestions.
+     * @param input  Input object.
+>>>>>>> 0910b591d4dcaa58b317af4a0310d6cb8550e8e7
      */
     @Override
     public int printPendingFeedback(int campId) {
@@ -117,12 +124,20 @@ public class SuggestionSystem extends FeedbackSystem {
     }
 
     /**
+<<<<<<< HEAD
      * Displays processed suggestions belonging to camp committee member
      * in the hashmap linked to the relevant camp.
+=======
+     * Displays processed suggestions in the hashmap linked to the relevant camp.
+>>>>>>> 0910b591d4dcaa58b317af4a0310d6cb8550e8e7
      * 
      * @param campCommitteeMemberId ID of CampCommiteeMember viewing processed
      *                              suggestions.
      * @param campId                campId of the camp to display suggestions.
+<<<<<<< HEAD
+=======
+     * @param input                 Input object.
+>>>>>>> 0910b591d4dcaa58b317af4a0310d6cb8550e8e7
      */
     @Override
     public int printProcessedFeedbackByOwner(String campCommitteeMemberId, int campId) {

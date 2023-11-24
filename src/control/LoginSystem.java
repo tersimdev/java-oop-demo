@@ -16,35 +16,63 @@ import util.Log;
 public class LoginSystem {
 
     private DataStoreSystem dataStoreSystem;
+    /**
+     * User object of the current user.
+     */
     private User currentUser;
     private final static int MIN_PASSWORD_LEN = 8;
 
+    /**
+     * Constructor for a log in system.
+     * 
+     * @param dataStoreSystem A dataStore object.
+     */
     public LoginSystem(DataStoreSystem dataStoreSystem) {
         currentUser = null;
         this.dataStoreSystem = dataStoreSystem;
     }
 
+    /**
+     * Gets the current user.
+     * 
+     * @return Returns user object of the current user.
+     */
     public User getCurrentUser() {
         return currentUser;
     }
 
+    /**
+     * Logs in a staff by calling <code>loginUser</code>.
+     * 
+     * @param userID   The user ID of the staff logging in.
+     * @param password The password of the staff logging in.
+     * @return The user object of the staff logging in.
+     */
     public User loginStaff(String userID, String password) {
         Log.info("logging in staff " + userID);
-        //find user in staff datastore
+        // find user in staff datastore
         User user = dataStoreSystem.getUserDataStoreSubSystem().queryStaff(userID);
         return loginUser(user, password);
     }
 
+    /**
+     * Logs in a student by calling <code>loginUser</code>
+     * 
+     * @param userID   The user ID of the staff logging in.
+     * @param password The password of the staff logging in.
+     * @return The user object of the staff logging in.
+     */
     public User loginStudent(String userID, String password) {
         Log.info("logging in student " + userID);
-        //find user in student datastore
+        // find user in student datastore
         User user = dataStoreSystem.getUserDataStoreSubSystem().queryStudent(userID);
         return loginUser(user, password);
     }
 
     /**
      * Checks if password is correct then sets current user
-     * @param user the user objecy to login
+     * 
+     * @param user     the user objecy to login
      * @param password the password entered
      * @return current user or null
      */
@@ -57,12 +85,21 @@ public class LoginSystem {
         return currentUser;
     }
 
+    /**
+     * Logs out the current user by setting <code>currentUser</code> to null.
+     */
     public void logout() {
         if (currentUser != null)
             Log.info("logging out " + currentUser.getUserID());
         currentUser = null;
     }
 
+    /**
+     * Changes the current user's password.
+     * 
+     * @param newPassword New password to be set.
+     * @return Returns true if successful.
+     */
     public boolean changeUserPassword(String newPassword) {
         String oldPassword = currentUser.getPassword();
         if (oldPassword.equals(newPassword)) {
@@ -79,6 +116,12 @@ public class LoginSystem {
         return true;
     }
 
+    /**
+     * Checks if a password is longer than a minimum length.
+     * 
+     * @param password The password to be checked.
+     * @return Returns true if the password is longer than the minimum length.
+     */
     private boolean checkValidPassword(String password) {
         return password.length() >= MIN_PASSWORD_LEN;
     }
