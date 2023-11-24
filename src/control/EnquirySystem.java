@@ -2,6 +2,7 @@ package control;
 
 import java.util.ArrayList;
 
+import entity.CampCommitteeMember;
 import entity.CampEnquiry;
 import entity.CampFeedback;
 import util.Input;
@@ -175,11 +176,15 @@ public class EnquirySystem extends FeedbackSystem {
      * @param enquiryId ID of enquiry to be processed.
      * @param reply Reply to the enquiry.
      */
-    public boolean processCampEnquiry(String userId, int campId, int enquiryId, String reply) {
+    public boolean processCampEnquiry(CampCommitteeMember campCommitteeMember, String userId, int campId, int enquiryId, String reply) {
         CampFeedback campFeedback = findFeedbackById(enquiryId, campId);
         if (campFeedback instanceof CampEnquiry) {
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
             campEnquiry.reply(userId, reply);
+            if(campCommitteeMember != null) {
+            campCommitteeMember.addPoints(1);
+            dataStoreSystem.getUserDataStoreSubSystem().updateCommitteeMemberDetails(campCommitteeMember);
+            }
             updateToDataStore(campEnquiry);
             return true;
         } else {

@@ -220,7 +220,7 @@ public class StaffMenu extends Menu {
 
         int enquiryId = ui.getInput().getInt("Please enter the enquiryId of the enquiry to reply: ");
         String reply = ui.getInput().getLine("Please enter reply: ");
-        Boolean result = enquirySystem.processCampEnquiry(staff.getUserID(), selCampId, enquiryId, reply);
+        Boolean result = enquirySystem.processCampEnquiry(null, staff.getUserID(), selCampId, enquiryId, reply);
         if (result) {
             Log.println("Enquiry successfully processed.");
         } else
