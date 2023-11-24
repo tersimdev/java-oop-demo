@@ -113,7 +113,7 @@ public class ConsoleUI {
             ReportSystem reportSystem) {
         this.loginSystem = loginSystem;
         
-        input = new Input();
+        input = new Input(System.in);
         
         // init menus with dependency injection
         menuMap = new HashMap<>();
