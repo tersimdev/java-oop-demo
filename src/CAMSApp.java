@@ -9,7 +9,7 @@ import control.SuggestionSystem;
 /**
  * <p>
  * Entry point for our application.
- * Creates UI and System objects and passes 
+ * Creates UI and System objects and passes
  * them in using Dependency Injection
  * </p>
  * 
@@ -57,11 +57,11 @@ public class CAMSApp {
      * Sets running to true.
      */
     public void init() {
-        
-        //data store should be created first!
+
+        // data store should be created first!
         dataStoreSystem = new DataStoreSystem();
         dataStoreSystem.init();
-        
+
         // create systems
         loginSystem = new LoginSystem(dataStoreSystem);
         campSystem = new CampSystem(dataStoreSystem);
@@ -98,7 +98,7 @@ public class CAMSApp {
     }
 
     /**
-     * Returns whether app did init and ran. 
+     * Returns whether app did init and ran.
      * Used to determine if cleanup needs to be done.
      * 
      * @return whether app is running
