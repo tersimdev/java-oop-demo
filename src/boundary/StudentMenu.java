@@ -173,6 +173,11 @@ public class StudentMenu extends Menu {
     private boolean submitSuggestion(Menu menu) {
         // Submit Suggestions
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "submit suggestion");
+        Camp camp = campSystem.getCampById(selCampId);
+        if(!camp.getCommitteeList().contains(student.getCampCommitteeMember().getStudentId())){
+            Log.println("You do not have access to this camp. Redirecting to menu...");
+            return false;
+        }
         String suggestionStr = ui.getInput().getLine("Please enter suggestion: ");
         CampSuggestion suggestion = new CampSuggestion(student.getCampCommitteeMember(), student.getUserID(), suggestionStr, selCampId);
         suggestionSystem.addCampFeedback(selCampId, suggestion);

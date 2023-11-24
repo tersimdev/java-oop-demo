@@ -87,7 +87,7 @@ public class CampViewerSubSystem {
         ArrayList<Camp> sortedCamps = sortCamps(campSystem.getCamps(), printCampSortOrder);
         for (Camp camp : sortedCamps) {
             if (camp != null
-                    && camp.getCampInformation().getStaffInChargeId() == staff.getUserID()) // camp created by staff
+                    && camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())) // camp created by staff
                 printCamp(camp);
         }
     }
