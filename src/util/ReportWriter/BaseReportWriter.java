@@ -18,16 +18,46 @@ import java.util.ArrayList;
  * 
  * @author Lim Jun Rong Ryan
  * @version 1.0
- * @since 19-11-2023
+ * @since 23-11-2023
  */
 public abstract class BaseReportWriter {
 
+    /**
+     * Function which generates and writes to file a camp report in a specific
+     * format.
+     * Format is determined by concrete class.
+     * 
+     * @param reportOptions options like filename, filepath, etc
+     * @param filter        filter to filter results in report
+     * @param user          user that is requesting for this report
+     * @param camp          camp this report is based on
+     * @throws ReportWriteException when report generation fails
+     * @throws IOException          when file write fails
+     */
     public abstract void writeCampReport(CampReportOptions reportOptions, CampReportFilter filter, User user, Camp camp)
             throws ReportWriteException, IOException;
 
+    /**
+     * Function which generates and writes to file a performance report in a
+     * specific
+     * format.
+     * Format is determined by concrete class.
+     * 
+     * @param reportOptions     options like filename, filepath, etc
+     * @param user              user that is requesting for this report
+     * @param commmitteeMembers the committee members to report on
+     * @throws ReportWriteException when report generation fails
+     * @throws IOException          when file write fails
+     */
     public abstract void writePerformanceReport(CampReportOptions reportOptions, User user,
             ArrayList<CampCommitteeMember> commmitteeMembers) throws ReportWriteException, IOException;
 
+    /**
+     * TODO
+     * @param camp
+     * @param filter
+     * @return
+     */
     protected String getStudentListAsString(Camp camp, CampReportFilter filter) {
         StringBuilder reportContent = new StringBuilder();
 
@@ -50,6 +80,11 @@ public abstract class BaseReportWriter {
         return reportContent.toString();
     }
 
+    /**
+     * TODO
+     * @param reportOptions
+     * @param reportContentStr
+     */
     protected void writeReportToFile(CampReportOptions reportOptions, String reportContentStr) {
         String fileName = reportOptions.getFilePath() + reportOptions.getFileName() + reportOptions.getFileType();
         FileWriterHelper.writeToFile(fileName, reportContentStr);
