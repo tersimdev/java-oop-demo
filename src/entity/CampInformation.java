@@ -10,31 +10,37 @@ import util.DataStore.SerializeToCSV;
 /**
  * <p>
  * This is a class to represent a camp
- * Implemented using builder design pattern 
+ * Implemented using builder design pattern
  * </p>
  * 
- * @author Jon Daniel Acu Kang
+ * @author Team 2
  * @version 1.0
  * @since 19-11-2023
  */
 public class CampInformation implements SerializeToCSV {
 
     private int campId; // used internally
-    
+
     // required parameters
-    private String campName; 
+    private String campName;
     private ArrayList<LocalDate> dates;
     private LocalDate registrationClosingDate;
-    private int totalSlots; //for attendees
+    private int totalSlots; // for attendees
     private int committeeSlots;
     private String staffInChargeId;
     private UserGroup userGroup;
-    private Faculty organisingFaculty; //null if usergroup is wholeNTU;
+    private Faculty organisingFaculty; // null if usergroup is wholeNTU;
 
     // optional parameters
     private String description;
     private String location;
 
+    /**
+     * Private constructor for camp information in order to use builder design
+     * pattern.
+     * 
+     * @param builder The camp information builder.
+     */
     private CampInformation(CampInformationBuilder builder) {
         this.campName = builder.campName;
         this.dates = builder.dates;
@@ -48,23 +54,31 @@ public class CampInformation implements SerializeToCSV {
         this.location = builder.location;
     }
 
-    // builder class
+    /**
+     * A static nested class that allows step-by-step construction of
+     * <code>CampInformation</code> objects.
+     * The default
+     */
     public static class CampInformationBuilder {
 
         // required parameters
-        private String campName; 
+        private String campName;
         private ArrayList<LocalDate> dates;
         private LocalDate registrationClosingDate;
-        private int totalSlots; //for attendees
+        private int totalSlots; // for attendees
         private int committeeSlots;
         private String staffInChargeId;
         private UserGroup userGroup;
-        private Faculty organisingFaculty; //null if usergroup is wholeNTU;
+        private Faculty organisingFaculty; // null if usergroup is wholeNTU;
 
         // optional parameters
         private String description;
         private String location;
 
+        /**
+         * Public constructor that sets default camp information. All camp information
+         * will have to bet through the appropriate setter.
+         */
         public CampInformationBuilder() { // set default values here
             campName = "";
             dates = new ArrayList<>();
@@ -75,16 +89,36 @@ public class CampInformation implements SerializeToCSV {
             organisingFaculty = Faculty.NULL;
         }
 
+        /**
+         * Builder setter for camp name.
+         * 
+         * @param campName The camp name to be set.
+         * @return Returns a camp information builder object.
+         */
         public CampInformationBuilder setCampName(String campName) {
             this.campName = campName;
             return this;
         }
 
+        /**
+         * Builder setter for dates.
+         * 
+         * @param dates The dates to be set.
+         * @return Returns a camp information builder object.
+         */
         public CampInformationBuilder setDates(ArrayList<LocalDate> dates) {
             this.dates = dates;
             return this;
         }
 
+        /**
+         * Alternative builder setter for dates.
+         * Overloads setDates function.
+         * 
+         * @param firstDate The first date of the camp.
+         * @param duration  The duration of the camp.
+         * @return Returns a camp information builder object.
+         */
         public CampInformationBuilder setDates(LocalDate firstDate, int duration) {
             for (int i = 0; i < duration; i++) {
                 dates.add(i, firstDate);
@@ -93,46 +127,100 @@ public class CampInformation implements SerializeToCSV {
             return this;
         }
 
+        /**
+         * Builder setter for registration deadline.
+         * 
+         * @param registrationClosingDate The registration deadline.
+         * @return Returns a camp information builder object.
+         */
         public CampInformationBuilder setRegistrationClosingDate(LocalDate registrationClosingDate) {
             this.registrationClosingDate = registrationClosingDate;
             return this;
         }
 
+        /**
+         * Builder setter for total slots (attendee + committee).
+         * 
+         * @param totalSlots The total slots.
+         * @return Returns a camp information builder object.
+         */
         public CampInformationBuilder setTotalSlots(int totalSlots) {
             this.totalSlots = totalSlots;
             return this;
         }
 
+        /**
+         * Builder setter for total committee slots.
+         * 
+         * @param committeeSlots The total committee slots.
+         * @return Returns a camp information builder object.
+         */
         public CampInformationBuilder setCommitteeSlots(int committeeSlots) {
             this.committeeSlots = committeeSlots;
             return this;
         }
 
+        /**
+         * Builder setter for the staff in charge.
+         * 
+         * @param staffInChargeId The ID of the staff who created the camp.
+         * @return Returns a camp information builder object.
+         */
         public CampInformationBuilder setStaffInChargeId(String staffInChargeId) {
             this.staffInChargeId = staffInChargeId;
             return this;
         }
 
+        /**
+         * Builder setter for the user group the camp is open to.
+         * 
+         * @param userGroup The user group the camp is open to.
+         * @return Returns a camp information builder object.
+         */
         public CampInformationBuilder setUserGroup(UserGroup userGroup) {
             this.userGroup = userGroup;
             return this;
         }
 
+        /**
+         * Builder setter for the organising faculty of the camp (faculty of the staff
+         * in charge).
+         * 
+         * @param organisingFaculty The organising faculty of the camp.
+         * @return Returns a camp information builder object.
+         */
         public CampInformationBuilder setOrganisingFaculty(Faculty organisingFaculty) {
             this.organisingFaculty = organisingFaculty;
             return this;
         }
 
+        /**
+         * Builder setter for the location of the camp.
+         * 
+         * @param location The location of the camp.
+         * @return Returns a camp information builder object.
+         */
         public CampInformationBuilder setLocation(String location) {
             this.location = location;
             return this;
         }
 
+        /**
+         * Builder setter for the description of the camp.
+         * 
+         * @param description The description of the camp.
+         * @return Returns a camp information builder object.
+         */
         public CampInformationBuilder setDescription(String description) {
             this.description = description;
             return this;
         }
 
+        /**
+         * Method to return the CampInformation object that has been created.
+         * 
+         * @return Returns a CampInformation object.
+         */
         public CampInformation build() {
             return new CampInformation(this);
         }
@@ -140,20 +228,41 @@ public class CampInformation implements SerializeToCSV {
 
     // getters and setters
 
+    /**
+     * Getter for the camp name.
+     * 
+     * @return Returns the camp name.
+     */
     public String getCampName() {
         return campName;
     }
 
+    /**
+     * Setter for the camp name.
+     * 
+     * @param campName Camp name to be set.
+     */
     public void setCampName(String campName) {
         this.campName = campName;
         return;
     }
 
+    /**
+     * Getter for the camp dates.
+     * 
+     * @return Returns a list of all the camp dates.
+     */
     public ArrayList<LocalDate> getDates() {
         return dates;
     }
 
-    //function overloading :)
+    /**
+     * Alternative setter for the camp dates.
+     * Overloads <code>setDates</code>.
+     * 
+     * @param firstDate The first date of the camp.
+     * @param duration  The duration of the camp.
+     */
     public void setDates(LocalDate firstDate, int duration) {
         for (int i = 0; i < duration; i++) {
             dates.add(i, firstDate);
@@ -162,87 +271,155 @@ public class CampInformation implements SerializeToCSV {
         return;
     }
 
+    /**
+     * Setter for the camp dates.
+     * 
+     * @param dates A list of the camp dates.
+     */
     public void setDates(ArrayList<LocalDate> dates) {
         this.dates = dates;
         return;
     }
 
+    /**
+     * Getter for the camp registration deadline.
+     * 
+     * @return Returns the camp registration deadline.
+     */
     public LocalDate getRegistrationClosingDate() {
         return registrationClosingDate;
     }
 
+    /**
+     * Setter for the camp registration deadline.
+     * 
+     * @param registrationClosingDate The camp registration deadline to be set.
+     */
     public void setRegistrationClosingDate(LocalDate registrationClosingDate) {
         this.registrationClosingDate = registrationClosingDate;
         return;
     }
 
+    /**
+     * Getter for the camp's total slots (attendee + committee)
+     * 
+     * @return Returns the camp's total slots.
+     */
     public int getTotalSlots() {
         return totalSlots;
     }
 
+    /**
+     * Setter for the camp's total slots (attendee + committee).
+     * 
+     * @param totalSlots The camp's total slots to be set.
+     */
     public void setTotalSlots(int totalSlots) {
         this.totalSlots = totalSlots;
         return;
     }
 
+    /**
+     * Getter for the camp's total committee slots.
+     * 
+     * @return The camp's total commitee slots.
+     */
     public int getCommitteeSlots() {
         return committeeSlots;
     }
 
+    /**
+     * Setter for the camp's total committee slots.
+     * 
+     * @param committeeSlots The camp's total committee slots to be set.
+     */
     public void setCommitteeSlots(int committeeSlots) {
         this.committeeSlots = committeeSlots;
         return;
     }
 
+    /**
+     * Getter for the camp's staff in charge.
+     * 
+     * @return Returns the ID of the camp's staff in charge.
+     */
     public String getStaffInChargeId() {
         return staffInChargeId;
     }
 
+    /**
+     * Getter for the user group the camp is open to.
+     * 
+     * @return Returns the user group the camp is open to.
+     */
     public UserGroup getUserGroup() {
         return userGroup;
     }
 
+    /**
+     * Getter of the camp's organising faculty (facult of the staff in charge).
+     * 
+     * @return Returns the camp's organising faculty.
+     */
     public Faculty getOrganisingFaculty() {
         return organisingFaculty;
     }
 
+    /**
+     * Getter for the camp's location.
+     * 
+     * @return Returns the camp's location.
+     */
     public String getLocation() {
         return location;
     }
 
+    /**
+     * Setter for the camp's location.
+     * 
+     * @param location The location to be set.
+     */
     public void setLocation(String location) {
         this.location = location;
         return;
     }
 
+    /**
+     * Getter for the camp's description.
+     * 
+     * @return Returns the camp's description.
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Setter for the camp's description.
+     * 
+     * @param description Returns the camp's description.
+     */
     public void setDescription(String description) {
         this.description = description;
         return;
     }
-
-    
 
     // data store functionality
     @Override
     public String toCSVLine() {
         String ret = "";
         ret += campId + ","
-        + campName + ","
-        + description + ","
-        + location + ","
-        + totalSlots + ","
-        + committeeSlots + ","
-        + staffInChargeId + ","
-        + organisingFaculty + ","
-        //handle dates last
-        + DateStringHelper.DateToStrConverter(registrationClosingDate) + ","
-        + DateStringHelper.DateToStrConverter(dates.get(0)) + "," //start date
-        + dates.size() + "," //duration of camp
-        + userGroup.toCSVLine(); // do this last for simplicity
+                + campName + ","
+                + description + ","
+                + location + ","
+                + totalSlots + ","
+                + committeeSlots + ","
+                + staffInChargeId + ","
+                + organisingFaculty + ","
+                // handle dates last
+                + DateStringHelper.DateToStrConverter(registrationClosingDate) + ","
+                + DateStringHelper.DateToStrConverter(dates.get(0)) + "," // start date
+                + dates.size() + "," // duration of camp
+                + userGroup.toCSVLine(); // do this last for simplicity
         return ret;
     }
 
@@ -267,7 +444,7 @@ public class CampInformation implements SerializeToCSV {
             userGroup = new UserGroup();
             String userGrpStr = "";
             for (int i = 0; i < userGroup.getCSVLineLength(); ++i) {
-                userGrpStr += split[11+i] + ",";
+                userGrpStr += split[11 + i] + ",";
             }
             userGroup.fromCSVLine(userGrpStr);
         }
