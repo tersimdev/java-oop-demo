@@ -1,7 +1,6 @@
 package entity;
 
 import util.Log;
-import entity.CampCommitteeMember;
 
 /**
  * <p>
