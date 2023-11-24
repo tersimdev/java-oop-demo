@@ -76,14 +76,12 @@ public class EnquirySystem extends FeedbackSystem {
             return;
         }
         CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
+        boolean pending = campEnquiry.isPending();
         Log.println("EnquiryID: " + campEnquiry.getId());
         Log.println("StudentID: " + campEnquiry.getOwnerId());
-        Log.println("Enquiry Status: Pending");
+        Log.println("Enquiry Status: " + (pending ? "Pending" : "Replied"));
         Log.println("Enquiry: " + campEnquiry.getFeedback());
-        if (campEnquiry.isPending())
-            Log.println("Reply: null");
-        else
-            Log.println("Reply: " + campEnquiry.getReply());
+        Log.println("Reply: " + (pending ? "N/A" : campEnquiry.getReply()));
         Log.println("");
     }
 
@@ -190,14 +188,15 @@ public class EnquirySystem extends FeedbackSystem {
      * @param enquiryId ID of enquiry to be processed.
      * @param reply     Reply to the enquiry.
      */
-    public boolean processCampEnquiry(CampCommitteeMember campCommitteeMember, String userId, int campId, int enquiryId, String reply) {
+    public boolean processCampEnquiry(CampCommitteeMember campCommitteeMember, String userId, int campId, int enquiryId,
+            String reply) {
         CampFeedback campFeedback = findFeedbackById(enquiryId, campId);
         if (campFeedback instanceof CampEnquiry) {
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
             campEnquiry.reply(userId, reply);
-            if(campCommitteeMember != null) {
-            campCommitteeMember.addPoints(1);
-            dataStoreSystem.getUserDataStoreSubSystem().updateCommitteeMemberDetails(campCommitteeMember);
+            if (campCommitteeMember != null) {
+                campCommitteeMember.addPoints(1);
+                dataStoreSystem.getUserDataStoreSubSystem().updateCommitteeMemberDetails(campCommitteeMember);
             }
             updateToDataStore(campEnquiry);
             return true;
