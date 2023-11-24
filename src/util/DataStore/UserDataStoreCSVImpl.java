@@ -83,6 +83,7 @@ public class UserDataStoreCSVImpl extends BaseDataStoreCSV implements UserDataSt
     public void updateUserPassword(String userID, String newPassword) {
         String row = tables.get(tableStudents).queryRow(1, userID);
         if (row != null) {
+            Log.info("updating student password");
             Student s = new Student();
             s.fromCSVLine(row);
             s.setPassword(newPassword);
@@ -91,6 +92,7 @@ public class UserDataStoreCSVImpl extends BaseDataStoreCSV implements UserDataSt
         }
         row = tables.get(tableStaff).queryRow(1, userID);
         if (row != null) {
+            Log.info("updating staff password");
             Staff s = new Staff();
             s.fromCSVLine(row);
             s.setPassword(newPassword);
@@ -115,8 +117,15 @@ public class UserDataStoreCSVImpl extends BaseDataStoreCSV implements UserDataSt
 
     @Override
     public void updateCommitteeMemberDetails(CampCommitteeMember campCommitteeMember) {
-        String row = tables.get(tableStudents).queryRow(0, (campCommitteeMember.getStudentId()));
-        tables.get(tableStudents).updateRow(row, campCommitteeMember.toCSVLine());
+        String row = tables.get(tableStudents).queryRow(1, (campCommitteeMember.getStudentId()));
+        if (row != null) {
+            Log.info("updating committe member info");
+            Student s = new Student();
+            s.fromCSVLine(row);
+            s.setCampCommitteeMember(campCommitteeMember);
+            tables.get(tableStudents).updateRow(row, s.toCSVLine());
+            tables.get(tableStudents).writeToFile(); // for immediate feedback
+        }
     }
 
     /**
