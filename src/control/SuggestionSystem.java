@@ -202,7 +202,7 @@ public class SuggestionSystem extends FeedbackSystem {
      * @param feedback CampFeedback object to be added to the system.
      */
     @Override
-    public void addToDataStore(CampFeedback feedback) {
+    protected void addToDataStore(CampFeedback feedback) {
         if (feedback instanceof CampSuggestion)
             dataStoreSystem.getFeedbackDataStoreSubSystem().addSuggestion((CampSuggestion) feedback);
         else
@@ -214,7 +214,7 @@ public class SuggestionSystem extends FeedbackSystem {
      * @param feedback CampFeedback object to be updated to the system.
      */
     @Override
-    public void updateToDataStore(CampFeedback feedback) {
+    protected void updateToDataStore(CampFeedback feedback) {
         if (feedback instanceof CampSuggestion)
             dataStoreSystem.getFeedbackDataStoreSubSystem().updateSuggestion((CampSuggestion) feedback);
         else
@@ -226,7 +226,7 @@ public class SuggestionSystem extends FeedbackSystem {
      * @param feedback CampFeedback object to be deleted from the system.
      */  
     @Override
-    public void removeFromDataStore(int feedbackId) {
+    protected void removeFromDataStore(int feedbackId) {
         dataStoreSystem.getFeedbackDataStoreSubSystem().deleteSuggestion(feedbackId);
     }
     

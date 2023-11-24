@@ -34,19 +34,19 @@ public abstract class FeedbackSystem {
      * Adds CampFeedback object to the system.
      * @param feedback CampFeedback object to be added to the system.
      */
-    public abstract void addToDataStore(CampFeedback feedback);
+    protected abstract void addToDataStore(CampFeedback feedback);
 
     /**
      * Updates existing CampFeedback object in the system.
      * @param feedback CampFeedback object to be updated to the system.
      */
-    public abstract void updateToDataStore(CampFeedback feedback);
+    protected abstract void updateToDataStore(CampFeedback feedback);
 
     /**
      * Deletes existing CampFeedback object from the system.
      * @param feedback CampFeedback object to be deleted from the system.
      */    
-    public abstract void removeFromDataStore(int feedbackId);
+    protected abstract void removeFromDataStore(int feedbackId);
 
     /**
      * Creates the mapping of the feedback to relevant campIds.
