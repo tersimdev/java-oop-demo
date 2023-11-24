@@ -294,7 +294,7 @@ public class StaffMenu extends Menu {
             reportOptions.setFileName(fileName);
             reportOptions.setFileType(fileType);
 
-            reportSystem.generateCampReport(reportOptions, filter, staff, camp);
+            reportSystem.writeCampReport(reportOptions, filter, staff, camp);
         } else {
             Log.println("Camp not found " + selCampId);
         }
