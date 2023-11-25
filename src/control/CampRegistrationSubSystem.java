@@ -102,6 +102,7 @@ public class CampRegistrationSubSystem {
 
         if (camp.getAttendeeList().contains(studentId)) {
             camp.removeAttendee(student);
+            Log.println(studentId + "has been withdrawn from " + campId + " successfully");
         } else if (camp.getCommitteeList().contains(studentId)) {
             Log.println("Camp committee members cannot withdraw");
         } else {
