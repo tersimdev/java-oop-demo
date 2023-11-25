@@ -328,7 +328,6 @@ public class StudentMenu extends Menu {
                 reply);
         if (result) {
             Log.println("Enquiry successfully processed.");
-            student.getCampCommitteeMember().addPoints(1);
         } else
             Log.println("Enquiry processing failed.");
         return false;
