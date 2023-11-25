@@ -18,6 +18,12 @@ import util.Log;
  */
 
 public class FileWriterHelper {
+    /**
+     * Default Constructor
+     * Not used, this class has no state.
+     */
+    public FileWriterHelper() {
+    }
 
     public static void writeToFile(String fileName, String fileContent) {
         try (FileWriter fileWriter = new FileWriter(fileName)) {

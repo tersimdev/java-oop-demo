@@ -10,24 +10,84 @@ package entity;
  * @since 1-11-2023
  */
 public enum Faculty {
+    /**
+     * SCSE
+     */
     SCSE,
+    /**
+     * EEE
+     */
     EEE,
+    /**
+     * MAE
+     */
     MAE,
+    /**
+     * MSE
+     */
     MSE,
+    /**
+     * CEE
+     */
     CEE,
+    /**
+     * CCEB
+     */
     CCEB,
+    /**
+     * ADM
+     */
     ADM,
+    /**
+     * SOH
+     */
     SOH,
+    /**
+     * SSS
+     */
     SSS,
+    /**
+     * WKWSCI
+     */
     WKWSCI,
+    /**
+     * SPMS
+     */
     SPMS,
+    /**
+     * SBS
+     */
     SBS,
+    /**
+     * ASE
+     */
     ASE,
+    /**
+     * LKC
+     */
     LKC,
+    /**
+     * ICC
+     */
     ICC,
+    /**
+     * NIE
+     */
     NIE,
+    /**
+     * NBS
+     */
     NBS,
+    /**
+     * RSIS
+     */
     RSIS,
+    /**
+     * NULL
+     */
     NULL,
+    /**
+     * NUM_FACULTY
+     */
     NUM_FACULTY,
 }

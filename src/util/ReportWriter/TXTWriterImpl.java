@@ -20,6 +20,13 @@ import entity.User;
  */
 public class TXTWriterImpl extends BaseReportWriter {
 
+    /**
+     * Default Constructor
+     */
+    public TXTWriterImpl() {
+        super();
+    }
+
     @Override
     public void writeCampReport(CampReportOptions reportOptions, CampReportFilter filter, User user, Camp camp)
             throws ReportWriteException, IOException {
@@ -31,7 +38,7 @@ public class TXTWriterImpl extends BaseReportWriter {
 
         reportContent.append("Camp Name: ").append(camp.getCampInformation().getCampName()).append("\n");
         reportContent.append("Dates: ").append(camp.getCampInformation().getDates()).append("\n");
-        
+
         reportContent.append(getStudentListAsString(camp, filter));
         writeReportToFile(reportOptions, reportContent.toString());
     }

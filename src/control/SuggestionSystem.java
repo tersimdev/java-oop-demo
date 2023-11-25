@@ -110,6 +110,7 @@ public class SuggestionSystem extends FeedbackSystem {
      * relevant camp.
      * 
      * @param campId campId of the camp to display suggestions.
+     * @return size of printed list
      */
     @Override
     public int printPendingFeedback(int campId) {
@@ -127,6 +128,7 @@ public class SuggestionSystem extends FeedbackSystem {
      * @param campCommitteeMemberId ID of CampCommiteeMember viewing processed
      *                              suggestions.
      * @param campId                campId of the camp to display suggestions.
+     * @return size of printed list
      */
     @Override
     public int printProcessedFeedbackByOwner(String campCommitteeMemberId, int campId) {
@@ -195,6 +197,7 @@ public class SuggestionSystem extends FeedbackSystem {
      * @param campId       campId of the camp to process suggestions.
      * @param suggestionId ID of suggesstion to be processed.
      * @param decision     Decision of staff to approve/reject suggestion.
+     * @return success of request
      */
     public boolean processCampSuggestion(String staffId, int campId, int suggestionId, boolean decision) {
         CampFeedback campFeedback = findFeedbackById(suggestionId, campId);
@@ -207,6 +210,7 @@ public class SuggestionSystem extends FeedbackSystem {
                 Log.error("Committee member not found while trying to award points for suggestion.");
                 return false;
             }
+            //retrieve it from datastore since user is currently staff
             CampCommitteeMember commmitteeMember = ((Student) user).getCampCommitteeMember();
             // award points
             if (decision) {

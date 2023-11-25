@@ -14,12 +14,31 @@ import entity.Camp;
  * @since 24-11-2023
  */
 public class CampSystem {
+    /**
+     * Dependency Injection
+     */
     private CampCheckHelperSubSystem campCheckHelperSubSystem;
+    /**
+     * Dependency Injection
+     */
     private CampCreationSubSystem campCreationSubSystem;
+    /**
+     * Dependency Injection
+     */
     private CampRegistrationSubSystem campRegistrationSubSystem;
+    /**
+     * Dependency Injection
+     */
     private CampViewerSubSystem campViewerSubSystem;
+    /**
+     * List of all camps in memory.
+     * Updated in parallel to datastore.
+     */
     private ArrayList<Camp> camps;
 
+    /**
+     * Stores current biggest camp Id. Used for getting next camp Id.
+     */
     private int currCampId;
 
     /**

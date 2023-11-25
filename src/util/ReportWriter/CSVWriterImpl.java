@@ -23,8 +23,13 @@ import entity.User;
 
 public class CSVWriterImpl extends BaseReportWriter {
 
+    /** Default Constructor */
+    public CSVWriterImpl() {
+        super();
+    }
+
     @Override
-    public void writeCampReport(CampReportOptions reportOptions,CampReportFilter filter, User user, Camp camp)
+    public void writeCampReport(CampReportOptions reportOptions, CampReportFilter filter, User user, Camp camp)
             throws ReportWriteException, IOException {
         if (camp == null || camp.getCampInformation() == null) {
             throw new ReportWriteException("Camp information is invalid");
@@ -54,7 +59,7 @@ public class CSVWriterImpl extends BaseReportWriter {
             reportContent.append("User ID: ").append(committeeMember.getStudentId()).append(",");
             reportContent.append("Total Points Earned: ").append(committeeMember.getPoints()).append(",");
             reportContent.append("\n");
-        }        
+        }
         writeReportToFile(reportOptions, reportContent.toString());
     }
 }

@@ -33,14 +33,41 @@ public class CampCreationSubSystem {
      * Enum to provide readability for user edit camp choice
      */
     private enum EditChoice {
+        /**
+         * Edit NAME
+         */
         NAME,
+        /**
+         * Edit DESCRIPTION
+         */
         DESCRIPTION,
+        /**
+         * Edit LOCATION
+         */
         LOCATION,
+        /**
+         * Edit TOTAL_SLOTS
+         */
         TOTAL_SLOTS,
+        /**
+         * Edit COMMITTEE_SLOTS
+         */
         COMMITTEE_SLOTS,
+        /**
+         * Edit DATES
+         */
         DATES,
+        /**
+         * Edit REGISTRATION_CLOSING_DATE
+         */
         REGISTRATION_CLOSING_DATE,
+        /**
+         * Edit USERGROUP
+         */
         USERGROUP,
+        /**
+         * Edit VISIBILITY
+         */
         VISIBILITY
     }
 

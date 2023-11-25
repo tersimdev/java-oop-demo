@@ -17,7 +17,8 @@ import util.Log;
 /**
  * <p>
  * This class handles ui of the console.
- * Implements a simple state machine with a STATE enum to keep track of UI state.
+ * Implements a simple state machine with a STATE enum to keep track of UI
+ * state.
  * Each UI state has a respective Menu class.
  * </p>
  * 
@@ -28,13 +29,25 @@ import util.Log;
 public class ConsoleUI {
 
     /**
-     * Enum class used to represent 
+     * Enum class used to represent
      * states in state machine.
      */
     private enum STATE {
+        /**
+         * LOGIN_MENU
+         */
         LOGIN_MENU,
+        /**
+         * START_MENU
+         */
         START_MENU,
+        /**
+         * STAFF_MENU
+         */
         STAFF_MENU,
+        /**
+         * STUDENT_MENU
+         */
         STUDENT_MENU,
     }
 
@@ -76,6 +89,7 @@ public class ConsoleUI {
 
     /**
      * Setter for stateDirty.
+     * 
      * @param dirty whether state is dirty
      */
     public void setStateDirty(boolean dirty) {
@@ -84,6 +98,7 @@ public class ConsoleUI {
 
     /**
      * Getter for user object.
+     * 
      * @return user object
      */
     public User getUser() {
@@ -93,6 +108,7 @@ public class ConsoleUI {
     /**
      * Getter for input object.
      * Call this to do user input.
+     * 
      * @return input object
      */
     public Input getInput() {
@@ -102,25 +118,27 @@ public class ConsoleUI {
     /**
      * Initializes all menus, creates state map.
      * Uses dependency injection to pass systems to menus.
-     * @param loginSystem loginSystem object 
-     * @param campSystem campSystem object
-     * @param feedbackSystem feedbackSystem object
-     * @param enquirySystem enquirySystem object
+     * 
+     * @param loginSystem      loginSystem object
+     * @param campSystem       campSystem object
+     * @param enquirySystem    enquirySystem object
      * @param suggestionSystem suggestionSystem object
-     * @param reportSystem reportSystem object
+     * @param reportSystem     reportSystem object
      */
-    public void init(LoginSystem loginSystem, CampSystem campSystem, EnquirySystem enquirySystem, SuggestionSystem suggestionSystem,
+    public void init(LoginSystem loginSystem, CampSystem campSystem, EnquirySystem enquirySystem,
+            SuggestionSystem suggestionSystem,
             ReportSystem reportSystem) {
         this.loginSystem = loginSystem;
-        
+
         input = new Input(System.in);
-        
+
         // init menus with dependency injection
         menuMap = new HashMap<>();
         menuMap.put(STATE.LOGIN_MENU, new LoginMenu(this, loginSystem));
         menuMap.put(STATE.START_MENU, new StartMenu(this, loginSystem));
         menuMap.put(STATE.STAFF_MENU, new StaffMenu(this, campSystem, enquirySystem, suggestionSystem, reportSystem));
-        menuMap.put(STATE.STUDENT_MENU, new StudentMenu(this, campSystem, enquirySystem, suggestionSystem, reportSystem));
+        menuMap.put(STATE.STUDENT_MENU,
+                new StudentMenu(this, campSystem, enquirySystem, suggestionSystem, reportSystem));
 
         Log.printLogo("data/logo.txt");
         Log.println("=========================================================================================");
@@ -129,9 +147,10 @@ public class ConsoleUI {
     }
 
     /**
-     * Main update loop of app. 
+     * Main update loop of app.
      * Uses state machine design.
      * Checks if state is dirty and calls switchStates
+     * 
      * @return returns if should exit app
      */
     public boolean run() {
@@ -156,7 +175,7 @@ public class ConsoleUI {
     }
 
     /**
-     * Function to change states, 
+     * Function to change states,
      * by setting state variable and checking preconditions
      */
     private void switchState() {

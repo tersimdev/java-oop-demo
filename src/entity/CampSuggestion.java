@@ -35,8 +35,6 @@ public class CampSuggestion extends CampFeedback {
     /**
      * Constructor for a camp suggestion object.
      * 
-     * @param campCommitteeMember   CampCommitteeMember object of the committee
-     *                              member who made the suggestion.
      * @param campCommitteeMemberId ID of the committee member who made the
      *                              suggestion.
      * @param suggestion            The suggestion in plaintext.
@@ -57,7 +55,6 @@ public class CampSuggestion extends CampFeedback {
     public String getResponderId() {
         return responderId;
     }
-
 
     /**
      * Checks if the suggestion's approval status is pending.

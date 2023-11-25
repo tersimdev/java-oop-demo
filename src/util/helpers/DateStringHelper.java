@@ -12,6 +12,12 @@ import java.time.format.DateTimeFormatter;
  * @since 20-11-2023
  */
 public class DateStringHelper {
+    /**
+     * Default Constructor
+     * Not used, this class has no state.
+     */
+    public DateStringHelper() {
+    }
 
     /**
      * Format of the date to convert

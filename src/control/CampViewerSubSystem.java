@@ -22,15 +22,42 @@ import util.helpers.DateStringHelper;
  * @since 24-11-2023
  */
 public class CampViewerSubSystem {
+    /**
+     * Dependency Injection
+     */
     private CampSystem campSystem;
+    /**
+     * Dependency Injection
+     */
     private CampCheckHelperSubSystem campCheckHelperSubSystem;
 
+    /**
+     * Enum to define order to print camps
+     */
     private enum PrintCampSortOrder {
+        /**
+         * Sort by ID
+         */
         ID,
+        /**
+         * Sort by DATES
+         */
         DATES,
+        /**
+         * Sort by LOCATION
+         */
         LOCATION,
+        /**
+         * Sort by ATTENDEE_SLOTS_REMAINING
+         */
         ATTENDEE_SLOTS_REMAINING,
+        /**
+         * Sort by COMMITTEE_SLOTS_REMAINING
+         */
         COMMITTEE_SLOTS_REMAINING,
+        /**
+         * Sort by REGISTRATION_CLOSING_DATE
+         */
         REGISTRATION_CLOSING_DATE
     }
 
@@ -46,9 +73,10 @@ public class CampViewerSubSystem {
     /**
      * Constructor for the camp viewer sub system.
      * 
-     * @param campSystem      A class that stores all camps, and controls access to
-     *                        them.
-     * @param dataStoreSystem A class to handle all datastore operations.
+     * @param campSystem               A class that stores all camps, and controls
+     *                                 access to
+     *                                 them.
+     * @param campCheckHelperSubSystem A class to handle camp related checks.
      */
     public CampViewerSubSystem(CampSystem campSystem,
             CampCheckHelperSubSystem campCheckHelperSubSystem) {
@@ -87,7 +115,8 @@ public class CampViewerSubSystem {
         ArrayList<Camp> sortedCamps = sortCamps(campSystem.getCamps(), printCampSortOrder);
         for (Camp camp : sortedCamps) {
             if (camp != null
-                    && camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())) // camp created by staff
+                    && camp.getCampInformation().getStaffInChargeId().equals(staff.getUserID())) // camp created by
+                                                                                                 // staff
                 printCamp(camp);
         }
     }

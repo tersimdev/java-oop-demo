@@ -17,6 +17,12 @@ import util.Log;
  * @since 21-11-2023
  */
 public class InputHelper {
+    /**
+     * Default Constructor
+     * Not used, this class has no state.
+     */
+    public InputHelper() {
+    }
 
     /**
      * Get camp id from user input.
@@ -86,6 +92,7 @@ public class InputHelper {
     /**
      * Gets an int from user within specified bounds.
      * Throws an error message if the input is not within the given min and max.
+     * 
      * @param input
      * @param min
      * @param max

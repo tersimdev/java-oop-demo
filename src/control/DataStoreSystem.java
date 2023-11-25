@@ -58,6 +58,7 @@ public class DataStoreSystem {
 
     /**
      * Gets the user data subsystem
+     * @return subsystem
      */
     public UserDataStoreSubSystem getUserDataStoreSubSystem() {
         return userDataStoreSubSystem;
@@ -65,6 +66,7 @@ public class DataStoreSystem {
 
     /**
      * Gets the camp data subsystem
+     * @return subsystem
      */
     public CampDataStoreSubSystem getCampDataStoreSubSystem() {
         return campDataStoreSubSystem;
@@ -72,6 +74,7 @@ public class DataStoreSystem {
 
     /**
      * Gets the feedback data subsystem
+     * @return subsystem
      */
     public FeedbackDataStoreSubSystem getFeedbackDataStoreSubSystem() {
         return feedbackDataStoreSubSystem;

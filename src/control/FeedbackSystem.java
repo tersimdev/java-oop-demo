@@ -49,7 +49,8 @@ public abstract class FeedbackSystem {
     /**
      * Deletes existing CampFeedback object from the system.
      * 
-     * @param feedback CampFeedback object to be deleted from the system.
+     * @param feedbackId id of the CampFeedback object to be deleted from the
+     *                   system.
      */
     protected abstract void removeFromDataStore(int feedbackId);
 
@@ -112,9 +113,10 @@ public abstract class FeedbackSystem {
     /**
      * Edits an existing feedback in the hashmap.
      * 
-     * @param campId     campId of the camp to edit feedback.
-     * @param feedbackId feedbackId of the feedback to be edited.
-     * @param feedback   new CampFeedback submitted by the student.
+     * @param campId      campId of the camp to edit feedback.
+     * @param feedbackId  feedbackId of the feedback to be edited.
+     * @param newFeedback new CampFeedback submitted by the student.
+     * @return edited feedback object
      */
     public CampFeedback editCampFeedback(int campId, int feedbackId, String newFeedback) {
         CampFeedback campFeedback = findFeedbackById(feedbackId, campId);
@@ -130,6 +132,7 @@ public abstract class FeedbackSystem {
      * 
      * @param campId     campId of the camp to delete feedback.
      * @param feedbackId feedbackId of the feedback to be deleted.
+     * @return whether feedback could be removed
      */
     public boolean removeCampFeedback(int campId, int feedbackId) {
         CampFeedback campFeedback = findFeedbackById(feedbackId, campId);
@@ -201,6 +204,7 @@ public abstract class FeedbackSystem {
      * Override this and call super() should you need to print additional things.
      * 
      * @param campId campId of the camp to display feedback.
+     * @return size of printed list
      */
     public int printAllFeedback(int campId) {
         ArrayList<CampFeedback> feedbacks = getCampFeedbacks(campId);
@@ -213,6 +217,7 @@ public abstract class FeedbackSystem {
      * Displays pending feedback in the hashmap linked to the relevant camp.
      * 
      * @param campId campId of the camp to display suggestions.
+     * @return size of printed list
      */
     public int printPendingFeedback(int campId) {
         ArrayList<CampFeedback> feedbacks = getCampFeedbacks(campId, true);
@@ -225,7 +230,9 @@ public abstract class FeedbackSystem {
      * Displays pending feedback belonging to ownerId
      * in the hashmap linked to the relevant camp.
      * 
-     * @param campId campId of the camp to display suggestions.
+     * @param ownerId ownerId of the feedback to show
+     * @param campId  campId of the camp to display suggestions.
+     * @return size of printed list
      */
     public int printPendingFeedbackByOwner(String ownerId, int campId) {
         ArrayList<CampFeedback> feedbacks = getCampFeedbacks(campId, true, ownerId);
@@ -240,6 +247,7 @@ public abstract class FeedbackSystem {
      * 
      * @param ownerId ownerId of the feedback to show
      * @param campId  campId of the camp to display suggestions.
+     * @return size of printed list
      */
     public int printProcessedFeedbackByOwner(String ownerId, int campId) {
         ArrayList<CampFeedback> feedbacks = getCampFeedbacks(campId, false, ownerId);
@@ -253,6 +261,7 @@ public abstract class FeedbackSystem {
      * 
      * @param feedbackId feedbackId of the feedback to be searched.
      * @param campId     campId of the camp to search feedback.
+     * @return feedback object found
      */
     public CampFeedback findFeedbackById(int feedbackId, int campId) {
         for (CampFeedback cf : getCampFeedbacks(campId)) {
@@ -267,6 +276,7 @@ public abstract class FeedbackSystem {
      * 
      * @param feedbackId feedbackId of the feedback to be checked.
      * @param campId     campId of the camp to check feedback.
+     * @return whether feedback object is not null
      */
     public boolean checkValidFeedbackId(int feedbackId, int campId) {
         return findFeedbackById(feedbackId, campId) != null;

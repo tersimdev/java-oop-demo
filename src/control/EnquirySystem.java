@@ -67,7 +67,7 @@ public class EnquirySystem extends FeedbackSystem {
     /**
      * Prints details of CampEnquiry
      * 
-     * @param feedback CampEnquiry object to be printed.
+     * @param campFeedback CampEnquiry object to be printed.
      */
     @Override
     public void printFeedback(CampFeedback campFeedback) {
@@ -89,7 +89,7 @@ public class EnquirySystem extends FeedbackSystem {
      * Displays all enquiries in the hashmap linked to the relevant camp.
      * 
      * @param campId campId of the camp to display enquiries.
-     * @param input  Input object.
+     * @return size of printed list
      */
     @Override
     public int printAllFeedback(int campId) {
@@ -105,6 +105,7 @@ public class EnquirySystem extends FeedbackSystem {
      * camp.
      * 
      * @param campId campId of the camp to display enquiries.
+     * @return size of printed list
      */
     @Override
     public int printPendingFeedback(int campId) {
@@ -121,6 +122,7 @@ public class EnquirySystem extends FeedbackSystem {
      * 
      * @param studentId ID of student viewing processed enquiries.
      * @param campId    campId of the camp to display enquiries.
+     * @return size of printed list
      */
     @Override
     public int printProcessedFeedbackByOwner(String studentId, int campId) {
@@ -183,10 +185,12 @@ public class EnquirySystem extends FeedbackSystem {
     /**
      * Process enquiries in the hashmap linked to the relevant camp.
      * 
+     * @param CampCommitteeMember CampCommitteeMember object to pass in, null if none.
      * @param userId    ID of User processing the enquiries
      * @param campId    campId of the camp to process enquiries.
      * @param enquiryId ID of enquiry to be processed.
      * @param reply     Reply to the enquiry.
+     * @return success of request
      */
     public boolean processCampEnquiry(CampCommitteeMember campCommitteeMember, String userId, int campId, int enquiryId,
             String reply) {
@@ -194,7 +198,7 @@ public class EnquirySystem extends FeedbackSystem {
         if (campFeedback instanceof CampEnquiry) {
             CampEnquiry campEnquiry = (CampEnquiry) campFeedback;
             campEnquiry.reply(userId, reply);
-            if (campCommitteeMember != null) {
+            if (campCommitteeMember != null) { //if not is committee then update points
                 campCommitteeMember.addPoints(1);
                 dataStoreSystem.getUserDataStoreSubSystem().updateCommitteeMemberDetails(campCommitteeMember);
             }

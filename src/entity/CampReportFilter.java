@@ -10,7 +10,16 @@ package entity;
  * @since 19-11-2023
  */
 public enum CampReportFilter {
+    /**
+     * No filter
+     */
     NONE,
+    /**
+     * Filter attendees
+     */
     ATTENDEE,
+    /**
+     * Filter camp committee members
+     */
     CAMP_COMMITTEE
 }
