@@ -11,7 +11,7 @@ import util.Log;
  * A class that handles logic for registration and withdrawal of users for camps.
  * </p>
  * 
- * @author Team 2
+ * @author Jon Daniel Acu Kang
  * @version 1.0
  * @since 24-11-2023
  */

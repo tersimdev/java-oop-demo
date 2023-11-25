@@ -18,11 +18,15 @@ import entity.CampSuggestion;
  * @since 19-11-2023
  */
 public class FeedbackDataStoreCSVImpl extends BaseDataStoreCSV implements FeedbackDataStoreInterface {
-    // file path constants
+    /**
+     * file path constants
+     */
     private static final String pathSuggestions = "data/camps/suggestions.csv";
     private static final String pathEnquiries = "data/camps/enquiries.csv";
 
-    // table name constants
+    /**
+     * table name constants
+     */
     private static final String tableSuggestions = "suggestions";
     private static final String tableEnquiries = "enquiries";
 

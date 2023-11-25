@@ -108,5 +108,11 @@ public abstract class CampFeedback implements SerializeToCSV {
         this.feedback = newFeedback;
     }
 
+    /**
+     * Checks if a feedback is pending a response.
+     * Implemented by concrete class.
+     * 
+     * @return True if the feedback is pending a response.
+     */
     public abstract boolean isPending();
 }

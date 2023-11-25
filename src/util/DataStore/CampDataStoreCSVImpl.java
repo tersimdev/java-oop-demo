@@ -16,10 +16,14 @@ import entity.Camp;
  * @since 19-11-2023
  */
 public class CampDataStoreCSVImpl extends BaseDataStoreCSV implements CampDataStoreInterface {
-    // file path constants
+    /**
+     * file path constants
+     */
     private static final String pathCamps = "data/camps/camps.csv";
 
-    // table name constants
+    /**
+     * table name constants
+     */
     private static final String tableCamps = "camps";
 
     /**

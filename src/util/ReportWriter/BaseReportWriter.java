@@ -23,6 +23,11 @@ import java.util.ArrayList;
 public abstract class BaseReportWriter {
 
     /**
+     * Base Constructor
+     */
+    public BaseReportWriter() {}
+
+    /**
      * Function which generates and writes to file a camp report in a specific
      * format.
      * Format is determined by concrete class.
@@ -53,10 +58,10 @@ public abstract class BaseReportWriter {
             ArrayList<CampCommitteeMember> commmitteeMembers) throws ReportWriteException, IOException;
 
     /**
-     * TODO
-     * @param camp
-     * @param filter
-     * @return
+     * Returns a list of camp attendees or committee members as a single string based on filter
+     * @param camp camp to get the list from
+     * @param filter whether to return attendee, committee, or both
+     * @return string containing requested list
      */
     protected String getStudentListAsString(Camp camp, CampReportFilter filter) {
         StringBuilder reportContent = new StringBuilder();
@@ -81,9 +86,10 @@ public abstract class BaseReportWriter {
     }
 
     /**
-     * TODO
-     * @param reportOptions
-     * @param reportContentStr
+     * Writes a string to file based on file name etc in report options.
+     * Uses FileWriterHelper to do the writing.
+     * @param reportOptions options like filename, filetype
+     * @param reportContentStr content to write
      */
     protected void writeReportToFile(CampReportOptions reportOptions, String reportContentStr) {
         String fileName = reportOptions.getFilePath() + reportOptions.getFileName() + reportOptions.getFileType();

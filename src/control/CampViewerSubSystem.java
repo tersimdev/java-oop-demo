@@ -17,7 +17,7 @@ import util.helpers.DateStringHelper;
  * viewing.
  * </p>
  * 
- * @author Team 2
+ * @author Jon Daniel Acu Kang
  * @version 1.0
  * @since 24-11-2023
  */

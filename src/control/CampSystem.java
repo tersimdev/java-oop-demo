@@ -9,8 +9,8 @@ import entity.Camp;
  * A class that stores all camps, and controls access to them
  * </p>
  * 
- * @author Jon Kang
- * @version 2.0
+ * @author Jon Daniel Acu Kang
+ * @version 1.0
  * @since 24-11-2023
  */
 public class CampSystem {

@@ -13,12 +13,15 @@ import entity.UserGroup;
  * such as if an attendee is allowed to register for a camp.
  * </p>
  * 
- * @author Team 2
+ * @author Jon Daniel Acu Kang
  * @version 1.0
  * @since 24-11-2023
  */
 public class CampCheckHelperSubSystem {
 
+    /**
+     * Dependency Injection of camp system
+     */
     private CampSystem campSystem;
 
     /**
@@ -40,7 +43,7 @@ public class CampCheckHelperSubSystem {
          * Whether the check returns true.
          */
         private boolean success;
-        
+
         /**
          * The reason for why the check returned false, if it did.
          */
@@ -90,6 +93,8 @@ public class CampCheckHelperSubSystem {
 
         /**
          * Gets the boolean value.
+         * 
+         * @return success or fail
          */
         public boolean getSuccess() {
             return this.success;
@@ -140,6 +145,7 @@ public class CampCheckHelperSubSystem {
      * <li>The camp's committee slots are not filled</li>
      * <li>The camp is open to the student's faculty</li>
      * <li>The student has not withdrawn from this camp in the past</li>
+     * </ul>
      * 
      * @param camp    The camp being registered for.
      * @param student The student trying to register.
@@ -178,6 +184,7 @@ public class CampCheckHelperSubSystem {
      * <li>The camp's committee slots are not filled</li>
      * <li>The camp is open to the student's faculty</li>
      * <li>The student has not withdrawn from this camp in the past</li>
+     * </ul>
      * 
      * @param camp    The camp being registered for.
      * @param student The student trying to register.
@@ -210,6 +217,7 @@ public class CampCheckHelperSubSystem {
      * student</li>
      * <li>The student has not withdrawn from this camp in the past</li>
      * <li>The camp is open to the student's faculty</li>
+     * </ul>
      * 
      * @param camp    The camp being checked
      * @param student The student we are checking for

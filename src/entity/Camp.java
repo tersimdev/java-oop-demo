@@ -13,7 +13,7 @@ import util.DataStore.SerializeToCSV;
  * </p>
  * 
  * @author Team 2
- * @version 1.1
+ * @version 1.0
  * @since 24-11-2023
  */
 public class Camp implements SerializeToCSV {
@@ -44,7 +44,13 @@ public class Camp implements SerializeToCSV {
      */
     private boolean visibility; // staff can set this to false to hide, if no one registered and stuff yet
 
+    /**
+     * Constant to represent an empty student list
+     */
     private final static String EMPTY_STUD_LIST = "NONE";
+    /**
+     * Constant to represent the separator used in student list
+     */
     private final static String STUD_LIST_SEP = ";";
 
     /**
@@ -206,7 +212,7 @@ public class Camp implements SerializeToCSV {
     /**
      * Helper function to convert a single string to an array list of string
      * 
-     * @param ids string to convert
+     * @param str string to convert
      * @return empty array list if string is EMPTY_STUD_LIST, else array list of
      *         string
      */

@@ -20,20 +20,54 @@ import util.helpers.DateStringHelper;
  */
 public class CampInformation implements SerializeToCSV {
 
-    private int campId; // used internally
+    /**
+     * ID of the camp
+     */
+    private int campId;
 
     // required parameters
+    /**
+     * Name of the camp
+     */
     private String campName;
+    /**
+     * Dates the camp is held
+     */
     private ArrayList<LocalDate> dates;
+    /**
+     * Date registration closes
+     */
     private LocalDate registrationClosingDate;
-    private int totalSlots; // for attendees
+    /**
+     * Total slots, which equals attendee slots + committee slots
+     */
+    private int totalSlots;
+    /**
+     * Number of committee slots
+     */
     private int committeeSlots;
+    /**
+     * Staff userId that made this camp
+     */
     private String staffInChargeId;
+    /**
+     * User group that this camp is available to
+     */
     private UserGroup userGroup;
-    private Faculty organisingFaculty; // null if usergroup is wholeNTU;
+    /**
+     * Faculty this camp is available to
+     * Null if userGroup is wholeNTU
+     */
+    private Faculty organisingFaculty;
 
     // optional parameters
+    /**
+     * Description of camp
+     */
     private String description;
+    /**
+     * Location of camp
+     */
     private String location;
 
     /**
@@ -62,18 +96,50 @@ public class CampInformation implements SerializeToCSV {
      */
     public static class CampInformationBuilder {
 
+        //essentially same as CampInformation
         // required parameters
+        /**
+         * Name of the camp
+         */
         private String campName;
+        /**
+         * Dates the camp is held
+         */
         private ArrayList<LocalDate> dates;
+        /**
+         * Date registration closes
+         */
         private LocalDate registrationClosingDate;
-        private int totalSlots; // for attendees
+        /**
+         * Total slots, which equals attendee slots + committee slots
+         */
+        private int totalSlots;
+        /**
+         * Number of committee slots
+         */
         private int committeeSlots;
+        /**
+         * Staff userId that made this camp
+         */
         private String staffInChargeId;
+        /**
+         * User group that this camp is available to
+         */
         private UserGroup userGroup;
-        private Faculty organisingFaculty; // null if usergroup is wholeNTU;
+        /**
+         * Faculty this camp is available to
+         * Null if userGroup is wholeNTU
+         */
+        private Faculty organisingFaculty;
 
         // optional parameters
+        /**
+         * Description of camp
+         */
         private String description;
+        /**
+         * Location of camp
+         */
         private String location;
 
         /**

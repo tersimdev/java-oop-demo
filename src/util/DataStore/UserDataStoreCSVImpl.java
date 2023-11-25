@@ -22,13 +22,17 @@ import util.Log;
  */
 public class UserDataStoreCSVImpl extends BaseDataStoreCSV implements UserDataStoreInterface {
 
-    // file path constants
+    /**
+     * file path constants
+     */
     private static final String initStudents = "data/sample/student_list.csv";
     private static final String initStaff = "data/sample/staff_list.csv";
     private static final String pathStudents = "data/users/students.csv";
     private static final String pathStaff = "data/users/staff.csv";
 
-    // table name constants
+    /**
+     * table name constants
+     */
     private static final String tableStudents = "students";
     private static final String tableStaff = "staff";
 

@@ -15,14 +15,23 @@ import util.Log;
  * A class that handles logic for creation and editing of camps.
  * </p>
  * 
- * @author Team 2
+ * @author Jon Daniel Acu Kang
  * @version 1.0
  * @since 24-11-2023
  */
 public class CampCreationSubSystem {
+    /**
+     * Dependency Injection
+     */
     private CampSystem campSystem;
+    /**
+     * Dependency Injection
+     */
     private DataStoreSystem dataStoreSystem;
 
+    /**
+     * Enum to provide readability for user edit camp choice
+     */
     private enum EditChoice {
         NAME,
         DESCRIPTION,
@@ -36,7 +45,8 @@ public class CampCreationSubSystem {
     }
 
     /**
-     * An ArrayList that contains enumerators for different aspects of a camp to be edited.
+     * An ArrayList that contains enumerators for different aspects of a camp to be
+     * edited.
      */
     private final static ArrayList<EditChoice> editChoiceEnumList = new ArrayList<>(
             Arrays.asList(EditChoice.NAME, EditChoice.DESCRIPTION, EditChoice.LOCATION,
@@ -46,7 +56,9 @@ public class CampCreationSubSystem {
 
     /**
      * Constructor for the camp creation sub system.
-     * @param campSystem A class that stores all camps, and controls access to them.
+     * 
+     * @param campSystem      A class that stores all camps, and controls access to
+     *                        them.
      * @param dataStoreSystem A class to handle all datastore operations.
      */
     public CampCreationSubSystem(CampSystem campSystem, DataStoreSystem dataStoreSystem) {
@@ -79,8 +91,8 @@ public class CampCreationSubSystem {
         campSystem.getCamps().remove(campId);
         dataStoreSystem.getCampDataStoreSubSystem().deleteCamp(campId);
     }
-    
-     /**
+
+    /**
      * Takes in int as user input for what they would like to edit about the camp,
      * then edits the camp.
      * 
@@ -161,5 +173,5 @@ public class CampCreationSubSystem {
         }
         dataStoreSystem.getCampDataStoreSubSystem().updateCampDetails(camp);
     }
-    
+
 }

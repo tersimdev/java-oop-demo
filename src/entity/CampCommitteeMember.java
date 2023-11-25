@@ -35,7 +35,7 @@ public class CampCommitteeMember implements SerializeToCSV {
     /**
      * Constructor for a camp committee member.
      * 
-     * @param student
+     * @param student student object
      */
     public CampCommitteeMember(Student student) {
         this.studentId = student.getUserID();
