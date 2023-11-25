@@ -15,7 +15,7 @@ public class Main {
      * Main function. Entry point. Creates and owns CAMSApp object.
      */
     public static void main(String[] args) {
-        Log.enableLogging(true); // enable this for dev work
+        Log.enableLogging(false); // enable this for dev work
 
         // create the app and run it
         CAMSApp app = new CAMSApp();
