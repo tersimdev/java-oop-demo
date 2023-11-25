@@ -281,10 +281,10 @@ public class CampViewerSubSystem {
 
             case ATTENDEE_SLOTS_REMAINING:
                 camps.sort((o1, o2) -> {
-                    int slots1 = o1.getCampInformation().getTotalSlots() - o1.getCampInformation().getCommitteeSlots()
-                            - o1.getAttendeeList().size();
-                    int slots2 = o2.getCampInformation().getTotalSlots() - o1.getCampInformation().getCommitteeSlots()
-                            - o1.getAttendeeList().size();
+                    int slots1 = (o1.getCampInformation().getTotalSlots() - o1.getCampInformation().getCommitteeSlots()
+                            - o1.getAttendeeList().size());
+                    int slots2 = (o2.getCampInformation().getTotalSlots() - o2.getCampInformation().getCommitteeSlots()
+                            - o2.getAttendeeList().size());
                     return Integer.compare(slots1, slots2);
                 });
                 break;
@@ -292,7 +292,7 @@ public class CampViewerSubSystem {
             case COMMITTEE_SLOTS_REMAINING:
                 camps.sort((o1, o2) -> {
                     int slots1 = o1.getCampInformation().getCommitteeSlots() - o1.getCommitteeList().size();
-                    int slots2 = o1.getCampInformation().getCommitteeSlots() - o1.getCommitteeList().size();
+                    int slots2 = o2.getCampInformation().getCommitteeSlots() - o2.getCommitteeList().size();
                     return Integer.compare(slots1, slots2);
                 });
                 break;

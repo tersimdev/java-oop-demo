@@ -1,5 +1,7 @@
-0,VISIBLE,SL22;,NONE,NONE,0,lousy camp,must be a camp by SU,grass field at crespion,5,2,ARVI,NBS,10/10/3010,10/10/3010,3,FACULTY,NBS
-2,VISIBLE,NONE,KOH1;,YCHERN;,0,why,dont come,crespion pond,1000,10,ARVI,NBS,10/10/3010,10/10/3010,365,NTU,NULL
-3,VISIBLE,NONE,NONE,NONE,0,jons wagon,this is a description,Mount sakon,2,10,ARVI,NBS,10/10/2024,10/10/2024,1000,NTU,NULL
-4,VISIBLE,NONE,SL22;,NONE,0,ryans lj,hello desc,cash me outside,10,10,ARVI,NBS,10/10/2024,10/10/9999,12,FACULTY,NBS
-5,VISIBLE,NONE,NONE;,NONE,0,Study Boot Camp,Learn to code with super coder Terence,Ryan's room,11,1,UPAM,EEE,29/11/2023,30/11/2023,1,NTU,NULL
+1,VISIBLE,NONE,NONE,NONE,0,Overdue Camp,The deadline for registration for this camp passed before WW2.,Russia,10,5,ANWIT,SCSE,30/12/1961,01/01/1962,10,NTU,NULL
+2,VISIBLE,NONE,NONE,NONE,0,Full Camp,This camp is more full than Ryan after eating at Hot Hideout.,Hot Hideout,3,1,ANWIT,SCSE,01/02/2025,02/02/2025,10,NTU,NULL
+3,VISIBLE,NONE,NONE,NONE,0,Good Camp,Students who register for this camp will get A for SC2002.,Hardware Lab 2,10,5,ANWIT,SCSE,02/03/2025,03/03/2025,10,NTU,NULL
+4,VISIBLE,NONE,NONE,NONE,0,SCSE Camp,Meet your favourite SCSE TA JIANG XUEYING at this camp!,Software Lab 1,15,3,ANWIT,SCSE,03/04/2025,04/04/2025,10,FACULTY,SCSE
+5,VISIBLE,NONE,NONE,NONE,0,NBS Camp,Join this camp if you ever considered dropping out of SCSE to study business!,Gaia,10,4,ARVI,NBS,04/05/2025,05/05/2025,10,FACULTY,NBS
+6,VISIBLE,NONE,NONE,NONE,0,Clash Camp,This camp has the worst possible dates anyone could have ever chosen...,Calender shop,10,5,ARVI,NBS,02/03/2025,03/03/2025,10,NTU,NULL
+7,VISIBLE,NONE,NONE,NONE,0,Invisible Camp,Meet and greet with WWE superstar John Cena!,John Cena's house,10,5,ARVI,NBS,06/07/2025,07/07/2025,10,NTU,NULL
