@@ -273,8 +273,8 @@ public class CampViewerSubSystem {
 
             case LOCATION:
                 camps.sort((o1, o2) -> {
-                    String location1 = o1.getCampInformation().getLocation();
-                    String location2 = o2.getCampInformation().getLocation();
+                    String location1 = o1.getCampInformation().getLocation().toLowerCase();
+                    String location2 = o2.getCampInformation().getLocation().toLowerCase();
                     return location1.compareTo(location2);
                 });
                 break;

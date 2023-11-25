@@ -102,6 +102,7 @@ public class CampCreationSubSystem {
         Camp newCamp = new Camp(campSystem.getNextCampId(), campInfo);
         campSystem.getCamps().add(newCamp);
         dataStoreSystem.getCampDataStoreSubSystem().addCamp(newCamp);
+        Log.println("Camp successfully created.");
     }
 
     /**
@@ -112,10 +113,12 @@ public class CampCreationSubSystem {
     public void deleteCamp(int campId) {
         Camp camp = campSystem.getCampById(campId);
         if (camp == null || !camp.getAttendeeList().isEmpty() || !camp.getCommitteeList().isEmpty()) {
+            Log.println("Camp could not be deleted.");
             return;
         }
-        campSystem.getCamps().remove(campSystem.getCampById(campId));
+        campSystem.getCamps().remove(camp);
         dataStoreSystem.getCampDataStoreSubSystem().deleteCamp(campId);
+        Log.println("Camp successfully deleted.");
     }
 
     /**
