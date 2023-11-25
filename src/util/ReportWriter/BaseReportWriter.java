@@ -61,24 +61,26 @@ public abstract class BaseReportWriter {
      * Returns a list of camp attendees or committee members as a single string based on filter
      * @param camp camp to get the list from
      * @param filter whether to return attendee, committee, or both
+     * @param separator string to separate each student by
+     * @param prefix string to add before each student entry
      * @return string containing requested list
      */
-    protected String getStudentListAsString(Camp camp, CampReportFilter filter) {
+    protected String getStudentListAsString(Camp camp, CampReportFilter filter, String separator, String prefix) {
         StringBuilder reportContent = new StringBuilder();
 
         boolean printAttendees = (filter == CampReportFilter.ATTENDEE || filter == CampReportFilter.NONE);
         boolean printCommittee = (filter == CampReportFilter.CAMP_COMMITTEE || filter == CampReportFilter.NONE);
 
         if (printAttendees) {
-            reportContent.append("\nCamp Attendees: \n");
+            reportContent.append("Camp Attendees" + separator);
             for (String attendee : camp.getAttendeeList()) {
-                reportContent.append("- ").append(attendee).append("\n");
+                reportContent.append(prefix).append(attendee).append(separator);
             }
         }
         if (printCommittee) {
-            reportContent.append("\nCamp Committee: \n");
+            reportContent.append("Camp Committee"+ separator);
             for (String comm : camp.getCommitteeList()) {
-                reportContent.append("- ").append(comm).append("\n");
+                reportContent.append(prefix).append(comm).append(separator);
             }
         }
 
