@@ -251,6 +251,7 @@ public class StudentMenu extends Menu {
         // Submit Suggestions
         Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
         int selCampId = camp.getCampId();
+        Log.println("You are submitting a suggestion for camp " + selCampId + "...");
 
         String suggestionStr = ui.getInput().getLine("Please enter suggestion: ");
         CampSuggestion suggestion = new CampSuggestion(student.getUserID(),
@@ -270,6 +271,7 @@ public class StudentMenu extends Menu {
         // View/Edit/Delete Pending Suggestions
         Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
         int selCampId = camp.getCampId();
+        Log.println("You are viewing pending suggestions for camp " + selCampId + "...");
 
         suggestionSystem.viewEditDelFeedback(student.getUserID(), selCampId, ui.getInput());
         return false;
@@ -285,6 +287,7 @@ public class StudentMenu extends Menu {
         // View Processed Suggestions of a specific student
         Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
         int selCampId = camp.getCampId();
+        Log.println("You are viewing the suggestions approval status for camp " + selCampId + "...");
         suggestionSystem.printProcessedFeedbackByOwner(student.getUserID(), selCampId);
         return false;
     }
@@ -299,6 +302,7 @@ public class StudentMenu extends Menu {
         // View Camp Enquiries
         Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
         int selCampId = camp.getCampId();
+        Log.println("You are viewing enquiries for camp " + selCampId + "...");
 
         enquirySystem.printAllFeedback(selCampId);
         return false;
@@ -314,6 +318,7 @@ public class StudentMenu extends Menu {
         // Reply Unprocessed Enquiries
         Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
         int selCampId = camp.getCampId();
+        Log.println("You are replying enquiries for camp " + selCampId + "...");
 
         int size = enquirySystem.printPendingFeedback(selCampId);
         if (size == 0) {
@@ -341,6 +346,7 @@ public class StudentMenu extends Menu {
      */
     private boolean generateCampReport(Menu menu) {
         Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
+        Log.println("You are generating a camp report for camp " + camp.getCampId() + "...");
 
         CampReportFilter[] filterChoicesOptions = {
                 CampReportFilter.ATTENDEE,
@@ -382,6 +388,8 @@ public class StudentMenu extends Menu {
     private boolean viewCampAttendeeList(Menu menu) {
         Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
         int selCampId = camp.getCampId();
+        Log.println("You are viewing the attendee list for camp " + selCampId + "...");
+
         campSystem.getCampViewerSubSystem().viewAttendeeList(student.getCampCommitteeMember(), selCampId);
         return false;
     }
@@ -395,6 +403,8 @@ public class StudentMenu extends Menu {
     private boolean viewCampCommitteeList(Menu menu) {
         Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
         int selCampId = camp.getCampId();
+        Log.println("You are viewing the committee list for camp " + selCampId + "...");
+
         campSystem.getCampViewerSubSystem().viewCampCommitteeList(student.getCampCommitteeMember(), selCampId);
         return false;
     }

@@ -100,8 +100,10 @@ public class CampRegistrationSubSystem {
         Camp camp = campSystem.getCampById(campId);
         String studentId = student.getUserID();
 
-        if (campSystem.getCampById(campId).getAttendeeList().contains(studentId)) {
+        if (camp.getAttendeeList().contains(studentId)) {
             camp.removeAttendee(student);
+        } else if (camp.getCommitteeList().contains(studentId)) {
+            Log.println("Camp committee members cannot withdraw");
         } else {
             Log.println("Withdrawal failed");
         }
