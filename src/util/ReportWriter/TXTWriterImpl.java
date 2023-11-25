@@ -1,6 +1,7 @@
 package util.ReportWriter;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import control.ReportSystem.ReportWriteException;
@@ -9,6 +10,7 @@ import entity.CampCommitteeMember;
 import entity.CampReportFilter;
 import entity.CampReportOptions;
 import entity.User;
+import util.helpers.DateStringHelper;
 
 /**
  * An implementation of the {@link BaseReportWriter} that writes reports in
@@ -37,9 +39,12 @@ public class TXTWriterImpl extends BaseReportWriter {
         StringBuilder reportContent = new StringBuilder();
 
         reportContent.append("Camp Name: ").append(camp.getCampInformation().getCampName()).append("\n");
-        reportContent.append("Dates: ").append(camp.getCampInformation().getDates()).append("\n");
+        reportContent.append("Dates: \n");
+        for (LocalDate d : camp.getCampInformation().getDates()) {
+            reportContent.append(DateStringHelper.DateToPrintableStrConverter(d)).append("\n");
+        }
 
-        reportContent.append(getStudentListAsString(camp, filter));
+        reportContent.append(getStudentListAsString(camp, filter, "\n", "- "));
         writeReportToFile(reportOptions, reportContent.toString());
     }
 
@@ -57,7 +62,7 @@ public class TXTWriterImpl extends BaseReportWriter {
         for (CampCommitteeMember committeeMember : committeeMembers) {
             reportContent.append("User ID: ").append(committeeMember.getStudentId()).append("\n");
             reportContent.append("Total Points Earned: ").append(committeeMember.getPoints()).append("\n");
-            reportContent.append("\n");
+            reportContent.append("\n\n");
         }
         writeReportToFile(reportOptions, reportContent.toString());
     }

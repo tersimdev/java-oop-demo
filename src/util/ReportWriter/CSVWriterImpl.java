@@ -1,6 +1,7 @@
 package util.ReportWriter;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import control.ReportSystem.ReportWriteException;
@@ -9,6 +10,7 @@ import entity.CampCommitteeMember;
 import entity.CampReportFilter;
 import entity.CampReportOptions;
 import entity.User;
+import util.helpers.DateStringHelper;
 
 /**
  * <p>
@@ -37,10 +39,14 @@ public class CSVWriterImpl extends BaseReportWriter {
 
         StringBuilder reportContent = new StringBuilder();
 
-        reportContent.append("Camp Name: ").append(camp.getCampInformation().getCampName()).append("\n");
-        reportContent.append("Dates: ").append(camp.getCampInformation().getDates()).append("\n");
+        reportContent.append("Camp Name,").append(camp.getCampInformation().getCampName()).append(",");
+        reportContent.append("Dates,");
+        for (LocalDate d : camp.getCampInformation().getDates()) {
+            reportContent.append(DateStringHelper.DateToPrintableStrConverter(d)).append(",");
+        }
+        reportContent.append("\n");
 
-        reportContent.append(getStudentListAsString(camp, filter));
+        reportContent.append(getStudentListAsString(camp, filter, ",", ""));
         writeReportToFile(reportOptions, reportContent.toString());
     }
 
@@ -54,10 +60,13 @@ public class CSVWriterImpl extends BaseReportWriter {
         StringBuilder reportContent = new StringBuilder();
 
         reportContent.append("Performance Report for all Camp Committee Members\n");
+        reportContent.append("User ID,");
+        reportContent.append("Total Points Earned");
+        reportContent.append("\n");
 
         for (CampCommitteeMember committeeMember : committeeMembers) {
-            reportContent.append("User ID: ").append(committeeMember.getStudentId()).append(",");
-            reportContent.append("Total Points Earned: ").append(committeeMember.getPoints()).append(",");
+            reportContent.append(committeeMember.getStudentId()).append(",");
+            reportContent.append(committeeMember.getPoints()).append(",");
             reportContent.append("\n");
         }
         writeReportToFile(reportOptions, reportContent.toString());
