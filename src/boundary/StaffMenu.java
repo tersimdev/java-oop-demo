@@ -191,12 +191,13 @@ public class StaffMenu extends Menu {
         Log.println("(5) Camp's number of committee slots");
         Log.println("(6) Camp dates");
         Log.println("(7) Camp registration closing date");
-        Log.println("(8) Toggle camp visibility");
-        Log.println("(9) Back to Staff Menu");
+        Log.println("(8) Camp user group");
+        Log.println("(9) Toggle camp visibility");
+        Log.println("(10) Back to Staff Menu");
 
         int editChoice = -1;
         while (editChoice < 0) {
-            editChoice = getChoice(1, 8, 9);
+            editChoice = getChoice(1, 9, 10);
             if (editChoice == 0) {
                 return false;
             }

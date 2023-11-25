@@ -138,6 +138,7 @@ public class CampCheckHelperSubSystem {
      * Checks if:
      * <ul>
      * <li>Camp deadline has not been passed</li>
+     * <li>The camp is visible</li>
      * <li>Student is not registered as a committee member</li>
      * <li>Student is not registered as an attendee</li>
      * <li>Dates of the camp does not overlap with other camps registered by the
@@ -158,11 +159,9 @@ public class CampCheckHelperSubSystem {
         if (ret.getSuccess() == false)
             return ret;
         ret = ret
-                // attendee not registered for this camp
+                .and(checkVisibile(camp))
                 .and(checkAttendeeNotRegistered(camp, student))
-                // not registered as committee for this camp
                 .and(checkCommitteeMemberNotRegistered(camp, student))
-                // camp is not open to this user's faculty
                 .and(checkCampOpenToFaculty(camp, student))
                 .and(checkDatesNoClash(camp, student, campSystem.getCampsByStudent(studentId)))
                 .and(checkCampAttendeeNotFull(camp))
@@ -177,6 +176,7 @@ public class CampCheckHelperSubSystem {
      * Checks if:
      * <ul>
      * <li>Camp deadline has not been passed</li>
+     * <li>The camp is visible</li>
      * <li>Student is not already a committee member</li>
      * <li>Student is not registered as an attendee</li>
      * <li>Dates of the camp does not overlap with other camps registered by the
@@ -197,6 +197,7 @@ public class CampCheckHelperSubSystem {
         if (ret.getSuccess() == false)
             return ret;
         ret = ret
+                .and(checkVisibile(camp))
                 .and(checkStudentIsNotCommitteeMember(student))
                 .and(checkAttendeeNotRegistered(camp, student))
                 .and(checkDatesNoClash(camp, student, campSystem.getCampsByStudent(studentId)))
@@ -211,6 +212,7 @@ public class CampCheckHelperSubSystem {
      * A helper function to check if a camp is available to a student.
      * Checks if:
      * <ul>
+     * <li>The camp is visible</li>
      * <li>The camp is not full</li>
      * <li>Camp deadline has not been passed</li>
      * <li>Dates of the camp does not overlap with other camps registered by the
@@ -229,6 +231,7 @@ public class CampCheckHelperSubSystem {
         if (ret.getSuccess() == false)
             return ret;
         ret = ret
+                .and(checkVisibile(camp))
                 .and(checkCampSlotsNotFull(camp))
                 .and(checkRegistrationOpen(camp))
                 .and(checkDatesNoClash(camp, student, campSystem.getCampsByStudent(studentId)))
