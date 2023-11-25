@@ -93,7 +93,7 @@ public class StaffMenu extends Menu {
         Log.println("(2) Edit Camp");
         Log.println("(3) Delete Camp");
         Log.println("(4) View All Camps");
-        Log.println("(5) View Camp Student List");
+        Log.println("(5) View Camp Attendee List");
         Log.println("(6) View Camp Committee List");
         Log.println("(7) View Enquiries");
         Log.println("(8) Reply Unprocessed Enquiries");
