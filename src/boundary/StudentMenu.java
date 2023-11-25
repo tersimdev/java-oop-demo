@@ -376,6 +376,7 @@ public class StudentMenu extends Menu {
         reportOptions.setFileType(fileType);
 
         reportSystem.writeCampReport(reportOptions, filter, student, camp);
+        Log.println("Camp report generated successfully.");
         return false;
     }
 

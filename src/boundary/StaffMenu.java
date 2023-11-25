@@ -398,6 +398,7 @@ public class StaffMenu extends Menu {
         reportOptions.setFileType(fileType);
 
         reportSystem.writeCampReport(reportOptions, filter, staff, camp);
+        Log.println("Camp report generated successfully.");
         return false;
     }
 
