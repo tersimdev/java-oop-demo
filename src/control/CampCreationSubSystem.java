@@ -114,8 +114,7 @@ public class CampCreationSubSystem {
         if (camp == null || !camp.getAttendeeList().isEmpty() || !camp.getCommitteeList().isEmpty()) {
             return;
         }
-
-        campSystem.getCamps().remove(campId);
+        campSystem.getCamps().remove(campSystem.getCampById(campId));
         dataStoreSystem.getCampDataStoreSubSystem().deleteCamp(campId);
     }
 
