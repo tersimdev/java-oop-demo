@@ -179,7 +179,7 @@ public class CampCreationSubSystem {
                 UserGroup userGroup = camp.getCampInformation().getUserGroup();
                 boolean yesno;
                 if (userGroup.isWholeNTU()) {
-                    yesno = input.getBool("Would you like to only open the camp to " + userGroup.getFaculty() + "?");
+                    yesno = input.getBool("Would you like to only open the camp to " + userGroup.getFaculty() + "?(Y/N): ");
                     if (yesno == true)
                         userGroup.setFaculty(camp.getCampInformation().getOrganisingFaculty());
                 } else {
