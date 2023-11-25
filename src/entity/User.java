@@ -31,6 +31,10 @@ public abstract class User implements SerializeToCSV {
      */
     private Faculty faculty;
 
+    /**
+     * Constant string to define a default password.
+     * Used to compare if it is a new user.
+     */
     public final static String defaultPassword = "password";
 
     /**

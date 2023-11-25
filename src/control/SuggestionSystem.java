@@ -34,7 +34,6 @@ public class SuggestionSystem extends FeedbackSystem {
      * Displays all suggestions in the hashmap linked to the relevant camp.
      * 
      * @param campId campId of the camp to display suggestions.
-     * @param input  Input object.
      */
     @Override
     public int printAllFeedback(int campId) {
@@ -74,7 +73,7 @@ public class SuggestionSystem extends FeedbackSystem {
     /**
      * Deletes existing CampSuggestion object from the system.
      * 
-     * @param feedback CampFeedback object to be deleted from the system.
+     * @param feedbackId id of CampFeedback object to be deleted from the system.
      */
     @Override
     protected void removeFromDataStore(int feedbackId) {
@@ -84,7 +83,7 @@ public class SuggestionSystem extends FeedbackSystem {
     /**
      * Prints details of CampSuggestion
      * 
-     * @param feedback CampSuggestion object to be printed.
+     * @param campFeedback CampSuggestion object to be printed.
      */
     @Override
     public void printFeedback(CampFeedback campFeedback) {

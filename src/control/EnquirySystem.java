@@ -57,7 +57,7 @@ public class EnquirySystem extends FeedbackSystem {
     /**
      * Deletes existing CampEnquiry object from the system.
      * 
-     * @param feedback CampFeedback object to be deleted from the system.
+     * @param feedbackId id of CampFeedback object to be deleted from the system.
      */
     @Override
     protected void removeFromDataStore(int feedbackId) {
@@ -185,7 +185,7 @@ public class EnquirySystem extends FeedbackSystem {
     /**
      * Process enquiries in the hashmap linked to the relevant camp.
      * 
-     * @param CampCommitteeMember CampCommitteeMember object to pass in, null if none.
+     * @param campCommitteeMember CampCommitteeMember object to pass in, null if none.
      * @param userId    ID of User processing the enquiries
      * @param campId    campId of the camp to process enquiries.
      * @param enquiryId ID of enquiry to be processed.

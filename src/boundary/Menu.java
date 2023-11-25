@@ -18,6 +18,9 @@ import util.helpers.InputHelper;
  * @since 1-11-2023
  */
 public abstract class Menu {
+    /**
+     * Dependency Injection
+     */
     protected final ConsoleUI ui;
 
     /**
@@ -27,6 +30,13 @@ public abstract class Menu {
      * with the menu calling passed as parameter
      */
     protected interface MenuFunctionInterface {
+        /**
+         * A function taking in menu for DI, and returning boolean of whether should
+         * exit app.
+         * 
+         * @param menu Menu object calling this function
+         * @return true if should quit app.
+         */
         boolean doFunction(Menu menu);
     }
 
@@ -150,6 +160,8 @@ public abstract class Menu {
     /**
      * Prints the list of available filters for the user to view camps,
      * gets user input (int from 1 to 5 inclusive) and returns that.
+     * 
+     * @return returns the choice
      */
     protected int printCampSortOrderChoices() {
         Log.println("In what order would you like to view the camps?");

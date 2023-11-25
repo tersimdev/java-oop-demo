@@ -28,13 +28,37 @@ import util.helpers.InputHelper;
  */
 public class StaffMenu extends Menu {
 
+    /**
+     * Dependency Injection
+     */
     private final CampSystem campSystem;
+    /**
+     * Dependency Injection
+     */
     private final EnquirySystem enquirySystem;
+    /**
+     * Dependency Injection
+     */
     private final SuggestionSystem suggestionSystem;
+    /**
+     * Dependency Injection
+     */
     private final ReportSystem reportSystem;
 
+    /**
+     * Current staff object viewing this menu
+     */
     private Staff staff;
 
+    /**
+     * Constructor with DI
+     * 
+     * @param ui               ui object
+     * @param campSystem       campSystem object
+     * @param enquirySystem    enquirySystem object
+     * @param suggestionSystem suggestionSystem object
+     * @param reportSystem     reportSystem object
+     */
     public StaffMenu(ConsoleUI ui, CampSystem campSystem, EnquirySystem enquirySystem,
             SuggestionSystem suggestionSystem, ReportSystem reportSystem) {
         super(ui);
@@ -90,7 +114,12 @@ public class StaffMenu extends Menu {
     }
 
     // menu functions defineed below
-
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean createCamp(Menu menu) {
         // Create Camp
         // get camp info from user
@@ -136,6 +165,12 @@ public class StaffMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean editCamp(Menu menu) {
         // Edit Camp
         int selCampId;
@@ -170,6 +205,12 @@ public class StaffMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean deleteCamp(Menu menu) {
         // Delete Camp
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "delete");
@@ -177,6 +218,12 @@ public class StaffMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean viewAllCamps(Menu menu) {
         boolean yesno = ui.getInput()
                 .getBool("Would you like to view only the camps you created?(Y/N) ");
@@ -188,6 +235,12 @@ public class StaffMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean viewCampAttendeeList(Menu menu) {
         // View Camp Attendee List
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "inspect");
@@ -195,12 +248,24 @@ public class StaffMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean viewCampCommitteeList(Menu menu) {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "inspect");
         campSystem.getCampViewerSubSystem().viewCampCommitteeList(staff, selCampId);
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean viewEnquiries(Menu menu) {
         // View Camp Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view enquiries");
@@ -213,6 +278,12 @@ public class StaffMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean replyEnquiries(Menu menu) {
         // Reply Unprocessed Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "reply unprocessed enquiries");
@@ -234,6 +305,12 @@ public class StaffMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean viewSuggestions(Menu menu) {
         // View Suggestions
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view suggestions");
@@ -246,6 +323,12 @@ public class StaffMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean acceptRejectSuggestions(Menu menu) {
         // Accept/Reject Unprocessed Suggestions
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem,
@@ -271,6 +354,12 @@ public class StaffMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean generateCampReport(Menu menu) {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "Generate camp report");
         Camp camp = campSystem.getCampById(selCampId);
@@ -311,6 +400,12 @@ public class StaffMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean generatePerformanceReport(Menu menu) {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "Generate performance report");
         Camp camp = campSystem.getCampById(selCampId);

@@ -24,15 +24,41 @@ import util.helpers.InputHelper;
  * @since 1-11-2023
  */
 public class StudentMenu extends Menu {
-
+    /**
+     * Dependency Injection
+     */
     private final CampSystem campSystem;
+    /**
+     * Dependency Injection
+     */
     private final EnquirySystem enquirySystem;
+    /**
+     * Dependency Injection
+     */
     private final SuggestionSystem suggestionSystem;
+    /**
+     * Dependency Injection
+     */
     private final ReportSystem reportSystem;
 
+    /**
+     * Current student object using the menu
+     */
     private Student student;
+    /**
+     * Current committee object belonging to <code>student</code>
+     */
     private CampCommitteeMember committeeMember;
 
+    /**
+     * Constructor with DI
+     * 
+     * @param ui               ui object
+     * @param campSystem       campSystem object
+     * @param enquirySystem    enquirySystem object
+     * @param suggestionSystem suggestionSystem object
+     * @param reportSystem     reportSystem object
+     */
     public StudentMenu(ConsoleUI ui, CampSystem campSystem, EnquirySystem enquirySystem,
             SuggestionSystem suggestionSystem, ReportSystem reportSystem) {
         super(ui);
@@ -105,18 +131,36 @@ public class StudentMenu extends Menu {
         return runMenuFunction(choice); // use function map defined in constructor
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean viewAvailableCamps(Menu menu) {
         int sortChoice = menu.printCampSortOrderChoices();
         campSystem.getCampViewerSubSystem().viewAvailableCamps(student, sortChoice);
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean registerAttendee(Menu menu) {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "register for");
         campSystem.getCampRegistrationSubSystem().registerAsAttendee(student, selCampId);
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean registerCommittee(Menu menu) {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "register for");
         boolean yesno = ui.getInput().getBool(
@@ -126,12 +170,24 @@ public class StudentMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean viewRegisteredCamps(Menu menu) {
         int sortChoice = menu.printCampSortOrderChoices();
         campSystem.getCampViewerSubSystem().viewRegisteredCamps(student, sortChoice);
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean submitEnquiry(Menu menu) {
         // Submit Enquiry
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "submit enquiry");
@@ -142,6 +198,12 @@ public class StudentMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean viewEditDelPendingEnquiries(Menu menu) {
         // View/Edit/Delete Pending Enquiries
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view/edit/delete your enquiries");
@@ -149,6 +211,12 @@ public class StudentMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean viewEnquiryReplies(Menu menu) {
         // View Processed Enquiry Replies of a specific student
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "view processed enquiries");
@@ -156,6 +224,12 @@ public class StudentMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean withdrawFromCamp(Menu menu) {
         int selCampId = InputHelper.getCampIdFromUser(ui.getInput(), campSystem, "withdraw from");
         boolean yesno = ui.getInput()
@@ -167,12 +241,17 @@ public class StudentMenu extends Menu {
     }
 
     // committee functions below
-
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean submitSuggestion(Menu menu) {
         // Submit Suggestions
         Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
         int selCampId = camp.getCampId();
-        
+
         String suggestionStr = ui.getInput().getLine("Please enter suggestion: ");
         CampSuggestion suggestion = new CampSuggestion(student.getUserID(),
                 suggestionStr, selCampId);
@@ -181,15 +260,27 @@ public class StudentMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean viewEditDelPendingSuggestions(Menu menu) {
         // View/Edit/Delete Pending Suggestions
         Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
         int selCampId = camp.getCampId();
-        
+
         suggestionSystem.viewEditDelFeedback(student.getUserID(), selCampId, ui.getInput());
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean viewSuggestionsApproval(Menu menu) {
         // View Processed Suggestions of a specific student
         Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
@@ -198,20 +289,32 @@ public class StudentMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean viewEnquiries(Menu menu) {
         // View Camp Enquiries
         Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
         int selCampId = camp.getCampId();
-        
+
         enquirySystem.printAllFeedback(selCampId);
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean replyEnquiries(Menu menu) {
         // Reply Unprocessed Enquiries
         Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
         int selCampId = camp.getCampId();
-        
+
         int size = enquirySystem.printPendingFeedback(selCampId);
         if (size == 0) {
             Log.println("No pending enquiries found. Directing back to menu...");
@@ -231,6 +334,12 @@ public class StudentMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean generateCampReport(Menu menu) {
         Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
 
@@ -265,6 +374,12 @@ public class StudentMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean viewCampAttendeeList(Menu menu) {
         Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
         int selCampId = camp.getCampId();
@@ -272,6 +387,12 @@ public class StudentMenu extends Menu {
         return false;
     }
 
+    /**
+     * Menu function
+     * 
+     * @param menu menu object
+     * @return true if should quit app
+     */
     private boolean viewCampCommitteeList(Menu menu) {
         Camp camp = campSystem.getCampsByCommittee(student.getUserID()).get(0);
         int selCampId = camp.getCampId();

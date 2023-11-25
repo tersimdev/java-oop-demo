@@ -22,12 +22,18 @@ public class FeedbackDataStoreCSVImpl extends BaseDataStoreCSV implements Feedba
      * file path constants
      */
     private static final String pathSuggestions = "data/camps/suggestions.csv";
+    /**
+     * file path constants
+     */
     private static final String pathEnquiries = "data/camps/enquiries.csv";
 
     /**
      * table name constants
      */
     private static final String tableSuggestions = "suggestions";
+    /**
+     * table name constants
+     */
     private static final String tableEnquiries = "enquiries";
 
     /**

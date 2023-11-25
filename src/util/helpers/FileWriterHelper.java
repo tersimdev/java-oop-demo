@@ -25,6 +25,12 @@ public class FileWriterHelper {
     public FileWriterHelper() {
     }
 
+    /**
+     * Helper function to write stirng content to a file using FileWriter.
+     * 
+     * @param fileName    file to write to, includes path.
+     * @param fileContent string of file content
+     */
     public static void writeToFile(String fileName, String fileContent) {
         try (FileWriter fileWriter = new FileWriter(fileName)) {
             fileWriter.write(fileContent.toString());

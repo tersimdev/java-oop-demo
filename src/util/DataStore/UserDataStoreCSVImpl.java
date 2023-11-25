@@ -26,14 +26,29 @@ public class UserDataStoreCSVImpl extends BaseDataStoreCSV implements UserDataSt
      * file path constants
      */
     private static final String initStudents = "data/sample/student_list.csv";
+
+    /**
+     * file path constants
+     */
     private static final String initStaff = "data/sample/staff_list.csv";
+
+    /**
+     * file path constants
+     */
     private static final String pathStudents = "data/users/students.csv";
+
+    /**
+     * file path constants
+     */
     private static final String pathStaff = "data/users/staff.csv";
 
     /**
      * table name constants
      */
     private static final String tableStudents = "students";
+    /**
+     * table name constants
+     */
     private static final String tableStaff = "staff";
 
     /**

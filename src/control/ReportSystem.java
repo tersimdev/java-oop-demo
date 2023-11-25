@@ -29,19 +29,29 @@ public class ReportSystem {
      * A camp of file extensions to writing implementation.
      */
     private Map<String, BaseReportWriter> reportWriters;
-
+    /**
+     * Dependency Injection
+     */
     private DataStoreSystem dataStoreSystem;
 
     /**
      * An exception class to handle report writing exceptions.
      */
     public static class ReportWriteException extends Exception {
+        /**
+         * Default construtor
+         */
         public ReportWriteException() {
             super();
             Log.error("Error! ReportWriteException.");
             Log.error("ReportWriter encountered an unspecified issue.");
         }
 
+        /**
+         * Constructor with message
+         * 
+         * @param message message to print
+         */
         public ReportWriteException(String message) {
             super();
             Log.error("ReportWriter encountered an issue:");

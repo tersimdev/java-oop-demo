@@ -18,8 +18,17 @@ import util.Input;
  */
 public abstract class FeedbackSystem {
 
+    /**
+     * Hashmap of campIds to list of feedbacks
+     */
     protected Map<Integer, ArrayList<CampFeedback>> feedbacksMap;
-    protected int nextFeedbackId;
+    /**
+     * Stores current biggest feedback id, used to get next id
+     */
+    protected int currFeedbackId;
+    /**
+     * Dependency Injection 
+     */
     protected DataStoreSystem dataStoreSystem;
 
     /**
@@ -82,9 +91,9 @@ public abstract class FeedbackSystem {
      */
     protected void initFeedbackMap(ArrayList<CampFeedback> feedbackList) {
         // Store in system, use these as next id
-        nextFeedbackId = 0;
+        currFeedbackId = 0;
         if (feedbackList.size() > 0)
-            nextFeedbackId = feedbackList.get(feedbackList.size() - 1).getId() + 1;
+            currFeedbackId = feedbackList.get(feedbackList.size() - 1).getId() + 1;
 
         // Add to map based on camp id
         for (CampFeedback cf : feedbackList) {
@@ -103,7 +112,7 @@ public abstract class FeedbackSystem {
     public void addCampFeedback(int campId, CampFeedback feedback) {
         ArrayList<CampFeedback> feedbacks = feedbacksMap.computeIfAbsent(campId, k -> new ArrayList<>());
         // Index in the ArrayList used as enquiryID
-        int feedbackId = nextFeedbackId++;
+        int feedbackId = currFeedbackId++;
         feedback.setId(feedbackId);
         // Add the new feedback to the ArrayList
         feedbacks.add(feedback);

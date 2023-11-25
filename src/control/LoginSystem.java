@@ -15,11 +15,17 @@ import util.Log;
  */
 public class LoginSystem {
 
+    /**
+     * Dependency Injection
+     */
     private DataStoreSystem dataStoreSystem;
     /**
      * User object of the current user.
      */
     private User currentUser;
+    /**
+     * String constant for min password length
+     */
     private final static int MIN_PASSWORD_LEN = 8;
 
     /**
