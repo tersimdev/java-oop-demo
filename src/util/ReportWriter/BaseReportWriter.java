@@ -50,12 +50,12 @@ public abstract class BaseReportWriter {
      * 
      * @param reportOptions     options like filename, filepath, etc
      * @param user              user that is requesting for this report
-     * @param commmitteeMembers the committee members to report on
+     * @param committeeMembers the committee members to report on
      * @throws ReportWriteException when report generation fails
      * @throws IOException          when file write fails
      */
     public abstract void writePerformanceReport(CampReportOptions reportOptions, User user,
-            ArrayList<CampCommitteeMember> commmitteeMembers) throws ReportWriteException, IOException;
+            ArrayList<CampCommitteeMember> committeeMembers) throws ReportWriteException, IOException;
 
     /**
      * Returns a list of camp attendees or committee members as a single string based on filter

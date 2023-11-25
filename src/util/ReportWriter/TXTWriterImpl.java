@@ -29,6 +29,17 @@ public class TXTWriterImpl extends BaseReportWriter {
         super();
     }
 
+    /**
+     * Function which generates and writes to file a camp report in a
+     * txt format.
+     * 
+     * @param reportOptions options like filename, filepath, etc
+     * @param filter        filter to filter results in report
+     * @param user          user that is requesting for this report
+     * @param camp          camp this report is based on
+     * @throws ReportWriteException when report generation fails
+     * @throws IOException          when file write fails
+     */
     @Override
     public void writeCampReport(CampReportOptions reportOptions, CampReportFilter filter, User user, Camp camp)
             throws ReportWriteException, IOException {
@@ -48,6 +59,16 @@ public class TXTWriterImpl extends BaseReportWriter {
         writeReportToFile(reportOptions, reportContent.toString());
     }
 
+    /**
+     * Function which generates and writes to file a performance report in a
+     * txt format.
+     * 
+     * @param reportOptions     options like filename, filepath, etc
+     * @param user              user that is requesting for this report
+     * @param committeeMembers the committee members to report on
+     * @throws ReportWriteException when report generation fails
+     * @throws IOException          when file write fails
+     */
     @Override
     public void writePerformanceReport(CampReportOptions reportOptions, User user,
             ArrayList<CampCommitteeMember> committeeMembers) throws ReportWriteException, IOException {
