@@ -200,7 +200,7 @@ public class CampCreationSubSystem {
             default:
                 break;
         }
-        Log.println("Camp " + campId + "has been successfully edited.");
+        Log.println("Camp " + campId + " has been successfully edited.");
         dataStoreSystem.getCampDataStoreSubSystem().updateCampDetails(camp);
     }
 
